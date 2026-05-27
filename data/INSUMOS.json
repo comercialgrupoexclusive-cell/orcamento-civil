@@ -1,0 +1,32 @@
+[
+  {
+    "id": "68485ac7-e513-47d2-8a3e-0fb23a791a6c",
+    "codigo": "M-0001",
+    "descricao": "Cimento CP_IV Saco 50gk",
+    "unidade": "un",
+    "preco": "55.9",
+    "tipo": "M",
+    "categoria": "Material Basico",
+    "status": "ativo"
+  },
+  {
+    "id": "94d71559-d11d-4e38-afde-54c632f5fad8",
+    "codigo": "MO-0001",
+    "descricao": "Mão de Obra Tijolo",
+    "unidade": "m",
+    "preco": "190",
+    "tipo": "MO",
+    "categoria": "",
+    "status": "ativo"
+  },
+  {
+    "id": "aa80fb0a-9fdd-4f12-8e12-c6e534799df8",
+    "codigo": "M-0002",
+    "descricao": "vergalhão",
+    "unidade": "un",
+    "preco": "230",
+    "tipo": "M",
+    "categoria": "Aço e Ferragem",
+    "status": "ativo"
+  }
+]

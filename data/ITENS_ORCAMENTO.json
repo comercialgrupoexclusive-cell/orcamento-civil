@@ -1,0 +1,46 @@
+[
+  {
+    "id": "5469ca03-2cd8-4a73-8406-a63cefc6f920",
+    "orcamento_id": "d8d7bb00-19ce-46c6-8127-e0e8bf2e53ca",
+    "etapa_codigo": "01",
+    "composicao_id": "166f9f6a-e9c0-41a7-8a2b-7779fb905587",
+    "descricao_override": "",
+    "unidade_override": "",
+    "custo_unitario_override": "0",
+    "quantidade": "25",
+    "quantidade_tipo": "MANUAL"
+  },
+  {
+    "id": "e1bda972-dbd2-4933-b25d-527c3f784b80",
+    "orcamento_id": "d8d7bb00-19ce-46c6-8127-e0e8bf2e53ca",
+    "etapa_codigo": "01",
+    "composicao_id": "683887a2-ce0e-4da2-87f7-7adbd0a01c3c",
+    "descricao_override": "",
+    "unidade_override": "",
+    "custo_unitario_override": "0",
+    "quantidade": "25",
+    "quantidade_tipo": "MANUAL"
+  },
+  {
+    "id": "da0c2e1a-d4e6-4cae-92d2-683a3fa31e5c",
+    "orcamento_id": "d8d7bb00-19ce-46c6-8127-e0e8bf2e53ca",
+    "etapa_codigo": "02",
+    "composicao_id": "683887a2-ce0e-4da2-87f7-7adbd0a01c3c",
+    "descricao_override": "",
+    "unidade_override": "",
+    "custo_unitario_override": "0",
+    "quantidade": "5",
+    "quantidade_tipo": "MANUAL"
+  },
+  {
+    "id": "18e83924-d1b0-4620-938f-e62d48829dce",
+    "orcamento_id": "d8d7bb00-19ce-46c6-8127-e0e8bf2e53ca",
+    "etapa_codigo": "03",
+    "composicao_id": "166f9f6a-e9c0-41a7-8a2b-7779fb905587",
+    "descricao_override": "",
+    "unidade_override": "",
+    "custo_unitario_override": "0",
+    "quantidade": "500",
+    "quantidade_tipo": "MANUAL"
+  }
+]

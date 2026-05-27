@@ -1,0 +1,29 @@
+[
+  {
+    "id": "166f9f6a-e9c0-41a7-8a2b-7779fb905587",
+    "codigo": "C-0001",
+    "descricao": "Alvenaria",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo"
+  },
+  {
+    "id": "683887a2-ce0e-4da2-87f7-7adbd0a01c3c",
+    "codigo": "C-0002",
+    "descricao": "fundação",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo"
+  },
+  {
+    "id": "c9de61c8-3ca8-44df-9b2d-2c49b1290754",
+    "codigo": "C-0003",
+    "descricao": "teste 3",
+    "unidade_producao": "g",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo"
+  }
+]

@@ -1,0 +1,37 @@
+[
+  {
+    "id": "97eb46b9-f3ca-48c0-9c19-ed8b96738085",
+    "composicao_id": "166f9f6a-e9c0-41a7-8a2b-7779fb905587",
+    "insumo_id": "68485ac7-e513-47d2-8a3e-0fb23a791a6c",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "5ef4272c-09fa-4436-a4dc-57fb096829ca",
+    "composicao_id": "166f9f6a-e9c0-41a7-8a2b-7779fb905587",
+    "insumo_id": "94d71559-d11d-4e38-afde-54c632f5fad8",
+    "coeficiente": "1",
+    "unidade": "m"
+  },
+  {
+    "id": "83bdaa92-28f9-44a2-9c99-660a7f6d7ce7",
+    "composicao_id": "683887a2-ce0e-4da2-87f7-7adbd0a01c3c",
+    "insumo_id": "68485ac7-e513-47d2-8a3e-0fb23a791a6c",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "4967665b-a612-4f93-a46a-bd2c1ab2d439",
+    "composicao_id": "683887a2-ce0e-4da2-87f7-7adbd0a01c3c",
+    "insumo_id": "aa80fb0a-9fdd-4f12-8e12-c6e534799df8",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "540a4287-3dc9-459d-b609-b2f7f53d9a14",
+    "composicao_id": "c9de61c8-3ca8-44df-9b2d-2c49b1290754",
+    "insumo_id": "68485ac7-e513-47d2-8a3e-0fb23a791a6c",
+    "coeficiente": "1",
+    "unidade": "un"
+  }
+]
