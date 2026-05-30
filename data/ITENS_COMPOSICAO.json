@@ -2861,5 +2861,96 @@
     "insumo_id": "ins-MO-A028",
     "coeficiente": 1.0,
     "unidade": "m"
+  },
+  {
+    "id": "itc-5004-P800",
+    "composicao_id": "cmp-5004",
+    "insumo_id": "ins-P800",
+    "coeficiente": 1.0,
+    "unidade": "m²"
+  },
+  {
+    "id": "itc-5004-P801",
+    "composicao_id": "cmp-5004",
+    "insumo_id": "ins-P801",
+    "coeficiente": 1.0,
+    "unidade": "m²"
+  },
+  {
+    "id": "itc-5004-P802",
+    "composicao_id": "cmp-5004",
+    "insumo_id": "ins-P802",
+    "coeficiente": 0.1,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-5004-MO029",
+    "composicao_id": "cmp-5004",
+    "insumo_id": "ins-MO-A029",
+    "coeficiente": 1.0,
+    "unidade": "m²"
+  },
+  {
+    "id": "itc-5005-P800",
+    "composicao_id": "cmp-5005",
+    "insumo_id": "ins-P800",
+    "coeficiente": 1.0,
+    "unidade": "m²"
+  },
+  {
+    "id": "itc-5005-P802",
+    "composicao_id": "cmp-5005",
+    "insumo_id": "ins-P802",
+    "coeficiente": 0.2,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-5005-MO029",
+    "composicao_id": "cmp-5005",
+    "insumo_id": "ins-MO-A029",
+    "coeficiente": 1.0,
+    "unidade": "m²"
+  },
+  {
+    "id": "itc-5006-P803",
+    "composicao_id": "cmp-5006",
+    "insumo_id": "ins-P803",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-5006-P804",
+    "composicao_id": "cmp-5006",
+    "insumo_id": "ins-P804",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-5006-P805",
+    "composicao_id": "cmp-5006",
+    "insumo_id": "ins-P805",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-5006-P806",
+    "composicao_id": "cmp-5006",
+    "insumo_id": "ins-P806",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-5006-P807",
+    "composicao_id": "cmp-5006",
+    "insumo_id": "ins-P807",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-5006-MO030",
+    "composicao_id": "cmp-5006",
+    "insumo_id": "ins-MO-A030",
+    "coeficiente": 1.0,
+    "unidade": "un"
   }
 ]

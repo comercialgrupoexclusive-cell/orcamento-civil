@@ -898,5 +898,35 @@
     "descricao_tecnica": "",
     "status": "ativo",
     "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-5004",
+    "codigo": "5004",
+    "descricao": "Esquadria de Alumínio Linha Popular c/ Vidro 4mm - Janela",
+    "unidade_producao": "m²",
+    "producao": 1,
+    "descricao_tecnica": "Caixilho correr 2 folhas, alumínio anodizado natural, vidro 4mm incluso. Linha econômica popular.",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-5005",
+    "codigo": "5005",
+    "descricao": "Porta-Janela de Alumínio Linha Popular (Sem Vidro)",
+    "unidade_producao": "m²",
+    "producao": 1,
+    "descricao_tecnica": "Caixilho correr de alumínio para abertura grande (sala). Vidro cotado separado (comp 6000).",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-5006",
+    "codigo": "5006",
+    "descricao": "Porta de Madeira Popular - Kit Completo (0.80x2.10m)",
+    "unidade_producao": "un",
+    "producao": 1,
+    "descricao_tecnica": "Folha compensado naval 0.80x2.10m + batente + alizares + fechadura popular + dobradiças + vedação. Serve para entrada e internas.",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
   }
 ]

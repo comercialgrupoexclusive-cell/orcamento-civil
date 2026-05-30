@@ -34,5 +34,14 @@
     "data_atualizacao": "2026-05-29T02:14:03.574Z",
     "status": "em_andamento",
     "bdi_percentual": "25"
+  },
+  {
+    "id": "orc-geminada-42m2-2026",
+    "titulo": "Casa Geminada 42m² - Alv. Estrutural | Telha Barro | Piso Cerâmico",
+    "descricao": "5.0×8.4m=42m² (una unidade geminada) | Micro Estaca C25 | Viga Baldrame 15×30 | Alvenaria Estrutural | Bloco Calha | Telha Barro Natural | Piso Cerâmico | Forro PVC | Esquadrias Alumínio Popular | Portas Madeira Popular | Bacia Acoplada",
+    "data_criacao": "2026-05-29",
+    "data_atualizacao": "2026-05-29",
+    "status": "em_andamento",
+    "bdi_percentual": "0.25"
   }
 ]

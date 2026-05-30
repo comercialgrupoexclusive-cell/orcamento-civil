@@ -2539,5 +2539,115 @@
     "categoria": "Mão de Obra",
     "status": "ativo",
     "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "ins-P800",
+    "codigo": "P800",
+    "descricao": "Caixilho de Alumínio Linha Popular - Material",
+    "unidade": "m²",
+    "preco": 200.0,
+    "tipo": "M",
+    "categoria": "Esquadria",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "ins-P801",
+    "codigo": "P801",
+    "descricao": "Vidro Comum 4mm Transparente",
+    "unidade": "m²",
+    "preco": 45.0,
+    "tipo": "M",
+    "categoria": "Esquadria",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "ins-P802",
+    "codigo": "P802",
+    "descricao": "Espuma Expansiva Poliuretano Vedação 500ml",
+    "unidade": "un",
+    "preco": 28.0,
+    "tipo": "M",
+    "categoria": "Esquadria",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "ins-P803",
+    "codigo": "P803",
+    "descricao": "Porta de Madeira Compensado Popular 0.80x2.10m",
+    "unidade": "un",
+    "preco": 195.0,
+    "tipo": "M",
+    "categoria": "Esquadria",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "ins-P804",
+    "codigo": "P804",
+    "descricao": "Batente e Alizares de Madeira - Jogo Completo",
+    "unidade": "un",
+    "preco": 75.0,
+    "tipo": "M",
+    "categoria": "Esquadria",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "ins-P805",
+    "codigo": "P805",
+    "descricao": "Fechadura com Maçaneta Popular - Interna",
+    "unidade": "un",
+    "preco": 45.0,
+    "tipo": "M",
+    "categoria": "Esquadria",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "ins-P806",
+    "codigo": "P806",
+    "descricao": "Dobradiças 3x3\" Zincada - Pacote 3 Peças",
+    "unidade": "un",
+    "preco": 24.0,
+    "tipo": "M",
+    "categoria": "Esquadria",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "ins-P807",
+    "codigo": "P807",
+    "descricao": "Borracha de Vedação para Porta - Tira 2m",
+    "unidade": "un",
+    "preco": 15.0,
+    "tipo": "M",
+    "categoria": "Esquadria",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "ins-MO-A029",
+    "codigo": "MO-A029",
+    "descricao": "Mão de Obra - Instalação de Esquadria/Janela de Alumínio",
+    "unidade": "m²",
+    "preco": 55.0,
+    "tipo": "MO",
+    "categoria": "Mão de Obra",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "ins-MO-A030",
+    "codigo": "MO-A030",
+    "descricao": "Mão de Obra - Instalação de Porta (folha + batente + alizares)",
+    "unidade": "un",
+    "preco": 65.0,
+    "tipo": "MO",
+    "categoria": "Mão de Obra",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
   }
 ]
