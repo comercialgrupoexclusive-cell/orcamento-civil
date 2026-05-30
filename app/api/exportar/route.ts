@@ -143,9 +143,43 @@ export async function GET(req: NextRequest) {
       XLSX.utils.book_append_sheet(wb, wsResumo, 'Resumo');
     }
 
+    // Modelo simplificado: usuário preenche só Composição + Quantidade
+    if (tipo === 'modelo-orcamento') {
+      const composicoes = await readSheet('COMPOSICOES');
+      const itensComp   = await readSheet('ITENS_COMPOSICAO');
+      const insumos     = await readSheet('INSUMOS');
+      const insumoMap   = Object.fromEntries(insumos.map(i => [i.id, i]));
+
+      const custoBase = (cid: string) =>
+        itensComp
+          .filter(i => i.composicao_id === cid)
+          .reduce((a, i) => a + Number(insumoMap[i.insumo_id]?.preco || 0) * Number(i.coeficiente || 0), 0);
+
+      // Aba 1 — modelo de preenchimento (só 2 colunas obrigatórias)
+      const wsModelo = XLSX.utils.json_to_sheet([
+        { 'Composição (nome ou código)': composicoes[0]?.descricao || 'Limpeza de Terreno', 'Quantidade': 1 },
+        { 'Composição (nome ou código)': composicoes[1]?.descricao || 'Estaca C25 3 metros', 'Quantidade': 12 },
+        { 'Composição (nome ou código)': composicoes[2]?.descricao || 'Chapisco', 'Quantidade': 200 },
+      ]);
+      XLSX.utils.book_append_sheet(wb, wsModelo, 'Itens (preencher aqui)');
+
+      // Aba 2 — todas as composições com custo calculado para referência
+      const wsRef = XLSX.utils.json_to_sheet(
+        composicoes.map(c => ({
+          'Código': c.codigo,
+          'Nome da Composição': c.descricao,
+          'Unidade': c.unidade_producao,
+          'Custo Unit. (R$)': fmt(custoBase(c.id)),
+        }))
+      );
+      XLSX.utils.book_append_sheet(wb, wsRef, 'Composições (referência)');
+    }
+
     const buf = XLSX.write(wb, { type: 'buffer', bookType: 'xlsx' });
     const filename = tipo === 'orcamento'
       ? `orcamento_${orcamentoId?.slice(0, 8)}.xlsx`
+      : tipo === 'modelo-orcamento'
+      ? `modelo_importacao_orcamento.xlsx`
       : `${tipo}_${new Date().toISOString().split('T')[0]}.xlsx`;
 
     return new NextResponse(buf, {

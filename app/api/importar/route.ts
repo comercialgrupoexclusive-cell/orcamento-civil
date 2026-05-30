@@ -122,18 +122,132 @@ async function importarComposicoes(
   return { importados, ignorados, erros };
 }
 
+/** Deriva o código de etapa (01-20) a partir do código da composição */
+function etapaFromCodigo(codigo: string): string {
+  const num = parseInt(codigo.split('.')[0].replace(/[^0-9]/g, '') || '0', 10);
+  if (!num) return '01';
+  const prefix = Math.floor(num / 1000);
+  return String(prefix || 1).padStart(2, '0');
+}
+
+/** Normaliza string para comparação: minúsculas, sem acentos, sem espaços extras */
+function norm(s: string): string {
+  return s
+    .toLowerCase()
+    .normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+async function importarOrcamento(
+  rows: Record<string, unknown>[],
+  titulo: string,
+  bdi: number,
+): Promise<ImportResult & { orcamento_id?: string }> {
+  const composicoes = await readSheet('COMPOSICOES');
+
+  // Índices de busca: por código exato, por nome exato e por nome normalizado
+  const compPorCodigo = Object.fromEntries(composicoes.map(c => [c.codigo.trim(), c]));
+  const compPorNome   = Object.fromEntries(composicoes.map(c => [c.descricao.trim(), c]));
+  const compPorNormNome = Object.fromEntries(composicoes.map(c => [norm(c.descricao), c]));
+
+  let importados = 0;
+  let ignorados = 0;
+  const erros: string[] = [];
+
+  const orcId = uuidv4();
+  await appendRow('ORCAMENTOS', {
+    id: orcId,
+    titulo: titulo || 'Orçamento Importado',
+    descricao: '',
+    data_criacao: new Date().toISOString(),
+    data_atualizacao: new Date().toISOString(),
+    status: 'em_andamento',
+    bdi_percentual: bdi,
+  });
+
+  let ordem = 1;
+  for (const row of rows) {
+    // Coluna nova (simplificada): "Composição (nome ou código)" | "Quantidade"
+    // Coluna legada:               "Etapa" | "Sub-Etapa" | "Código Composição" | "Quantidade"
+    const compInput    = String(
+      row['Composição (nome ou código)'] ||
+      row['Composicao (nome ou codigo)'] ||
+      row['Composição'] ||
+      row['Codigo Composicao'] ||
+      row['Código Composição'] ||
+      row['codigo_composicao'] ||
+      row['composicao'] ||
+      ''
+    ).trim();
+
+    const qtd = Number(
+      row['Quantidade'] || row['quantidade'] || row['Qtd'] || 1
+    );
+
+    // Campos opcionais / legados
+    const etapaManual  = String(row['Etapa'] || row['etapa'] || row['etapa_codigo'] || '').trim();
+    const subEtapa     = String(row['Sub-Etapa'] || row['Sub_Etapa'] || row['sub_etapa'] || '').trim();
+    const descOverride = String(row['Descrição'] || row['descricao'] || '').trim();
+    const unOverride   = String(row['Unidade']   || row['unidade']   || '').trim();
+    const custoOverride = Number(row['Custo Unitário'] || row['custo_unitario'] || 0);
+
+    if (!compInput && !descOverride) {
+      erros.push(`Linha ${ordem}: composição não informada`);
+      ignorados++;
+      continue;
+    }
+
+    // Buscar composição: código → nome exato → nome normalizado → substring
+    let comp = compPorCodigo[compInput]
+      || compPorNome[compInput]
+      || compPorNormNome[norm(compInput)]
+      || composicoes.find(c => norm(c.descricao).includes(norm(compInput)) && norm(compInput).length > 4);
+
+    if (compInput && !comp) {
+      erros.push(`Linha ${ordem}: composição não encontrada — "${compInput}"`);
+      ignorados++;
+      continue;
+    }
+
+    // Derivar etapa automaticamente a partir do código da composição
+    const etapa = etapaManual || (comp ? etapaFromCodigo(comp.codigo) : '01');
+
+    await appendRow('ITENS_ORCAMENTO', {
+      id: uuidv4(),
+      orcamento_id: orcId,
+      etapa_codigo: etapa,
+      sub_etapa: subEtapa,
+      composicao_id: comp?.id || '',
+      descricao_override: descOverride,
+      unidade_override: unOverride,
+      custo_unitario_override: custoOverride,
+      quantidade: qtd || 1,
+      quantidade_tipo: 'MANUAL',
+      ordem,
+    });
+
+    importados++;
+    ordem++;
+  }
+
+  return { importados, ignorados, erros, orcamento_id: orcId };
+}
+
 export async function POST(req: NextRequest) {
   try {
     const formData = await req.formData();
     const file = formData.get('file') as File | null;
     const tipo = String(formData.get('tipo') || 'insumos');
+    const titulo = String(formData.get('titulo') || '');
+    const bdi = Number(formData.get('bdi') || 0);
 
     if (!file) return NextResponse.json({ error: 'Arquivo não enviado' }, { status: 400 });
 
     const buf = await file.arrayBuffer();
     const wb = XLSX.read(buf, { type: 'array' });
 
-    let resultado: ImportResult = { importados: 0, ignorados: 0, erros: [] };
+    let resultado: ImportResult & { orcamento_id?: string } = { importados: 0, ignorados: 0, erros: [] };
 
     if (tipo === 'insumos') {
       const ws = wb.Sheets[wb.SheetNames[0]];
@@ -145,6 +259,10 @@ export async function POST(req: NextRequest) {
       const compRows = XLSX.utils.sheet_to_json<Record<string, unknown>>(wsComp);
       const itensRows = wsItens ? XLSX.utils.sheet_to_json<Record<string, unknown>>(wsItens) : [];
       resultado = await importarComposicoes(compRows, itensRows);
+    } else if (tipo === 'orcamento') {
+      const ws = wb.Sheets['Itens'] || wb.Sheets[wb.SheetNames[0]];
+      const rows = XLSX.utils.sheet_to_json<Record<string, unknown>>(ws);
+      resultado = await importarOrcamento(rows, titulo, bdi);
     }
 
     return NextResponse.json(resultado);

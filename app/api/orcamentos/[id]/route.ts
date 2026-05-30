@@ -10,6 +10,7 @@ const zeroBreakdown = (): Breakdown => ({ M: 0, MO: 0, E: 0, S: 0 });
 const addBreakdown = (a: Breakdown, b: Breakdown): Breakdown => ({
   M: a.M + b.M, MO: a.MO + b.MO, E: a.E + b.E, S: a.S + b.S,
 });
+const VALID_TIPOS = new Set(['M', 'MO', 'E', 'S']);
 
 export async function GET(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
@@ -31,38 +32,56 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
         .filter(i => i.composicao_id === composicaoId)
         .reduce((acc, i) => acc + Number(insumoMap[i.insumo_id]?.preco || 0) * Number(i.coeficiente || 0), 0);
 
-    const tipoBreakdownBase = (composicaoId: string): Breakdown => {
-      const bd = zeroBreakdown();
-      itensComp
-        .filter(i => i.composicao_id === composicaoId)
-        .forEach(i => {
-          const ins = insumoMap[i.insumo_id];
-          if (ins) {
-            const t = (ins.tipo || 'M') as keyof Breakdown;
-            bd[t] += Number(ins.preco || 0) * Number(i.coeficiente || 0);
-          }
-        });
-      return bd;
-    };
-
     const itens = itensOrc
       .filter(i => i.orcamento_id === id)
       .sort((a, b) => (Number(a.ordem) || 0) - (Number(b.ordem) || 0))
       .map(i => {
         const comp = composicaoMap[i.composicao_id];
-        const custoUnitario = Number(i.custo_unitario_override) || custoBase(i.composicao_id);
         const quantidade = Number(i.quantidade) || 0;
-        const custoTotal = custoUnitario * quantidade;
 
-        const bdBase = tipoBreakdownBase(i.composicao_id);
-        const baseSum = bdBase.M + bdBase.MO + bdBase.E + bdBase.S;
-        const scale = baseSum > 0 ? custoTotal / baseSum : 0;
-        const breakdown: Breakdown = {
-          M: bdBase.M * scale,
-          MO: bdBase.MO * scale,
-          E: bdBase.E * scale,
-          S: bdBase.S * scale,
-        };
+        // Parse per-insumo quantity overrides
+        const qtdOverrides: Record<string, number> = {};
+        try { Object.assign(qtdOverrides, JSON.parse(i.qtd_overrides || '{}')); } catch { /* ignore */ }
+
+        const insumosItem = itensComp
+          .filter(ic => ic.composicao_id === i.composicao_id)
+          .map(ic => {
+            const ins = insumoMap[ic.insumo_id];
+            const coef = Number(ic.coeficiente) || 0;
+            const preco = Number(ins?.preco || 0);
+            const hasOverride = ic.insumo_id in qtdOverrides;
+            const qtdAdotada = hasOverride ? qtdOverrides[ic.insumo_id] : coef * quantidade;
+            return {
+              insumo_id: ic.insumo_id,
+              descricao: ins?.descricao || '',
+              unidade: ic.unidade || ins?.unidade || '',
+              coeficiente: coef,
+              qtd_calculada: coef * quantidade,
+              qtd_adotada: qtdAdotada,
+              has_override: hasOverride,
+              preco_unitario: preco,
+              tipo: ins?.tipo || 'M',
+              custo_item: preco * qtdAdotada,
+            };
+          });
+
+        // Total cost: explicit override takes precedence; otherwise sum from insumos
+        let custoTotal: number;
+        if (Number(i.custo_unitario_override)) {
+          custoTotal = Number(i.custo_unitario_override) * quantidade;
+        } else if (insumosItem.length > 0) {
+          custoTotal = insumosItem.reduce((acc, ins) => acc + ins.custo_item, 0);
+        } else {
+          custoTotal = 0;
+        }
+        const custoUnitarioEfetivo = quantidade > 0 ? custoTotal / quantidade : 0;
+
+        // Breakdown computed directly from insumo costs
+        const breakdown: Breakdown = zeroBreakdown();
+        for (const ins of insumosItem) {
+          const t = ins.tipo as keyof Breakdown;
+          if (VALID_TIPOS.has(t)) breakdown[t] += ins.custo_item;
+        }
 
         return {
           id: i.id,
@@ -76,10 +95,11 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
           quantidade,
           quantidade_tipo: i.quantidade_tipo as 'AUTO' | 'MANUAL',
           custo_unitario_override: Number(i.custo_unitario_override) || 0,
-          custo_unitario_efetivo: custoUnitario,
+          custo_unitario_efetivo: custoUnitarioEfetivo,
           custo_total: custoTotal,
           breakdown,
           composicao: comp ? { ...comp, producao: Number(comp.producao), custo_unitario: custoBase(comp.id) } : null,
+          insumos: insumosItem,
         };
       });
 

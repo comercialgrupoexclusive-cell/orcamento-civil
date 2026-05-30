@@ -28,8 +28,15 @@ export async function PUT(
       updates.custo_unitario_override = Number(body.custo_unitario_override) || 0;
     if (body.sub_etapa !== undefined)
       updates.sub_etapa = String(body.sub_etapa).trim();
+    if (body.etapa_codigo !== undefined)
+      updates.etapa_codigo = String(body.etapa_codigo).trim();
     if (body.ordem !== undefined)
       updates.ordem = Number(body.ordem);
+    if (body.qtd_overrides !== undefined) {
+      updates.qtd_overrides = typeof body.qtd_overrides === 'object'
+        ? JSON.stringify(body.qtd_overrides)
+        : String(body.qtd_overrides);
+    }
 
     const ok = await updateRowById('ITENS_ORCAMENTO', itemId, updates);
     if (!ok) return NextResponse.json({ error: 'Item não encontrado' }, { status: 404 });

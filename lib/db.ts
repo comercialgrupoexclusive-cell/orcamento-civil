@@ -11,10 +11,17 @@ export const SHEET_HEADERS: Record<string, string[]> = {
   ITENS_ORCAMENTO: [
     'id', 'orcamento_id', 'etapa_codigo', 'sub_etapa', 'composicao_id',
     'descricao_override', 'unidade_override', 'custo_unitario_override',
-    'quantidade', 'quantidade_tipo', 'ordem',
+    'quantidade', 'quantidade_tipo', 'ordem', 'qtd_overrides',
   ],
   CONFIG: ['chave', 'valor'],
 };
+
+// ─── Detectar ambiente ────────────────────────────────────────────────────────
+
+/** True quando rodando no Vercel (serverless) com KV configurado */
+const USE_KV = !!(process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN);
+
+// ─── Operações locais (filesystem) ───────────────────────────────────────────
 
 function fp(sheetName: string): string {
   return path.join(DATA_DIR, `${sheetName}.json`);
@@ -24,29 +31,60 @@ function ensureDir() {
   if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
 }
 
-function readFile(sheetName: string): Record<string, string>[] {
+function readLocalFile(sheetName: string): Record<string, string>[] {
   ensureDir();
   const file = fp(sheetName);
   if (!fs.existsSync(file)) return [];
   try { return JSON.parse(fs.readFileSync(file, 'utf-8')); } catch { return []; }
 }
 
-function writeFile(sheetName: string, rows: Record<string, string>[]): void {
+function writeLocalFile(sheetName: string, rows: Record<string, string>[]): void {
   ensureDir();
   fs.writeFileSync(fp(sheetName), JSON.stringify(rows, null, 2), 'utf-8');
 }
 
+// ─── Operações Vercel KV ──────────────────────────────────────────────────────
+
+async function kvRead(sheetName: string): Promise<Record<string, string>[]> {
+  try {
+    const { kv } = await import('@vercel/kv');
+    const data = await kv.get<Record<string, string>[]>(`sheet:${sheetName}`);
+    if (data !== null) return data;
+    // KV vazio → retorna lista vazia (usuário deve restaurar backup)
+    return [];
+  } catch {
+    // fallback para filesystem se KV falhar
+    return readLocalFile(sheetName);
+  }
+}
+
+async function kvWrite(sheetName: string, rows: Record<string, string>[]): Promise<void> {
+  const { kv } = await import('@vercel/kv');
+  await kv.set(`sheet:${sheetName}`, rows);
+}
+
+// ─── API pública ──────────────────────────────────────────────────────────────
+
 export async function readSheet(sheetName: string): Promise<Record<string, string>[]> {
-  return readFile(sheetName);
+  return USE_KV ? kvRead(sheetName) : readLocalFile(sheetName);
+}
+
+/** Escreve/sobrescreve uma tabela inteira (usado pelo backup/restore) */
+export async function writeFile(sheetName: string, rows: Record<string, string>[]): Promise<void> {
+  if (USE_KV) {
+    await kvWrite(sheetName, rows);
+  } else {
+    writeLocalFile(sheetName, rows);
+  }
 }
 
 export async function appendRow(sheetName: string, data: Record<string, unknown>): Promise<void> {
-  const rows = readFile(sheetName);
+  const rows = await readSheet(sheetName);
   const headers = SHEET_HEADERS[sheetName] || Object.keys(data);
   const row: Record<string, string> = {};
   headers.forEach(h => { row[h] = String(data[h] ?? ''); });
   rows.push(row);
-  writeFile(sheetName, rows);
+  await writeFile(sheetName, rows);
 }
 
 export async function updateRowById(
@@ -54,33 +92,35 @@ export async function updateRowById(
   id: string,
   data: Record<string, unknown>
 ): Promise<boolean> {
-  const rows = readFile(sheetName);
+  const rows = await readSheet(sheetName);
   const idx = rows.findIndex(r => r.id === id);
   if (idx === -1) return false;
   const patch: Record<string, string> = {};
   Object.entries(data).forEach(([k, v]) => { patch[k] = String(v ?? ''); });
   rows[idx] = { ...rows[idx], ...patch };
-  writeFile(sheetName, rows);
+  await writeFile(sheetName, rows);
   return true;
 }
 
 export async function deleteRowById(sheetName: string, id: string): Promise<boolean> {
-  const rows = readFile(sheetName);
+  const rows = await readSheet(sheetName);
   const idx = rows.findIndex(r => r.id === id);
   if (idx === -1) return false;
   rows.splice(idx, 1);
-  writeFile(sheetName, rows);
+  await writeFile(sheetName, rows);
   return true;
 }
 
 export async function initSheets(): Promise<{ criadas: string[] }> {
-  ensureDir();
   const criadas: string[] = [];
-  for (const name of Object.keys(SHEET_HEADERS)) {
-    const file = fp(name);
-    if (!fs.existsSync(file)) {
-      writeFile(name, []);
-      criadas.push(name);
+  if (!USE_KV) {
+    ensureDir();
+    for (const name of Object.keys(SHEET_HEADERS)) {
+      const file = fp(name);
+      if (!fs.existsSync(file)) {
+        writeLocalFile(name, []);
+        criadas.push(name);
+      }
     }
   }
   return { criadas };

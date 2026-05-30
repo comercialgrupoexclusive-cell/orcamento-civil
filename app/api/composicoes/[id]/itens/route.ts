@@ -44,6 +44,11 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     const insumo = insumos.find(i => i.id === body.insumo_id);
     if (!insumo) return NextResponse.json({ erros: ['Insumo não encontrado'] }, { status: 400 });
 
+    // Impede insumo duplicado na mesma composição
+    const itensExist = await readSheet('ITENS_COMPOSICAO');
+    const dup = itensExist.find(i => i.composicao_id === id && i.insumo_id === body.insumo_id);
+    if (dup) return NextResponse.json({ erros: [`Insumo "${insumo.descricao}" já está nesta composição`] }, { status: 409 });
+
     const item = {
       id: uuidv4(),
       composicao_id: id,

@@ -1,0 +1,2725 @@
+[
+  {
+    "id": "itc-001-1",
+    "composicao_id": "cmp-001",
+    "insumo_id": "ins-mo-003",
+    "coeficiente": 0.05,
+    "unidade": "h"
+  },
+  {
+    "id": "itc-001-2",
+    "composicao_id": "cmp-001",
+    "insumo_id": "ins-e-001",
+    "coeficiente": 0.007,
+    "unidade": "h"
+  },
+  {
+    "id": "itc-002-1",
+    "composicao_id": "cmp-002",
+    "insumo_id": "ins-mo-002",
+    "coeficiente": 0.04,
+    "unidade": "h"
+  },
+  {
+    "id": "itc-002-2",
+    "composicao_id": "cmp-002",
+    "insumo_id": "ins-mo-003",
+    "coeficiente": 0.04,
+    "unidade": "h"
+  },
+  {
+    "id": "itc-003-1",
+    "composicao_id": "cmp-003",
+    "insumo_id": "ins-m-006",
+    "coeficiente": 1,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-003-2",
+    "composicao_id": "cmp-003",
+    "insumo_id": "ins-mo-003",
+    "coeficiente": 0.25,
+    "unidade": "h"
+  },
+  {
+    "id": "itc-004-1",
+    "composicao_id": "cmp-004",
+    "insumo_id": "ins-e-001",
+    "coeficiente": 1,
+    "unidade": "h"
+  },
+  {
+    "id": "itc-005-1",
+    "composicao_id": "cmp-005",
+    "insumo_id": "ins-e-002",
+    "coeficiente": 1,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-006-1",
+    "composicao_id": "cmp-006",
+    "insumo_id": "ins-m-001",
+    "coeficiente": 1.05,
+    "unidade": "m³"
+  },
+  {
+    "id": "itc-006-2",
+    "composicao_id": "cmp-006",
+    "insumo_id": "ins-mo-002",
+    "coeficiente": 3.5,
+    "unidade": "h"
+  },
+  {
+    "id": "itc-006-3",
+    "composicao_id": "cmp-006",
+    "insumo_id": "ins-mo-003",
+    "coeficiente": 3.5,
+    "unidade": "h"
+  },
+  {
+    "id": "itc-006-4",
+    "composicao_id": "cmp-006",
+    "insumo_id": "ins-e-003",
+    "coeficiente": 1,
+    "unidade": "h"
+  },
+  {
+    "id": "itc-007-1",
+    "composicao_id": "cmp-007",
+    "insumo_id": "ins-m-002",
+    "coeficiente": 1,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-007-2",
+    "composicao_id": "cmp-007",
+    "insumo_id": "ins-mo-001",
+    "coeficiente": 0.3,
+    "unidade": "h"
+  },
+  {
+    "id": "itc-007-3",
+    "composicao_id": "cmp-007",
+    "insumo_id": "ins-mo-003",
+    "coeficiente": 0.15,
+    "unidade": "h"
+  },
+  {
+    "id": "itc-008-1",
+    "composicao_id": "cmp-008",
+    "insumo_id": "ins-m-003",
+    "coeficiente": 1,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-008-2",
+    "composicao_id": "cmp-008",
+    "insumo_id": "ins-mo-001",
+    "coeficiente": 0.5,
+    "unidade": "h"
+  },
+  {
+    "id": "itc-008-3",
+    "composicao_id": "cmp-008",
+    "insumo_id": "ins-mo-003",
+    "coeficiente": 0.25,
+    "unidade": "h"
+  },
+  {
+    "id": "itc-009-1",
+    "composicao_id": "cmp-009",
+    "insumo_id": "ins-m-004",
+    "coeficiente": 1,
+    "unidade": "barra"
+  },
+  {
+    "id": "itc-009-2",
+    "composicao_id": "cmp-009",
+    "insumo_id": "ins-mo-004",
+    "coeficiente": 0.8,
+    "unidade": "h"
+  },
+  {
+    "id": "itc-009-3",
+    "composicao_id": "cmp-009",
+    "insumo_id": "ins-mo-003",
+    "coeficiente": 0.4,
+    "unidade": "h"
+  },
+  {
+    "id": "itc-010-1",
+    "composicao_id": "cmp-010",
+    "insumo_id": "ins-m-005",
+    "coeficiente": 1,
+    "unidade": "barra"
+  },
+  {
+    "id": "itc-010-2",
+    "composicao_id": "cmp-010",
+    "insumo_id": "ins-mo-004",
+    "coeficiente": 1.2,
+    "unidade": "h"
+  },
+  {
+    "id": "itc-010-3",
+    "composicao_id": "cmp-010",
+    "insumo_id": "ins-mo-003",
+    "coeficiente": 0.6,
+    "unidade": "h"
+  },
+  {
+    "id": "itc-011-1",
+    "composicao_id": "cmp-011",
+    "insumo_id": "ins-m-001",
+    "coeficiente": 1.05,
+    "unidade": "m³"
+  },
+  {
+    "id": "itc-011-2",
+    "composicao_id": "cmp-011",
+    "insumo_id": "ins-mo-002",
+    "coeficiente": 5,
+    "unidade": "h"
+  },
+  {
+    "id": "itc-011-3",
+    "composicao_id": "cmp-011",
+    "insumo_id": "ins-mo-003",
+    "coeficiente": 5,
+    "unidade": "h"
+  },
+  {
+    "id": "itc-011-4",
+    "composicao_id": "cmp-011",
+    "insumo_id": "ins-e-003",
+    "coeficiente": 1.5,
+    "unidade": "h"
+  },
+  {
+    "id": "itc-012-1",
+    "composicao_id": "cmp-012",
+    "insumo_id": "ins-m-002",
+    "coeficiente": 2.5,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-012-2",
+    "composicao_id": "cmp-012",
+    "insumo_id": "ins-mo-001",
+    "coeficiente": 1.2,
+    "unidade": "h"
+  },
+  {
+    "id": "itc-012-3",
+    "composicao_id": "cmp-012",
+    "insumo_id": "ins-mo-003",
+    "coeficiente": 0.6,
+    "unidade": "h"
+  },
+  {
+    "id": "itc-013-1",
+    "composicao_id": "cmp-013",
+    "insumo_id": "ins-m-012",
+    "coeficiente": 1,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-013-2",
+    "composicao_id": "cmp-013",
+    "insumo_id": "ins-mo-003",
+    "coeficiente": 0.3,
+    "unidade": "h"
+  },
+  {
+    "id": "itc-014-1",
+    "composicao_id": "cmp-014",
+    "insumo_id": "ins-m-001",
+    "coeficiente": 1.05,
+    "unidade": "m³"
+  },
+  {
+    "id": "itc-014-2",
+    "composicao_id": "cmp-014",
+    "insumo_id": "ins-mo-002",
+    "coeficiente": 3,
+    "unidade": "h"
+  },
+  {
+    "id": "itc-014-3",
+    "composicao_id": "cmp-014",
+    "insumo_id": "ins-mo-003",
+    "coeficiente": 3,
+    "unidade": "h"
+  },
+  {
+    "id": "itc-014-4",
+    "composicao_id": "cmp-014",
+    "insumo_id": "ins-e-003",
+    "coeficiente": 0.8,
+    "unidade": "h"
+  },
+  {
+    "id": "itc-015-1",
+    "composicao_id": "cmp-015",
+    "insumo_id": "ins-mo-002",
+    "coeficiente": 2.5,
+    "unidade": "h"
+  },
+  {
+    "id": "itc-015-2",
+    "composicao_id": "cmp-015",
+    "insumo_id": "ins-mo-003",
+    "coeficiente": 2.5,
+    "unidade": "h"
+  },
+  {
+    "id": "itc-016-1",
+    "composicao_id": "cmp-016",
+    "insumo_id": "ins-m-007",
+    "coeficiente": 28,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-016-2",
+    "composicao_id": "cmp-016",
+    "insumo_id": "ins-m-008",
+    "coeficiente": 0.012,
+    "unidade": "m³"
+  },
+  {
+    "id": "itc-016-3",
+    "composicao_id": "cmp-016",
+    "insumo_id": "ins-mo-002",
+    "coeficiente": 0.9,
+    "unidade": "h"
+  },
+  {
+    "id": "itc-016-4",
+    "composicao_id": "cmp-016",
+    "insumo_id": "ins-mo-003",
+    "coeficiente": 0.45,
+    "unidade": "h"
+  },
+  {
+    "id": "itc-017-1",
+    "composicao_id": "cmp-017",
+    "insumo_id": "ins-m-009",
+    "coeficiente": 0.025,
+    "unidade": "m³"
+  },
+  {
+    "id": "itc-017-2",
+    "composicao_id": "cmp-017",
+    "insumo_id": "ins-mo-002",
+    "coeficiente": 0.6,
+    "unidade": "h"
+  },
+  {
+    "id": "itc-017-3",
+    "composicao_id": "cmp-017",
+    "insumo_id": "ins-mo-003",
+    "coeficiente": 0.3,
+    "unidade": "h"
+  },
+  {
+    "id": "itc-018-1",
+    "composicao_id": "cmp-018",
+    "insumo_id": "ins-m-010",
+    "coeficiente": 0.7,
+    "unidade": "l"
+  },
+  {
+    "id": "itc-018-2",
+    "composicao_id": "cmp-018",
+    "insumo_id": "ins-mo-005",
+    "coeficiente": 0.3,
+    "unidade": "h"
+  },
+  {
+    "id": "itc-019-1",
+    "composicao_id": "cmp-019",
+    "insumo_id": "ins-m-011",
+    "coeficiente": 1,
+    "unidade": "m"
+  },
+  {
+    "id": "itc-019-2",
+    "composicao_id": "cmp-019",
+    "insumo_id": "ins-mo-002",
+    "coeficiente": 0.15,
+    "unidade": "h"
+  },
+  {
+    "id": "itc-019-3",
+    "composicao_id": "cmp-019",
+    "insumo_id": "ins-mo-003",
+    "coeficiente": 0.15,
+    "unidade": "h"
+  },
+  {
+    "id": "itc-020-1",
+    "composicao_id": "cmp-020",
+    "insumo_id": "ins-m-011",
+    "coeficiente": 1,
+    "unidade": "m"
+  },
+  {
+    "id": "itc-020-2",
+    "composicao_id": "cmp-020",
+    "insumo_id": "ins-mo-002",
+    "coeficiente": 0.15,
+    "unidade": "h"
+  },
+  {
+    "id": "itc-020-3",
+    "composicao_id": "cmp-020",
+    "insumo_id": "ins-mo-003",
+    "coeficiente": 0.15,
+    "unidade": "h"
+  },
+  {
+    "id": "itc-021-1",
+    "composicao_id": "cmp-021",
+    "insumo_id": "ins-m-002",
+    "coeficiente": 2.5,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-021-2",
+    "composicao_id": "cmp-021",
+    "insumo_id": "ins-mo-001",
+    "coeficiente": 1,
+    "unidade": "h"
+  },
+  {
+    "id": "itc-021-3",
+    "composicao_id": "cmp-021",
+    "insumo_id": "ins-mo-003",
+    "coeficiente": 0.5,
+    "unidade": "h"
+  },
+  {
+    "id": "4d2f90a1-f58c-4f6c-a012-2fff87cc77e3",
+    "composicao_id": "fb125c6d-4626-4632-9222-3c9eb00b78b6",
+    "insumo_id": "020e70b7-0cad-47dd-a50e-69f5756aca56",
+    "coeficiente": "4",
+    "unidade": "un"
+  },
+  {
+    "id": "dd8c6e03-95c7-4379-817b-ceb239509d7e",
+    "composicao_id": "bd54c7bf-b9b0-43a4-9cbc-433747c6091c",
+    "insumo_id": "f1e57a82-5864-4e78-bd65-c5aa9799e6ec",
+    "coeficiente": "4",
+    "unidade": "un"
+  },
+  {
+    "id": "77fe89b7-9681-4e83-8464-1b5e1613849e",
+    "composicao_id": "bd54c7bf-b9b0-43a4-9cbc-433747c6091c",
+    "insumo_id": "0b7e264f-2bcb-4e53-8403-39f5d47e5500",
+    "coeficiente": "20",
+    "unidade": "un"
+  },
+  {
+    "id": "e2e06079-444b-49a0-be2b-aac0d7e098d2",
+    "composicao_id": "adb492f7-0703-49ac-8a50-cbb22b7985d7",
+    "insumo_id": "336a1af4-c1cf-4577-bee1-1efa3f4cc9e0",
+    "coeficiente": "0.05",
+    "unidade": "un"
+  },
+  {
+    "id": "20106038-d1bb-4df1-970b-023fe49de22e",
+    "composicao_id": "adb492f7-0703-49ac-8a50-cbb22b7985d7",
+    "insumo_id": "edc32a65-a151-4095-a9b2-6a62520534df",
+    "coeficiente": "0.025",
+    "unidade": "un"
+  },
+  {
+    "id": "51c3cc0c-4ac7-412f-ac48-0f2e926f9c28",
+    "composicao_id": "adb492f7-0703-49ac-8a50-cbb22b7985d7",
+    "insumo_id": "554743d7-cd7c-44a1-b92b-3252b39781b3",
+    "coeficiente": "0.2",
+    "unidade": "un"
+  },
+  {
+    "id": "c795151e-7294-4eb6-aaca-0c9ee878f8b6",
+    "composicao_id": "adb492f7-0703-49ac-8a50-cbb22b7985d7",
+    "insumo_id": "7462bff1-e179-4119-93f3-baaccb671dd2",
+    "coeficiente": "0.625",
+    "unidade": "un"
+  },
+  {
+    "id": "bfa4e710-fb64-4a98-9196-d52cbc440d2c",
+    "composicao_id": "adb492f7-0703-49ac-8a50-cbb22b7985d7",
+    "insumo_id": "14c7fe86-503c-452c-a5fd-1d99a0dbf102",
+    "coeficiente": "2.1",
+    "unidade": "un"
+  },
+  {
+    "id": "4c54c2e4-7636-4fca-b51f-58af05e234a9",
+    "composicao_id": "baa8e6f6-46d4-41fb-8335-20a45c55fafa",
+    "insumo_id": "1a8168f1-12d0-4f37-8e8f-90ba9dfa9605",
+    "coeficiente": "0",
+    "unidade": "un"
+  },
+  {
+    "id": "eb5a5ced-d930-4dd5-9a96-6b25a0fca388",
+    "composicao_id": "62e8d9ef-d93b-4ca9-9871-e8a582f43171",
+    "insumo_id": "9ca253b8-884a-4bbb-ab58-dcba80a1d001",
+    "coeficiente": "0.5",
+    "unidade": "un"
+  },
+  {
+    "id": "640f278f-f174-46fa-b53c-e1d5602aa032",
+    "composicao_id": "62e8d9ef-d93b-4ca9-9871-e8a582f43171",
+    "insumo_id": "336a1af4-c1cf-4577-bee1-1efa3f4cc9e0",
+    "coeficiente": "0.05",
+    "unidade": "un"
+  },
+  {
+    "id": "cb8e18e2-4bf7-448f-8c42-fc105da22fa2",
+    "composicao_id": "62e8d9ef-d93b-4ca9-9871-e8a582f43171",
+    "insumo_id": "edc32a65-a151-4095-a9b2-6a62520534df",
+    "coeficiente": "0.05",
+    "unidade": "un"
+  },
+  {
+    "id": "4afc6539-90e0-448b-8004-9eae67292697",
+    "composicao_id": "62e8d9ef-d93b-4ca9-9871-e8a582f43171",
+    "insumo_id": "554743d7-cd7c-44a1-b92b-3252b39781b3",
+    "coeficiente": "0.2",
+    "unidade": "un"
+  },
+  {
+    "id": "98fb4a21-4c54-416c-95fa-89cb95b3afd6",
+    "composicao_id": "62e8d9ef-d93b-4ca9-9871-e8a582f43171",
+    "insumo_id": "b3ba3cbb-ee02-4199-9cce-4a3cdd0eae6f",
+    "coeficiente": "1.5",
+    "unidade": "un"
+  },
+  {
+    "id": "9166327b-940d-4169-a055-2878b50258a9",
+    "composicao_id": "62e8d9ef-d93b-4ca9-9871-e8a582f43171",
+    "insumo_id": "8ebe7071-caf8-48ca-908a-7bb74a2c7d5c",
+    "coeficiente": "0.05",
+    "unidade": "m³"
+  },
+  {
+    "id": "665b59d0-57f7-4d31-8df6-4c29ea02fbe3",
+    "composicao_id": "62e8d9ef-d93b-4ca9-9871-e8a582f43171",
+    "insumo_id": "ab84834e-5ae6-47de-ae1d-8519c72a7abf",
+    "coeficiente": "0.1",
+    "unidade": "m³"
+  },
+  {
+    "id": "bff225f3-826c-4f62-b4c8-752f68b876b7",
+    "composicao_id": "62e8d9ef-d93b-4ca9-9871-e8a582f43171",
+    "insumo_id": "1162e190-f213-4532-a27e-16884fb9f48a",
+    "coeficiente": "0.1",
+    "unidade": "un"
+  },
+  {
+    "id": "f7256013-680f-4f93-8f7e-2ea04dcf57b2",
+    "composicao_id": "adb492f7-0703-49ac-8a50-cbb22b7985d7",
+    "insumo_id": "eba5a2c2-4e7a-4eb7-8d29-c3f633d3edf0",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "5c7090f1-3312-4b5f-8368-6021b8719961",
+    "composicao_id": "34f921ed-d6fa-42cf-ab2b-61489b1962dd",
+    "insumo_id": "67ca7de3-fefa-4852-87fb-a036933a5a5f",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "91f82c75-1aff-4ec0-bc46-715564768a6f",
+    "composicao_id": "34f921ed-d6fa-42cf-ab2b-61489b1962dd",
+    "insumo_id": "dad44ad9-085a-47e0-9cb9-2816d2052343",
+    "coeficiente": "2",
+    "unidade": "un"
+  },
+  {
+    "id": "288ea470-9184-4e35-b049-bba3df3b6d5b",
+    "composicao_id": "34f921ed-d6fa-42cf-ab2b-61489b1962dd",
+    "insumo_id": "d5129602-7bb5-49c9-aee1-3a15693ef5d9",
+    "coeficiente": "4",
+    "unidade": "un"
+  },
+  {
+    "id": "1612b726-f58f-416e-b1a2-18f77353e80c",
+    "composicao_id": "34f921ed-d6fa-42cf-ab2b-61489b1962dd",
+    "insumo_id": "a823c20c-b0a6-4128-a7dd-878f4ecf6d50",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "1ef68651-ef15-4e1a-8066-219823c3cfcf",
+    "composicao_id": "34f921ed-d6fa-42cf-ab2b-61489b1962dd",
+    "insumo_id": "dd1ef29d-0838-4c04-927f-2eee21923c15",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "48671c6d-7e7b-4990-a43c-3e97b256a6c2",
+    "composicao_id": "34f921ed-d6fa-42cf-ab2b-61489b1962dd",
+    "insumo_id": "37233417-671b-419f-9e09-e0d49a719bb0",
+    "coeficiente": "5",
+    "unidade": "un"
+  },
+  {
+    "id": "11fc088f-06e9-487a-9108-969bac4fe63c",
+    "composicao_id": "34f921ed-d6fa-42cf-ab2b-61489b1962dd",
+    "insumo_id": "78529f97-7c63-4d1a-a71c-90ae3cb73897",
+    "coeficiente": "2",
+    "unidade": "un"
+  },
+  {
+    "id": "b4950874-d281-407e-8637-a05322178bca",
+    "composicao_id": "34f921ed-d6fa-42cf-ab2b-61489b1962dd",
+    "insumo_id": "576e8692-3f4a-47d9-a346-611d7326db3b",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "2788a3e8-b7a1-4b24-8c25-44fcceae82a8",
+    "composicao_id": "bf69b9a2-1be0-4a1d-9050-5a1a79ee7e58",
+    "insumo_id": "a9bf720f-275a-49d7-8e19-749ec015dce6",
+    "coeficiente": "2",
+    "unidade": "un"
+  },
+  {
+    "id": "d71b9a66-e248-4814-96b9-b76aa2019bb8",
+    "composicao_id": "bf69b9a2-1be0-4a1d-9050-5a1a79ee7e58",
+    "insumo_id": "0ca80b97-bd1c-425b-a916-09c401e84cfc",
+    "coeficiente": "5",
+    "unidade": "un"
+  },
+  {
+    "id": "7b922721-eed3-4c5d-add8-5d93ec11cda7",
+    "composicao_id": "bf69b9a2-1be0-4a1d-9050-5a1a79ee7e58",
+    "insumo_id": "115533f8-b2f5-403b-9066-7f1fdd3d65d3",
+    "coeficiente": "2",
+    "unidade": "un"
+  },
+  {
+    "id": "4cbb627b-6021-45d8-a2f4-9dfee807a4e1",
+    "composicao_id": "62e8d9ef-d93b-4ca9-9871-e8a582f43171",
+    "insumo_id": "e003b9fe-5c33-4ad5-bf35-1628b98de3f5",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "1fad5c17-90ef-4d76-9ea2-efeeb82bc6f7",
+    "composicao_id": "4e00137f-7873-418c-9011-3a3aa3668590",
+    "insumo_id": "336a1af4-c1cf-4577-bee1-1efa3f4cc9e0",
+    "coeficiente": "0.04",
+    "unidade": "un"
+  },
+  {
+    "id": "c1221d6e-6c0b-470b-8435-f01a2e10ebd3",
+    "composicao_id": "4e00137f-7873-418c-9011-3a3aa3668590",
+    "insumo_id": "edc32a65-a151-4095-a9b2-6a62520534df",
+    "coeficiente": "0.02",
+    "unidade": "un"
+  },
+  {
+    "id": "47c74d3f-e083-419a-a5f3-dab392e326b9",
+    "composicao_id": "4e00137f-7873-418c-9011-3a3aa3668590",
+    "insumo_id": "7462bff1-e179-4119-93f3-baaccb671dd2",
+    "coeficiente": "0.16",
+    "unidade": "un"
+  },
+  {
+    "id": "518f06dc-a178-467d-be00-ae4b51cc93b0",
+    "composicao_id": "4e00137f-7873-418c-9011-3a3aa3668590",
+    "insumo_id": "1b04c802-94e4-448c-9234-576ef36fd6c6",
+    "coeficiente": "0.02",
+    "unidade": "un"
+  },
+  {
+    "id": "cd61b68a-b291-4fc7-bd34-6f64af2f47d1",
+    "composicao_id": "4e00137f-7873-418c-9011-3a3aa3668590",
+    "insumo_id": "be1ce77e-8bd5-4960-a0eb-26b67adddda4",
+    "coeficiente": "1",
+    "unidade": "m"
+  },
+  {
+    "id": "f24f1ce3-4175-4110-a349-769b9c5baa02",
+    "composicao_id": "a3e32df4-1da3-4152-bcc5-16d3861c4cfc",
+    "insumo_id": "d654a59e-d41d-4e7e-894b-0335b86f1fb0",
+    "coeficiente": "5",
+    "unidade": "un"
+  },
+  {
+    "id": "b0eb0e4e-61ed-4c65-b483-c958324938c7",
+    "composicao_id": "a3e32df4-1da3-4152-bcc5-16d3861c4cfc",
+    "insumo_id": "7dd431dc-f779-4822-8af7-b5cd58155354",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "e5deb3e4-92ff-4b4b-9488-73123278de0d",
+    "composicao_id": "a3e32df4-1da3-4152-bcc5-16d3861c4cfc",
+    "insumo_id": "336a1af4-c1cf-4577-bee1-1efa3f4cc9e0",
+    "coeficiente": "2",
+    "unidade": "un"
+  },
+  {
+    "id": "1f632a62-29d7-493d-8bdc-2fc33b740a27",
+    "composicao_id": "a3e32df4-1da3-4152-bcc5-16d3861c4cfc",
+    "insumo_id": "edc32a65-a151-4095-a9b2-6a62520534df",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "71e4029c-4342-46dd-b57f-b63ee3c4ee36",
+    "composicao_id": "a3e32df4-1da3-4152-bcc5-16d3861c4cfc",
+    "insumo_id": "d7a12a4f-651b-45b1-95a2-46724c7896fe",
+    "coeficiente": "1",
+    "unidade": "m²"
+  },
+  {
+    "id": "dd4a336d-a157-4180-8cd2-6430b7d14a31",
+    "composicao_id": "3d6f680d-e2e6-474e-ac3f-f542e8293e80",
+    "insumo_id": "8ebe7071-caf8-48ca-908a-7bb74a2c7d5c",
+    "coeficiente": "0.133333",
+    "unidade": "m³"
+  },
+  {
+    "id": "50ab87d3-141f-42c0-80ab-f30b07aa7416",
+    "composicao_id": "3d6f680d-e2e6-474e-ac3f-f542e8293e80",
+    "insumo_id": "ab84834e-5ae6-47de-ae1d-8519c72a7abf",
+    "coeficiente": "0.133333",
+    "unidade": "m³"
+  },
+  {
+    "id": "70dd5d5f-e530-40ff-a541-90d38f332b6b",
+    "composicao_id": "3d6f680d-e2e6-474e-ac3f-f542e8293e80",
+    "insumo_id": "1162e190-f213-4532-a27e-16884fb9f48a",
+    "coeficiente": "1.6",
+    "unidade": "un"
+  },
+  {
+    "id": "3455b9df-fa9b-46a6-a58b-24b2ef5c5a75",
+    "composicao_id": "3d6f680d-e2e6-474e-ac3f-f542e8293e80",
+    "insumo_id": "327f2d90-6251-4181-98e5-abb5b9c22f0b",
+    "coeficiente": "0",
+    "unidade": "un"
+  },
+  {
+    "id": "5733fd42-558f-4ab5-8a2a-197ac8ab7067",
+    "composicao_id": "5ec66d44-4c42-4593-9018-4635b8366813",
+    "insumo_id": "5aea842c-4a53-4ef3-87b3-06018aa0d12a",
+    "coeficiente": "0.8",
+    "unidade": "un"
+  },
+  {
+    "id": "954f578c-aee8-41b9-a421-6a2638d541ae",
+    "composicao_id": "5ec66d44-4c42-4593-9018-4635b8366813",
+    "insumo_id": "3f476b62-6861-4f9c-9605-31838674f96a",
+    "coeficiente": "0.2",
+    "unidade": "un"
+  },
+  {
+    "id": "468049b3-ce1a-4c9d-a88a-c8f910c05d11",
+    "composicao_id": "5ec66d44-4c42-4593-9018-4635b8366813",
+    "insumo_id": "8ebe7071-caf8-48ca-908a-7bb74a2c7d5c",
+    "coeficiente": "0.1",
+    "unidade": "m³"
+  },
+  {
+    "id": "b998d5c6-a9e3-4096-af30-7c86a7d6c9ed",
+    "composicao_id": "5ec66d44-4c42-4593-9018-4635b8366813",
+    "insumo_id": "ab84834e-5ae6-47de-ae1d-8519c72a7abf",
+    "coeficiente": "0.1",
+    "unidade": "m³"
+  },
+  {
+    "id": "fd348bad-6a1c-49e3-bd40-98120397115a",
+    "composicao_id": "5ec66d44-4c42-4593-9018-4635b8366813",
+    "insumo_id": "1162e190-f213-4532-a27e-16884fb9f48a",
+    "coeficiente": "0.4",
+    "unidade": "un"
+  },
+  {
+    "id": "29ba391b-fdfe-48d8-a994-99904935ae18",
+    "composicao_id": "5ec66d44-4c42-4593-9018-4635b8366813",
+    "insumo_id": "155ef6c4-d412-4dac-a4b0-1ed1ad55ec24",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "4a81a831-58b6-4c8e-934d-c5956e90a731",
+    "composicao_id": "92c97594-2c01-4259-ae55-7ead0984d208",
+    "insumo_id": "1dda0279-86d1-4cf1-b4f5-c3d443820468",
+    "coeficiente": "0",
+    "unidade": "un"
+  },
+  {
+    "id": "0a0c863f-c70c-4c4a-bde4-4b1820f7d2a3",
+    "composicao_id": "92c97594-2c01-4259-ae55-7ead0984d208",
+    "insumo_id": "336a1af4-c1cf-4577-bee1-1efa3f4cc9e0",
+    "coeficiente": "0",
+    "unidade": "un"
+  },
+  {
+    "id": "23dc3ff9-4f64-4f31-94d2-038c2217ba42",
+    "composicao_id": "92c97594-2c01-4259-ae55-7ead0984d208",
+    "insumo_id": "edc32a65-a151-4095-a9b2-6a62520534df",
+    "coeficiente": "0",
+    "unidade": "un"
+  },
+  {
+    "id": "120e1bc7-d58a-45a1-a5f7-784ba6212daf",
+    "composicao_id": "92c97594-2c01-4259-ae55-7ead0984d208",
+    "insumo_id": "7c2b6bad-7024-4753-b77e-4d32cce3aa30",
+    "coeficiente": "1",
+    "unidade": "m"
+  },
+  {
+    "id": "b3432819-5a7a-48bd-a127-2523471baf1b",
+    "composicao_id": "0dae4a1e-d1ba-43e6-9be9-ffd5a5c0e42d",
+    "insumo_id": "d7791269-5193-4dc5-8679-582a8f72f069",
+    "coeficiente": "0",
+    "unidade": "un"
+  },
+  {
+    "id": "de53f83e-47c8-447a-aa6b-00e1e4ddac80",
+    "composicao_id": "0dae4a1e-d1ba-43e6-9be9-ffd5a5c0e42d",
+    "insumo_id": "7d9d8503-9207-4b4b-9896-853632ebff83",
+    "coeficiente": "0.434783",
+    "unidade": "un"
+  },
+  {
+    "id": "277d705b-8907-46d4-84cc-a3cd0a414e72",
+    "composicao_id": "0dae4a1e-d1ba-43e6-9be9-ffd5a5c0e42d",
+    "insumo_id": "5aea842c-4a53-4ef3-87b3-06018aa0d12a",
+    "coeficiente": "0",
+    "unidade": "un"
+  },
+  {
+    "id": "acf90d55-b022-4f86-982b-b0c8926cdd8b",
+    "composicao_id": "0dae4a1e-d1ba-43e6-9be9-ffd5a5c0e42d",
+    "insumo_id": "8621e922-47dd-41f7-b455-bb9b9c0c4926",
+    "coeficiente": "0.032609",
+    "unidade": "un"
+  },
+  {
+    "id": "c23887e1-4d7d-47f0-92fb-90c36d1eb254",
+    "composicao_id": "0dae4a1e-d1ba-43e6-9be9-ffd5a5c0e42d",
+    "insumo_id": "c68d4988-b71b-4a75-8539-cb33d5e85326",
+    "coeficiente": "0.01087",
+    "unidade": "rolo"
+  },
+  {
+    "id": "49b6f6b8-9857-461c-bc32-c897bd8d3b71",
+    "composicao_id": "4a1e91c7-f6ba-4454-b61b-2962c9cd4ecc",
+    "insumo_id": "18c00128-fca4-44fd-a833-d49c67a06b8a",
+    "coeficiente": "1",
+    "unidade": "m²"
+  },
+  {
+    "id": "1e8e4b76-4985-404d-913a-29d5c5a3558c",
+    "composicao_id": "8d2dc967-d585-4c19-96df-bfb636717b60",
+    "insumo_id": "ab84834e-5ae6-47de-ae1d-8519c72a7abf",
+    "coeficiente": "0.5",
+    "unidade": "m³"
+  },
+  {
+    "id": "3fa7d699-1083-4f83-884c-5bdf96a7d83e",
+    "composicao_id": "8d2dc967-d585-4c19-96df-bfb636717b60",
+    "insumo_id": "1162e190-f213-4532-a27e-16884fb9f48a",
+    "coeficiente": "6",
+    "unidade": "un"
+  },
+  {
+    "id": "7c63c93b-7d33-49f1-8e35-7880a99a7cff",
+    "composicao_id": "5d03940f-677e-4118-99a5-e103e0628307",
+    "insumo_id": "e6c119d3-4cc7-424d-bd9a-d993d6f14b3c",
+    "coeficiente": "1",
+    "unidade": "m²"
+  },
+  {
+    "id": "ae36fbbc-6490-41df-bade-86f4be5fd4cf",
+    "composicao_id": "b91526eb-948e-4825-ac8e-9c4c1a70ff70",
+    "insumo_id": "5d657282-c5d6-4cb9-b9fe-071811ce9b92",
+    "coeficiente": "1",
+    "unidade": "m²"
+  },
+  {
+    "id": "1ebf687b-607b-440c-9e19-af00b568b8fe",
+    "composicao_id": "5d03940f-677e-4118-99a5-e103e0628307",
+    "insumo_id": "3389837f-2580-44fc-9a00-baf7277021f7",
+    "coeficiente": "0.111111",
+    "unidade": "un"
+  },
+  {
+    "id": "7d935394-9e2d-4b1e-9f82-3d44457e5760",
+    "composicao_id": "5d03940f-677e-4118-99a5-e103e0628307",
+    "insumo_id": "624b8a4a-f072-4370-807e-df5a576b3398",
+    "coeficiente": "0.022222",
+    "unidade": "un"
+  },
+  {
+    "id": "0ac8ef10-f23e-4d04-9272-b6494192c7d5",
+    "composicao_id": "2c02a1de-fb77-4e92-9416-575128a55d38",
+    "insumo_id": "c8ad23e1-1ed4-45f4-9505-0cd4fd58aa24",
+    "coeficiente": "1",
+    "unidade": "m"
+  },
+  {
+    "id": "4ab92c45-c8cf-4f75-a6dc-3963c62cce61",
+    "composicao_id": "b91526eb-948e-4825-ac8e-9c4c1a70ff70",
+    "insumo_id": "8ebe7071-caf8-48ca-908a-7bb74a2c7d5c",
+    "coeficiente": "0.045455",
+    "unidade": "m³"
+  },
+  {
+    "id": "49cce788-eac4-4402-9352-73039a444235",
+    "composicao_id": "b91526eb-948e-4825-ac8e-9c4c1a70ff70",
+    "insumo_id": "ab84834e-5ae6-47de-ae1d-8519c72a7abf",
+    "coeficiente": "0.045455",
+    "unidade": "m³"
+  },
+  {
+    "id": "6d098e8c-6b86-4bfd-af88-bf59f9de937e",
+    "composicao_id": "b91526eb-948e-4825-ac8e-9c4c1a70ff70",
+    "insumo_id": "e21b4e30-9812-432d-a1e3-e58633e8304a",
+    "coeficiente": "0.170455",
+    "unidade": "un"
+  },
+  {
+    "id": "88b1bea8-f0e6-4a3a-a845-0acfc815547d",
+    "composicao_id": "b91526eb-948e-4825-ac8e-9c4c1a70ff70",
+    "insumo_id": "c68d4988-b71b-4a75-8539-cb33d5e85326",
+    "coeficiente": "0.011364",
+    "unidade": "rolo"
+  },
+  {
+    "id": "6afc1534-f1a6-4bb6-a006-eb458ac2a378",
+    "composicao_id": "b91526eb-948e-4825-ac8e-9c4c1a70ff70",
+    "insumo_id": "19ed4d64-b033-4594-910e-cc3baa1fe6ab",
+    "coeficiente": "0.011364",
+    "unidade": "un"
+  },
+  {
+    "id": "2cd50713-9e03-4ec4-acc7-1e1e37522868",
+    "composicao_id": "b91526eb-948e-4825-ac8e-9c4c1a70ff70",
+    "insumo_id": "d2546f7e-081d-405e-af98-94a6ae154400",
+    "coeficiente": "0.011364",
+    "unidade": "m²"
+  },
+  {
+    "id": "4bed25d7-e9bb-4d8c-982f-c0c008176888",
+    "composicao_id": "b91526eb-948e-4825-ac8e-9c4c1a70ff70",
+    "insumo_id": "44649d5a-608d-4515-9149-ddbea2a15882",
+    "coeficiente": "0.011364",
+    "unidade": "un"
+  },
+  {
+    "id": "d9fb7ecd-2392-4d10-882b-8d203fd162ca",
+    "composicao_id": "330a4267-6d00-40c6-8b2c-25a910a5b8da",
+    "insumo_id": "c8ad23e1-1ed4-45f4-9505-0cd4fd58aa24",
+    "coeficiente": "1",
+    "unidade": "m"
+  },
+  {
+    "id": "27f63dbb-f354-4579-948d-dd4118321c72",
+    "composicao_id": "cac6ad51-d9e6-46b5-a970-6e8475718fe5",
+    "insumo_id": "d7791269-5193-4dc5-8679-582a8f72f069",
+    "coeficiente": "1.6",
+    "unidade": "un"
+  },
+  {
+    "id": "16c72b73-cf09-470a-a61c-0e9688274ea1",
+    "composicao_id": "cac6ad51-d9e6-46b5-a970-6e8475718fe5",
+    "insumo_id": "5aea842c-4a53-4ef3-87b3-06018aa0d12a",
+    "coeficiente": "0.6",
+    "unidade": "un"
+  },
+  {
+    "id": "e644c6ac-4e1b-4202-ad8a-5cf8caa5d20f",
+    "composicao_id": "cac6ad51-d9e6-46b5-a970-6e8475718fe5",
+    "insumo_id": "3f476b62-6861-4f9c-9605-31838674f96a",
+    "coeficiente": "0.15",
+    "unidade": "un"
+  },
+  {
+    "id": "e408db01-8a77-42cc-813f-8f42ce3e8a8d",
+    "composicao_id": "cac6ad51-d9e6-46b5-a970-6e8475718fe5",
+    "insumo_id": "8ebe7071-caf8-48ca-908a-7bb74a2c7d5c",
+    "coeficiente": "0.15",
+    "unidade": "m³"
+  },
+  {
+    "id": "5cf43e14-3c40-46b5-83a3-ab968a4c9ba5",
+    "composicao_id": "cac6ad51-d9e6-46b5-a970-6e8475718fe5",
+    "insumo_id": "ab84834e-5ae6-47de-ae1d-8519c72a7abf",
+    "coeficiente": "0.15",
+    "unidade": "m³"
+  },
+  {
+    "id": "31b22095-c1f8-407e-8f8d-bf3993690752",
+    "composicao_id": "cac6ad51-d9e6-46b5-a970-6e8475718fe5",
+    "insumo_id": "1162e190-f213-4532-a27e-16884fb9f48a",
+    "coeficiente": "0.6",
+    "unidade": "un"
+  },
+  {
+    "id": "7848206b-3b6f-40b3-bcef-4469a5b36be1",
+    "composicao_id": "5e55ae32-032e-4adf-b52e-62e906a4bbe9",
+    "insumo_id": "3acee05a-23bd-461d-84a7-ce40e74c2c4f",
+    "coeficiente": "0",
+    "unidade": "un"
+  },
+  {
+    "id": "2b904778-3126-48be-82b2-3dfff877f789",
+    "composicao_id": "2ef2f766-0b42-4632-83a6-7da6346a17e3",
+    "insumo_id": "d7791269-5193-4dc5-8679-582a8f72f069",
+    "coeficiente": "3",
+    "unidade": "un"
+  },
+  {
+    "id": "75daeaf5-af22-4c05-b8c3-dc7da1d4d92f",
+    "composicao_id": "2ef2f766-0b42-4632-83a6-7da6346a17e3",
+    "insumo_id": "5aea842c-4a53-4ef3-87b3-06018aa0d12a",
+    "coeficiente": "0.6",
+    "unidade": "un"
+  },
+  {
+    "id": "9570d2e2-8f82-4f93-a819-c1aef19eaeb6",
+    "composicao_id": "2ef2f766-0b42-4632-83a6-7da6346a17e3",
+    "insumo_id": "3f476b62-6861-4f9c-9605-31838674f96a",
+    "coeficiente": "0.15",
+    "unidade": "un"
+  },
+  {
+    "id": "baa1046b-3b09-482f-8765-5a05b95bfe56",
+    "composicao_id": "2ef2f766-0b42-4632-83a6-7da6346a17e3",
+    "insumo_id": "8ebe7071-caf8-48ca-908a-7bb74a2c7d5c",
+    "coeficiente": "0.2",
+    "unidade": "m³"
+  },
+  {
+    "id": "9297e0ea-a4c0-4d93-b7fe-ab0ef7efd1f3",
+    "composicao_id": "2ef2f766-0b42-4632-83a6-7da6346a17e3",
+    "insumo_id": "ab84834e-5ae6-47de-ae1d-8519c72a7abf",
+    "coeficiente": "0.2",
+    "unidade": "m³"
+  },
+  {
+    "id": "d7545bb0-1194-4563-b43d-fe3f36766f5c",
+    "composicao_id": "2ef2f766-0b42-4632-83a6-7da6346a17e3",
+    "insumo_id": "1162e190-f213-4532-a27e-16884fb9f48a",
+    "coeficiente": "0.8",
+    "unidade": "un"
+  },
+  {
+    "id": "8370c459-1a22-4a71-9563-5017b1277234",
+    "composicao_id": "8d2dc967-d585-4c19-96df-bfb636717b60",
+    "insumo_id": "7d7595b8-1254-41e8-a683-1ecf4d49cf8d",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "65f6e5bc-276a-410d-9155-724c069fa749",
+    "composicao_id": "77d2a136-a9e4-4782-ab85-cc7ed975905b",
+    "insumo_id": "bf74b07a-d548-446f-8854-8185082359a2",
+    "coeficiente": "0.413043",
+    "unidade": "un"
+  },
+  {
+    "id": "35255af7-34ce-4dbd-871f-82e38021475b",
+    "composicao_id": "77d2a136-a9e4-4782-ab85-cc7ed975905b",
+    "insumo_id": "336a1af4-c1cf-4577-bee1-1efa3f4cc9e0",
+    "coeficiente": "0.021739",
+    "unidade": "un"
+  },
+  {
+    "id": "23e0e4d3-d6cc-4e13-b7dc-984a8b39eb11",
+    "composicao_id": "77d2a136-a9e4-4782-ab85-cc7ed975905b",
+    "insumo_id": "edc32a65-a151-4095-a9b2-6a62520534df",
+    "coeficiente": "0.01087",
+    "unidade": "un"
+  },
+  {
+    "id": "6579f74b-fef4-4251-b00f-7f46868d9d89",
+    "composicao_id": "270d22db-7df3-4134-8295-84f23a414fd4",
+    "insumo_id": "bd471f1c-5895-4979-b07f-94eead48cf16",
+    "coeficiente": "1",
+    "unidade": "m"
+  },
+  {
+    "id": "b4eeac49-dad1-429e-9c07-3ed6b1fa3b0d",
+    "composicao_id": "d7a47801-e89d-47e8-b703-af3fd0396db8",
+    "insumo_id": "10383190-592d-473a-983e-2b4fbfdb83c2",
+    "coeficiente": "1.666667",
+    "unidade": "un"
+  },
+  {
+    "id": "68010796-21af-49d9-8d0b-420dbe14a514",
+    "composicao_id": "d7a47801-e89d-47e8-b703-af3fd0396db8",
+    "insumo_id": "041cebf6-8d85-4926-aae1-b177d566c368",
+    "coeficiente": "0.1",
+    "unidade": "un"
+  },
+  {
+    "id": "b9e832c4-80f4-4638-bef4-5abbc7de5c1c",
+    "composicao_id": "d7a47801-e89d-47e8-b703-af3fd0396db8",
+    "insumo_id": "8ebe7071-caf8-48ca-908a-7bb74a2c7d5c",
+    "coeficiente": "0.133333",
+    "unidade": "m³"
+  },
+  {
+    "id": "995564fa-3bc0-4b61-baf8-3d5514e93546",
+    "composicao_id": "d7a47801-e89d-47e8-b703-af3fd0396db8",
+    "insumo_id": "3f476b62-6861-4f9c-9605-31838674f96a",
+    "coeficiente": "0.066667",
+    "unidade": "un"
+  },
+  {
+    "id": "71ea1e6e-1166-4b33-b7ce-d4f0a3334f1e",
+    "composicao_id": "86759a1b-6949-4dc4-a440-a1a5162c47b0",
+    "insumo_id": "12be3395-2a87-406e-a420-28e652eee7c2",
+    "coeficiente": "0",
+    "unidade": "m"
+  },
+  {
+    "id": "e0d88661-29fd-42cf-be72-3231b14319e6",
+    "composicao_id": "58ca20da-e28a-44f1-ac9c-51d0225b1c18",
+    "insumo_id": "d654a59e-d41d-4e7e-894b-0335b86f1fb0",
+    "coeficiente": "0.097826",
+    "unidade": "un"
+  },
+  {
+    "id": "8f04a641-c30d-4f50-9527-d606ca373f80",
+    "composicao_id": "58ca20da-e28a-44f1-ac9c-51d0225b1c18",
+    "insumo_id": "336a1af4-c1cf-4577-bee1-1efa3f4cc9e0",
+    "coeficiente": "0.065217",
+    "unidade": "un"
+  },
+  {
+    "id": "e7fb105a-3c51-472e-9e0d-3c81a94b1ec9",
+    "composicao_id": "58ca20da-e28a-44f1-ac9c-51d0225b1c18",
+    "insumo_id": "edc32a65-a151-4095-a9b2-6a62520534df",
+    "coeficiente": "0.021739",
+    "unidade": "un"
+  },
+  {
+    "id": "4141d512-eeb5-4d6c-b29c-74890d6130c6",
+    "composicao_id": "ea72872a-8f46-4b53-a38d-ce9b0a10da3b",
+    "insumo_id": "befe00d5-26f2-4cf8-9d08-9aac002bd749",
+    "coeficiente": "0",
+    "unidade": "m"
+  },
+  {
+    "id": "037de33b-eda3-43e9-be37-92a7410ef28a",
+    "composicao_id": "325f00b5-8b85-4010-b088-4e9b02e5e6d6",
+    "insumo_id": "35f5d589-85c1-47e5-9aab-ab89c2f6b81a",
+    "coeficiente": "1",
+    "unidade": "m²"
+  },
+  {
+    "id": "4e491c38-0534-4332-bcf7-169ef60b1f3f",
+    "composicao_id": "2c02a1de-fb77-4e92-9416-575128a55d38",
+    "insumo_id": "1dda0279-86d1-4cf1-b4f5-c3d443820468",
+    "coeficiente": "0.666667",
+    "unidade": "un"
+  },
+  {
+    "id": "2a355ddd-33ce-4804-9c8b-795234a2a71c",
+    "composicao_id": "2c02a1de-fb77-4e92-9416-575128a55d38",
+    "insumo_id": "336a1af4-c1cf-4577-bee1-1efa3f4cc9e0",
+    "coeficiente": "0.039216",
+    "unidade": "un"
+  },
+  {
+    "id": "4b2f97ec-25bf-496e-a479-db001a2aa92f",
+    "composicao_id": "2c02a1de-fb77-4e92-9416-575128a55d38",
+    "insumo_id": "c68d4988-b71b-4a75-8539-cb33d5e85326",
+    "coeficiente": "0.039216",
+    "unidade": "rolo"
+  },
+  {
+    "id": "5b4e9cfb-2d76-40a4-abc8-d870b3f95bf8",
+    "composicao_id": "9334c48d-a25c-4398-87ad-f05a662ad8d2",
+    "insumo_id": "62a873a1-d2e3-430a-a33e-7efeb514b862",
+    "coeficiente": "1",
+    "unidade": "m"
+  },
+  {
+    "id": "e4fa947e-62fc-487f-af08-15b0c8036e62",
+    "composicao_id": "a38e7e43-426e-4a7d-9cb4-900fd3f5cbae",
+    "insumo_id": "7d9d8503-9207-4b4b-9896-853632ebff83",
+    "coeficiente": "12",
+    "unidade": "un"
+  },
+  {
+    "id": "a01114b3-cb82-4be3-a6ad-cf0238d99cce",
+    "composicao_id": "a38e7e43-426e-4a7d-9cb4-900fd3f5cbae",
+    "insumo_id": "1dda0279-86d1-4cf1-b4f5-c3d443820468",
+    "coeficiente": "15",
+    "unidade": "un"
+  },
+  {
+    "id": "08cd716b-d3f8-4a44-ae26-6f7ec7972a5f",
+    "composicao_id": "a38e7e43-426e-4a7d-9cb4-900fd3f5cbae",
+    "insumo_id": "9ca253b8-884a-4bbb-ab58-dcba80a1d001",
+    "coeficiente": "5",
+    "unidade": "un"
+  },
+  {
+    "id": "4617c770-27a1-41d2-b95c-b0dcb8725d4c",
+    "composicao_id": "a38e7e43-426e-4a7d-9cb4-900fd3f5cbae",
+    "insumo_id": "aaf93393-06e9-4094-bfe9-5f27ded5b8b5",
+    "coeficiente": "2",
+    "unidade": "un"
+  },
+  {
+    "id": "401620cc-1242-40ed-b139-ef9fc49ba8b7",
+    "composicao_id": "a38e7e43-426e-4a7d-9cb4-900fd3f5cbae",
+    "insumo_id": "44649d5a-608d-4515-9149-ddbea2a15882",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "09afe8f7-43aa-415a-9d62-ed31d81b0dee",
+    "composicao_id": "a38e7e43-426e-4a7d-9cb4-900fd3f5cbae",
+    "insumo_id": "1162e190-f213-4532-a27e-16884fb9f48a",
+    "coeficiente": "15",
+    "unidade": "un"
+  },
+  {
+    "id": "52f91b8f-61fb-4c16-b307-fccd62e3683e",
+    "composicao_id": "455e5da6-1e52-467b-b962-dfd53c2fc602",
+    "insumo_id": "743b6c94-8147-423f-b37a-fc234be874ae",
+    "coeficiente": "0.076923",
+    "unidade": "m²"
+  },
+  {
+    "id": "7ed9f58c-f9b7-4451-95b1-088400b01168",
+    "composicao_id": "325f00b5-8b85-4010-b088-4e9b02e5e6d6",
+    "insumo_id": "04cad659-4439-48f7-98df-92af85d91440",
+    "coeficiente": "0.186667",
+    "unidade": "un"
+  },
+  {
+    "id": "3e9086f1-8f4a-447c-bb82-8956cc688cfa",
+    "composicao_id": "325f00b5-8b85-4010-b088-4e9b02e5e6d6",
+    "insumo_id": "44649d5a-608d-4515-9149-ddbea2a15882",
+    "coeficiente": "0.013333",
+    "unidade": "un"
+  },
+  {
+    "id": "0cefcab3-55c1-4351-955d-3f6891a45938",
+    "composicao_id": "325f00b5-8b85-4010-b088-4e9b02e5e6d6",
+    "insumo_id": "9ca253b8-884a-4bbb-ab58-dcba80a1d001",
+    "coeficiente": "0.666667",
+    "unidade": "un"
+  },
+  {
+    "id": "d1686c15-a7f4-4189-9486-a1e860bcf100",
+    "composicao_id": "fbfeab67-665a-4beb-8008-3cc796f2b973",
+    "insumo_id": "bd471f1c-5895-4979-b07f-94eead48cf16",
+    "coeficiente": "1.091837",
+    "unidade": "m"
+  },
+  {
+    "id": "90eeb14b-4b95-42d6-8510-5fca62d6c429",
+    "composicao_id": "94ad11c9-cd09-42fc-b257-eb2f01f1748c",
+    "insumo_id": "12be3395-2a87-406e-a420-28e652eee7c2",
+    "coeficiente": "0",
+    "unidade": "m"
+  },
+  {
+    "id": "e6b35543-c4db-47cd-b207-f0e5fb43a07c",
+    "composicao_id": "455e5da6-1e52-467b-b962-dfd53c2fc602",
+    "insumo_id": "1162e190-f213-4532-a27e-16884fb9f48a",
+    "coeficiente": "0.0833",
+    "unidade": "un"
+  },
+  {
+    "id": "55fdf4e7-6835-4f8b-b8db-690d310f7c5a",
+    "composicao_id": "455e5da6-1e52-467b-b962-dfd53c2fc602",
+    "insumo_id": "5f58c858-4bfe-4cad-98d5-647a0ec43899",
+    "coeficiente": "0.0833",
+    "unidade": "un"
+  },
+  {
+    "id": "44251ef8-949c-4477-a7f1-9308705bc24c",
+    "composicao_id": "80aeae8c-0295-44eb-8bca-df1981cee17a",
+    "insumo_id": "befe00d5-26f2-4cf8-9d08-9aac002bd749",
+    "coeficiente": "0",
+    "unidade": "m"
+  },
+  {
+    "id": "56ef642a-d9e7-459c-acec-1ad3db125e67",
+    "composicao_id": "1b2a0d5a-88e9-4c89-acbd-fdc2c4cb34b9",
+    "insumo_id": "35f5d589-85c1-47e5-9aab-ab89c2f6b81a",
+    "coeficiente": "1",
+    "unidade": "m²"
+  },
+  {
+    "id": "8fbcb9c8-54af-48ae-ae74-6559bbdced91",
+    "composicao_id": "5e55ae32-032e-4adf-b52e-62e906a4bbe9",
+    "insumo_id": "d7791269-5193-4dc5-8679-582a8f72f069",
+    "coeficiente": "0.078431",
+    "unidade": "un"
+  },
+  {
+    "id": "a0fcb977-fca2-4656-8bad-6d74d05f9a8f",
+    "composicao_id": "5e55ae32-032e-4adf-b52e-62e906a4bbe9",
+    "insumo_id": "5aea842c-4a53-4ef3-87b3-06018aa0d12a",
+    "coeficiente": "0.637255",
+    "unidade": "un"
+  },
+  {
+    "id": "0ebfd675-1bc4-46af-8599-b566799bb62e",
+    "composicao_id": "5e55ae32-032e-4adf-b52e-62e906a4bbe9",
+    "insumo_id": "09780473-ff28-4cfb-96d2-ccb0af050f5d",
+    "coeficiente": "0.058824",
+    "unidade": "un"
+  },
+  {
+    "id": "8f909f0d-6c22-4175-81a6-84c0cd38eaa9",
+    "composicao_id": "5e55ae32-032e-4adf-b52e-62e906a4bbe9",
+    "insumo_id": "c28367a1-bec9-42fd-aa53-32e3a949446a",
+    "coeficiente": "0.029412",
+    "unidade": "un"
+  },
+  {
+    "id": "4fd80ec5-a499-4d6f-be0c-aea5f57c4556",
+    "composicao_id": "5e55ae32-032e-4adf-b52e-62e906a4bbe9",
+    "insumo_id": "5012949e-9b4f-4247-a884-560ca749083b",
+    "coeficiente": "0.019608",
+    "unidade": "un"
+  },
+  {
+    "id": "6373e895-0a8a-4133-8cd6-12393457eefd",
+    "composicao_id": "696c2941-166a-4fc1-8d5a-7430934ad317",
+    "insumo_id": "62a873a1-d2e3-430a-a33e-7efeb514b862",
+    "coeficiente": "1",
+    "unidade": "m"
+  },
+  {
+    "id": "da44dbbc-6dea-4dbd-8694-63e31628961a",
+    "composicao_id": "330a4267-6d00-40c6-8b2c-25a910a5b8da",
+    "insumo_id": "336a1af4-c1cf-4577-bee1-1efa3f4cc9e0",
+    "coeficiente": "0.039216",
+    "unidade": "un"
+  },
+  {
+    "id": "d1c232de-857b-436c-99eb-c990941e2c3b",
+    "composicao_id": "330a4267-6d00-40c6-8b2c-25a910a5b8da",
+    "insumo_id": "c68d4988-b71b-4a75-8539-cb33d5e85326",
+    "coeficiente": "0.039216",
+    "unidade": "rolo"
+  },
+  {
+    "id": "a5afdc46-27ba-4e45-a888-8cdb52b88144",
+    "composicao_id": "455e5da6-1e52-467b-b962-dfd53c2fc602",
+    "insumo_id": "bf8943b2-b82e-4d3d-81b7-51f1ada05433",
+    "coeficiente": "0.083333",
+    "unidade": "un"
+  },
+  {
+    "id": "b818a957-44de-41ce-9c41-1c8cb1acb1c6",
+    "composicao_id": "270d22db-7df3-4134-8295-84f23a414fd4",
+    "insumo_id": "bf74b07a-d548-446f-8854-8185082359a2",
+    "coeficiente": "0.794393",
+    "unidade": "un"
+  },
+  {
+    "id": "ede6bb0e-76cd-45fc-b455-95c9dd4f95a9",
+    "composicao_id": "270d22db-7df3-4134-8295-84f23a414fd4",
+    "insumo_id": "336a1af4-c1cf-4577-bee1-1efa3f4cc9e0",
+    "coeficiente": "0.018692",
+    "unidade": "un"
+  },
+  {
+    "id": "74871807-72f7-43fd-909b-8e6e7408b8d2",
+    "composicao_id": "270d22db-7df3-4134-8295-84f23a414fd4",
+    "insumo_id": "edc32a65-a151-4095-a9b2-6a62520534df",
+    "coeficiente": "0.009346",
+    "unidade": "un"
+  },
+  {
+    "id": "7423ab6f-b37c-4545-baf5-73de6bfb4dc7",
+    "composicao_id": "270d22db-7df3-4134-8295-84f23a414fd4",
+    "insumo_id": "10383190-592d-473a-983e-2b4fbfdb83c2",
+    "coeficiente": "0.093458",
+    "unidade": "m"
+  },
+  {
+    "id": "54102514-bb91-40b7-9b7f-0b8c7bfa4d6d",
+    "composicao_id": "270d22db-7df3-4134-8295-84f23a414fd4",
+    "insumo_id": "c68d4988-b71b-4a75-8539-cb33d5e85326",
+    "coeficiente": "0.028037",
+    "unidade": "rolo"
+  },
+  {
+    "id": "82be48d5-aa68-4141-88c9-b784a48fbe23",
+    "composicao_id": "a38e7e43-426e-4a7d-9cb4-900fd3f5cbae",
+    "insumo_id": "fbdaa2d3-403e-4dd1-9af7-cc3280f9388a",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "606968e9-90a5-4490-9046-b8aebbb06856",
+    "composicao_id": "86759a1b-6949-4dc4-a440-a1a5162c47b0",
+    "insumo_id": "7e9c813e-ec04-4b4a-98b8-e8c5718909ee",
+    "coeficiente": "0.044444",
+    "unidade": "un"
+  },
+  {
+    "id": "4a21031b-b6cb-46a8-9715-2a192fb72026",
+    "composicao_id": "86759a1b-6949-4dc4-a440-a1a5162c47b0",
+    "insumo_id": "9ca253b8-884a-4bbb-ab58-dcba80a1d001",
+    "coeficiente": "1.222222",
+    "unidade": "un"
+  },
+  {
+    "id": "3aac8aee-b3d2-484f-871e-83ecfabcd8b3",
+    "composicao_id": "9334c48d-a25c-4398-87ad-f05a662ad8d2",
+    "insumo_id": "c5069257-dd05-4a99-8bcb-c6bf06f4ae09",
+    "coeficiente": "0.4",
+    "unidade": "un"
+  },
+  {
+    "id": "a1414c26-bacc-4514-b02c-a049ddf45ef5",
+    "composicao_id": "9334c48d-a25c-4398-87ad-f05a662ad8d2",
+    "insumo_id": "336a1af4-c1cf-4577-bee1-1efa3f4cc9e0",
+    "coeficiente": "0.015385",
+    "unidade": "un"
+  },
+  {
+    "id": "0103ec91-e5cd-4ce0-a0db-5c229038a9a9",
+    "composicao_id": "9334c48d-a25c-4398-87ad-f05a662ad8d2",
+    "insumo_id": "edc32a65-a151-4095-a9b2-6a62520534df",
+    "coeficiente": "0.007692",
+    "unidade": "un"
+  },
+  {
+    "id": "c45576a0-0417-4fc5-a9c2-8c2542ca625d",
+    "composicao_id": "9334c48d-a25c-4398-87ad-f05a662ad8d2",
+    "insumo_id": "c68d4988-b71b-4a75-8539-cb33d5e85326",
+    "coeficiente": "0.015385",
+    "unidade": "rolo"
+  },
+  {
+    "id": "fc52f907-43bd-4149-b38b-e1b9504e95d6",
+    "composicao_id": "3c6254f3-d6ff-4355-b5c1-934f188d892e",
+    "insumo_id": "1f967136-77a4-45b4-9512-60206684a8a2",
+    "coeficiente": "1",
+    "unidade": "m²"
+  },
+  {
+    "id": "25dcee38-4230-4402-82ef-b41c63d195bb",
+    "composicao_id": "1b2a0d5a-88e9-4c89-acbd-fdc2c4cb34b9",
+    "insumo_id": "04cad659-4439-48f7-98df-92af85d91440",
+    "coeficiente": "0.186667",
+    "unidade": "un"
+  },
+  {
+    "id": "551e5142-0238-4d9a-a948-7d890d9fc794",
+    "composicao_id": "1b2a0d5a-88e9-4c89-acbd-fdc2c4cb34b9",
+    "insumo_id": "44649d5a-608d-4515-9149-ddbea2a15882",
+    "coeficiente": "0.013333",
+    "unidade": "un"
+  },
+  {
+    "id": "f8c4eba3-2b54-449a-a93e-d691002b2090",
+    "composicao_id": "1b2a0d5a-88e9-4c89-acbd-fdc2c4cb34b9",
+    "insumo_id": "9ca253b8-884a-4bbb-ab58-dcba80a1d001",
+    "coeficiente": "0.666667",
+    "unidade": "un"
+  },
+  {
+    "id": "10a87849-a86b-44b8-8580-a7bb50896fc2",
+    "composicao_id": "265b35c0-ce56-45ad-b68e-4932a4ccb035",
+    "insumo_id": "4c370e54-f3ef-4a16-921a-f75234f81367",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "10cab83d-7deb-4f39-8ecb-c556607cf142",
+    "composicao_id": "fbfeab67-665a-4beb-8008-3cc796f2b973",
+    "insumo_id": "bf74b07a-d548-446f-8854-8185082359a2",
+    "coeficiente": "0.867347",
+    "unidade": "un"
+  },
+  {
+    "id": "4b22abff-bb1b-4614-9539-5b892bf8a9be",
+    "composicao_id": "fbfeab67-665a-4beb-8008-3cc796f2b973",
+    "insumo_id": "336a1af4-c1cf-4577-bee1-1efa3f4cc9e0",
+    "coeficiente": "0.020408",
+    "unidade": "un"
+  },
+  {
+    "id": "714f9e64-3632-480e-9e11-3a24096bba66",
+    "composicao_id": "fbfeab67-665a-4beb-8008-3cc796f2b973",
+    "insumo_id": "edc32a65-a151-4095-a9b2-6a62520534df",
+    "coeficiente": "0.010204",
+    "unidade": "un"
+  },
+  {
+    "id": "c815655a-5511-44c7-8111-8a9850fe4828",
+    "composicao_id": "fbfeab67-665a-4beb-8008-3cc796f2b973",
+    "insumo_id": "10383190-592d-473a-983e-2b4fbfdb83c2",
+    "coeficiente": "0.102041",
+    "unidade": "m"
+  },
+  {
+    "id": "f5e5a5e2-ddd2-46fb-a2bc-192604ba7d62",
+    "composicao_id": "fbfeab67-665a-4beb-8008-3cc796f2b973",
+    "insumo_id": "c68d4988-b71b-4a75-8539-cb33d5e85326",
+    "coeficiente": "0.030612",
+    "unidade": "rolo"
+  },
+  {
+    "id": "0c32e6c9-a1b3-47ba-ade2-468724d21a18",
+    "composicao_id": "46e88056-13be-4033-89d7-10cf0df92fdb",
+    "insumo_id": "68be7f25-72f0-4491-93cc-5914bd53cecc",
+    "coeficiente": "1",
+    "unidade": "m²"
+  },
+  {
+    "id": "1981710c-92d3-47f6-8371-2887026d37ec",
+    "composicao_id": "94ad11c9-cd09-42fc-b257-eb2f01f1748c",
+    "insumo_id": "7e9c813e-ec04-4b4a-98b8-e8c5718909ee",
+    "coeficiente": "0.044444",
+    "unidade": "un"
+  },
+  {
+    "id": "87a3ff69-6d4a-4c28-8e91-223ae2827d4d",
+    "composicao_id": "94ad11c9-cd09-42fc-b257-eb2f01f1748c",
+    "insumo_id": "9ca253b8-884a-4bbb-ab58-dcba80a1d001",
+    "coeficiente": "1.222222",
+    "unidade": "un"
+  },
+  {
+    "id": "e651e3de-47ab-4837-9d97-7a519e058a21",
+    "composicao_id": "c79399a7-b783-4fe5-8939-30db337b569f",
+    "insumo_id": "04262f5c-699a-4713-8186-d81d17d856a4",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "15ada0c9-1787-4f9e-865d-a7b70d753a6b",
+    "composicao_id": "696c2941-166a-4fc1-8d5a-7430934ad317",
+    "insumo_id": "c5069257-dd05-4a99-8bcb-c6bf06f4ae09",
+    "coeficiente": "0.4",
+    "unidade": "un"
+  },
+  {
+    "id": "6ac28194-6686-4845-bed7-e0d07b22d70e",
+    "composicao_id": "696c2941-166a-4fc1-8d5a-7430934ad317",
+    "insumo_id": "336a1af4-c1cf-4577-bee1-1efa3f4cc9e0",
+    "coeficiente": "0.015385",
+    "unidade": "un"
+  },
+  {
+    "id": "1f92e7d4-1006-4618-9793-5b5ad53b81cb",
+    "composicao_id": "696c2941-166a-4fc1-8d5a-7430934ad317",
+    "insumo_id": "edc32a65-a151-4095-a9b2-6a62520534df",
+    "coeficiente": "0.007692",
+    "unidade": "un"
+  },
+  {
+    "id": "24d8b518-33bb-4069-9ef9-ba509c72c3ca",
+    "composicao_id": "696c2941-166a-4fc1-8d5a-7430934ad317",
+    "insumo_id": "c68d4988-b71b-4a75-8539-cb33d5e85326",
+    "coeficiente": "0.015385",
+    "unidade": "rolo"
+  },
+  {
+    "id": "e7d55ef7-8fbd-47ae-b420-97b825f94daa",
+    "composicao_id": "26b80c2a-3a27-4e8e-b373-1a1f1d85a250",
+    "insumo_id": "f571d3d3-1e95-4406-af13-32bf1387105d",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "656c8e57-2e53-4375-b830-80974524fa93",
+    "composicao_id": "ea72872a-8f46-4b53-a38d-ce9b0a10da3b",
+    "insumo_id": "d7791269-5193-4dc5-8679-582a8f72f069",
+    "coeficiente": "0.009346",
+    "unidade": "un"
+  },
+  {
+    "id": "6703d5c8-40df-49a1-87ae-7df6c3f7337b",
+    "composicao_id": "ea72872a-8f46-4b53-a38d-ce9b0a10da3b",
+    "insumo_id": "7d9d8503-9207-4b4b-9896-853632ebff83",
+    "coeficiente": "0.233645",
+    "unidade": "un"
+  },
+  {
+    "id": "4fefa024-a0e0-405b-b5be-50e138f7fee0",
+    "composicao_id": "ea72872a-8f46-4b53-a38d-ce9b0a10da3b",
+    "insumo_id": "5aea842c-4a53-4ef3-87b3-06018aa0d12a",
+    "coeficiente": "0.233645",
+    "unidade": "un"
+  },
+  {
+    "id": "297c244c-c29c-4e74-a142-1c20ce43e54a",
+    "composicao_id": "ea72872a-8f46-4b53-a38d-ce9b0a10da3b",
+    "insumo_id": "09780473-ff28-4cfb-96d2-ccb0af050f5d",
+    "coeficiente": "0.018692",
+    "unidade": "un"
+  },
+  {
+    "id": "51ff8f77-3dd7-4a1f-97f0-41b6c6b5dc8f",
+    "composicao_id": "ea72872a-8f46-4b53-a38d-ce9b0a10da3b",
+    "insumo_id": "c28367a1-bec9-42fd-aa53-32e3a949446a",
+    "coeficiente": "0.009346",
+    "unidade": "un"
+  },
+  {
+    "id": "115f26ed-88ed-4fc7-9d7d-09e62aa2e2e2",
+    "composicao_id": "ea72872a-8f46-4b53-a38d-ce9b0a10da3b",
+    "insumo_id": "8621e922-47dd-41f7-b455-bb9b9c0c4926",
+    "coeficiente": "0.028037",
+    "unidade": "un"
+  },
+  {
+    "id": "15b3f0da-c448-49fd-a0af-39e7821e3cd7",
+    "composicao_id": "ea72872a-8f46-4b53-a38d-ce9b0a10da3b",
+    "insumo_id": "5012949e-9b4f-4247-a884-560ca749083b",
+    "coeficiente": "0.009346",
+    "unidade": "un"
+  },
+  {
+    "id": "e8a716be-a94a-4c1c-805c-08a592e10e47",
+    "composicao_id": "68715f6b-9fa9-438f-b71e-4d306868ec34",
+    "insumo_id": "f571d3d3-1e95-4406-af13-32bf1387105d",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "716ea20f-3806-4574-a17e-e0e1384b6652",
+    "composicao_id": "80aeae8c-0295-44eb-8bca-df1981cee17a",
+    "insumo_id": "d7791269-5193-4dc5-8679-582a8f72f069",
+    "coeficiente": "0.153061",
+    "unidade": "un"
+  },
+  {
+    "id": "de184236-f104-4d3e-8177-3716f9528a81",
+    "composicao_id": "80aeae8c-0295-44eb-8bca-df1981cee17a",
+    "insumo_id": "7d9d8503-9207-4b4b-9896-853632ebff83",
+    "coeficiente": "0.255102",
+    "unidade": "un"
+  },
+  {
+    "id": "312223a5-e0a4-44fe-b84b-3bdea62fd840",
+    "composicao_id": "80aeae8c-0295-44eb-8bca-df1981cee17a",
+    "insumo_id": "5aea842c-4a53-4ef3-87b3-06018aa0d12a",
+    "coeficiente": "0",
+    "unidade": "un"
+  },
+  {
+    "id": "7b9afe02-02a1-4ac2-9e1e-81fdff6a9bfa",
+    "composicao_id": "80aeae8c-0295-44eb-8bca-df1981cee17a",
+    "insumo_id": "09780473-ff28-4cfb-96d2-ccb0af050f5d",
+    "coeficiente": "0",
+    "unidade": "un"
+  },
+  {
+    "id": "ac31960f-1d78-42e8-89f6-cf46ac2d8079",
+    "composicao_id": "80aeae8c-0295-44eb-8bca-df1981cee17a",
+    "insumo_id": "c28367a1-bec9-42fd-aa53-32e3a949446a",
+    "coeficiente": "0",
+    "unidade": "un"
+  },
+  {
+    "id": "19b01760-a8e6-4c9f-8d85-8087ad49448a",
+    "composicao_id": "80aeae8c-0295-44eb-8bca-df1981cee17a",
+    "insumo_id": "8621e922-47dd-41f7-b455-bb9b9c0c4926",
+    "coeficiente": "0.030612",
+    "unidade": "un"
+  },
+  {
+    "id": "c5bf0cc8-e0d7-4cd6-affd-78dc94850192",
+    "composicao_id": "80aeae8c-0295-44eb-8bca-df1981cee17a",
+    "insumo_id": "5012949e-9b4f-4247-a884-560ca749083b",
+    "coeficiente": "0.010204",
+    "unidade": "un"
+  },
+  {
+    "id": "a7fd10ec-2e8e-44a5-9351-03aca135540d",
+    "composicao_id": "4670d015-4a8f-486c-a7bc-d70cf2967621",
+    "insumo_id": "f571d3d3-1e95-4406-af13-32bf1387105d",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "6d4f3792-3f17-4db1-a97b-4c5eaef77bdf",
+    "composicao_id": "17ea1363-650d-4f2b-bfce-01eef96d9819",
+    "insumo_id": "75f65d47-2e95-47c6-9f47-1416109d6662",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "670e5b7d-bfa4-4a10-bc5d-650ec0169af5",
+    "composicao_id": "3c6254f3-d6ff-4355-b5c1-934f188d892e",
+    "insumo_id": "06234b54-c0a4-47ff-8899-9daee73a0cc4",
+    "coeficiente": "0",
+    "unidade": "un"
+  },
+  {
+    "id": "000d4227-f928-4ca2-ad11-98bffb244608",
+    "composicao_id": "3c6254f3-d6ff-4355-b5c1-934f188d892e",
+    "insumo_id": "06321800-e764-4636-ad8a-feec4ae18ba3",
+    "coeficiente": "0.022785",
+    "unidade": "m³"
+  },
+  {
+    "id": "0856510d-e21a-42c9-9888-d4cc3b4071bc",
+    "composicao_id": "3c6254f3-d6ff-4355-b5c1-934f188d892e",
+    "insumo_id": "1162e190-f213-4532-a27e-16884fb9f48a",
+    "coeficiente": "0.096203",
+    "unidade": "un"
+  },
+  {
+    "id": "80f93080-4985-4efa-b508-71ebc9b94990",
+    "composicao_id": "3c6254f3-d6ff-4355-b5c1-934f188d892e",
+    "insumo_id": "79c6277b-bba0-4a10-bf7b-a73c026f5cbe",
+    "coeficiente": "0.002532",
+    "unidade": "un"
+  },
+  {
+    "id": "1399c13b-19a1-474b-86c6-69014066bdff",
+    "composicao_id": "e77bc1b3-a87c-494c-bad3-cac1646d3183",
+    "insumo_id": "1608add1-d519-4c75-908b-f406ad31fcf7",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "83093a07-0dea-43bb-9490-0a98526530e2",
+    "composicao_id": "265b35c0-ce56-45ad-b68e-4932a4ccb035",
+    "insumo_id": "1162e190-f213-4532-a27e-16884fb9f48a",
+    "coeficiente": "0.092308",
+    "unidade": "un"
+  },
+  {
+    "id": "571ef259-2f98-4009-8692-abe0dd9bb0fa",
+    "composicao_id": "265b35c0-ce56-45ad-b68e-4932a4ccb035",
+    "insumo_id": "8ebe7071-caf8-48ca-908a-7bb74a2c7d5c",
+    "coeficiente": "0.015385",
+    "unidade": "m³"
+  },
+  {
+    "id": "13cbe259-5cba-4b6b-8731-db5397b658b0",
+    "composicao_id": "265b35c0-ce56-45ad-b68e-4932a4ccb035",
+    "insumo_id": "ab84834e-5ae6-47de-ae1d-8519c72a7abf",
+    "coeficiente": "0.015385",
+    "unidade": "m³"
+  },
+  {
+    "id": "0b1a73e3-24d3-4cdc-b05a-55ae3c218840",
+    "composicao_id": "265b35c0-ce56-45ad-b68e-4932a4ccb035",
+    "insumo_id": "7d9d8503-9207-4b4b-9896-853632ebff83",
+    "coeficiente": "0",
+    "unidade": "un"
+  },
+  {
+    "id": "4cd29f8e-3e0d-4c84-8dec-4329d552a9b1",
+    "composicao_id": "265b35c0-ce56-45ad-b68e-4932a4ccb035",
+    "insumo_id": "c45693bd-24b1-4eb2-99dc-1f64c67ef1ab",
+    "coeficiente": "0.169231",
+    "unidade": "un"
+  },
+  {
+    "id": "4fd82ce4-a6b2-4859-8e0a-02de2ef48675",
+    "composicao_id": "343fad4b-2cad-413a-80b9-e003c769a341",
+    "insumo_id": "1c91b79c-c04f-4c12-90b5-0dcf84aec6ef",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "4e2ba97f-bda7-466d-9edd-1d9e8d0b0795",
+    "composicao_id": "4cf13817-2d64-435d-87a4-04cd6c615b30",
+    "insumo_id": "3db944d1-fcfa-4962-b2b9-31c65ed59742",
+    "coeficiente": "0.285714",
+    "unidade": "un"
+  },
+  {
+    "id": "3f32894d-6851-4695-91db-e23b80683a9e",
+    "composicao_id": "e7ad47a3-e04e-4588-ba2c-df844b62ef0d",
+    "insumo_id": "be658931-6980-409b-8d7e-b1220d207c0b",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "8f2cce09-7c81-42d3-80f0-64cd8cdc73fa",
+    "composicao_id": "e7ad47a3-e04e-4588-ba2c-df844b62ef0d",
+    "insumo_id": "82237d4b-69ff-49da-90e0-29dc178797ba",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "37eb1f80-5478-403b-803a-7e35b8db95d8",
+    "composicao_id": "46e88056-13be-4033-89d7-10cf0df92fdb",
+    "insumo_id": "7462bff1-e179-4119-93f3-baaccb671dd2",
+    "coeficiente": "0.384615",
+    "unidade": "un"
+  },
+  {
+    "id": "20e8c981-68d9-41b7-9006-673e1aa5eef1",
+    "composicao_id": "46e88056-13be-4033-89d7-10cf0df92fdb",
+    "insumo_id": "336a1af4-c1cf-4577-bee1-1efa3f4cc9e0",
+    "coeficiente": "0.061538",
+    "unidade": "un"
+  },
+  {
+    "id": "16519a9f-c3f1-429c-993f-ab03af1e8953",
+    "composicao_id": "46e88056-13be-4033-89d7-10cf0df92fdb",
+    "insumo_id": "edc32a65-a151-4095-a9b2-6a62520534df",
+    "coeficiente": "0.030769",
+    "unidade": "un"
+  },
+  {
+    "id": "5226efd9-fbbd-4eb9-b942-05246f1178a8",
+    "composicao_id": "97400f3c-75a5-47c4-abdc-116c2b66fc2a",
+    "insumo_id": "0911b824-cb9f-4835-a154-1c08f60bf260",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "274da068-583e-4ba8-8252-d18ef09a8049",
+    "composicao_id": "c79399a7-b783-4fe5-8939-30db337b569f",
+    "insumo_id": "de2634be-f7ef-4c60-ada6-543be95b72cd",
+    "coeficiente": "1.538462",
+    "unidade": "un"
+  },
+  {
+    "id": "57ca3058-4a42-4681-b664-5a161959a05b",
+    "composicao_id": "c79399a7-b783-4fe5-8939-30db337b569f",
+    "insumo_id": "60ef8023-f0e0-4740-81f1-9e9f183af119",
+    "coeficiente": "0.089744",
+    "unidade": "m"
+  },
+  {
+    "id": "fbf241ca-c58f-4938-bb65-d54fbefe976a",
+    "composicao_id": "2293ab5f-4d1f-43c3-84a7-5a1aca3f952b",
+    "insumo_id": "87d0f79b-89d2-4fdd-882d-28a82f42739e",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "8636f880-185f-4554-a415-6610616b9e43",
+    "composicao_id": "a19532bb-6aa9-4ba0-b921-5adbf156e023",
+    "insumo_id": "9402de25-5c98-4c5f-b906-6cd2973f681f",
+    "coeficiente": "1.181818",
+    "unidade": "m"
+  },
+  {
+    "id": "c414c00a-4efb-4dba-a010-b8e07cce7f35",
+    "composicao_id": "a19532bb-6aa9-4ba0-b921-5adbf156e023",
+    "insumo_id": "55e76b19-8b9c-43c4-926f-b9424a08aa61",
+    "coeficiente": "0.327273",
+    "unidade": "m"
+  },
+  {
+    "id": "90b9871a-e0e7-4fef-9649-477ae503f09e",
+    "composicao_id": "26b80c2a-3a27-4e8e-b373-1a1f1d85a250",
+    "insumo_id": "624b8a4a-f072-4370-807e-df5a576b3398",
+    "coeficiente": "0.015385",
+    "unidade": "un"
+  },
+  {
+    "id": "57c40330-f987-4a8d-8fd1-3daa235e7b6f",
+    "composicao_id": "68715f6b-9fa9-438f-b71e-4d306868ec34",
+    "insumo_id": "624b8a4a-f072-4370-807e-df5a576b3398",
+    "coeficiente": "0.022222",
+    "unidade": "un"
+  },
+  {
+    "id": "4dcb5dce-cd5d-4303-9674-5ff989a95038",
+    "composicao_id": "e77bc1b3-a87c-494c-bad3-cac1646d3183",
+    "insumo_id": "cde0128d-9f6c-445d-91aa-64aa3d9c6056",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "8636701d-293a-4ffe-b521-eb04723c2139",
+    "composicao_id": "4670d015-4a8f-486c-a7bc-d70cf2967621",
+    "insumo_id": "624b8a4a-f072-4370-807e-df5a576b3398",
+    "coeficiente": "0.033333",
+    "unidade": "un"
+  },
+  {
+    "id": "36a84237-b43f-4bdc-82a2-31c0842bb927",
+    "composicao_id": "b22e2620-8ae6-4482-839f-08c21a76d45c",
+    "insumo_id": "a45af83d-2705-44f3-ba50-b96e1b88cf38",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "7090fc55-485a-4750-adb4-1209b761a45a",
+    "composicao_id": "17ea1363-650d-4f2b-bfce-01eef96d9819",
+    "insumo_id": "1162e190-f213-4532-a27e-16884fb9f48a",
+    "coeficiente": "0.045714",
+    "unidade": "un"
+  },
+  {
+    "id": "45d5ee0b-1f6f-4f42-885a-adc4acafd463",
+    "composicao_id": "f0760458-aacc-465f-892e-3a037cf75a51",
+    "insumo_id": "ea276577-e014-4108-8ece-77e6bae3f90c",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "421c8745-6eb5-4300-886f-9296772043da",
+    "composicao_id": "e77bc1b3-a87c-494c-bad3-cac1646d3183",
+    "insumo_id": "1162e190-f213-4532-a27e-16884fb9f48a",
+    "coeficiente": "0.114286",
+    "unidade": "un"
+  },
+  {
+    "id": "c893a425-b534-4501-983b-4876b901d656",
+    "composicao_id": "e77bc1b3-a87c-494c-bad3-cac1646d3183",
+    "insumo_id": "06234b54-c0a4-47ff-8899-9daee73a0cc4",
+    "coeficiente": "0.057143",
+    "unidade": "un"
+  },
+  {
+    "id": "0b060acf-195b-45be-b0e2-5ca4d3a8eabf",
+    "composicao_id": "e77bc1b3-a87c-494c-bad3-cac1646d3183",
+    "insumo_id": "19ed4d64-b033-4594-910e-cc3baa1fe6ab",
+    "coeficiente": "0.001905",
+    "unidade": "un"
+  },
+  {
+    "id": "80903b1d-9a6e-489f-a9b2-77a2380feeef",
+    "composicao_id": "0601557f-f709-43b3-aff6-b63529c4d1f0",
+    "insumo_id": "ea276577-e014-4108-8ece-77e6bae3f90c",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "ead91cdb-9371-4ea6-97ff-91485c6e8588",
+    "composicao_id": "343fad4b-2cad-413a-80b9-e003c769a341",
+    "insumo_id": "907f130d-3789-454e-a0df-8df9bd89f805",
+    "coeficiente": "0.333333",
+    "unidade": "un"
+  },
+  {
+    "id": "fa31c1c0-7916-4a60-abb1-8172684a06b9",
+    "composicao_id": "343fad4b-2cad-413a-80b9-e003c769a341",
+    "insumo_id": "8eba7d2d-9d8e-44c6-9111-89eae28d9eed",
+    "coeficiente": "0.083333",
+    "unidade": "un"
+  },
+  {
+    "id": "bbd625bb-6c39-4614-b249-dcfa9fc08ef7",
+    "composicao_id": "343fad4b-2cad-413a-80b9-e003c769a341",
+    "insumo_id": "c79a6327-2ba2-4e7e-8685-5baef0e5b66b",
+    "coeficiente": "0.025",
+    "unidade": "un"
+  },
+  {
+    "id": "1d3e12d5-7260-4526-8a5a-af2c53b1abf7",
+    "composicao_id": "eefb5bbd-81f4-48bf-bb7d-3632572d65f5",
+    "insumo_id": "66acefb2-c4ee-49b6-b827-fcf949ab8e9a",
+    "coeficiente": "1",
+    "unidade": "m²"
+  },
+  {
+    "id": "58717e8f-634a-44e2-8087-fcf66d0d45b4",
+    "composicao_id": "a82912d8-fbac-4e81-b1e8-eb343d730f55",
+    "insumo_id": "ddd676c6-c77a-4c3f-9a13-4f6b3a64b713",
+    "coeficiente": "4",
+    "unidade": "un"
+  },
+  {
+    "id": "26f743a8-7930-4917-90bb-603e18b6096b",
+    "composicao_id": "97400f3c-75a5-47c4-abdc-116c2b66fc2a",
+    "insumo_id": "ee3da17d-7617-4da1-9f50-6b5aea6a0a46",
+    "coeficiente": "0.637584",
+    "unidade": "un"
+  },
+  {
+    "id": "7f2b5c20-cf05-4124-af7d-e90b59e4d265",
+    "composicao_id": "97400f3c-75a5-47c4-abdc-116c2b66fc2a",
+    "insumo_id": "e402c69a-2fb4-4b9e-bfb4-a734d4a97848",
+    "coeficiente": "2.013423",
+    "unidade": "un"
+  },
+  {
+    "id": "f9464916-11f2-480a-84f9-353cabf82404",
+    "composicao_id": "97400f3c-75a5-47c4-abdc-116c2b66fc2a",
+    "insumo_id": "b1620d8b-aa53-4890-9388-99c174851812",
+    "coeficiente": "0.369128",
+    "unidade": "un"
+  },
+  {
+    "id": "b3286b71-4609-4025-a46c-63be5cc2275d",
+    "composicao_id": "97400f3c-75a5-47c4-abdc-116c2b66fc2a",
+    "insumo_id": "ce002f6c-5c08-41d5-98e0-0290729ad7d9",
+    "coeficiente": "0.053691",
+    "unidade": "un"
+  },
+  {
+    "id": "1fd72637-bf17-43d6-81c5-b0c443f55271",
+    "composicao_id": "97400f3c-75a5-47c4-abdc-116c2b66fc2a",
+    "insumo_id": "4772ae6b-4efa-4ed6-8a9e-c4870e0b5e8c",
+    "coeficiente": "0.134228",
+    "unidade": "un"
+  },
+  {
+    "id": "d2b741ae-3104-4425-83f0-e68a28567d71",
+    "composicao_id": "97400f3c-75a5-47c4-abdc-116c2b66fc2a",
+    "insumo_id": "586a995a-a5be-4d01-b657-4c3a09109ae1",
+    "coeficiente": "0.013423",
+    "unidade": "un"
+  },
+  {
+    "id": "5be98600-beb2-4df0-bf6b-72a471bea886",
+    "composicao_id": "97400f3c-75a5-47c4-abdc-116c2b66fc2a",
+    "insumo_id": "a8880b6d-f264-4c30-bb78-adbf80aa4681",
+    "coeficiente": "0.013423",
+    "unidade": "un"
+  },
+  {
+    "id": "3237823b-9787-47b2-946c-67226906e7f3",
+    "composicao_id": "b7d02eac-676e-4ea5-be33-758843ae29fd",
+    "insumo_id": "66acefb2-c4ee-49b6-b827-fcf949ab8e9a",
+    "coeficiente": "1",
+    "unidade": "m²"
+  },
+  {
+    "id": "b3f13903-db89-4600-bfa6-a646a4cac9ae",
+    "composicao_id": "2293ab5f-4d1f-43c3-84a7-5a1aca3f952b",
+    "insumo_id": "1162e190-f213-4532-a27e-16884fb9f48a",
+    "coeficiente": "0.133333",
+    "unidade": "un"
+  },
+  {
+    "id": "2eb3cb39-9553-426d-8b3d-aa871133945e",
+    "composicao_id": "2293ab5f-4d1f-43c3-84a7-5a1aca3f952b",
+    "insumo_id": "06234b54-c0a4-47ff-8899-9daee73a0cc4",
+    "coeficiente": "0.066667",
+    "unidade": "un"
+  },
+  {
+    "id": "e0dd01b6-76ba-454e-ab88-e3638facaf01",
+    "composicao_id": "f33e95c0-9e60-4ca5-a507-ce0012f502d1",
+    "insumo_id": "63acfb9f-dacf-4492-bd41-f4e43fa56fe6",
+    "coeficiente": "1",
+    "unidade": "m²"
+  },
+  {
+    "id": "5904d4a9-18c2-420e-9048-f8abe6f04d74",
+    "composicao_id": "89237b06-a8b9-424b-b137-9950f13d0a94",
+    "insumo_id": "ea276577-e014-4108-8ece-77e6bae3f90c",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "73713a83-3c10-4d53-9bd9-e07275c91284",
+    "composicao_id": "f0ee9f46-5a36-4085-a767-281dfbb56507",
+    "insumo_id": "b64101ce-3c84-4474-8fd0-0319cf7286fa",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "d424ba24-10be-400d-9e8a-7bf27064e6dd",
+    "composicao_id": "b22e2620-8ae6-4482-839f-08c21a76d45c",
+    "insumo_id": "907f130d-3789-454e-a0df-8df9bd89f805",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "7e30acf6-a675-480a-b247-73357da68d7f",
+    "composicao_id": "b22e2620-8ae6-4482-839f-08c21a76d45c",
+    "insumo_id": "8eba7d2d-9d8e-44c6-9111-89eae28d9eed",
+    "coeficiente": "0",
+    "unidade": "un"
+  },
+  {
+    "id": "0327a4ec-e7e9-4299-ae32-e46375878eca",
+    "composicao_id": "b22e2620-8ae6-4482-839f-08c21a76d45c",
+    "insumo_id": "c79a6327-2ba2-4e7e-8685-5baef0e5b66b",
+    "coeficiente": "0",
+    "unidade": "un"
+  },
+  {
+    "id": "4fb599c1-0131-432b-a96a-677348fe843c",
+    "composicao_id": "07f98485-e8d5-4fab-8797-e9f3b13a99b9",
+    "insumo_id": "b64101ce-3c84-4474-8fd0-0319cf7286fa",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "f9501f77-d570-4d07-83ef-478dfb2b3c5a",
+    "composicao_id": "f0760458-aacc-465f-892e-3a037cf75a51",
+    "insumo_id": "929b9680-3583-4ee4-b104-6fb45209a471",
+    "coeficiente": "0.006173",
+    "unidade": "un"
+  },
+  {
+    "id": "eb510b3e-a07e-4211-8b6e-8343b8205976",
+    "composicao_id": "ed06224f-8c1b-456e-a199-f1ff95121a0c",
+    "insumo_id": "4e248a38-1197-4aca-b806-b30d19270821",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "5d5d7aff-6e50-4a03-9836-6b4643acef57",
+    "composicao_id": "eefb5bbd-81f4-48bf-bb7d-3632572d65f5",
+    "insumo_id": "c5820e67-12ff-4c98-a9bd-94d6075caf2c",
+    "coeficiente": "0.493827",
+    "unidade": "un"
+  },
+  {
+    "id": "22968f92-4915-44e2-96ab-90f02247950c",
+    "composicao_id": "eefb5bbd-81f4-48bf-bb7d-3632572d65f5",
+    "insumo_id": "fa168987-b1c4-44c1-9089-f41a66e4bd12",
+    "coeficiente": "0.246914",
+    "unidade": "un"
+  },
+  {
+    "id": "5ae5d3cf-dc61-4159-a925-faa0a34a057f",
+    "composicao_id": "ba17594a-fcee-44b1-ada0-d46889a39608",
+    "insumo_id": "4e248a38-1197-4aca-b806-b30d19270821",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "1bca59d8-c149-4162-a84e-7c7c5541a856",
+    "composicao_id": "b7d02eac-676e-4ea5-be33-758843ae29fd",
+    "insumo_id": "c5820e67-12ff-4c98-a9bd-94d6075caf2c",
+    "coeficiente": "0.447761",
+    "unidade": "un"
+  },
+  {
+    "id": "7e38ef3c-572f-4143-8d29-ebd582a059b1",
+    "composicao_id": "b7d02eac-676e-4ea5-be33-758843ae29fd",
+    "insumo_id": "fa168987-b1c4-44c1-9089-f41a66e4bd12",
+    "coeficiente": "0.223881",
+    "unidade": "un"
+  },
+  {
+    "id": "5ab72445-6be8-453b-aa8b-8b76c03a0d9e",
+    "composicao_id": "96f94d74-294d-4e7d-910c-6746481dcae1",
+    "insumo_id": "4e248a38-1197-4aca-b806-b30d19270821",
+    "coeficiente": "0",
+    "unidade": "un"
+  },
+  {
+    "id": "c0fbb69c-e1b2-4071-a0f8-e7586623e9e8",
+    "composicao_id": "8ba5aff9-6a6c-4778-97bb-fd46768eb94a",
+    "insumo_id": "aad97322-1b21-4c0f-8e1b-2385c6947411",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "95b05bf1-427f-4fc4-a925-771e536d47f4",
+    "composicao_id": "89237b06-a8b9-424b-b137-9950f13d0a94",
+    "insumo_id": "929b9680-3583-4ee4-b104-6fb45209a471",
+    "coeficiente": "0.002703",
+    "unidade": "un"
+  },
+  {
+    "id": "12fcaaf2-4857-4766-977e-fdda6d8bf3f8",
+    "composicao_id": "ca08ca1c-92bd-4120-8e52-39f79332fa30",
+    "insumo_id": "9de46a0d-87be-4ff6-968e-94a0d6840345",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "b263b7e0-4d7a-4f26-b719-c311091502f8",
+    "composicao_id": "4112a95d-53ce-4cd0-9805-3e10ae0daf8e",
+    "insumo_id": "adf9ec70-38dd-4636-916e-949928545b2e",
+    "coeficiente": "3",
+    "unidade": "un"
+  },
+  {
+    "id": "8ec41a40-09e4-408d-a99c-4ebbdea2582f",
+    "composicao_id": "4112a95d-53ce-4cd0-9805-3e10ae0daf8e",
+    "insumo_id": "f9114a63-4df1-4598-b74e-03fc94f256de",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "54379327-1f16-4bd8-aeaf-b693a16d8fea",
+    "composicao_id": "0601557f-f709-43b3-aff6-b63529c4d1f0",
+    "insumo_id": "929b9680-3583-4ee4-b104-6fb45209a471",
+    "coeficiente": "0.00597",
+    "unidade": "un"
+  },
+  {
+    "id": "e13393db-5df7-42b0-8864-e7313ccd43a0",
+    "composicao_id": "f11f5705-86d3-40fe-a512-d27125b6788e",
+    "insumo_id": "d079c870-94ce-4f14-bf74-101464ddc13b",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "18500158-0936-4471-b857-8cbe83ed36eb",
+    "composicao_id": "f0ee9f46-5a36-4085-a767-281dfbb56507",
+    "insumo_id": "1162e190-f213-4532-a27e-16884fb9f48a",
+    "coeficiente": "0.284091",
+    "unidade": "un"
+  },
+  {
+    "id": "80ec65d1-78cf-4bdc-9529-784b6ac523dd",
+    "composicao_id": "30f81282-28f2-4386-b561-d4a5bbcae7a0",
+    "insumo_id": "5d804ad4-14ed-4221-995b-30b7f5281cd9",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "81e19f24-131c-422f-a1e3-bbe6b276e429",
+    "composicao_id": "07f98485-e8d5-4fab-8797-e9f3b13a99b9",
+    "insumo_id": "1162e190-f213-4532-a27e-16884fb9f48a",
+    "coeficiente": "0.27027",
+    "unidade": "un"
+  },
+  {
+    "id": "ad0c466f-21c6-4d0c-b186-a54b9bbfd496",
+    "composicao_id": "ed06224f-8c1b-456e-a199-f1ff95121a0c",
+    "insumo_id": "907f130d-3789-454e-a0df-8df9bd89f805",
+    "coeficiente": "0.342105",
+    "unidade": "un"
+  },
+  {
+    "id": "a7fe4a4a-2c09-4e88-a471-992553a022a5",
+    "composicao_id": "ed06224f-8c1b-456e-a199-f1ff95121a0c",
+    "insumo_id": "8eba7d2d-9d8e-44c6-9111-89eae28d9eed",
+    "coeficiente": "0.131579",
+    "unidade": "un"
+  },
+  {
+    "id": "e0f88753-ea3a-47cf-8690-fc95f0813ca8",
+    "composicao_id": "ed06224f-8c1b-456e-a199-f1ff95121a0c",
+    "insumo_id": "c79a6327-2ba2-4e7e-8685-5baef0e5b66b",
+    "coeficiente": "0.026316",
+    "unidade": "un"
+  },
+  {
+    "id": "ea12199a-29fd-4de5-a76e-d9015a886fd0",
+    "composicao_id": "11ae076e-fb6d-40e3-a303-853d9a66f5df",
+    "insumo_id": "a8e2b43a-546f-40cf-9aca-adc381845f69",
+    "coeficiente": "0.142857",
+    "unidade": "un"
+  },
+  {
+    "id": "0b40778d-0997-4666-b4e7-430cbbd5ef0c",
+    "composicao_id": "ba17594a-fcee-44b1-ada0-d46889a39608",
+    "insumo_id": "43153a03-355d-4c4c-aeb8-7015be79c720",
+    "coeficiente": "1.1",
+    "unidade": "m²"
+  },
+  {
+    "id": "e486ed34-9e59-44e1-91ee-6dc2da6e54c8",
+    "composicao_id": "11ae076e-fb6d-40e3-a303-853d9a66f5df",
+    "insumo_id": "72b20518-c970-4d99-adef-4e89ae33198b",
+    "coeficiente": "0.357143",
+    "unidade": "un"
+  },
+  {
+    "id": "4ec6e207-8ab8-4469-8dcb-1a84d644c70d",
+    "composicao_id": "96f94d74-294d-4e7d-910c-6746481dcae1",
+    "insumo_id": "907f130d-3789-454e-a0df-8df9bd89f805",
+    "coeficiente": "0",
+    "unidade": "un"
+  },
+  {
+    "id": "63b43b42-9969-4e98-b076-7dd31b90f48e",
+    "composicao_id": "96f94d74-294d-4e7d-910c-6746481dcae1",
+    "insumo_id": "8eba7d2d-9d8e-44c6-9111-89eae28d9eed",
+    "coeficiente": "0",
+    "unidade": "un"
+  },
+  {
+    "id": "dcecf65b-61cd-4b44-abb3-f6f30377a6b4",
+    "composicao_id": "11ae076e-fb6d-40e3-a303-853d9a66f5df",
+    "insumo_id": "7d5aec68-b3ab-4525-a035-50156fecd93f",
+    "coeficiente": "0.214286",
+    "unidade": "un"
+  },
+  {
+    "id": "914acde6-3d04-4c1e-9c99-b62675502bf0",
+    "composicao_id": "8ba5aff9-6a6c-4778-97bb-fd46768eb94a",
+    "insumo_id": "907f130d-3789-454e-a0df-8df9bd89f805",
+    "coeficiente": "0.5",
+    "unidade": "un"
+  },
+  {
+    "id": "857db443-f0fd-4690-8700-c0b4b73fecd6",
+    "composicao_id": "11ae076e-fb6d-40e3-a303-853d9a66f5df",
+    "insumo_id": "1cf82eab-b478-4b05-ba14-7b1fffcb7e83",
+    "coeficiente": "0.5",
+    "unidade": "un"
+  },
+  {
+    "id": "8f36764d-bf4a-405b-92a3-76603cb842a9",
+    "composicao_id": "ca08ca1c-92bd-4120-8e52-39f79332fa30",
+    "insumo_id": "907f130d-3789-454e-a0df-8df9bd89f805",
+    "coeficiente": "4",
+    "unidade": "un"
+  },
+  {
+    "id": "7870b9db-3e4c-4fcc-84b8-f1aa59581461",
+    "composicao_id": "c6c14646-d19a-4594-b052-524a1a0c4421",
+    "insumo_id": "9335b61b-69be-4072-b57e-cd7299e517a0",
+    "coeficiente": "0.061224",
+    "unidade": "un"
+  },
+  {
+    "id": "4ede158b-2b8c-4799-9b50-78fbbf187dcc",
+    "composicao_id": "c6c14646-d19a-4594-b052-524a1a0c4421",
+    "insumo_id": "9d0f4998-dc27-4b01-a9db-c0788eb272a9",
+    "coeficiente": "0.061224",
+    "unidade": "un"
+  },
+  {
+    "id": "929a6101-be04-477f-b2e4-011c2883ab96",
+    "composicao_id": "95339491-1aec-4f63-9713-2647a7e6ccc4",
+    "insumo_id": "2e456d03-1ff6-44a2-962c-6dd21310066e",
+    "coeficiente": "0.446809",
+    "unidade": "m²"
+  },
+  {
+    "id": "12a3028f-3c31-485b-b0da-7afa4b0fb6f9",
+    "composicao_id": "f11f5705-86d3-40fe-a512-d27125b6788e",
+    "insumo_id": "4f26c271-3c6f-448d-a108-517ec702ed09",
+    "coeficiente": "0.321101",
+    "unidade": "un"
+  },
+  {
+    "id": "833bdbd2-fb95-49eb-a57d-cba5f7172abc",
+    "composicao_id": "c31d9eaa-c73d-460c-8c0b-0678563411f7",
+    "insumo_id": "d1fda0aa-972a-43c7-80d0-4df44943e32e",
+    "coeficiente": "0.1875",
+    "unidade": "un"
+  },
+  {
+    "id": "25978143-09d2-4063-ad76-c5a74f8dc22f",
+    "composicao_id": "c31d9eaa-c73d-460c-8c0b-0678563411f7",
+    "insumo_id": "3c39109c-64b2-49c7-8431-0e7da1d998a8",
+    "coeficiente": "0.145833",
+    "unidade": "un"
+  },
+  {
+    "id": "dd181566-3ff2-4988-9270-e0c298dc3747",
+    "composicao_id": "c31d9eaa-c73d-460c-8c0b-0678563411f7",
+    "insumo_id": "64a2437c-6efb-4e1f-b047-0278ff860d0b",
+    "coeficiente": "0.604167",
+    "unidade": "un"
+  },
+  {
+    "id": "7b04b146-e6f2-4b2d-b726-01cba6f62830",
+    "composicao_id": "c31d9eaa-c73d-460c-8c0b-0678563411f7",
+    "insumo_id": "1cf82eab-b478-4b05-ba14-7b1fffcb7e83",
+    "coeficiente": "0",
+    "unidade": "un"
+  },
+  {
+    "id": "e3820d8e-0e87-4986-9ee6-a2be93b27e26",
+    "composicao_id": "ae2992ff-a70a-40d2-8954-b309bd7e8ffd",
+    "insumo_id": "1cf82eab-b478-4b05-ba14-7b1fffcb7e83",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "b5125fd9-c2a8-4e70-96c6-033980caeffc",
+    "composicao_id": "57c27149-2977-4d7f-b7a9-26b8fa1be4bf",
+    "insumo_id": "1cf82eab-b478-4b05-ba14-7b1fffcb7e83",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "00f1807e-3941-42a6-865d-cacef37f7885",
+    "composicao_id": "8386d569-e321-435c-8879-af3099c0d258",
+    "insumo_id": "5d804ad4-14ed-4221-995b-30b7f5281cd9",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "854098f4-61e7-4b7d-908d-4c34535afab3",
+    "composicao_id": "88a870e1-d337-4764-b105-2b139e2b7fe7",
+    "insumo_id": "1538912e-cffb-4458-ab2f-f363d625433d",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "cca39e7c-bfeb-4c69-bc21-dfcb74a15fff",
+    "composicao_id": "48d91b88-f76f-4e97-b611-dd3012d25787",
+    "insumo_id": "007ca418-9179-457b-8558-dc2904f5fdab",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "27143e6d-d0dc-4b6f-a443-ce97fa023391",
+    "composicao_id": "ead4eec9-52fe-4907-8929-6e3de30a4e3e",
+    "insumo_id": "007ca418-9179-457b-8558-dc2904f5fdab",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "264631c8-2658-449d-8d0f-30c2041dc966",
+    "composicao_id": "8c8640f8-7886-4c90-adc3-65348c635ae3",
+    "insumo_id": "37237151-a455-4748-9e31-e735c6081f4a",
+    "coeficiente": "0",
+    "unidade": "un"
+  },
+  {
+    "id": "27c0e10a-628a-4847-bd81-6ca525ade405",
+    "composicao_id": "d6b3c5c2-8f18-4446-8fcb-1548dfd81b49",
+    "insumo_id": "c9de4fa8-046f-454a-9919-14c1f0d58865",
+    "coeficiente": "0.4",
+    "unidade": "un"
+  },
+  {
+    "id": "8a5b4f97-0641-4a08-b6b4-086fa2d6b018",
+    "composicao_id": "10731008-f42e-4611-ba12-4aa1a5234097",
+    "insumo_id": "89dd87ac-a9cd-4533-8c81-0ae616e1fc27",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "a36aef89-c309-4e05-979f-d71895d805df",
+    "composicao_id": "10731008-f42e-4611-ba12-4aa1a5234097",
+    "insumo_id": "de7aa5f7-e820-4240-b1ab-c0c9faa8280c",
+    "coeficiente": "7",
+    "unidade": "un"
+  },
+  {
+    "id": "a67420fe-f304-452d-9b39-490a18692d27",
+    "composicao_id": "10731008-f42e-4611-ba12-4aa1a5234097",
+    "insumo_id": "0473a0fb-6b0e-4e41-bd8a-0208335ed69e",
+    "coeficiente": "2.5",
+    "unidade": "un"
+  },
+  {
+    "id": "67ae8c49-1146-446b-aea1-9d5972f327d9",
+    "composicao_id": "10731008-f42e-4611-ba12-4aa1a5234097",
+    "insumo_id": "743a4462-6f3c-424d-9549-8e47b77dbe0e",
+    "coeficiente": "2",
+    "unidade": "un"
+  },
+  {
+    "id": "b0dc95a2-a8f3-4b47-bedb-2d8c504b92be",
+    "composicao_id": "d6b3c5c2-8f18-4446-8fcb-1548dfd81b49",
+    "insumo_id": "c0ec7dbb-c28a-46d7-95cc-5838df7ca982",
+    "coeficiente": "0.7",
+    "unidade": "un"
+  },
+  {
+    "id": "f4f9d840-97c6-4fbb-97ef-5d6001a60412",
+    "composicao_id": "6356a901-7830-49b6-adda-98478975cf2b",
+    "insumo_id": "b6d4d45e-4892-43e9-9261-b647383e4da6",
+    "coeficiente": "0",
+    "unidade": "un"
+  },
+  {
+    "id": "5cddd413-0c0f-4ec5-bf66-0ef06fc08b4a",
+    "composicao_id": "88a870e1-d337-4764-b105-2b139e2b7fe7",
+    "insumo_id": "d3c6fafe-d755-4aa6-9dc7-4bbe17de3cd4",
+    "coeficiente": "0.08",
+    "unidade": "un"
+  },
+  {
+    "id": "0fb5352f-54fc-46ec-b0fa-0022fa8dbb10",
+    "composicao_id": "88a870e1-d337-4764-b105-2b139e2b7fe7",
+    "insumo_id": "873624b0-46ab-420f-b62e-5c23d9c47562",
+    "coeficiente": "0.08",
+    "unidade": "un"
+  },
+  {
+    "id": "37049000-f773-4cb9-bf6d-749ad3d394b8",
+    "composicao_id": "88a870e1-d337-4764-b105-2b139e2b7fe7",
+    "insumo_id": "6f726251-8d00-4ca5-a788-b95171cc1c6d",
+    "coeficiente": "0.02",
+    "unidade": "un"
+  },
+  {
+    "id": "1466d452-3fd9-4df1-83b7-bd56ce6a05d8",
+    "composicao_id": "66d3cda5-af50-482d-8fc4-a9f0c3c64750",
+    "insumo_id": "22bed9b7-fed2-41ec-a11c-78a6c8edc079",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "a492227c-6611-4bf8-b552-5e3d7d11c2fc",
+    "composicao_id": "30f81282-28f2-4386-b561-d4a5bbcae7a0",
+    "insumo_id": "86856685-be21-4bee-a48a-85299e66124d",
+    "coeficiente": "0.013889",
+    "unidade": "un"
+  },
+  {
+    "id": "a084c934-56ec-43d2-a92d-b8029f963d8c",
+    "composicao_id": "48d91b88-f76f-4e97-b611-dd3012d25787",
+    "insumo_id": "0d8c31ff-020a-42cb-8e2f-f1ee34e1af82",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "b6d1d70e-5647-428c-9b3c-050e5561ecaf",
+    "composicao_id": "48d91b88-f76f-4e97-b611-dd3012d25787",
+    "insumo_id": "e816d14d-c84f-4716-aa1b-3d14ca3f3558",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "a0902d2d-756b-4444-95cc-b559f169097d",
+    "composicao_id": "48d91b88-f76f-4e97-b611-dd3012d25787",
+    "insumo_id": "37233417-671b-419f-9e09-e0d49a719bb0",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "463d3c54-6967-47d5-86da-e9bc0308f6da",
+    "composicao_id": "48d91b88-f76f-4e97-b611-dd3012d25787",
+    "insumo_id": "10a6f4be-7481-4e2d-aad2-e3f4520bc2df",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "ebdca8a0-f086-4d88-b7d2-858d9347bdde",
+    "composicao_id": "48d91b88-f76f-4e97-b611-dd3012d25787",
+    "insumo_id": "78529f97-7c63-4d1a-a71c-90ae3cb73897",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "d2f52dfe-c252-4432-8029-8f01b8d64c3c",
+    "composicao_id": "48d91b88-f76f-4e97-b611-dd3012d25787",
+    "insumo_id": "d18013ae-820b-45e8-8156-1c36eb244184",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "08ee6cc9-a299-40dd-9478-0cdbed65120e",
+    "composicao_id": "48d91b88-f76f-4e97-b611-dd3012d25787",
+    "insumo_id": "79870800-ee10-4f6d-b88b-c9addc50af92",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "9e9a79cf-1bfe-4c08-a0fd-7bda59797782",
+    "composicao_id": "48d91b88-f76f-4e97-b611-dd3012d25787",
+    "insumo_id": "b226ba24-1471-4449-8dcc-a3479f4fc073",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "00643c68-5eb7-440f-ab1b-5918eb83ecb8",
+    "composicao_id": "d7a47801-e89d-47e8-b703-af3fd0396db8",
+    "insumo_id": "51d48f9d-4ad4-4d4e-a4d5-0b9fca4136b2",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "e9ed97c1-ed64-414c-9e6f-b43c166f7f97",
+    "composicao_id": "ead4eec9-52fe-4907-8929-6e3de30a4e3e",
+    "insumo_id": "945f5685-b310-4e5d-ae0a-1974d3dc5a7e",
+    "coeficiente": "0.157895",
+    "unidade": "un"
+  },
+  {
+    "id": "e37b0687-b918-4273-a3e9-3426f6ab0164",
+    "composicao_id": "ead4eec9-52fe-4907-8929-6e3de30a4e3e",
+    "insumo_id": "9f6bc3f9-c3f2-499b-a6e7-0c2fe61ea20b",
+    "coeficiente": "0.105263",
+    "unidade": "un"
+  },
+  {
+    "id": "f9268887-e3ab-4267-af5b-23b144758b3b",
+    "composicao_id": "ead4eec9-52fe-4907-8929-6e3de30a4e3e",
+    "insumo_id": "8ca187ca-c710-4395-b17e-48fc9482d48e",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "edae1d76-bf4d-420c-9771-56c9aa0c69ec",
+    "composicao_id": "cac6ad51-d9e6-46b5-a970-6e8475718fe5",
+    "insumo_id": "0900e395-cda1-468a-bd42-6a26135140b1",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "b97393fb-988a-4c8d-b1b0-fc35773eb5ff",
+    "composicao_id": "16001179-968a-43fa-8179-e33d49c36d7e",
+    "insumo_id": "82c653a2-f701-48d2-b1c1-6918c455f6ea",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "92e2f970-f107-454d-b09f-5545d2bea4f0",
+    "composicao_id": "16001179-968a-43fa-8179-e33d49c36d7e",
+    "insumo_id": "269d0fd2-f17d-4fbb-90e4-46880b79605d",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "1f31068b-fd5c-42be-8ba6-f6c8feaabca3",
+    "composicao_id": "8c8640f8-7886-4c90-adc3-65348c635ae3",
+    "insumo_id": "e91bb080-39c1-49b6-a2b3-69ffc37c0f7c",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "80ddbfff-ea09-45fc-a2f0-e36442fd354f",
+    "composicao_id": "8c8640f8-7886-4c90-adc3-65348c635ae3",
+    "insumo_id": "ecba9f3d-46f4-42be-b320-356bac2ca148",
+    "coeficiente": "6",
+    "unidade": "un"
+  },
+  {
+    "id": "1ab930ec-1ab6-4bf1-8119-e0aea4fdecdf",
+    "composicao_id": "2ef2f766-0b42-4632-83a6-7da6346a17e3",
+    "insumo_id": "b1f084b1-595b-4e34-9593-351024a2077b",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "15419778-b21d-44db-bc3c-3c738836522b",
+    "composicao_id": "d6b3c5c2-8f18-4446-8fcb-1548dfd81b49",
+    "insumo_id": "5f3ecf63-7c4f-4964-9539-e70cc3d432c6",
+    "coeficiente": "0.6",
+    "unidade": "un"
+  },
+  {
+    "id": "e884845c-2193-4c7e-9526-393cf636a284",
+    "composicao_id": "d6b3c5c2-8f18-4446-8fcb-1548dfd81b49",
+    "insumo_id": "a08672ac-7817-4b77-9842-823eda0982e8",
+    "coeficiente": "0.9",
+    "unidade": "un"
+  },
+  {
+    "id": "4af03ea3-a681-486e-8de4-4bfa7ed0ed1b",
+    "composicao_id": "0dae4a1e-d1ba-43e6-9be9-ffd5a5c0e42d",
+    "insumo_id": "3afd0a08-706c-48cc-a194-874e51a3cb5e",
+    "coeficiente": "1",
+    "unidade": "m"
+  },
+  {
+    "id": "a45dd40b-30e3-495d-a7da-50c6a9b25ac9",
+    "composicao_id": "d6b3c5c2-8f18-4446-8fcb-1548dfd81b49",
+    "insumo_id": "3abad45d-387d-4558-8dd3-d1b5af172fe2",
+    "coeficiente": "0.6",
+    "unidade": "un"
+  },
+  {
+    "id": "bf6505dd-e055-4286-beb7-b2a6035487b1",
+    "composicao_id": "d2a2adf3-5457-4769-89c1-515954611eae",
+    "insumo_id": "b3b84a5e-2640-4b7e-8c6d-435ed2f73b1b",
+    "coeficiente": "0.122807",
+    "unidade": "un"
+  },
+  {
+    "id": "45dcb799-1ee0-4132-b5a7-745f739d51de",
+    "composicao_id": "d2a2adf3-5457-4769-89c1-515954611eae",
+    "insumo_id": "1f0f7b6f-643a-4141-a6f8-6d09b5613674",
+    "coeficiente": "0.052632",
+    "unidade": "un"
+  },
+  {
+    "id": "f1456ec0-d524-4522-ad6a-d81e4262f1bc",
+    "composicao_id": "d2a2adf3-5457-4769-89c1-515954611eae",
+    "insumo_id": "b1c7a963-d94d-4d51-b703-3d1fc457f5a9",
+    "coeficiente": "0.315789",
+    "unidade": "un"
+  },
+  {
+    "id": "62e4cd31-665d-42b2-834b-af865131d02b",
+    "composicao_id": "d2a2adf3-5457-4769-89c1-515954611eae",
+    "insumo_id": "ab24d072-e7f7-4567-88ce-3b80ccf339d7",
+    "coeficiente": "0.368421",
+    "unidade": "un"
+  },
+  {
+    "id": "5a5ae4a6-8a1d-4f6a-a2f2-3b797336c557",
+    "composicao_id": "d2a2adf3-5457-4769-89c1-515954611eae",
+    "insumo_id": "c6856a0a-61b6-4b42-b540-7fe730c9b46e",
+    "coeficiente": "0.315789",
+    "unidade": "un"
+  },
+  {
+    "id": "3dffbde7-7e56-4496-b14f-3e03ec2854ba",
+    "composicao_id": "d2a2adf3-5457-4769-89c1-515954611eae",
+    "insumo_id": "4126f950-d457-4313-ba1e-1183259698c3",
+    "coeficiente": "0.035088",
+    "unidade": "un"
+  },
+  {
+    "id": "167d3d40-ff23-48dc-8086-383d6206d773",
+    "composicao_id": "d2a2adf3-5457-4769-89c1-515954611eae",
+    "insumo_id": "ffe7c2d5-3f27-4692-af64-8c18c731afca",
+    "coeficiente": "0.087719",
+    "unidade": "un"
+  },
+  {
+    "id": "97921956-2718-48fa-b535-fbf52e8896be",
+    "composicao_id": "d2a2adf3-5457-4769-89c1-515954611eae",
+    "insumo_id": "452f260a-6b45-4aa9-8c87-af4990a07fff",
+    "coeficiente": "0.087719",
+    "unidade": "un"
+  },
+  {
+    "id": "92625406-bdcf-49a6-96e8-53290645852b",
+    "composicao_id": "d2a2adf3-5457-4769-89c1-515954611eae",
+    "insumo_id": "058ca495-bb78-4c4c-b4d4-173d4b463e32",
+    "coeficiente": "0.070175",
+    "unidade": "un"
+  },
+  {
+    "id": "55846931-a6ef-4909-946e-0d7c34b70c7f",
+    "composicao_id": "6356a901-7830-49b6-adda-98478975cf2b",
+    "insumo_id": "b66da952-0028-407c-a5a8-458f03dc3f54",
+    "coeficiente": "0.352941",
+    "unidade": "un"
+  },
+  {
+    "id": "46d943e6-8972-44a4-b50b-982b7dabe262",
+    "composicao_id": "6356a901-7830-49b6-adda-98478975cf2b",
+    "insumo_id": "eac71f14-b566-4a44-92b6-4d57e3a8f39c",
+    "coeficiente": "0.117647",
+    "unidade": "un"
+  },
+  {
+    "id": "01bcd54f-3f7e-4375-aaab-9cc50fd471ca",
+    "composicao_id": "77d2a136-a9e4-4782-ab85-cc7ed975905b",
+    "insumo_id": "c49ecf59-459b-4494-bbdf-d10b9b766788",
+    "coeficiente": "1",
+    "unidade": "m"
+  },
+  {
+    "id": "22ee2a3b-96a7-41ec-9d2c-bf40d427925c",
+    "composicao_id": "66d3cda5-af50-482d-8fc4-a9f0c3c64750",
+    "insumo_id": "b7079b01-3d77-4af1-b06c-037223c8f9f6",
+    "coeficiente": "0.25",
+    "unidade": "un"
+  },
+  {
+    "id": "4818c72b-b36f-42ad-a976-7b2e5cacbd60",
+    "composicao_id": "66d3cda5-af50-482d-8fc4-a9f0c3c64750",
+    "insumo_id": "6968ac94-5f0e-41d7-9624-143e7210569f",
+    "coeficiente": "0.083333",
+    "unidade": "un"
+  },
+  {
+    "id": "ef49b02b-fccc-4732-b345-ccf51bbb5977",
+    "composicao_id": "66d3cda5-af50-482d-8fc4-a9f0c3c64750",
+    "insumo_id": "d98b3115-c306-4c6d-8b72-1760e53bb04e",
+    "coeficiente": "0.416667",
+    "unidade": "un"
+  },
+  {
+    "id": "0ea69d86-9e14-4771-bfee-0318d4152aa2",
+    "composicao_id": "58ca20da-e28a-44f1-ac9c-51d0225b1c18",
+    "insumo_id": "b26eb476-7369-4af6-8ac2-8e9446acfaa9",
+    "coeficiente": "0",
+    "unidade": "m"
+  },
+  {
+    "id": "00ec8aac-b9c0-4afc-8fff-b459f3f314e6",
+    "composicao_id": "928336e7-2a80-4399-83d4-8d1774ee2582",
+    "insumo_id": "45ab6147-4cf0-40de-b08e-a41a3bf5aea7",
+    "coeficiente": "0.272727",
+    "unidade": "un"
+  }
+]

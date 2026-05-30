@@ -1,37 +1,2865 @@
 [
   {
-    "id": "97eb46b9-f3ca-48c0-9c19-ed8b96738085",
-    "composicao_id": "166f9f6a-e9c0-41a7-8a2b-7779fb905587",
-    "insumo_id": "68485ac7-e513-47d2-8a3e-0fb23a791a6c",
-    "coeficiente": "1",
+    "id": "itc-1000-L7-1",
+    "composicao_id": "cmp-1000",
+    "insumo_id": "ins-L7",
+    "coeficiente": 1.0,
+    "unidade": "Hr"
+  },
+  {
+    "id": "itc-1001-P18-1",
+    "composicao_id": "cmp-1001",
+    "insumo_id": "ins-P18",
+    "coeficiente": 1.0,
     "unidade": "un"
   },
   {
-    "id": "5ef4272c-09fa-4436-a4dc-57fb096829ca",
-    "composicao_id": "166f9f6a-e9c0-41a7-8a2b-7779fb905587",
-    "insumo_id": "94d71559-d11d-4e38-afde-54c632f5fad8",
-    "coeficiente": "1",
+    "id": "itc-1002-P654-1",
+    "composicao_id": "cmp-1002",
+    "insumo_id": "ins-P654",
+    "coeficiente": 2.0,
+    "unidade": "m²"
+  },
+  {
+    "id": "itc-1002-P549-1",
+    "composicao_id": "cmp-1002",
+    "insumo_id": "ins-P549",
+    "coeficiente": 4.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-1002-P652-1",
+    "composicao_id": "cmp-1002",
+    "insumo_id": "ins-P652",
+    "coeficiente": 20.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-1003-P627-1",
+    "composicao_id": "cmp-1003",
+    "insumo_id": "ins-P627",
+    "coeficiente": 1.05,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-1003-P3-1",
+    "composicao_id": "cmp-1003",
+    "insumo_id": "ins-P3",
+    "coeficiente": 0.05,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-1003-P4-1",
+    "composicao_id": "cmp-1003",
+    "insumo_id": "ins-P4",
+    "coeficiente": 0.025,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-1003-P5-1",
+    "composicao_id": "cmp-1003",
+    "insumo_id": "ins-P5",
+    "coeficiente": 0.2,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-1003-P7-1",
+    "composicao_id": "cmp-1003",
+    "insumo_id": "ins-P7",
+    "coeficiente": 0.625,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-1003-P653-1",
+    "composicao_id": "cmp-1003",
+    "insumo_id": "ins-P653",
+    "coeficiente": 2.1,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-1003-MO-A001-1",
+    "composicao_id": "cmp-1003",
+    "insumo_id": "ins-MO-A001",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-1004-P653-1",
+    "composicao_id": "cmp-1004",
+    "insumo_id": "ins-P653",
+    "coeficiente": 3.5,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-1004-P627-1",
+    "composicao_id": "cmp-1004",
+    "insumo_id": "ins-P627",
+    "coeficiente": 0.5,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-1004-P3-1",
+    "composicao_id": "cmp-1004",
+    "insumo_id": "ins-P3",
+    "coeficiente": 0.05,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-1004-P-A001-1",
+    "composicao_id": "cmp-1004",
+    "insumo_id": "ins-P-A001",
+    "coeficiente": 0.05,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-1004-P5-1",
+    "composicao_id": "cmp-1004",
+    "insumo_id": "ins-P5",
+    "coeficiente": 0.2,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-1004-P8-1",
+    "composicao_id": "cmp-1004",
+    "insumo_id": "ins-P8",
+    "coeficiente": 1.5,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-1004-P33-1",
+    "composicao_id": "cmp-1004",
+    "insumo_id": "ins-P33",
+    "coeficiente": 0.05,
+    "unidade": "m³"
+  },
+  {
+    "id": "itc-1004-P34-1",
+    "composicao_id": "cmp-1004",
+    "insumo_id": "ins-P34",
+    "coeficiente": 0.1,
+    "unidade": "m³"
+  },
+  {
+    "id": "itc-1004-P32-1",
+    "composicao_id": "cmp-1004",
+    "insumo_id": "ins-P32",
+    "coeficiente": 0.1,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-1004-MO-A002-1",
+    "composicao_id": "cmp-1004",
+    "insumo_id": "ins-MO-A002",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-1005-P175-1",
+    "composicao_id": "cmp-1005",
+    "insumo_id": "ins-P175",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-1005-P212-1",
+    "composicao_id": "cmp-1005",
+    "insumo_id": "ins-P212",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-1005-P217-1",
+    "composicao_id": "cmp-1005",
+    "insumo_id": "ins-P217",
+    "coeficiente": 2.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-1005-P216-1",
+    "composicao_id": "cmp-1005",
+    "insumo_id": "ins-P216",
+    "coeficiente": 4.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-1005-P378-1",
+    "composicao_id": "cmp-1005",
+    "insumo_id": "ins-P378",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-1005-P318-1",
+    "composicao_id": "cmp-1005",
+    "insumo_id": "ins-P318",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-1005-P327-1",
+    "composicao_id": "cmp-1005",
+    "insumo_id": "ins-P327",
+    "coeficiente": 5.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-1005-P597-1",
+    "composicao_id": "cmp-1005",
+    "insumo_id": "ins-P597",
+    "coeficiente": 2.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-1005-P176-1",
+    "composicao_id": "cmp-1005",
+    "insumo_id": "ins-P176",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-1006-P604-1",
+    "composicao_id": "cmp-1006",
+    "insumo_id": "ins-P604",
+    "coeficiente": 15.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-1006-P192-1",
+    "composicao_id": "cmp-1006",
+    "insumo_id": "ins-P192",
+    "coeficiente": 2.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-1006-P559-1",
+    "composicao_id": "cmp-1006",
+    "insumo_id": "ins-P559",
+    "coeficiente": 5.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-1006-P360-1",
+    "composicao_id": "cmp-1006",
+    "insumo_id": "ins-P360",
+    "coeficiente": 2.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-1007-P632-1",
+    "composicao_id": "cmp-1007",
+    "insumo_id": "ins-P632",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-1008-P633-1",
+    "composicao_id": "cmp-1008",
+    "insumo_id": "ins-P633",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-1009-P627-1",
+    "composicao_id": "cmp-1009",
+    "insumo_id": "ins-P627",
+    "coeficiente": 1.04,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-1009-P3-1",
+    "composicao_id": "cmp-1009",
+    "insumo_id": "ins-P3",
+    "coeficiente": 0.04,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-1009-P-A001-1",
+    "composicao_id": "cmp-1009",
+    "insumo_id": "ins-P-A001",
+    "coeficiente": 0.02,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-1009-P7-1",
+    "composicao_id": "cmp-1009",
+    "insumo_id": "ins-P7",
+    "coeficiente": 0.16,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-1009-P634-1",
+    "composicao_id": "cmp-1009",
+    "insumo_id": "ins-P634",
+    "coeficiente": 0.02,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-1009-MO-A003-1",
+    "composicao_id": "cmp-1009",
+    "insumo_id": "ins-MO-A003",
+    "coeficiente": 1.0,
     "unidade": "m"
   },
   {
-    "id": "83bdaa92-28f9-44a2-9c99-660a7f6d7ce7",
-    "composicao_id": "683887a2-ce0e-4da2-87f7-7adbd0a01c3c",
-    "insumo_id": "68485ac7-e513-47d2-8a3e-0fb23a791a6c",
-    "coeficiente": "1",
+    "id": "itc-1010-P655-1",
+    "composicao_id": "cmp-1010",
+    "insumo_id": "ins-P655",
+    "coeficiente": 1.0,
     "unidade": "un"
   },
   {
-    "id": "4967665b-a612-4f93-a46a-bd2c1ab2d439",
-    "composicao_id": "683887a2-ce0e-4da2-87f7-7adbd0a01c3c",
-    "insumo_id": "aa80fb0a-9fdd-4f12-8e12-c6e534799df8",
-    "coeficiente": "1",
+    "id": "itc-1011-P656-1",
+    "composicao_id": "cmp-1011",
+    "insumo_id": "ins-P656",
+    "coeficiente": 1.0,
     "unidade": "un"
   },
   {
-    "id": "540a4287-3dc9-459d-b609-b2f7f53d9a14",
-    "composicao_id": "c9de61c8-3ca8-44df-9b2d-2c49b1290754",
-    "insumo_id": "68485ac7-e513-47d2-8a3e-0fb23a791a6c",
-    "coeficiente": "1",
+    "id": "itc-2000-P6-1",
+    "composicao_id": "cmp-2000",
+    "insumo_id": "ins-P6",
+    "coeficiente": 0.4,
     "unidade": "un"
+  },
+  {
+    "id": "itc-2000-P66-1",
+    "composicao_id": "cmp-2000",
+    "insumo_id": "ins-P66",
+    "coeficiente": 0.04,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-2000-P20-1",
+    "composicao_id": "cmp-2000",
+    "insumo_id": "ins-P20",
+    "coeficiente": 0.02,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-2000-P3-1",
+    "composicao_id": "cmp-2000",
+    "insumo_id": "ins-P3",
+    "coeficiente": 0.04,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-2000-P4-1",
+    "composicao_id": "cmp-2000",
+    "insumo_id": "ins-P4",
+    "coeficiente": 0.02,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-2000-MO-A004-1",
+    "composicao_id": "cmp-2000",
+    "insumo_id": "ins-MO-A004",
+    "coeficiente": 1.0,
+    "unidade": "m²"
+  },
+  {
+    "id": "itc-2001-P27-1",
+    "composicao_id": "cmp-2001",
+    "insumo_id": "ins-P27",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-2001-P33-1",
+    "composicao_id": "cmp-2001",
+    "insumo_id": "ins-P33",
+    "coeficiente": 0.166667,
+    "unidade": "m³"
+  },
+  {
+    "id": "itc-2001-P34-1",
+    "composicao_id": "cmp-2001",
+    "insumo_id": "ins-P34",
+    "coeficiente": 0.166667,
+    "unidade": "m³"
+  },
+  {
+    "id": "itc-2001-P32-1",
+    "composicao_id": "cmp-2001",
+    "insumo_id": "ins-P32",
+    "coeficiente": 1.6,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-2001-P51-1",
+    "composicao_id": "cmp-2001",
+    "insumo_id": "ins-P51",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-2001-P52-1",
+    "composicao_id": "cmp-2001",
+    "insumo_id": "ins-P52",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-2001-P610-1",
+    "composicao_id": "cmp-2001",
+    "insumo_id": "ins-P610",
+    "coeficiente": 0.1,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-2001-P31-1",
+    "composicao_id": "cmp-2001",
+    "insumo_id": "ins-P31",
+    "coeficiente": 0.1,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-2001-MO-A005-1",
+    "composicao_id": "cmp-2001",
+    "insumo_id": "ins-MO-A005",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-2002-P52-1",
+    "composicao_id": "cmp-2002",
+    "insumo_id": "ins-P52",
+    "coeficiente": 0.7,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-2002-P50-1",
+    "composicao_id": "cmp-2002",
+    "insumo_id": "ins-P50",
+    "coeficiente": 0.8,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-2002-P152-1",
+    "composicao_id": "cmp-2002",
+    "insumo_id": "ins-P152",
+    "coeficiente": 0.2,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-2002-P33-1",
+    "composicao_id": "cmp-2002",
+    "insumo_id": "ins-P33",
+    "coeficiente": 0.1,
+    "unidade": "m³"
+  },
+  {
+    "id": "itc-2002-P34-1",
+    "composicao_id": "cmp-2002",
+    "insumo_id": "ins-P34",
+    "coeficiente": 0.1,
+    "unidade": "m³"
+  },
+  {
+    "id": "itc-2002-P32-1",
+    "composicao_id": "cmp-2002",
+    "insumo_id": "ins-P32",
+    "coeficiente": 0.4,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-2002-MO-A006-1",
+    "composicao_id": "cmp-2002",
+    "insumo_id": "ins-MO-A006",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-2004-P605-1",
+    "composicao_id": "cmp-2004",
+    "insumo_id": "ins-P605",
+    "coeficiente": 0.083333,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-2004-MO-A007-1",
+    "composicao_id": "cmp-2004",
+    "insumo_id": "ins-MO-A007",
+    "coeficiente": 1.0,
+    "unidade": "m²"
+  },
+  {
+    "id": "itc-2005-P41-1",
+    "composicao_id": "cmp-2005",
+    "insumo_id": "ins-P41",
+    "coeficiente": 0.033333,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-2005-P42-1",
+    "composicao_id": "cmp-2005",
+    "insumo_id": "ins-P42",
+    "coeficiente": 0.111111,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-2005-P43-1",
+    "composicao_id": "cmp-2005",
+    "insumo_id": "ins-P43",
+    "coeficiente": 0.022222,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-2005-MO-A008-1",
+    "composicao_id": "cmp-2005",
+    "insumo_id": "ins-MO-A008",
+    "coeficiente": 1.0,
+    "unidade": "m²"
+  },
+  {
+    "id": "itc-2006-P32-1",
+    "composicao_id": "cmp-2006",
+    "insumo_id": "ins-P32",
+    "coeficiente": 0.181818,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-2006-P33-1",
+    "composicao_id": "cmp-2006",
+    "insumo_id": "ins-P33",
+    "coeficiente": 0.045455,
+    "unidade": "m³"
+  },
+  {
+    "id": "itc-2006-P34-1",
+    "composicao_id": "cmp-2006",
+    "insumo_id": "ins-P34",
+    "coeficiente": 0.045455,
+    "unidade": "m³"
+  },
+  {
+    "id": "itc-2006-P248-1",
+    "composicao_id": "cmp-2006",
+    "insumo_id": "ins-P248",
+    "coeficiente": 0.170455,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-2006-P48-1",
+    "composicao_id": "cmp-2006",
+    "insumo_id": "ins-P48",
+    "coeficiente": 0.011364,
+    "unidade": "rolo"
+  },
+  {
+    "id": "itc-2006-P39-1",
+    "composicao_id": "cmp-2006",
+    "insumo_id": "ins-P39",
+    "coeficiente": 0.011364,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-2006-P69-1",
+    "composicao_id": "cmp-2006",
+    "insumo_id": "ins-P69",
+    "coeficiente": 0.011364,
+    "unidade": "m²"
+  },
+  {
+    "id": "itc-2006-P30-1",
+    "composicao_id": "cmp-2006",
+    "insumo_id": "ins-P30",
+    "coeficiente": 0.011364,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-2006-MO-A009-1",
+    "composicao_id": "cmp-2006",
+    "insumo_id": "ins-MO-A009",
+    "coeficiente": 1.0,
+    "unidade": "m²"
+  },
+  {
+    "id": "itc-3007-P45-1",
+    "composicao_id": "cmp-3007",
+    "insumo_id": "ins-P45",
+    "coeficiente": 1.0,
+    "unidade": "m³"
+  },
+  {
+    "id": "itc-3007-P456-1",
+    "composicao_id": "cmp-3007",
+    "insumo_id": "ins-P456",
+    "coeficiente": 0.186667,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-3007-P30-1",
+    "composicao_id": "cmp-3007",
+    "insumo_id": "ins-P30",
+    "coeficiente": 0.013333,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-3007-P627-1",
+    "composicao_id": "cmp-3007",
+    "insumo_id": "ins-P627",
+    "coeficiente": 0.666667,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-3007-M9-1",
+    "composicao_id": "cmp-3007",
+    "insumo_id": "ins-M9",
+    "coeficiente": 1.0,
+    "unidade": "m²"
+  },
+  {
+    "id": "itc-3008-P6-1",
+    "composicao_id": "cmp-3008",
+    "insumo_id": "ins-P6",
+    "coeficiente": 0.2,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-3008-P543-1",
+    "composicao_id": "cmp-3008",
+    "insumo_id": "ins-P543",
+    "coeficiente": 0.4,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-3008-P3-1",
+    "composicao_id": "cmp-3008",
+    "insumo_id": "ins-P3",
+    "coeficiente": 0.015385,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-3008-P-A001-1",
+    "composicao_id": "cmp-3008",
+    "insumo_id": "ins-P-A001",
+    "coeficiente": 0.007692,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-3008-P48-1",
+    "composicao_id": "cmp-3008",
+    "insumo_id": "ins-P48",
+    "coeficiente": 0.015385,
+    "unidade": "rolo"
+  },
+  {
+    "id": "itc-3008-MO-A010-1",
+    "composicao_id": "cmp-3008",
+    "insumo_id": "ins-MO-A010",
+    "coeficiente": 1.0,
+    "unidade": "m"
+  },
+  {
+    "id": "itc-3009-P49-1",
+    "composicao_id": "cmp-3009",
+    "insumo_id": "ins-P49",
+    "coeficiente": 1.0,
+    "unidade": "m³"
+  },
+  {
+    "id": "itc-3009-MO-A011-1",
+    "composicao_id": "cmp-3009",
+    "insumo_id": "ins-MO-A011",
+    "coeficiente": 1.0,
+    "unidade": "m²"
+  },
+  {
+    "id": "itc-3016-P50-1",
+    "composicao_id": "cmp-3016",
+    "insumo_id": "ins-P50",
+    "coeficiente": 6.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-3016-P51-1",
+    "composicao_id": "cmp-3016",
+    "insumo_id": "ins-P51",
+    "coeficiente": 12.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-3016-P37-1",
+    "composicao_id": "cmp-3016",
+    "insumo_id": "ins-P37",
+    "coeficiente": 15.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-3016-P627-1",
+    "composicao_id": "cmp-3016",
+    "insumo_id": "ins-P627",
+    "coeficiente": 5.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-3016-P56-1",
+    "composicao_id": "cmp-3016",
+    "insumo_id": "ins-P56",
+    "coeficiente": 2.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-3016-P30-1",
+    "composicao_id": "cmp-3016",
+    "insumo_id": "ins-P30",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-3016-P32-1",
+    "composicao_id": "cmp-3016",
+    "insumo_id": "ins-P32",
+    "coeficiente": 15.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-3016-MO-A012-1",
+    "composicao_id": "cmp-3016",
+    "insumo_id": "ins-MO-A012",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-4000-P609-1",
+    "composicao_id": "cmp-4000",
+    "insumo_id": "ins-P609",
+    "coeficiente": 16.455696,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-4000-P63-1",
+    "composicao_id": "cmp-4000",
+    "insumo_id": "ins-P63",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-4000-P62-1",
+    "composicao_id": "cmp-4000",
+    "insumo_id": "ins-P62",
+    "coeficiente": 0.022785,
+    "unidade": "m³"
+  },
+  {
+    "id": "itc-4000-P32-1",
+    "composicao_id": "cmp-4000",
+    "insumo_id": "ins-P32",
+    "coeficiente": 0.096203,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-4000-P637-1",
+    "composicao_id": "cmp-4000",
+    "insumo_id": "ins-P637",
+    "coeficiente": 0.002532,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-4000-MO-A013-1",
+    "composicao_id": "cmp-4000",
+    "insumo_id": "ins-MO-A013",
+    "coeficiente": 1.0,
+    "unidade": "m²"
+  },
+  {
+    "id": "itc-4001-P57-1",
+    "composicao_id": "cmp-4001",
+    "insumo_id": "ins-P57",
+    "coeficiente": 3.384615,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-4001-P32-1",
+    "composicao_id": "cmp-4001",
+    "insumo_id": "ins-P32",
+    "coeficiente": 0.092308,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-4001-P33-1",
+    "composicao_id": "cmp-4001",
+    "insumo_id": "ins-P33",
+    "coeficiente": 0.015385,
+    "unidade": "m³"
+  },
+  {
+    "id": "itc-4001-P34-1",
+    "composicao_id": "cmp-4001",
+    "insumo_id": "ins-P34",
+    "coeficiente": 0.015385,
+    "unidade": "m³"
+  },
+  {
+    "id": "itc-4001-P51-1",
+    "composicao_id": "cmp-4001",
+    "insumo_id": "ins-P51",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-4001-P64-1",
+    "composicao_id": "cmp-4001",
+    "insumo_id": "ins-P64",
+    "coeficiente": 0.169231,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-4001-M63-1",
+    "composicao_id": "cmp-4001",
+    "insumo_id": "ins-M63",
+    "coeficiente": 1.0,
+    "unidade": "m²"
+  },
+  {
+    "id": "itc-4002-P173-1",
+    "composicao_id": "cmp-4002",
+    "insumo_id": "ins-P173",
+    "coeficiente": 17.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-4002-P63-1",
+    "composicao_id": "cmp-4002",
+    "insumo_id": "ins-P63",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-4002-P62-1",
+    "composicao_id": "cmp-4002",
+    "insumo_id": "ins-P62",
+    "coeficiente": 0.022785,
+    "unidade": "m³"
+  },
+  {
+    "id": "itc-4002-P32-1",
+    "composicao_id": "cmp-4002",
+    "insumo_id": "ins-P32",
+    "coeficiente": 0.096203,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-4002-P637-1",
+    "composicao_id": "cmp-4002",
+    "insumo_id": "ins-P637",
+    "coeficiente": 0.005063,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-4002-MO-A013-1",
+    "composicao_id": "cmp-4002",
+    "insumo_id": "ins-MO-A013",
+    "coeficiente": 1.0,
+    "unidade": "m²"
+  },
+  {
+    "id": "itc-5002-P648-1",
+    "composicao_id": "cmp-5002",
+    "insumo_id": "ins-P648",
+    "coeficiente": 1.0,
+    "unidade": "m²"
+  },
+  {
+    "id": "itc-5003-P649-1",
+    "composicao_id": "cmp-5003",
+    "insumo_id": "ins-P649",
+    "coeficiente": 1.0,
+    "unidade": "m²"
+  },
+  {
+    "id": "itc-6000-P615-1",
+    "composicao_id": "cmp-6000",
+    "insumo_id": "ins-P615",
+    "coeficiente": 1.0,
+    "unidade": "m²"
+  },
+  {
+    "id": "itc-7000-P8-1",
+    "composicao_id": "cmp-7000",
+    "insumo_id": "ins-P8",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-7000-P7-1",
+    "composicao_id": "cmp-7000",
+    "insumo_id": "ins-P7",
+    "coeficiente": 0.384615,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-7000-P3-1",
+    "composicao_id": "cmp-7000",
+    "insumo_id": "ins-P3",
+    "coeficiente": 0.061538,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-7000-P4-1",
+    "composicao_id": "cmp-7000",
+    "insumo_id": "ins-P4",
+    "coeficiente": 0.030769,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-7000-MO-A014-1",
+    "composicao_id": "cmp-7000",
+    "insumo_id": "ins-MO-A014",
+    "coeficiente": 1.0,
+    "unidade": "m²"
+  },
+  {
+    "id": "itc-7001-P616-1",
+    "composicao_id": "cmp-7001",
+    "insumo_id": "ins-P616",
+    "coeficiente": 1.0,
+    "unidade": "m"
+  },
+  {
+    "id": "itc-7001-P78-1",
+    "composicao_id": "cmp-7001",
+    "insumo_id": "ins-P78",
+    "coeficiente": 1.538462,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-7001-P617-1",
+    "composicao_id": "cmp-7001",
+    "insumo_id": "ins-P617",
+    "coeficiente": 0.089744,
+    "unidade": "m"
+  },
+  {
+    "id": "itc-7001-M26-1",
+    "composicao_id": "cmp-7001",
+    "insumo_id": "ins-M26",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-7002-P76-1",
+    "composicao_id": "cmp-7002",
+    "insumo_id": "ins-P76",
+    "coeficiente": 1.181818,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-7002-P77-1",
+    "composicao_id": "cmp-7002",
+    "insumo_id": "ins-P77",
+    "coeficiente": 1.181818,
+    "unidade": "m"
+  },
+  {
+    "id": "itc-7003-P79-1",
+    "composicao_id": "cmp-7003",
+    "insumo_id": "ins-P79",
+    "coeficiente": 1.181818,
+    "unidade": "m"
+  },
+  {
+    "id": "itc-7004-P67-1",
+    "composicao_id": "cmp-7004",
+    "insumo_id": "ins-P67",
+    "coeficiente": 0.348837,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-7004-P9-1",
+    "composicao_id": "cmp-7004",
+    "insumo_id": "ins-P9",
+    "coeficiente": 0.232558,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-7004-P3-1",
+    "composicao_id": "cmp-7004",
+    "insumo_id": "ins-P3",
+    "coeficiente": 0.093023,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-7004-P4-1",
+    "composicao_id": "cmp-7004",
+    "insumo_id": "ins-P4",
+    "coeficiente": 0.046512,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-7004-P6-1",
+    "composicao_id": "cmp-7004",
+    "insumo_id": "ins-P6",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-7004-MO-A015-1",
+    "composicao_id": "cmp-7004",
+    "insumo_id": "ins-MO-A015",
+    "coeficiente": 1.0,
+    "unidade": "m²"
+  },
+  {
+    "id": "itc-7005-P-A002-1",
+    "composicao_id": "cmp-7005",
+    "insumo_id": "ins-P-A002",
+    "coeficiente": 18.604651,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-7005-P657-1",
+    "composicao_id": "cmp-7005",
+    "insumo_id": "ins-P657",
+    "coeficiente": 0.139535,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-7005-M26-1",
+    "composicao_id": "cmp-7005",
+    "insumo_id": "ins-M26",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-7006-P660-1",
+    "composicao_id": "cmp-7006",
+    "insumo_id": "ins-P660",
+    "coeficiente": 18.604651,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-7006-P658-1",
+    "composicao_id": "cmp-7006",
+    "insumo_id": "ins-P658",
+    "coeficiente": 0.139535,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-7006-M26-1",
+    "composicao_id": "cmp-7006",
+    "insumo_id": "ins-M26",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-8000-P97-1",
+    "composicao_id": "cmp-8000",
+    "insumo_id": "ins-P97",
+    "coeficiente": 0.230769,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-8000-P43-1",
+    "composicao_id": "cmp-8000",
+    "insumo_id": "ins-P43",
+    "coeficiente": 0.015385,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-8000-M52-1",
+    "composicao_id": "cmp-8000",
+    "insumo_id": "ins-M52",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-8001-P97-1",
+    "composicao_id": "cmp-8001",
+    "insumo_id": "ins-P97",
+    "coeficiente": 0.222222,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-8001-P43-1",
+    "composicao_id": "cmp-8001",
+    "insumo_id": "ins-P43",
+    "coeficiente": 0.022222,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-8001-M52-1",
+    "composicao_id": "cmp-8001",
+    "insumo_id": "ins-M52",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-8002-P97-1",
+    "composicao_id": "cmp-8002",
+    "insumo_id": "ins-P97",
+    "coeficiente": 0.266667,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-8002-P43-1",
+    "composicao_id": "cmp-8002",
+    "insumo_id": "ins-P43",
+    "coeficiente": 0.033333,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-8002-M52-1",
+    "composicao_id": "cmp-8002",
+    "insumo_id": "ins-M52",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-9000-P33-1",
+    "composicao_id": "cmp-9000",
+    "insumo_id": "ins-P33",
+    "coeficiente": 0.011429,
+    "unidade": "m³"
+  },
+  {
+    "id": "itc-9000-P32-1",
+    "composicao_id": "cmp-9000",
+    "insumo_id": "ins-P32",
+    "coeficiente": 0.045714,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-9000-M25-1",
+    "composicao_id": "cmp-9000",
+    "insumo_id": "ins-M25",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-9001-P62-1",
+    "composicao_id": "cmp-9001",
+    "insumo_id": "ins-P62",
+    "coeficiente": 0.030476,
+    "unidade": "m³"
+  },
+  {
+    "id": "itc-9001-P32-1",
+    "composicao_id": "cmp-9001",
+    "insumo_id": "ins-P32",
+    "coeficiente": 0.114286,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-9001-P63-1",
+    "composicao_id": "cmp-9001",
+    "insumo_id": "ins-P63",
+    "coeficiente": 0.057143,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-9001-P39-1",
+    "composicao_id": "cmp-9001",
+    "insumo_id": "ins-P39",
+    "coeficiente": 0.001905,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-9001-M36-1",
+    "composicao_id": "cmp-9001",
+    "insumo_id": "ins-M36",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-9002-P643-1",
+    "composicao_id": "cmp-9002",
+    "insumo_id": "ins-P643",
+    "coeficiente": 1.1,
+    "unidade": "m²"
+  },
+  {
+    "id": "itc-9002-P160-1",
+    "composicao_id": "cmp-9002",
+    "insumo_id": "ins-P160",
+    "coeficiente": 0.333333,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-9002-P161-1",
+    "composicao_id": "cmp-9002",
+    "insumo_id": "ins-P161",
+    "coeficiente": 0.083333,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-9002-P115-1",
+    "composicao_id": "cmp-9002",
+    "insumo_id": "ins-P115",
+    "coeficiente": 0.025,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-9002-M2-1",
+    "composicao_id": "cmp-9002",
+    "insumo_id": "ins-M2",
+    "coeficiente": 1.0,
+    "unidade": "m²"
+  },
+  {
+    "id": "itc-9003-P278-1",
+    "composicao_id": "cmp-9003",
+    "insumo_id": "ins-P278",
+    "coeficiente": 2.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-9003-P277-1",
+    "composicao_id": "cmp-9003",
+    "insumo_id": "ins-P277",
+    "coeficiente": 4.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-9004-P662-1",
+    "composicao_id": "cmp-9004",
+    "insumo_id": "ins-P662",
+    "coeficiente": 1.190476,
+    "unidade": "m²"
+  },
+  {
+    "id": "itc-9004-P663-1",
+    "composicao_id": "cmp-9004",
+    "insumo_id": "ins-P663",
+    "coeficiente": 0.357143,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-9004-P161-1",
+    "composicao_id": "cmp-9004",
+    "insumo_id": "ins-P161",
+    "coeficiente": 0.190476,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-9004-P115-1",
+    "composicao_id": "cmp-9004",
+    "insumo_id": "ins-P115",
+    "coeficiente": 0.02381,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-9004-M2-1",
+    "composicao_id": "cmp-9004",
+    "insumo_id": "ins-M2",
+    "coeficiente": 1.0,
+    "unidade": "m²"
+  },
+  {
+    "id": "itc-10000-P157-1",
+    "composicao_id": "cmp-10000",
+    "insumo_id": "ins-P157",
+    "coeficiente": 0.704698,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-10000-P158-1",
+    "composicao_id": "cmp-10000",
+    "insumo_id": "ins-P158",
+    "coeficiente": 0.637584,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-10000-P155-1",
+    "composicao_id": "cmp-10000",
+    "insumo_id": "ins-P155",
+    "coeficiente": 2.013423,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-10000-P156-1",
+    "composicao_id": "cmp-10000",
+    "insumo_id": "ins-P156",
+    "coeficiente": 0.369128,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-10000-P279-1",
+    "composicao_id": "cmp-10000",
+    "insumo_id": "ins-P279",
+    "coeficiente": 0.053691,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-10000-P280-1",
+    "composicao_id": "cmp-10000",
+    "insumo_id": "ins-P280",
+    "coeficiente": 0.134228,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-10000-P281-1",
+    "composicao_id": "cmp-10000",
+    "insumo_id": "ins-P281",
+    "coeficiente": 0.013423,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-10000-P282-1",
+    "composicao_id": "cmp-10000",
+    "insumo_id": "ins-P282",
+    "coeficiente": 0.013423,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-10000-M34-1",
+    "composicao_id": "cmp-10000",
+    "insumo_id": "ins-M34",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-10002-P666-1",
+    "composicao_id": "cmp-10002",
+    "insumo_id": "ins-P666",
+    "coeficiente": 1.142857,
+    "unidade": "m²"
+  },
+  {
+    "id": "itc-10002-P6-1",
+    "composicao_id": "cmp-10002",
+    "insumo_id": "ins-P6",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-10002-P3-1",
+    "composicao_id": "cmp-10002",
+    "insumo_id": "ins-P3",
+    "coeficiente": 0.071429,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-10002-MO-A016-1",
+    "composicao_id": "cmp-10002",
+    "insumo_id": "ins-MO-A016",
+    "coeficiente": 1.0,
+    "unidade": "m²"
+  },
+  {
+    "id": "itc-12000-P607-1",
+    "composicao_id": "cmp-12000",
+    "insumo_id": "ins-P607",
+    "coeficiente": 0.01,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-12000-P178-1",
+    "composicao_id": "cmp-12000",
+    "insumo_id": "ins-P178",
+    "coeficiente": 0.01,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-12000-M61-1",
+    "composicao_id": "cmp-12000",
+    "insumo_id": "ins-M61",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-12001-P98-1",
+    "composicao_id": "cmp-12001",
+    "insumo_id": "ins-P98",
+    "coeficiente": 0.01,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-12001-P178-1",
+    "composicao_id": "cmp-12001",
+    "insumo_id": "ins-P178",
+    "coeficiente": 0.01,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-12001-M61-1",
+    "composicao_id": "cmp-12001",
+    "insumo_id": "ins-M61",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-12002-P638-1",
+    "composicao_id": "cmp-12002",
+    "insumo_id": "ins-P638",
+    "coeficiente": 0.098765,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-12002-P122-1",
+    "composicao_id": "cmp-12002",
+    "insumo_id": "ins-P122",
+    "coeficiente": 0.493827,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-12002-P284-1",
+    "composicao_id": "cmp-12002",
+    "insumo_id": "ins-P284",
+    "coeficiente": 0.246914,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-12002-MO-A017-1",
+    "composicao_id": "cmp-12002",
+    "insumo_id": "ins-MO-A017",
+    "coeficiente": 1.0,
+    "unidade": "m²"
+  },
+  {
+    "id": "itc-12003-P639-1",
+    "composicao_id": "cmp-12003",
+    "insumo_id": "ins-P639",
+    "coeficiente": 0.074627,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-12003-P122-1",
+    "composicao_id": "cmp-12003",
+    "insumo_id": "ins-P122",
+    "coeficiente": 0.447761,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-12003-P284-1",
+    "composicao_id": "cmp-12003",
+    "insumo_id": "ins-P284",
+    "coeficiente": 0.223881,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-12003-MO-A017-1",
+    "composicao_id": "cmp-12003",
+    "insumo_id": "ins-MO-A017",
+    "coeficiente": 1.0,
+    "unidade": "m²"
+  },
+  {
+    "id": "itc-12004-P640-1",
+    "composicao_id": "cmp-12004",
+    "insumo_id": "ins-P640",
+    "coeficiente": 0.033333,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-12004-M6-1",
+    "composicao_id": "cmp-12004",
+    "insumo_id": "ins-M6",
+    "coeficiente": 1.0,
+    "unidade": "m²"
+  },
+  {
+    "id": "itc-12005-P607-1",
+    "composicao_id": "cmp-12005",
+    "insumo_id": "ins-P607",
+    "coeficiente": 0.005405,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-12005-P178-1",
+    "composicao_id": "cmp-12005",
+    "insumo_id": "ins-P178",
+    "coeficiente": 0.002703,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-12005-M61-1",
+    "composicao_id": "cmp-12005",
+    "insumo_id": "ins-M61",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-12006-P118-1",
+    "composicao_id": "cmp-12006",
+    "insumo_id": "ins-P118",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-12006-P120-1",
+    "composicao_id": "cmp-12006",
+    "insumo_id": "ins-P120",
+    "coeficiente": 3.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-12006-P124-1",
+    "composicao_id": "cmp-12006",
+    "insumo_id": "ins-P124",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-13000-P33-1",
+    "composicao_id": "cmp-13000",
+    "insumo_id": "ins-P33",
+    "coeficiente": 0.068182,
+    "unidade": "m³"
+  },
+  {
+    "id": "itc-13000-P32-1",
+    "composicao_id": "cmp-13000",
+    "insumo_id": "ins-P32",
+    "coeficiente": 0.284091,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-13000-M32-1",
+    "composicao_id": "cmp-13000",
+    "insumo_id": "ins-M32",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-13002-P642-1",
+    "composicao_id": "cmp-13002",
+    "insumo_id": "ins-P642",
+    "coeficiente": 1.098684,
+    "unidade": "m²"
+  },
+  {
+    "id": "itc-13002-P665-1",
+    "composicao_id": "cmp-13002",
+    "insumo_id": "ins-P665",
+    "coeficiente": 0.342105,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-13002-P161-1",
+    "composicao_id": "cmp-13002",
+    "insumo_id": "ins-P161",
+    "coeficiente": 0.131579,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-13002-P115-1",
+    "composicao_id": "cmp-13002",
+    "insumo_id": "ins-P115",
+    "coeficiente": 0.026316,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-13002-M14-1",
+    "composicao_id": "cmp-13002",
+    "insumo_id": "ins-M14",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-13005-P641-1",
+    "composicao_id": "cmp-13005",
+    "insumo_id": "ins-P641",
+    "coeficiente": 1.1,
+    "unidade": "m²"
+  },
+  {
+    "id": "itc-13005-P644-1",
+    "composicao_id": "cmp-13005",
+    "insumo_id": "ins-P644",
+    "coeficiente": 1.1,
+    "unidade": "m²"
+  },
+  {
+    "id": "itc-13005-M14-1",
+    "composicao_id": "cmp-13005",
+    "insumo_id": "ins-M14",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-13012-P661-1",
+    "composicao_id": "cmp-13012",
+    "insumo_id": "ins-P661",
+    "coeficiente": 1.098684,
+    "unidade": "m²"
+  },
+  {
+    "id": "itc-13012-P665-1",
+    "composicao_id": "cmp-13012",
+    "insumo_id": "ins-P665",
+    "coeficiente": 0.342105,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-13012-P161-1",
+    "composicao_id": "cmp-13012",
+    "insumo_id": "ins-P161",
+    "coeficiente": 0.131579,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-13012-P115-1",
+    "composicao_id": "cmp-13012",
+    "insumo_id": "ins-P115",
+    "coeficiente": 0.026316,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-13012-M14-1",
+    "composicao_id": "cmp-13012",
+    "insumo_id": "ins-M14",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-14000-P286-1",
+    "composicao_id": "cmp-14000",
+    "insumo_id": "ins-P286",
+    "coeficiente": 1.0,
+    "unidade": "m²"
+  },
+  {
+    "id": "itc-14000-P665-1",
+    "composicao_id": "cmp-14000",
+    "insumo_id": "ins-P665",
+    "coeficiente": 0.5,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-14000-M53-1",
+    "composicao_id": "cmp-14000",
+    "insumo_id": "ins-M53",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-14001-P619-1",
+    "composicao_id": "cmp-14001",
+    "insumo_id": "ins-P619",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-14001-P160-1",
+    "composicao_id": "cmp-14001",
+    "insumo_id": "ins-P160",
+    "coeficiente": 4.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-14001-MO-A018-1",
+    "composicao_id": "cmp-14001",
+    "insumo_id": "ins-MO-A018",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-14002-P253-1",
+    "composicao_id": "cmp-14002",
+    "insumo_id": "ins-P253",
+    "coeficiente": 1.102041,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-14002-P646-1",
+    "composicao_id": "cmp-14002",
+    "insumo_id": "ins-P646",
+    "coeficiente": 0.061224,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-14002-P647-1",
+    "composicao_id": "cmp-14002",
+    "insumo_id": "ins-P647",
+    "coeficiente": 0.061224,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-14002-MO-A019-1",
+    "composicao_id": "cmp-14002",
+    "insumo_id": "ins-MO-A019",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-15002-P-A003-1",
+    "composicao_id": "cmp-15002",
+    "insumo_id": "ins-P-A003",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-15002-P560-1",
+    "composicao_id": "cmp-15002",
+    "insumo_id": "ins-P560",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-15002-P667-1",
+    "composicao_id": "cmp-15002",
+    "insumo_id": "ins-P667",
+    "coeficiente": 15.0,
+    "unidade": "m"
+  },
+  {
+    "id": "itc-15002-P670-1",
+    "composicao_id": "cmp-15002",
+    "insumo_id": "ins-P670",
+    "coeficiente": 20.0,
+    "unidade": "m"
+  },
+  {
+    "id": "itc-15002-M7-1",
+    "composicao_id": "cmp-15002",
+    "insumo_id": "ins-M7",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-15004-P207-1",
+    "composicao_id": "cmp-15004",
+    "insumo_id": "ins-P207",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-15004-P667-1",
+    "composicao_id": "cmp-15004",
+    "insumo_id": "ins-P667",
+    "coeficiente": 5.0,
+    "unidade": "m"
+  },
+  {
+    "id": "itc-15004-P670-1",
+    "composicao_id": "cmp-15004",
+    "insumo_id": "ins-P670",
+    "coeficiente": 5.0,
+    "unidade": "m"
+  },
+  {
+    "id": "itc-15004-M7-1",
+    "composicao_id": "cmp-15004",
+    "insumo_id": "ins-M7",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-15005-P509-1",
+    "composicao_id": "cmp-15005",
+    "insumo_id": "ins-P509",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-15005-P501-1",
+    "composicao_id": "cmp-15005",
+    "insumo_id": "ins-P501",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-15005-P502-1",
+    "composicao_id": "cmp-15005",
+    "insumo_id": "ins-P502",
+    "coeficiente": 7.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-15005-P186-1",
+    "composicao_id": "cmp-15005",
+    "insumo_id": "ins-P186",
+    "coeficiente": 2.5,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-15005-P504-1",
+    "composicao_id": "cmp-15005",
+    "insumo_id": "ins-P504",
+    "coeficiente": 2.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-15006-P209-1",
+    "composicao_id": "cmp-15006",
+    "insumo_id": "ins-P209",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-15006-M7-1",
+    "composicao_id": "cmp-15006",
+    "insumo_id": "ins-M7",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-15007-P-A004-1",
+    "composicao_id": "cmp-15007",
+    "insumo_id": "ins-P-A004",
+    "coeficiente": 0.02,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-15007-M4-1",
+    "composicao_id": "cmp-15007",
+    "insumo_id": "ins-M4",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-15009-P-A005-1",
+    "composicao_id": "cmp-15009",
+    "insumo_id": "ins-P-A005",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-15009-P560-1",
+    "composicao_id": "cmp-15009",
+    "insumo_id": "ins-P560",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-15009-P667-1",
+    "composicao_id": "cmp-15009",
+    "insumo_id": "ins-P667",
+    "coeficiente": 5.0,
+    "unidade": "m"
+  },
+  {
+    "id": "itc-15009-P670-1",
+    "composicao_id": "cmp-15009",
+    "insumo_id": "ins-P670",
+    "coeficiente": 15.0,
+    "unidade": "m"
+  },
+  {
+    "id": "itc-15009-M7-1",
+    "composicao_id": "cmp-15009",
+    "insumo_id": "ins-M7",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-15010-P-A006-1",
+    "composicao_id": "cmp-15010",
+    "insumo_id": "ins-P-A006",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-15010-P560-1",
+    "composicao_id": "cmp-15010",
+    "insumo_id": "ins-P560",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-15010-P667-1",
+    "composicao_id": "cmp-15010",
+    "insumo_id": "ins-P667",
+    "coeficiente": 5.0,
+    "unidade": "m"
+  },
+  {
+    "id": "itc-15010-P670-1",
+    "composicao_id": "cmp-15010",
+    "insumo_id": "ins-P670",
+    "coeficiente": 15.0,
+    "unidade": "m"
+  },
+  {
+    "id": "itc-15010-M7-1",
+    "composicao_id": "cmp-15010",
+    "insumo_id": "ins-M7",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-15011-P-A005-1",
+    "composicao_id": "cmp-15011",
+    "insumo_id": "ins-P-A005",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-15011-P560-1",
+    "composicao_id": "cmp-15011",
+    "insumo_id": "ins-P560",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-15011-P667-1",
+    "composicao_id": "cmp-15011",
+    "insumo_id": "ins-P667",
+    "coeficiente": 5.0,
+    "unidade": "m"
+  },
+  {
+    "id": "itc-15011-P671-1",
+    "composicao_id": "cmp-15011",
+    "insumo_id": "ins-P671",
+    "coeficiente": 15.0,
+    "unidade": "m"
+  },
+  {
+    "id": "itc-15011-M7-1",
+    "composicao_id": "cmp-15011",
+    "insumo_id": "ins-M7",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-15012-P-A005-1",
+    "composicao_id": "cmp-15012",
+    "insumo_id": "ins-P-A005",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-15012-P560-1",
+    "composicao_id": "cmp-15012",
+    "insumo_id": "ins-P560",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-15012-P667-1",
+    "composicao_id": "cmp-15012",
+    "insumo_id": "ins-P667",
+    "coeficiente": 5.0,
+    "unidade": "m"
+  },
+  {
+    "id": "itc-15012-P671-1",
+    "composicao_id": "cmp-15012",
+    "insumo_id": "ins-P671",
+    "coeficiente": 15.0,
+    "unidade": "m"
+  },
+  {
+    "id": "itc-15012-M7-1",
+    "composicao_id": "cmp-15012",
+    "insumo_id": "ins-M7",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-15013-P593-1",
+    "composicao_id": "cmp-15013",
+    "insumo_id": "ins-P593",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-15013-P560-1",
+    "composicao_id": "cmp-15013",
+    "insumo_id": "ins-P560",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-15013-P667-1",
+    "composicao_id": "cmp-15013",
+    "insumo_id": "ins-P667",
+    "coeficiente": 5.0,
+    "unidade": "m"
+  },
+  {
+    "id": "itc-15013-P672-1",
+    "composicao_id": "cmp-15013",
+    "insumo_id": "ins-P672",
+    "coeficiente": 50.0,
+    "unidade": "m"
+  },
+  {
+    "id": "itc-15013-M7-1",
+    "composicao_id": "cmp-15013",
+    "insumo_id": "ins-M7",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-16000-P556-1",
+    "composicao_id": "cmp-16000",
+    "insumo_id": "ins-P556",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-16000-P371-1",
+    "composicao_id": "cmp-16000",
+    "insumo_id": "ins-P371",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-16000-P524-1",
+    "composicao_id": "cmp-16000",
+    "insumo_id": "ins-P524",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-16000-P327-1",
+    "composicao_id": "cmp-16000",
+    "insumo_id": "ins-P327",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-16000-P326-1",
+    "composicao_id": "cmp-16000",
+    "insumo_id": "ins-P326",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-16000-P597-1",
+    "composicao_id": "cmp-16000",
+    "insumo_id": "ins-P597",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-16000-P598-1",
+    "composicao_id": "cmp-16000",
+    "insumo_id": "ins-P598",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-16000-P600-1",
+    "composicao_id": "cmp-16000",
+    "insumo_id": "ins-P600",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-16000-P527-1",
+    "composicao_id": "cmp-16000",
+    "insumo_id": "ins-P527",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-16000-M58-1",
+    "composicao_id": "cmp-16000",
+    "insumo_id": "ins-M58",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-16005-P81-1",
+    "composicao_id": "cmp-16005",
+    "insumo_id": "ins-P81",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-16005-P324-1",
+    "composicao_id": "cmp-16005",
+    "insumo_id": "ins-P324",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-16005-P316-1",
+    "composicao_id": "cmp-16005",
+    "insumo_id": "ins-P316",
+    "coeficiente": 6.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-16005-MO-A020-1",
+    "composicao_id": "cmp-16005",
+    "insumo_id": "ins-MO-A020",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-16005-P651-1",
+    "composicao_id": "cmp-16005",
+    "insumo_id": "ins-P651",
+    "coeficiente": 2.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-16005-P650-1",
+    "composicao_id": "cmp-16005",
+    "insumo_id": "ins-P650",
+    "coeficiente": 2.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-16005-P623-1",
+    "composicao_id": "cmp-16005",
+    "insumo_id": "ins-P623",
+    "coeficiente": 2.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-16005-P376-1",
+    "composicao_id": "cmp-16005",
+    "insumo_id": "ins-P376",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-16005-P318-1",
+    "composicao_id": "cmp-16005",
+    "insumo_id": "ins-P318",
+    "coeficiente": 2.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-16005-P377-1",
+    "composicao_id": "cmp-16005",
+    "insumo_id": "ins-P377",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-16006-P651-1",
+    "composicao_id": "cmp-16006",
+    "insumo_id": "ins-P651",
+    "coeficiente": 1.1,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-16006-M58-1",
+    "composicao_id": "cmp-16006",
+    "insumo_id": "ins-M58",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-16007-P651-1",
+    "composicao_id": "cmp-16007",
+    "insumo_id": "ins-P651",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-16007-P650-1",
+    "composicao_id": "cmp-16007",
+    "insumo_id": "ins-P650",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-16007-P623-1",
+    "composicao_id": "cmp-16007",
+    "insumo_id": "ins-P623",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-16007-P493-1",
+    "composicao_id": "cmp-16007",
+    "insumo_id": "ins-P493",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-16007-M58-1",
+    "composicao_id": "cmp-16007",
+    "insumo_id": "ins-M58",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-16007-P315-1",
+    "composicao_id": "cmp-16007",
+    "insumo_id": "ins-P315",
+    "coeficiente": 2.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-16007-P316-1",
+    "composicao_id": "cmp-16007",
+    "insumo_id": "ins-P316",
+    "coeficiente": 2.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-16007-P554-1",
+    "composicao_id": "cmp-16007",
+    "insumo_id": "ins-P554",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-16007-MO-A021-1",
+    "composicao_id": "cmp-16007",
+    "insumo_id": "ins-MO-A021",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-16007-P315-2",
+    "composicao_id": "cmp-16007",
+    "insumo_id": "ins-P315",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-16007-P316-2",
+    "composicao_id": "cmp-16007",
+    "insumo_id": "ins-P316",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-16007-P555-1",
+    "composicao_id": "cmp-16007",
+    "insumo_id": "ins-P555",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-16007-P376-1",
+    "composicao_id": "cmp-16007",
+    "insumo_id": "ins-P376",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-16007-P417-1",
+    "composicao_id": "cmp-16007",
+    "insumo_id": "ins-P417",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-16007-P554-2",
+    "composicao_id": "cmp-16007",
+    "insumo_id": "ins-P554",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-16007-P555-2",
+    "composicao_id": "cmp-16007",
+    "insumo_id": "ins-P555",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-16011-P323-1",
+    "composicao_id": "cmp-16011",
+    "insumo_id": "ins-P323",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-16011-P324-1",
+    "composicao_id": "cmp-16011",
+    "insumo_id": "ins-P324",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-16011-P316-1",
+    "composicao_id": "cmp-16011",
+    "insumo_id": "ins-P316",
+    "coeficiente": 6.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-16011-MO-A020-1",
+    "composicao_id": "cmp-16011",
+    "insumo_id": "ins-MO-A020",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-16011-P651-1",
+    "composicao_id": "cmp-16011",
+    "insumo_id": "ins-P651",
+    "coeficiente": 2.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-16011-P650-1",
+    "composicao_id": "cmp-16011",
+    "insumo_id": "ins-P650",
+    "coeficiente": 2.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-16011-P623-1",
+    "composicao_id": "cmp-16011",
+    "insumo_id": "ins-P623",
+    "coeficiente": 2.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-16011-P376-1",
+    "composicao_id": "cmp-16011",
+    "insumo_id": "ins-P376",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-16011-P318-1",
+    "composicao_id": "cmp-16011",
+    "insumo_id": "ins-P318",
+    "coeficiente": 2.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-16011-P377-1",
+    "composicao_id": "cmp-16011",
+    "insumo_id": "ins-P377",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-17001-P576-1",
+    "composicao_id": "cmp-17001",
+    "insumo_id": "ins-P576",
+    "coeficiente": 0.175439,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-17001-P577-1",
+    "composicao_id": "cmp-17001",
+    "insumo_id": "ins-P577",
+    "coeficiente": 0.122807,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-17001-P575-1",
+    "composicao_id": "cmp-17001",
+    "insumo_id": "ins-P575",
+    "coeficiente": 0.052632,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-17001-P580-1",
+    "composicao_id": "cmp-17001",
+    "insumo_id": "ins-P580",
+    "coeficiente": 0.315789,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-17001-P581-1",
+    "composicao_id": "cmp-17001",
+    "insumo_id": "ins-P581",
+    "coeficiente": 0.368421,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-17001-P578-1",
+    "composicao_id": "cmp-17001",
+    "insumo_id": "ins-P578",
+    "coeficiente": 0.315789,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-17001-P586-1",
+    "composicao_id": "cmp-17001",
+    "insumo_id": "ins-P586",
+    "coeficiente": 0.035088,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-17001-P590-1",
+    "composicao_id": "cmp-17001",
+    "insumo_id": "ins-P590",
+    "coeficiente": 0.087719,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-17001-P588-1",
+    "composicao_id": "cmp-17001",
+    "insumo_id": "ins-P588",
+    "coeficiente": 0.087719,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-17001-P596-1",
+    "composicao_id": "cmp-17001",
+    "insumo_id": "ins-P596",
+    "coeficiente": 0.070175,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-17003-P319-1",
+    "composicao_id": "cmp-17003",
+    "insumo_id": "ins-P319",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-17003-P320-1",
+    "composicao_id": "cmp-17003",
+    "insumo_id": "ins-P320",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-17003-MO-A022-1",
+    "composicao_id": "cmp-17003",
+    "insumo_id": "ins-MO-A022",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-17004-P234-1",
+    "composicao_id": "cmp-17004",
+    "insumo_id": "ins-P234",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-17004-P320-1",
+    "composicao_id": "cmp-17004",
+    "insumo_id": "ins-P320",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-17004-MO-A022-1",
+    "composicao_id": "cmp-17004",
+    "insumo_id": "ins-MO-A022",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-17005-P675-1",
+    "composicao_id": "cmp-17005",
+    "insumo_id": "ins-P675",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-17005-P320-1",
+    "composicao_id": "cmp-17005",
+    "insumo_id": "ins-P320",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-17005-MO-A022-1",
+    "composicao_id": "cmp-17005",
+    "insumo_id": "ins-MO-A022",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-17006-P519-1",
+    "composicao_id": "cmp-17006",
+    "insumo_id": "ins-P519",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-17006-MO-A022-1",
+    "composicao_id": "cmp-17006",
+    "insumo_id": "ins-MO-A022",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-18000-P132-1",
+    "composicao_id": "cmp-18000",
+    "insumo_id": "ins-P132",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-18000-P291-1",
+    "composicao_id": "cmp-18000",
+    "insumo_id": "ins-P291",
+    "coeficiente": 2.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-18000-P128-1",
+    "composicao_id": "cmp-18000",
+    "insumo_id": "ins-P128",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-18000-P676-1",
+    "composicao_id": "cmp-18000",
+    "insumo_id": "ins-P676",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-18000-MO-A022-1",
+    "composicao_id": "cmp-18000",
+    "insumo_id": "ins-MO-A022",
+    "coeficiente": 3.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-18000-P-A007-1",
+    "composicao_id": "cmp-18000",
+    "insumo_id": "ins-P-A007",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-18001-P551-1",
+    "composicao_id": "cmp-18001",
+    "insumo_id": "ins-P551",
+    "coeficiente": 6.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-18001-P587-1",
+    "composicao_id": "cmp-18001",
+    "insumo_id": "ins-P587",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-18001-P130-1",
+    "composicao_id": "cmp-18001",
+    "insumo_id": "ins-P130",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-18001-P126-1",
+    "composicao_id": "cmp-18001",
+    "insumo_id": "ins-P126",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-19000-M55-1",
+    "composicao_id": "cmp-19000",
+    "insumo_id": "ins-M55",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-19001-P591-1",
+    "composicao_id": "cmp-19001",
+    "insumo_id": "ins-P591",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-19001-P315-1",
+    "composicao_id": "cmp-19001",
+    "insumo_id": "ins-P315",
+    "coeficiente": 2.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-19001-P316-1",
+    "composicao_id": "cmp-19001",
+    "insumo_id": "ins-P316",
+    "coeficiente": 2.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-19001-P555-1",
+    "composicao_id": "cmp-19001",
+    "insumo_id": "ins-P555",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-19001-MO-A021-1",
+    "composicao_id": "cmp-19001",
+    "insumo_id": "ins-MO-A021",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-2001.1-P51-1",
+    "composicao_id": "cmp-2001.1",
+    "insumo_id": "ins-P51",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-2001.1-P52-1",
+    "composicao_id": "cmp-2001.1",
+    "insumo_id": "ins-P52",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-2001.1-P31-1",
+    "composicao_id": "cmp-2001.1",
+    "insumo_id": "ins-P31",
+    "coeficiente": 0.1,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-2001.1-P152-1",
+    "composicao_id": "cmp-2001.1",
+    "insumo_id": "ins-P152",
+    "coeficiente": 0.066667,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-2001.1-MO-A023-1",
+    "composicao_id": "cmp-2001.1",
+    "insumo_id": "ins-MO-A023",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-2002.1-P52-1",
+    "composicao_id": "cmp-2002.1",
+    "insumo_id": "ins-P52",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-2002.1-P54-1",
+    "composicao_id": "cmp-2002.1",
+    "insumo_id": "ins-P54",
+    "coeficiente": 1.6,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-2002.1-P50-1",
+    "composicao_id": "cmp-2002.1",
+    "insumo_id": "ins-P50",
+    "coeficiente": 0.6,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-2002.1-P152-1",
+    "composicao_id": "cmp-2002.1",
+    "insumo_id": "ins-P152",
+    "coeficiente": 0.15,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-2002.1-P33-1",
+    "composicao_id": "cmp-2002.1",
+    "insumo_id": "ins-P33",
+    "coeficiente": 0.15,
+    "unidade": "m³"
+  },
+  {
+    "id": "itc-2002.1-P34-1",
+    "composicao_id": "cmp-2002.1",
+    "insumo_id": "ins-P34",
+    "coeficiente": 0.15,
+    "unidade": "m³"
+  },
+  {
+    "id": "itc-2002.1-P32-1",
+    "composicao_id": "cmp-2002.1",
+    "insumo_id": "ins-P32",
+    "coeficiente": 0.6,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-2002.1-MO-A024-1",
+    "composicao_id": "cmp-2002.1",
+    "insumo_id": "ins-MO-A024",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-2002.2-P52-1",
+    "composicao_id": "cmp-2002.2",
+    "insumo_id": "ins-P52",
+    "coeficiente": 2.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-2002.2-P54-1",
+    "composicao_id": "cmp-2002.2",
+    "insumo_id": "ins-P54",
+    "coeficiente": 3.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-2002.2-P50-1",
+    "composicao_id": "cmp-2002.2",
+    "insumo_id": "ins-P50",
+    "coeficiente": 0.6,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-2002.2-P152-1",
+    "composicao_id": "cmp-2002.2",
+    "insumo_id": "ins-P152",
+    "coeficiente": 0.15,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-2002.2-P33-1",
+    "composicao_id": "cmp-2002.2",
+    "insumo_id": "ins-P33",
+    "coeficiente": 0.2,
+    "unidade": "m³"
+  },
+  {
+    "id": "itc-2002.2-P34-1",
+    "composicao_id": "cmp-2002.2",
+    "insumo_id": "ins-P34",
+    "coeficiente": 0.2,
+    "unidade": "m³"
+  },
+  {
+    "id": "itc-2002.2-P32-1",
+    "composicao_id": "cmp-2002.2",
+    "insumo_id": "ins-P32",
+    "coeficiente": 0.8,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-2002.2-MO-A025-1",
+    "composicao_id": "cmp-2002.2",
+    "insumo_id": "ins-MO-A025",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-2002.3-P33-1",
+    "composicao_id": "cmp-2002.3",
+    "insumo_id": "ins-P33",
+    "coeficiente": 0.75,
+    "unidade": "m³"
+  },
+  {
+    "id": "itc-2002.3-P34-1",
+    "composicao_id": "cmp-2002.3",
+    "insumo_id": "ins-P34",
+    "coeficiente": 0.75,
+    "unidade": "m³"
+  },
+  {
+    "id": "itc-2002.3-P32-1",
+    "composicao_id": "cmp-2002.3",
+    "insumo_id": "ins-P32",
+    "coeficiente": 6.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-2002.3-M31-1",
+    "composicao_id": "cmp-2002.3",
+    "insumo_id": "ins-M31",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-2003.1-P52-1",
+    "composicao_id": "cmp-2003.1",
+    "insumo_id": "ins-P52",
+    "coeficiente": 0.434783,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-2003.1-P54-1",
+    "composicao_id": "cmp-2003.1",
+    "insumo_id": "ins-P54",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-2003.1-P51-1",
+    "composicao_id": "cmp-2003.1",
+    "insumo_id": "ins-P51",
+    "coeficiente": 0.413043,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-2003.1-P50-1",
+    "composicao_id": "cmp-2003.1",
+    "insumo_id": "ins-P50",
+    "coeficiente": 1.0,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-2003.1-P610-1",
+    "composicao_id": "cmp-2003.1",
+    "insumo_id": "ins-P610",
+    "coeficiente": 0.032609,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-2003.1-P48-1",
+    "composicao_id": "cmp-2003.1",
+    "insumo_id": "ins-P48",
+    "coeficiente": 0.01087,
+    "unidade": "rolo"
+  },
+  {
+    "id": "itc-2003.1-MO-A026-1",
+    "composicao_id": "cmp-2003.1",
+    "insumo_id": "ins-MO-A026",
+    "coeficiente": 1.0,
+    "unidade": "m"
+  },
+  {
+    "id": "itc-2003.2-P6-1",
+    "composicao_id": "cmp-2003.2",
+    "insumo_id": "ins-P6",
+    "coeficiente": 0.271739,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-2003.2-P36-1",
+    "composicao_id": "cmp-2003.2",
+    "insumo_id": "ins-P36",
+    "coeficiente": 0.413043,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-2003.2-P3-1",
+    "composicao_id": "cmp-2003.2",
+    "insumo_id": "ins-P3",
+    "coeficiente": 0.021739,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-2003.2-P4-1",
+    "composicao_id": "cmp-2003.2",
+    "insumo_id": "ins-P4",
+    "coeficiente": 0.01087,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-2003.2-MO-A027-1",
+    "composicao_id": "cmp-2003.2",
+    "insumo_id": "ins-MO-A027",
+    "coeficiente": 1.0,
+    "unidade": "m"
+  },
+  {
+    "id": "itc-2003.3-P6-1",
+    "composicao_id": "cmp-2003.3",
+    "insumo_id": "ins-P6",
+    "coeficiente": 0.380435,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-2003.3-P66-1",
+    "composicao_id": "cmp-2003.3",
+    "insumo_id": "ins-P66",
+    "coeficiente": 0.097826,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-2003.3-P3-1",
+    "composicao_id": "cmp-2003.3",
+    "insumo_id": "ins-P3",
+    "coeficiente": 0.065217,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-2003.3-P4-1",
+    "composicao_id": "cmp-2003.3",
+    "insumo_id": "ins-P4",
+    "coeficiente": 0.021739,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-2003.3-MO-A028-1",
+    "composicao_id": "cmp-2003.3",
+    "insumo_id": "ins-MO-A028",
+    "coeficiente": 1.0,
+    "unidade": "m"
   }
 ]

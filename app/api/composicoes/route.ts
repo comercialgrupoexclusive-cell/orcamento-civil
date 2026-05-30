@@ -72,6 +72,17 @@ export async function POST(req: NextRequest) {
     ]);
     if (erros.length > 0) return NextResponse.json({ erros }, { status: 400 });
 
+    // Impede composição duplicada (mesma descrição normalizada)
+    const todas = await readSheet('COMPOSICOES');
+    const descNorm = normalizar(String(body.descricao).trim());
+    const existente = todas.find(r => normalizar(r.descricao || '') === descNorm);
+    if (existente) {
+      return NextResponse.json(
+        { erros: [`Já existe uma composição com descrição similar: "${existente.descricao}" (${existente.codigo})`] },
+        { status: 409 }
+      );
+    }
+
     const codigo = await gerarCodigoComposicao();
     const composicao: Composicao = {
       id: uuidv4(),

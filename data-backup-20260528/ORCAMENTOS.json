@@ -1,0 +1,47 @@
+[
+  {
+    "id": "d8d7bb00-19ce-46c6-8127-e0e8bf2e53ca",
+    "titulo": "casa terrea",
+    "descricao": "",
+    "data_criacao": "2026-05-27",
+    "status": "ativo",
+    "bdi_percentual": "18",
+    "data_atualizacao": "2026-05-28T13:55:08.530Z"
+  },
+  {
+    "id": "f0581d94-04f6-4b34-a364-9bebdc596877",
+    "titulo": "[Template] Teste",
+    "descricao": "",
+    "data_criacao": "2026-05-28T03:48:12.973Z",
+    "data_atualizacao": "2026-05-28T03:48:12.973Z",
+    "status": "template",
+    "bdi_percentual": "25"
+  },
+  {
+    "id": "09a3acf7-5607-4e3e-a940-173e3f740f0a",
+    "titulo": "Teste",
+    "descricao": "",
+    "data_criacao": "2026-05-28T03:50:22.478Z",
+    "data_atualizacao": "2026-05-28T03:50:22.478Z",
+    "status": "em_andamento",
+    "bdi_percentual": "25"
+  },
+  {
+    "id": "4fd2e9f0-8106-4c60-920e-4f9c647e7108",
+    "titulo": "Casa da Tia do Gabriel",
+    "descricao": "",
+    "data_criacao": "2026-05-28T13:44:56.432Z",
+    "data_atualizacao": "2026-05-28T13:50:14.200Z",
+    "status": "em_andamento",
+    "bdi_percentual": "18"
+  },
+  {
+    "id": "c83c003f-0fa0-45a6-bacc-f5bd9da793b7",
+    "titulo": "[Template] casa terrea",
+    "descricao": "",
+    "data_criacao": "2026-05-28T13:55:20.727Z",
+    "data_atualizacao": "2026-05-28T13:55:49.438Z",
+    "status": "em_andamento",
+    "bdi_percentual": "18"
+  }
+]

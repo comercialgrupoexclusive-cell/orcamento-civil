@@ -22,14 +22,17 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
 
     const erros = coletarErros([
       validarCampoObrigatorio(body.etapa_codigo, 'Etapa'),
-      validarCampoObrigatorio(body.composicao_id, 'Composição'),
       validarQuantidade(body.quantidade ?? 0),
     ]);
+    // composicao_id opcional — se informado, valida existência
+    if (body.composicao_id) {
+      const composicoes = await readSheet('COMPOSICOES');
+      const comp = composicoes.find((c: Record<string, string>) => c.id === body.composicao_id);
+      if (!comp) erros.push('Composição não encontrada');
+    } else if (!body.descricao_override?.trim()) {
+      erros.push('Informe uma composição ou uma descrição para o item');
+    }
     if (erros.length > 0) return NextResponse.json({ erros }, { status: 400 });
-
-    const composicoes = await readSheet('COMPOSICOES');
-    const comp = composicoes.find(c => c.id === body.composicao_id);
-    if (!comp) return NextResponse.json({ erros: ['Composição não encontrada'] }, { status: 400 });
 
     // Calcula próxima ordem dentro da etapa/sub-etapa
     const todosItens = await readSheet('ITENS_ORCAMENTO');

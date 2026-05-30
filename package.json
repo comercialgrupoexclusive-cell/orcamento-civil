@@ -12,6 +12,7 @@
     "@base-ui/react": "^1.5.0",
     "@react-pdf/renderer": "^4.5.1",
     "@tanstack/react-table": "^8.21.3",
+    "@vercel/kv": "^3.0.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",

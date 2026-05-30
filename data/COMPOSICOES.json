@@ -1,29 +1,902 @@
 [
   {
-    "id": "166f9f6a-e9c0-41a7-8a2b-7779fb905587",
-    "codigo": "C-0001",
-    "descricao": "Alvenaria",
-    "unidade_producao": "m²",
-    "producao": "1",
+    "id": "cmp-1000",
+    "codigo": "1000",
+    "descricao": "Limpeza Terreno - Raspagem Superficial com Retroescavadeira",
+    "unidade_producao": "hr",
+    "producao": 1,
     "descricao_tecnica": "",
-    "status": "ativo"
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
   },
   {
-    "id": "683887a2-ce0e-4da2-87f7-7adbd0a01c3c",
-    "codigo": "C-0002",
-    "descricao": "fundação",
-    "unidade_producao": "m²",
-    "producao": "1",
+    "id": "cmp-1001",
+    "codigo": "1001",
+    "descricao": "Limpeza Terreno - Remoção Caminhão Caçamba 12m²",
+    "unidade_producao": "un",
+    "producao": 1,
     "descricao_tecnica": "",
-    "status": "ativo"
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
   },
   {
-    "id": "c9de61c8-3ca8-44df-9b2d-2c49b1290754",
-    "codigo": "C-0003",
-    "descricao": "teste 3",
-    "unidade_producao": "g",
-    "producao": "1",
+    "id": "cmp-1002",
+    "codigo": "1002",
+    "descricao": "Placa de Obra e Placas de Sinalização",
+    "unidade_producao": "un",
+    "producao": 1,
     "descricao_tecnica": "",
-    "status": "ativo"
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-1003",
+    "codigo": "1003",
+    "descricao": "Fechamento/Isolamento de Obra Tapume Ecológico 50x200",
+    "unidade_producao": "m",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-1004",
+    "codigo": "1004",
+    "descricao": "Depósito de Obra - Paredes/Telhado com Tapume Ecológico 50x200",
+    "unidade_producao": "m²",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-1005",
+    "codigo": "1005",
+    "descricao": "Instalação Provisória Hidrossanitário",
+    "unidade_producao": "un",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-1006",
+    "codigo": "1006",
+    "descricao": "Instalação Provisória Energia",
+    "unidade_producao": "un",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-1007",
+    "codigo": "1007",
+    "descricao": "Poste Padrão Entrada de Energia - 1 Medidor - Concreto - Trifásico",
+    "unidade_producao": "un",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-1008",
+    "codigo": "1008",
+    "descricao": "Poste Padrão Entrada de Energia Subterrâneo - 1 Medidor - Concreto - Trifásico",
+    "unidade_producao": "un",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-1009",
+    "codigo": "1009",
+    "descricao": "Fechamento/Isolamento de Obra com Proteção Tela Laranja",
+    "unidade_producao": "m",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-1010",
+    "codigo": "1010",
+    "descricao": "Poste Padrão Entrada de Energia - 1 Medidor - Concreto - Bifásico",
+    "unidade_producao": "un",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-1011",
+    "codigo": "1011",
+    "descricao": "Pedestal Hidrômetro Padrão Concessionária",
+    "unidade_producao": "un",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-2000",
+    "codigo": "2000",
+    "descricao": "Locação de Obra - Gabarito",
+    "unidade_producao": "m",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-2001",
+    "codigo": "2001",
+    "descricao": "Estaca C25 3 metros - Perfuração, Armaduras e Concretagem",
+    "unidade_producao": "un",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-2002",
+    "codigo": "2002",
+    "descricao": "Blocos Sobre 1 Estaca 55x55x40",
+    "unidade_producao": "un",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-2004",
+    "codigo": "2004",
+    "descricao": "Reaterro e Apiloamento",
+    "unidade_producao": "m²",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-2005",
+    "codigo": "2005",
+    "descricao": "Impermeabilização de Fundações",
+    "unidade_producao": "m²",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-2006",
+    "codigo": "2006",
+    "descricao": "Contrapiso Concreto Armado 5cm",
+    "unidade_producao": "m²",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-3007",
+    "codigo": "3007",
+    "descricao": "Laje Pré Moldada - Tela + Escoramento",
+    "unidade_producao": "m²",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-3008",
+    "codigo": "3008",
+    "descricao": "Formas - Fechamento de Laje H=15cm",
+    "unidade_producao": "m",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-3009",
+    "codigo": "3009",
+    "descricao": "Concreto Usinado FCK 25",
+    "unidade_producao": "m²",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-3016",
+    "codigo": "3016",
+    "descricao": "Escada \"L\" 1 Nível - Forma e Armadura",
+    "unidade_producao": "un",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-4000",
+    "codigo": "4000",
+    "descricao": "Alvenaria de Vedação em Blocos Cerâmicos com Furos Verticais",
+    "unidade_producao": "m²",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-4001",
+    "codigo": "4001",
+    "descricao": "Verga e Contraverga em Canela Cerâmica",
+    "unidade_producao": "m",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-4002",
+    "codigo": "4002",
+    "descricao": "Alvenaria Estrutural em Blocos Cerâmicos com Furos Horizontais",
+    "unidade_producao": "m²",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-5002",
+    "codigo": "5002",
+    "descricao": "Esquadrias de Alumínio com Vidros Sob Medida",
+    "unidade_producao": "m²",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-5003",
+    "codigo": "5003",
+    "descricao": "Esquadrias de Alumínio com Vidros e Persiana Embutida",
+    "unidade_producao": "m²",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-6000",
+    "codigo": "6000",
+    "descricao": "Vidro Temperado 8mm Sob Medida",
+    "unidade_producao": "m²",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-7000",
+    "codigo": "7000",
+    "descricao": "Telhado Aluzinco - Trama de Madeira (Madeiramento)",
+    "unidade_producao": "m²",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-7001",
+    "codigo": "7001",
+    "descricao": "Telhado Aluzinco - Telhamento com Telha de Aluzinco",
+    "unidade_producao": "m",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-7002",
+    "codigo": "7002",
+    "descricao": "Funilaria - Rufos e Algerosas",
+    "unidade_producao": "m",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-7003",
+    "codigo": "7003",
+    "descricao": "Funilaria - Calhas",
+    "unidade_producao": "m",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-7004",
+    "codigo": "7004",
+    "descricao": "Telhado Colonial - Trama de Madeira (Madeiramento) para Telha de Barro Cerâmica",
+    "unidade_producao": "m²",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-7005",
+    "codigo": "7005",
+    "descricao": "Telhado Colonial Natural - Telhamento com Telha de Barro Cerâmica",
+    "unidade_producao": "m²",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-7006",
+    "codigo": "7006",
+    "descricao": "Telhado Colonial Esmaltado - Telhamento com Telha de Barro Cerâmica",
+    "unidade_producao": "m²",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-8000",
+    "codigo": "8000",
+    "descricao": "Impermeabilização de Paredes com Argamassa Polimérica H=1,00m",
+    "unidade_producao": "m²",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-8001",
+    "codigo": "8001",
+    "descricao": "Impermeabilização de Piso e Paredes - Áreas Molhadas H=1,80m",
+    "unidade_producao": "m²",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-8002",
+    "codigo": "8002",
+    "descricao": "Impermeabilização de Piso (Terraços)",
+    "unidade_producao": "m²",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-9000",
+    "codigo": "9000",
+    "descricao": "Chapisco",
+    "unidade_producao": "m²",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-9001",
+    "codigo": "9001",
+    "descricao": "Emboço/Reboco",
+    "unidade_producao": "m²",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-9002",
+    "codigo": "9002",
+    "descricao": "Revestimento Cerâmico em Paredes - Porcelanato",
+    "unidade_producao": "m²",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-9003",
+    "codigo": "9003",
+    "descricao": "Kit Material Descartável para Revestimento Argamassado em Paredes/Teto",
+    "unidade_producao": "un",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-9004",
+    "codigo": "9004",
+    "descricao": "Revestimento Cerâmico em Paredes - Cerâmica Classe A",
+    "unidade_producao": "m²",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-10000",
+    "codigo": "10000",
+    "descricao": "Forro Drywall",
+    "unidade_producao": "m²",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-10002",
+    "codigo": "10002",
+    "descricao": "Forro de PVC e Trama de Madeira",
+    "unidade_producao": "m²",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-12000",
+    "codigo": "12000",
+    "descricao": "Pintura Acrílica Sobre Paredes - Interno",
+    "unidade_producao": "m²",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-12001",
+    "codigo": "12001",
+    "descricao": "Pintura Emborrachada Acrílica Sobre Paredes - Externo",
+    "unidade_producao": "m²",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-12002",
+    "codigo": "12002",
+    "descricao": "Massa Fina de Acabamento Interna",
+    "unidade_producao": "m²",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-12003",
+    "codigo": "12003",
+    "descricao": "Massa Fina de Acabamento Externa",
+    "unidade_producao": "m²",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-12004",
+    "codigo": "12004",
+    "descricao": "Pintura Acrílica em Pisos - Alto Fluxo",
+    "unidade_producao": "m²",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-12005",
+    "codigo": "12005",
+    "descricao": "Pintura Acrílica em Teto - Forro",
+    "unidade_producao": "m²",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-12006",
+    "codigo": "12006",
+    "descricao": "Materiais Descartáveis de Pintura",
+    "unidade_producao": "un",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-13000",
+    "codigo": "13000",
+    "descricao": "Contrapiso de Regularização (Cimento e Areia)",
+    "unidade_producao": "m²",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-13002",
+    "codigo": "13002",
+    "descricao": "Revestimento Cerâmico em Pisos - Porcelanato",
+    "unidade_producao": "m²",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-13005",
+    "codigo": "13005",
+    "descricao": "Revestimento em Pisos - Laminado",
+    "unidade_producao": "m²",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-13012",
+    "codigo": "13012",
+    "descricao": "Revestimento Cerâmico em Pisos - Cerâmica Classe A",
+    "unidade_producao": "m²",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-14000",
+    "codigo": "14000",
+    "descricao": "Pingadeiras e Soleiras",
+    "unidade_producao": "m²",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-14001",
+    "codigo": "14001",
+    "descricao": "Revestimento em Granito para Escada",
+    "unidade_producao": "un",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-14002",
+    "codigo": "14002",
+    "descricao": "Rodapé - Poliestireno 7cm",
+    "unidade_producao": "m",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-15002",
+    "codigo": "15002",
+    "descricao": "Interruptor Simples - CJt Montado e Enfiação",
+    "unidade_producao": "un",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-15004",
+    "codigo": "15004",
+    "descricao": "Luminária LED 18W - Cjt e Enfiação",
+    "unidade_producao": "un",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-15005",
+    "codigo": "15005",
+    "descricao": "QD - Quadro de Distribuição",
+    "unidade_producao": "un",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-15006",
+    "codigo": "15006",
+    "descricao": "Balde e Haste Aterramento",
+    "unidade_producao": "un",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-15007",
+    "codigo": "15007",
+    "descricao": "Eletroduto PEAD",
+    "unidade_producao": "m",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-15009",
+    "codigo": "15009",
+    "descricao": "Tomada Simples - CJt Montado e Enfiação",
+    "unidade_producao": "un",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-15010",
+    "codigo": "15010",
+    "descricao": "Tomada Dupla - CJt Montado e Enfiação",
+    "unidade_producao": "un",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-15011",
+    "codigo": "15011",
+    "descricao": "Tomada Dupla - CJt Montado e Enfiação Cabo 4mm",
+    "unidade_producao": "un",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-15012",
+    "codigo": "15012",
+    "descricao": "Tomada Simples - CJt Montado e Enfiação Cabo 4mm",
+    "unidade_producao": "un",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-15013",
+    "codigo": "15013",
+    "descricao": "Ponto Chuveiro - CJt Tampa Cega e Enfiação Cabo 6mm",
+    "unidade_producao": "un",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-16000",
+    "codigo": "16000",
+    "descricao": "Conexões para Água Fria - Ponto Hidráulico",
+    "unidade_producao": "un",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-16005",
+    "codigo": "16005",
+    "descricao": "Reservatório Água 1000L",
+    "unidade_producao": "un",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-16006",
+    "codigo": "16006",
+    "descricao": "Rede Hidráulica - Tubos PVC Água Fria 25mm por metro",
+    "unidade_producao": "m",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-16007",
+    "codigo": "16007",
+    "descricao": "Tubos Rigidos - Hidráulica 25mm por metro",
+    "unidade_producao": "m",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-16011",
+    "codigo": "16011",
+    "descricao": "Reservatório Água 500L",
+    "unidade_producao": "un",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-17001",
+    "codigo": "17001",
+    "descricao": "Conexões para Esgoto/Pluvial",
+    "unidade_producao": "un",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-17003",
+    "codigo": "17003",
+    "descricao": "Caixa de Gordura",
+    "unidade_producao": "un",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-17004",
+    "codigo": "17004",
+    "descricao": "Caixa Sifonada Pvc 150X150X50Mm Com Grelha Branca",
+    "unidade_producao": "un",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-17005",
+    "codigo": "17005",
+    "descricao": "Caixa Sifonada 150X170X75mm Lavanderia - Área de Serviço",
+    "unidade_producao": "un",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-17006",
+    "codigo": "17006",
+    "descricao": "Caixa de inspeção com tampa - 50x50x50",
+    "unidade_producao": "un",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-18000",
+    "codigo": "18000",
+    "descricao": "Louças - Bacia Sanitária Caixa Acoplada, Lavatório e Acessórios",
+    "unidade_producao": "un",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-18001",
+    "codigo": "18001",
+    "descricao": "Metais",
+    "unidade_producao": "un",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-19000",
+    "codigo": "19000",
+    "descricao": "Limpeza Final",
+    "unidade_producao": "un",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-19001",
+    "codigo": "19001",
+    "descricao": "Produtos de Limpeza Final",
+    "unidade_producao": "un",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-2001.1",
+    "codigo": "2001.1",
+    "descricao": "Estaca C25 3 metros - Perfuração e Armaduras",
+    "unidade_producao": "un",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-2002.1",
+    "codigo": "2002.1",
+    "descricao": "Blocos Sobre 2 Estacas 135x55x40",
+    "unidade_producao": "un",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-2002.2",
+    "codigo": "2002.2",
+    "descricao": "Blocos Sobre 3 Estacas 135x55x40",
+    "unidade_producao": "un",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-2002.3",
+    "codigo": "2002.3",
+    "descricao": "Concreto Manual em Obra Preparo em Betoneira",
+    "unidade_producao": "m²",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-2003.1",
+    "codigo": "2003.1",
+    "descricao": "Armadura Viga Baldrame 15x30 4 Barras 8mm",
+    "unidade_producao": "m",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-2003.2",
+    "codigo": "2003.2",
+    "descricao": "Forma Viga Baldrame 30cm Altura 1 Tábua 30cm",
+    "unidade_producao": "m",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
+  },
+  {
+    "id": "cmp-2003.3",
+    "codigo": "2003.3",
+    "descricao": "Travamento e Escoramento de Formas de Baldrame",
+    "unidade_producao": "m",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-29"
   }
 ]

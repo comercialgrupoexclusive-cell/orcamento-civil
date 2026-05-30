@@ -2,6 +2,7 @@
 
 import { useState, useRef } from 'react';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -11,13 +12,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Upload, AlertCircle, CheckCircle2 } from 'lucide-react';
+import { Upload, AlertCircle, CheckCircle2, ExternalLink } from 'lucide-react';
 import { toast } from 'sonner';
+import Link from 'next/link';
 
 interface Resultado {
   importados: number;
   ignorados: number;
   erros: string[];
+  orcamento_id?: string;
 }
 
 export default function ImportarPage() {
@@ -25,16 +28,25 @@ export default function ImportarPage() {
   const [arquivo, setArquivo] = useState<File | null>(null);
   const [carregando, setCarregando] = useState(false);
   const [resultado, setResultado] = useState<Resultado | null>(null);
+  const [tituloOrc, setTituloOrc] = useState('');
+  const [bdiOrc, setBdiOrc] = useState('0');
   const inputRef = useRef<HTMLInputElement>(null);
 
   async function importar() {
     if (!arquivo) { toast.error('Selecione um arquivo .xlsx'); return; }
+    if (tipo === 'orcamento' && !tituloOrc.trim()) {
+      toast.error('Informe o título do orçamento'); return;
+    }
     setCarregando(true);
     setResultado(null);
     try {
       const fd = new FormData();
       fd.append('file', arquivo);
       fd.append('tipo', tipo);
+      if (tipo === 'orcamento') {
+        fd.append('titulo', tituloOrc.trim());
+        fd.append('bdi', bdiOrc);
+      }
       const res = await fetch('/api/importar', { method: 'POST', body: fd });
       const data = await res.json();
       if (!res.ok) { toast.error(data.error); return; }
@@ -52,7 +64,7 @@ export default function ImportarPage() {
     <div className="max-w-xl mx-auto">
       <h1 className="text-xl font-bold mb-2">Importar Excel</h1>
       <p className="text-muted-foreground text-sm mb-6">
-        Importe dados a partir de arquivos .xlsx exportados pelo sistema.
+        Importe dados a partir de arquivos .xlsx.
       </p>
 
       <Card className="mb-4">
@@ -60,20 +72,58 @@ export default function ImportarPage() {
           <CardTitle className="text-base">Configurações</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
+          {/* Tipo */}
           <div className="grid gap-1.5">
             <Label>Tipo de dados</Label>
-            <Select value={tipo} onValueChange={v => v !== null && setTipo(v)}>
+            <Select value={tipo} onValueChange={v => { if (v) { setTipo(v); setResultado(null); } }}>
               <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="insumos">Insumos</SelectItem>
                 <SelectItem value="composicoes">Composições + Itens</SelectItem>
+                <SelectItem value="orcamento">Orçamento (quantidades + composições)</SelectItem>
               </SelectContent>
             </Select>
-            {/* Select.Root onValueChange wrapper handled via cast */}
           </div>
 
+          {/* Campos extras para orçamento */}
+          {tipo === 'orcamento' && (
+            <>
+              <div className="grid gap-1.5">
+                <Label>Título do Orçamento <span className="text-destructive">*</span></Label>
+                <Input
+                  placeholder="Ex: Residência João Silva"
+                  value={tituloOrc}
+                  onChange={e => setTituloOrc(e.target.value)}
+                  className="h-9"
+                />
+              </div>
+              <div className="grid gap-1.5">
+                <Label>BDI (%)</Label>
+                <Input
+                  type="number" min="0" max="100" step="0.1"
+                  placeholder="Ex: 25"
+                  value={bdiOrc}
+                  onChange={e => setBdiOrc(e.target.value)}
+                  className="h-9"
+                />
+              </div>
+              <div className="rounded-lg bg-blue-50 border border-blue-200 p-3 text-xs text-blue-700 space-y-1.5">
+                <p className="font-semibold">Formato simplificado (só 2 colunas!):</p>
+                <div className="font-mono bg-white/70 border border-blue-200 rounded px-2 py-1 text-[11px]">
+                  <p className="text-blue-800 font-semibold">Composição (nome ou código) | Quantidade</p>
+                  <p>Limpeza Terreno - Raspagem...    |    1</p>
+                  <p>Estaca C25 3 metros...           |   12</p>
+                  <p>Chapisco                         |  200</p>
+                </div>
+                <p className="text-blue-600">✓ O sistema identifica a composição pelo nome (ou código) e preenche etapa, unidade e custo automaticamente.</p>
+                <p className="text-blue-500">Dica: baixe o modelo pelo módulo <strong>Exportar → Modelo de Orçamento</strong>.</p>
+              </div>
+            </>
+          )}
+
+          {/* Upload */}
           <div className="grid gap-1.5">
             <Label>Arquivo .xlsx</Label>
             <div
@@ -89,7 +139,7 @@ export default function ImportarPage() {
               ) : (
                 <div>
                   <p className="text-sm text-muted-foreground">Clique para selecionar ou arraste o arquivo</p>
-                  <p className="text-xs text-muted-foreground mt-1">.xlsx (formato exportado pelo sistema)</p>
+                  <p className="text-xs text-muted-foreground mt-1">.xlsx</p>
                 </div>
               )}
               <input
@@ -125,6 +175,17 @@ export default function ImportarPage() {
                 <p className="text-xs text-amber-600">ignorados</p>
               </div>
             </div>
+            {resultado.orcamento_id && (
+              <div className="mb-3">
+                <Link
+                  href={`/orcamentos/${resultado.orcamento_id}`}
+                  className="inline-flex items-center gap-1.5 text-sm text-primary font-medium hover:underline"
+                >
+                  <ExternalLink className="h-3.5 w-3.5" />
+                  Abrir orçamento importado
+                </Link>
+              </div>
+            )}
             {resultado.erros.length > 0 && (
               <div className="rounded-lg bg-red-50 border border-red-200 p-3">
                 <div className="flex items-center gap-1.5 mb-2">
@@ -142,9 +203,19 @@ export default function ImportarPage() {
 
       <div className="mt-6 text-sm text-muted-foreground space-y-1">
         <p className="font-medium">Como usar</p>
-        <p>1. Exporte os dados pelo módulo <strong>Exportar</strong></p>
-        <p>2. Edite o arquivo no Excel conforme necessário</p>
-        <p>3. Reimporte aqui. Registros com código duplicado são ignorados.</p>
+        {tipo === 'orcamento' ? (
+          <>
+            <p>1. Baixe o modelo em <strong>Exportar → Modelo de Orçamento</strong></p>
+            <p>2. Preencha só a coluna <strong>Composição</strong> (nome ou código) e <strong>Quantidade</strong></p>
+            <p>3. Informe o título e BDI acima, depois importe — a etapa e o custo são preenchidos automaticamente</p>
+          </>
+        ) : (
+          <>
+            <p>1. Exporte os dados pelo módulo <strong>Exportar</strong></p>
+            <p>2. Edite o arquivo no Excel conforme necessário</p>
+            <p>3. Reimporte aqui. Registros com código duplicado são ignorados.</p>
+          </>
+        )}
       </div>
     </div>
   );

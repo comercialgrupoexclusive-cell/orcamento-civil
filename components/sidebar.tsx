@@ -13,6 +13,7 @@ import {
   HardHat,
   Menu,
   X,
+  Zap,
 } from 'lucide-react';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
@@ -22,6 +23,7 @@ const nav = [
   { href: '/insumos', label: 'Insumos', icon: Package },
   { href: '/composicoes', label: 'Composições', icon: Layers },
   { href: '/orcamentos', label: 'Orçamentos', icon: FileText },
+  { href: '/calculadora', label: 'Calculadora', icon: Zap },
   { href: '/importar', label: 'Importar', icon: Upload },
   { href: '/exportar', label: 'Exportar', icon: Download },
   { href: '/configuracoes', label: 'Configurações', icon: Settings },

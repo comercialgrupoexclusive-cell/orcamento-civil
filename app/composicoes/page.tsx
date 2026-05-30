@@ -65,10 +65,10 @@ function BuscaInsumo({ value, onChange, onSelect, placeholder }: {
         <div className="absolute top-full left-0 right-0 z-50 border rounded-lg bg-background shadow-lg mt-1 max-h-48 overflow-auto">
           {resultados.map(ins => (
             <button key={ins.id} type="button"
-              className="w-full text-left px-3 py-2 text-sm hover:bg-accent flex justify-between gap-2"
+              className="w-full text-left px-3 py-2 hover:bg-accent"
               onMouseDown={e => { e.preventDefault(); onSelect(ins); setAberto(false); }}>
-              <span className="truncate">{ins.descricao}</span>
-              <span className="text-muted-foreground text-xs shrink-0">{ins.codigo} · {ins.unidade} · {fmtBRL(ins.preco)}</span>
+              <span className="block text-sm font-medium truncate">{ins.descricao}</span>
+              <span className="block text-xs text-muted-foreground">{fmtBRL(ins.preco)} · {ins.codigo}</span>
             </button>
           ))}
         </div>
@@ -115,7 +115,7 @@ function PainelAccordion({ composicao, onAtualizar }: {
   const [unidade, setUnidade] = useState('');
   const [adicionando, setAdicionando] = useState(false);
   // Calculadora de coeficiente
-  const [qtdSimulada, setQtdSimulada] = useState('');
+  const [qtdSimulada, setQtdSimulada] = useState('1');
   // Edição inline de dados da composição
   const [editandoComp, setEditandoComp] = useState(false);
   const [compForm, setCompForm] = useState({
@@ -470,20 +470,28 @@ function DialogNovaComposicao({ aberto, onFechar, onCriada }: {
   const [insumoSel, setInsumoSel] = useState<Insumo | null>(null);
   const [coef, setCoef] = useState('1');
   const [unidade, setUnidade] = useState('');
-  const [qtdSimulada, setQtdSimulada] = useState('');
+  const [qtdSimulada, setQtdSimulada] = useState('1');
   const [salvando, setSalvando] = useState(false);
+  const [itemAdicionado, setItemAdicionado] = useState(false);
 
   function reset() {
     setForm({ descricao: '', unidade_producao: '', producao: '1', descricao_tecnica: '' });
-    setNovosItens([]); setBuscaTexto(''); setInsumoSel(null); setCoef('1'); setUnidade(''); setQtdSimulada('');
+    setNovosItens([]); setBuscaTexto(''); setInsumoSel(null); setCoef('1'); setUnidade(''); setQtdSimulada('1'); setItemAdicionado(false);
   }
 
   function adicionarItem() {
-    if (!insumoSel) { toast.error('Selecione um insumo'); return; }
+    if (!insumoSel) { toast.error('Busque e selecione um insumo na lista'); return; }
     const coefNum = Number(coef);
     if (!coefNum || coefNum <= 0) { toast.error('Coeficiente inválido'); return; }
+    // Verifica duplicata
+    if (novosItens.some(i => i.insumo.id === insumoSel.id)) {
+      toast.warning('Este insumo já foi adicionado');
+      return;
+    }
     setNovosItens(p => [...p, { insumo: insumoSel, coeficiente: coefNum, unidade: unidade || insumoSel.unidade }]);
     setInsumoSel(null); setBuscaTexto(''); setCoef('1'); setUnidade('');
+    setItemAdicionado(true);
+    setTimeout(() => setItemAdicionado(false), 2000);
   }
 
   const breakdown = novosItens.reduce((acc, item) => {
@@ -535,7 +543,7 @@ function DialogNovaComposicao({ aberto, onFechar, onCriada }: {
           {/* Adicionar insumos */}
           <div>
             <p className="text-sm font-semibold mb-3">Insumos da Composição</p>
-            <div className="grid grid-cols-1 sm:grid-cols-[1fr_100px_80px_auto] gap-2 items-end">
+            <div className="space-y-2">
               <div>
                 <Label className="text-xs mb-1 block">Insumo</Label>
                 {insumoSel ? (
@@ -551,19 +559,24 @@ function DialogNovaComposicao({ aberto, onFechar, onCriada }: {
                     placeholder="Buscar insumo..." />
                 )}
               </div>
-              <div>
-                <Label className="text-xs mb-1 block">Coeficiente</Label>
-                <Input type="number" min="0" step="0.001" value={coef}
-                  onFocus={e => e.target.select()} onChange={e => setCoef(e.target.value)}
-                  className="h-8 text-sm" placeholder="1" />
+              <div className="grid grid-cols-[1fr_1fr_auto] gap-2 items-end">
+                <div>
+                  <Label className="text-xs mb-1 block">Coeficiente</Label>
+                  <Input type="number" min="0" step="0.001" value={coef}
+                    onFocus={e => e.target.select()} onChange={e => setCoef(e.target.value)}
+                    className="h-8 text-sm" placeholder="1" />
+                </div>
+                <div>
+                  <Label className="text-xs mb-1 block">Unidade</Label>
+                  <Input value={unidade} onChange={e => setUnidade(e.target.value)} className="h-8 text-sm" placeholder="un" />
+                </div>
+                <Button
+                  size="sm" type="button" onClick={adicionarItem}
+                  className={`h-8 transition-colors ${itemAdicionado ? 'bg-green-600 hover:bg-green-700 text-white' : ''}`}
+                  title={!insumoSel ? 'Selecione um insumo primeiro' : 'Adicionar à lista'}>
+                  {itemAdicionado ? <Check className="h-3.5 w-3.5" /> : <Plus className="h-3.5 w-3.5" />}
+                </Button>
               </div>
-              <div>
-                <Label className="text-xs mb-1 block">Unidade</Label>
-                <Input value={unidade} onChange={e => setUnidade(e.target.value)} className="h-8 text-sm" placeholder="un" />
-              </div>
-              <Button size="sm" type="button" onClick={adicionarItem} disabled={!insumoSel} className="h-8">
-                <Plus className="h-3.5 w-3.5" />
-              </Button>
             </div>
 
             {insumoSel && (

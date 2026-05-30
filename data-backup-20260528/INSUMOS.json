@@ -1,0 +1,77 @@
+[
+  {
+    "id": "68485ac7-e513-47d2-8a3e-0fb23a791a6c",
+    "codigo": "M-0001",
+    "descricao": "Cimento CP_IV Saco 50gk",
+    "unidade": "un",
+    "preco": "100",
+    "tipo": "M",
+    "categoria": "Material Basico",
+    "status": "ativo",
+    "data_alteracao": "2026-05-28T13:52:07.607Z"
+  },
+  {
+    "id": "94d71559-d11d-4e38-afde-54c632f5fad8",
+    "codigo": "MO-0001",
+    "descricao": "Mão de Obra Tijolo",
+    "unidade": "m",
+    "preco": "190",
+    "tipo": "MO",
+    "categoria": "",
+    "status": "ativo"
+  },
+  {
+    "id": "aa80fb0a-9fdd-4f12-8e12-c6e534799df8",
+    "codigo": "M-0002",
+    "descricao": "vergalhão",
+    "unidade": "un",
+    "preco": "230",
+    "tipo": "M",
+    "categoria": "Aço e Ferragem",
+    "status": "ativo"
+  },
+  {
+    "id": "8c99901c-f0e8-4f85-a901-1969893cb8fa",
+    "codigo": "M-0003",
+    "descricao": "areia grossa",
+    "unidade": "m³",
+    "preco": "149",
+    "tipo": "M",
+    "categoria": "Material Básico",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "d026858c-f767-40ed-bcb7-13a15a8750db",
+    "codigo": "M-0004",
+    "descricao": "vassoura",
+    "unidade": "un",
+    "preco": "7.9",
+    "tipo": "M",
+    "categoria": "Material Básico",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "90c0b37b-a48c-4fcd-81d5-2808a3b21d9f",
+    "codigo": "M-0005",
+    "descricao": "treliça h8",
+    "unidade": "un",
+    "preco": "39.9",
+    "tipo": "M",
+    "categoria": "Aço e Ferragem",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "15655071-22b6-4c78-a3f9-bcbb7a46f69b",
+    "codigo": "M-0006",
+    "descricao": "Vergalhao 8mm barra 12m",
+    "unidade": "un",
+    "preco": "39.9",
+    "tipo": "M",
+    "categoria": "Aço e Ferragem",
+    "status": "ativo",
+    "data_alteracao": ""
+  }
+]

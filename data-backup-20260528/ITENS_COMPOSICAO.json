@@ -1,0 +1,72 @@
+[
+  {
+    "id": "5ef4272c-09fa-4436-a4dc-57fb096829ca",
+    "composicao_id": "166f9f6a-e9c0-41a7-8a2b-7779fb905587",
+    "insumo_id": "94d71559-d11d-4e38-afde-54c632f5fad8",
+    "coeficiente": "1",
+    "unidade": "m"
+  },
+  {
+    "id": "83bdaa92-28f9-44a2-9c99-660a7f6d7ce7",
+    "composicao_id": "683887a2-ce0e-4da2-87f7-7adbd0a01c3c",
+    "insumo_id": "68485ac7-e513-47d2-8a3e-0fb23a791a6c",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "4967665b-a612-4f93-a46a-bd2c1ab2d439",
+    "composicao_id": "683887a2-ce0e-4da2-87f7-7adbd0a01c3c",
+    "insumo_id": "aa80fb0a-9fdd-4f12-8e12-c6e534799df8",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "540a4287-3dc9-459d-b609-b2f7f53d9a14",
+    "composicao_id": "c9de61c8-3ca8-44df-9b2d-2c49b1290754",
+    "insumo_id": "68485ac7-e513-47d2-8a3e-0fb23a791a6c",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "144442c7-b6a0-450f-b466-009c1c371281",
+    "composicao_id": "166f9f6a-e9c0-41a7-8a2b-7779fb905587",
+    "insumo_id": "68485ac7-e513-47d2-8a3e-0fb23a791a6c",
+    "coeficiente": "0.4",
+    "unidade": "un"
+  },
+  {
+    "id": "53dce47b-9eac-458c-be19-565a840b6c5a",
+    "composicao_id": "166f9f6a-e9c0-41a7-8a2b-7779fb905587",
+    "insumo_id": "8c99901c-f0e8-4f85-a901-1969893cb8fa",
+    "coeficiente": "1",
+    "unidade": "m³"
+  },
+  {
+    "id": "98b55168-6fa2-4333-ba86-a56a3db13a63",
+    "composicao_id": "70e928ae-334e-4294-b9a6-aa28e4306b71",
+    "insumo_id": "aa80fb0a-9fdd-4f12-8e12-c6e534799df8",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "eb206ed8-ebf3-463a-9a85-c05aad3dcbf1",
+    "composicao_id": "d23b448d-351a-486c-8ad5-0673b073ac40",
+    "insumo_id": "68485ac7-e513-47d2-8a3e-0fb23a791a6c",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "49519238-480a-412e-8f76-96717a2f6d9e",
+    "composicao_id": "d23b448d-351a-486c-8ad5-0673b073ac40",
+    "insumo_id": "8c99901c-f0e8-4f85-a901-1969893cb8fa",
+    "coeficiente": "1",
+    "unidade": "m³"
+  },
+  {
+    "id": "81fabad8-6772-44b6-9c10-fb6ed8eed24e",
+    "composicao_id": "166f9f6a-e9c0-41a7-8a2b-7779fb905587",
+    "insumo_id": "90c0b37b-a48c-4fcd-81d5-2808a3b21d9f",
+    "coeficiente": "0.19",
+    "unidade": "un"
+  }
+]

@@ -1,0 +1,50 @@
+[
+  {
+    "id": "166f9f6a-e9c0-41a7-8a2b-7779fb905587",
+    "codigo": "C-0001",
+    "descricao": "Alvenaria",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-05-28T01:14:00.697Z"
+  },
+  {
+    "id": "683887a2-ce0e-4da2-87f7-7adbd0a01c3c",
+    "codigo": "C-0002",
+    "descricao": "fundação",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo"
+  },
+  {
+    "id": "c9de61c8-3ca8-44df-9b2d-2c49b1290754",
+    "codigo": "C-0003",
+    "descricao": "teste 3",
+    "unidade_producao": "g",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo"
+  },
+  {
+    "id": "70e928ae-334e-4294-b9a6-aa28e4306b71",
+    "codigo": "C-0004",
+    "descricao": "bloco sobre 1 estaca",
+    "unidade_producao": "un",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "d23b448d-351a-486c-8ad5-0673b073ac40",
+    "codigo": "C-0005",
+    "descricao": "sapata",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  }
+]

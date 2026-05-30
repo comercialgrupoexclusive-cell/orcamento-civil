@@ -57,6 +57,17 @@ export async function POST(req: NextRequest) {
     ]);
     if (erros.length > 0) return NextResponse.json({ erros }, { status: 400 });
 
+    // Impede insumo duplicado (mesma descrição normalizada)
+    const todos = await readSheet('INSUMOS');
+    const descNorm = normalizar(String(body.descricao).trim());
+    const existente = todos.find(r => normalizar(r.descricao || '') === descNorm);
+    if (existente) {
+      return NextResponse.json(
+        { erros: [`Já existe um insumo com descrição similar: "${existente.descricao}" (${existente.codigo})`] },
+        { status: 409 }
+      );
+    }
+
     const codigo = await gerarCodigoInsumo(body.tipo as TipoInsumo);
     const insumo: Insumo = {
       id: uuidv4(),

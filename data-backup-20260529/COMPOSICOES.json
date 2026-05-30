@@ -1,0 +1,1262 @@
+[
+  {
+    "id": "cmp-001",
+    "codigo": "C-0001",
+    "descricao": "Raspagem e limpeza superficial do terreno",
+    "unidade_producao": "m²",
+    "producao": 1,
+    "descricao_tecnica": "Raspagem manual + auxílio de retroescavadeira. Remoção de vegetação rasa.",
+    "status": "ativo",
+    "data_alteracao": "2026-05-28"
+  },
+  {
+    "id": "cmp-002",
+    "codigo": "C-0002",
+    "descricao": "Marcação de obra com gabarito",
+    "unidade_producao": "m²",
+    "producao": 1,
+    "descricao_tecnica": "Marcação de eixos com gabarito de madeira, nível e trena.",
+    "status": "ativo",
+    "data_alteracao": "2026-05-28"
+  },
+  {
+    "id": "cmp-003",
+    "codigo": "C-0003",
+    "descricao": "Tapume ecológico 0,50 × 2,00 m — fornec. e mont.",
+    "unidade_producao": "un",
+    "producao": 1,
+    "descricao_tecnica": "Fornecimento e montagem de tapume ecológico em chapa plástica.",
+    "status": "ativo",
+    "data_alteracao": "2026-05-28"
+  },
+  {
+    "id": "cmp-004",
+    "codigo": "C-0004",
+    "descricao": "Retroescavadeira — limpeza e escavação",
+    "unidade_producao": "h",
+    "producao": 1,
+    "descricao_tecnica": "Locação de retroescavadeira para limpeza do terreno e escavação inicial.",
+    "status": "ativo",
+    "data_alteracao": "2026-05-28"
+  },
+  {
+    "id": "cmp-005",
+    "codigo": "C-0005",
+    "descricao": "Caçamba estacionária 5 m³ — locação",
+    "unidade_producao": "un",
+    "producao": 1,
+    "descricao_tecnica": "Locação de caçamba estacionária para coleta e descarte de entulho/vegetação.",
+    "status": "ativo",
+    "data_alteracao": "2026-05-28"
+  },
+  {
+    "id": "cmp-006",
+    "codigo": "C-0006",
+    "descricao": "Concreto usinado FCK 25 MPa — lançado e vibrado",
+    "unidade_producao": "m³",
+    "producao": 1,
+    "descricao_tecnica": "Concreto usinado FCK 25 MPa. Lançamento, adensamento com vibrador e cura úmida 7 dias. Inclui perdas de 5%.",
+    "status": "ativo",
+    "data_alteracao": "2026-05-28"
+  },
+  {
+    "id": "cmp-007",
+    "codigo": "C-0007",
+    "descricao": "Tábua de pinus 2,70 m — fôrma lateral",
+    "unidade_producao": "un",
+    "producao": 1,
+    "descricao_tecnica": "Fornecimento, corte e fixação de tábua de pinus 15 cm × 2,70 m para fôrma lateral de vigas e fundação.",
+    "status": "ativo",
+    "data_alteracao": "2026-05-28"
+  },
+  {
+    "id": "cmp-008",
+    "codigo": "C-0008",
+    "descricao": "Tábua de eucalipto 5,40 m — fundo de viga aérea",
+    "unidade_producao": "un",
+    "producao": 1,
+    "descricao_tecnica": "Fornecimento, corte e fixação de tábua de eucalipto 15 cm × 5,40 m para fundo de vigas aéreas.",
+    "status": "ativo",
+    "data_alteracao": "2026-05-28"
+  },
+  {
+    "id": "cmp-009",
+    "codigo": "C-0009",
+    "descricao": "Aço CA-50 ø10 mm barra 12 m — longitudinal",
+    "unidade_producao": "barra",
+    "producao": 1,
+    "descricao_tecnica": "Fornecimento, corte e montagem de barra de aço CA-50 ø10 mm × 12 m para armação longitudinal. Inclui 10% perdas.",
+    "status": "ativo",
+    "data_alteracao": "2026-05-28"
+  },
+  {
+    "id": "cmp-010",
+    "codigo": "C-0010",
+    "descricao": "Aço CA-60 ø6,3 mm barra 12 m — estribo",
+    "unidade_producao": "barra",
+    "producao": 1,
+    "descricao_tecnica": "Fornecimento, corte, dobramento e montagem de barra CA-60 ø6,3 mm × 12 m para estribos.",
+    "status": "ativo",
+    "data_alteracao": "2026-05-28"
+  },
+  {
+    "id": "cmp-011",
+    "codigo": "C-0011",
+    "descricao": "Concreto FCK 25 MPa em pilares — lançado e vibrado",
+    "unidade_producao": "m³",
+    "producao": 1,
+    "descricao_tecnica": "Concreto usinado FCK 25 MPa em pilares. Inclui lançamento controlado, vibração por imersão e cura. Perdas 5%.",
+    "status": "ativo",
+    "data_alteracao": "2026-05-28"
+  },
+  {
+    "id": "cmp-012",
+    "codigo": "C-0012",
+    "descricao": "Fôrma de madeira para pilares (m²)",
+    "unidade_producao": "m²",
+    "producao": 1,
+    "descricao_tecnica": "Fôrma de tábuas de pinus para pilares, 4 faces. Inclui corte, montagem e desmontagem.",
+    "status": "ativo",
+    "data_alteracao": "2026-05-28"
+  },
+  {
+    "id": "cmp-013",
+    "codigo": "C-0013",
+    "descricao": "Escora metálica telescópica — locação e posicionamento",
+    "unidade_producao": "un",
+    "producao": 1,
+    "descricao_tecnica": "Locação, montagem e desmontagem de escora metálica telescópica para escoramento de lajes e vigas aéreas.",
+    "status": "ativo",
+    "data_alteracao": "2026-05-28"
+  },
+  {
+    "id": "cmp-014",
+    "codigo": "C-0014",
+    "descricao": "Concreto FCK 25 MPa em lajes — lançado e vibrado",
+    "unidade_producao": "m³",
+    "producao": 1,
+    "descricao_tecnica": "Concreto usinado FCK 25 MPa em lajes. Lançamento, espalhamento, vibração e cura úmida. Inclui perdas de 5%.",
+    "status": "ativo",
+    "data_alteracao": "2026-05-28"
+  },
+  {
+    "id": "cmp-015",
+    "codigo": "C-0015",
+    "descricao": "Laje treliçada — armação, EPS e montagem (m²)",
+    "unidade_producao": "m²",
+    "producao": 1,
+    "descricao_tecnica": "Serviço de montagem de laje treliçada (nervurada): posicionamento de tavelas EPS, treliças metálicas e tela de distribuição. Concreto cobrado separado.",
+    "status": "ativo",
+    "data_alteracao": "2026-05-28"
+  },
+  {
+    "id": "cmp-016",
+    "codigo": "C-0016",
+    "descricao": "Alvenaria de tijolo furado 9×14×19 cm (m²)",
+    "unidade_producao": "m²",
+    "producao": 1,
+    "descricao_tecnica": "Alvenaria de tijolo furado, assentado em pé com argamassa traço 1:2:8. ~28 tijolos/m². Inclui argamassa de assentamento.",
+    "status": "ativo",
+    "data_alteracao": "2026-05-28"
+  },
+  {
+    "id": "cmp-017",
+    "codigo": "C-0017",
+    "descricao": "Chapisco + reboco paulista (m²)",
+    "unidade_producao": "m²",
+    "producao": 1,
+    "descricao_tecnica": "Chapisco com argamassa de cimento e areia, seguido de reboco paulista (e=15 mm). Consumo: ~0,025 m³ argamassa/m².",
+    "status": "ativo",
+    "data_alteracao": "2026-05-28"
+  },
+  {
+    "id": "cmp-018",
+    "codigo": "C-0018",
+    "descricao": "Pintura látex PVA — 2 demãos (m²)",
+    "unidade_producao": "m²",
+    "producao": 1,
+    "descricao_tecnica": "Pintura de paredes com tinta látex PVA, 2 demãos. Consumo: ~0,70 l/m².",
+    "status": "ativo",
+    "data_alteracao": "2026-05-28"
+  },
+  {
+    "id": "cmp-019",
+    "codigo": "C-0019",
+    "descricao": "Verga pré-moldada de concreto armado (m)",
+    "unidade_producao": "m",
+    "producao": 1,
+    "descricao_tecnica": "Fornecimento e assentamento de verga pré-moldada de concreto armado sobre vãos de portas e janelas.",
+    "status": "ativo",
+    "data_alteracao": "2026-05-28"
+  },
+  {
+    "id": "cmp-020",
+    "codigo": "C-0020",
+    "descricao": "Contraverga pré-moldada de concreto armado (m)",
+    "unidade_producao": "m",
+    "producao": 1,
+    "descricao_tecnica": "Fornecimento e assentamento de contraverga pré-moldada de concreto armado sob vãos de janelas.",
+    "status": "ativo",
+    "data_alteracao": "2026-05-28"
+  },
+  {
+    "id": "cmp-021",
+    "codigo": "C-0021",
+    "descricao": "Fôrma de madeira para vigas de fundação (m²)",
+    "unidade_producao": "m²",
+    "producao": 1,
+    "descricao_tecnica": "Fôrma de tábuas de pinus para vigas de fundação, 2 faces laterais. Inclui corte, montagem e desmontagem.",
+    "status": "ativo",
+    "data_alteracao": "2026-05-28"
+  },
+  {
+    "id": "fb125c6d-4626-4632-9222-3c9eb00b78b6",
+    "codigo": "1000_0",
+    "descricao": "Limpeza Manual do Terreno com Raspagem Superficial",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "bd54c7bf-b9b0-43a4-9cbc-433747c6091c",
+    "codigo": "1002_0",
+    "descricao": "Placa de Obra e Placas de Sinalização (Banner)",
+    "unidade_producao": "un",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "adb492f7-0703-49ac-8a50-cbb22b7985d7",
+    "codigo": "1003_0",
+    "descricao": "Fechamento/Isolamento de Obra Tapume Ecológico 50x200",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "62e8d9ef-d93b-4ca9-9871-e8a582f43171",
+    "codigo": "1004_0",
+    "descricao": "Depósito de Obra - Paredes/Telhado com Tapume Ecológico 50x200",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "34f921ed-d6fa-42cf-ab2b-61489b1962dd",
+    "codigo": "1005_0",
+    "descricao": "Instalação Provisória Hidrossanitário",
+    "unidade_producao": "vb",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "bf69b9a2-1be0-4a1d-9050-5a1a79ee7e58",
+    "codigo": "1006_0",
+    "descricao": "Instalação Provisória Energia",
+    "unidade_producao": "vb",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "baa8e6f6-46d4-41fb-8335-20a45c55fafa",
+    "codigo": "1001_0",
+    "descricao": "Movimentação Mecanica de Terra",
+    "unidade_producao": "m³",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "8b40078c-6b68-4542-9452-4a0c263d3254",
+    "codigo": "1007_0",
+    "descricao": "Poste Padão Entrada de Energia - 1  Medidor - Concreto - Trifásico",
+    "unidade_producao": "m³",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "b850ea09-6a1f-4e9e-bba9-e9be000742ae",
+    "codigo": "1008_0",
+    "descricao": "Poste Padão Entrada de Energia Subterrâneo - 1  Medidor - Concreto - Trifásico",
+    "unidade_producao": "m³",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "4e00137f-7873-418c-9011-3a3aa3668590",
+    "codigo": "1009_0",
+    "descricao": "Fechamento/Isolamento de Obra com Proteção Tela Laranja",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "a3e32df4-1da3-4152-bcc5-16d3861c4cfc",
+    "codigo": "2000_0",
+    "descricao": "Locação de Obra - Gabarito",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "3d6f680d-e2e6-474e-ac3f-f542e8293e80",
+    "codigo": "2001_0",
+    "descricao": "Estaca C25 3 metros - Perfuração Rotativa e Concretagem",
+    "unidade_producao": "un",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "5ec66d44-4c42-4593-9018-4635b8366813",
+    "codigo": "2002_0",
+    "descricao": "Blocos Sobre 1 Estaca 55x55x40",
+    "unidade_producao": "un",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "92c97594-2c01-4259-ae55-7ead0984d208",
+    "codigo": "2003_0",
+    "descricao": "Forma Viga Baldrame 40cm Altura Paínel  2 Tábuas Pinus 20cm",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "0dae4a1e-d1ba-43e6-9be9-ffd5a5c0e42d",
+    "codigo": "2003_1",
+    "descricao": "Armadura Viga Baldrame",
+    "unidade_producao": "kg",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "8d2dc967-d585-4c19-96df-bfb636717b60",
+    "codigo": "2003_4",
+    "descricao": "Concreto Manual FCK 25",
+    "unidade_producao": "m³",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "4a1e91c7-f6ba-4454-b61b-2962c9cd4ecc",
+    "codigo": "2004_0",
+    "descricao": "Reaterro e Apiloamento",
+    "unidade_producao": "m³",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "5d03940f-677e-4118-99a5-e103e0628307",
+    "codigo": "2005_0",
+    "descricao": "Impermeabilização de Fundações",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "b91526eb-948e-4825-ac8e-9c4c1a70ff70",
+    "codigo": "2006_0",
+    "descricao": "Contrapiso Concreto Armado 5cm",
+    "unidade_producao": "m³",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "cac6ad51-d9e6-46b5-a970-6e8475718fe5",
+    "codigo": "2002_1",
+    "descricao": "Blocos Sobre 2 Estacas 135x55x40",
+    "unidade_producao": "un",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "2ef2f766-0b42-4632-83a6-7da6346a17e3",
+    "codigo": "2002_2",
+    "descricao": "Blocos Sobre 3 Estacas 135x55x40",
+    "unidade_producao": "un",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "77d2a136-a9e4-4782-ab85-cc7ed975905b",
+    "codigo": "2003_2",
+    "descricao": "Forma Viga Baldrame 30cm Altura 1 Tábua 30cm",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "d7a47801-e89d-47e8-b703-af3fd0396db8",
+    "codigo": "2001_1",
+    "descricao": "Estaca C25 3 metros - Armaduras",
+    "unidade_producao": "kg",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "58ca20da-e28a-44f1-ac9c-51d0225b1c18",
+    "codigo": "2003_3",
+    "descricao": "Travamento e Escoramento de Formas de Baldrame",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "2c02a1de-fb77-4e92-9416-575128a55d38",
+    "codigo": "3000_0",
+    "descricao": "Formas - Pilar -  2 Lados até 40cm",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "a38e7e43-426e-4a7d-9cb4-900fd3f5cbae",
+    "codigo": "3016_0",
+    "descricao": "Escada \"L\" 1 Nível - Forma e Armadura",
+    "unidade_producao": "kg",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "325f00b5-8b85-4010-b088-4e9b02e5e6d6",
+    "codigo": "3007_0",
+    "descricao": "Laje - Entrepiso",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "455e5da6-1e52-467b-b962-dfd53c2fc602",
+    "codigo": "3009_0",
+    "descricao": "Concreto Usinado FCK 25",
+    "unidade_producao": "m³",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "5e55ae32-032e-4adf-b52e-62e906a4bbe9",
+    "codigo": "3002_0",
+    "descricao": "Armaduras - Pilar",
+    "unidade_producao": "kg",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "330a4267-6d00-40c6-8b2c-25a910a5b8da",
+    "codigo": "3001_0",
+    "descricao": "Formas - Pilar - 2 Lados até 30cm",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "270d22db-7df3-4134-8295-84f23a414fd4",
+    "codigo": "3004_0",
+    "descricao": "Formas - Vigas até 40 cm - Entrepiso",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "86759a1b-6949-4dc4-a440-a1a5162c47b0",
+    "codigo": "3005_0",
+    "descricao": "Formas - Fundo e Escoramento Vigas Áreas - Entrepiso",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "9334c48d-a25c-4398-87ad-f05a662ad8d2",
+    "codigo": "3008_0",
+    "descricao": "Formas - Fechamento de Laje H=15cm - Entrepiso",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "1b2a0d5a-88e9-4c89-acbd-fdc2c4cb34b9",
+    "codigo": "3013_0",
+    "descricao": "Laje - Cobertura",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "fbfeab67-665a-4beb-8008-3cc796f2b973",
+    "codigo": "3010_0",
+    "descricao": "Formas - Vigas até 40 cm - Cobertura",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "94ad11c9-cd09-42fc-b257-eb2f01f1748c",
+    "codigo": "3011_0",
+    "descricao": "Formas - Fundo e Escoramento Vigas Áreas - Cobertura",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "696c2941-166a-4fc1-8d5a-7430934ad317",
+    "codigo": "3014_0",
+    "descricao": "Formas - Fechamento de Laje H=15cm - Cobertura",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "ea72872a-8f46-4b53-a38d-ce9b0a10da3b",
+    "codigo": "3006_0",
+    "descricao": "Armaduras - Vigas - Entrepiso",
+    "unidade_producao": "kg",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "80aeae8c-0295-44eb-8bca-df1981cee17a",
+    "codigo": "3012_0",
+    "descricao": "Armaduras - Vigas - Cobertura",
+    "unidade_producao": "kg",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "3c6254f3-d6ff-4355-b5c1-934f188d892e",
+    "codigo": "4000_0",
+    "descricao": "Alvenaria de Vedação em Blocos Cerâmicos com Furos Verticais",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "265b35c0-ce56-45ad-b68e-4932a4ccb035",
+    "codigo": "4001_0",
+    "descricao": "Verga e Contraverga",
+    "unidade_producao": "m",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "4cf13817-2d64-435d-87a4-04cd6c615b30",
+    "codigo": "5000_0",
+    "descricao": "Esquadrias Internas",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "e7ad47a3-e04e-4588-ba2c-df844b62ef0d",
+    "codigo": "5001_0",
+    "descricao": "Esquadrias de Alumínio",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "67c6d22f-310f-4a11-a987-a15f8041b11b",
+    "codigo": "5002_0",
+    "descricao": "Esquadrias de Alumínio com Vidros",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "c6fb5c35-98b5-442b-a610-dce4500a02d5",
+    "codigo": "5003_0",
+    "descricao": "Esquadrias de Alumínio com Vidros e Persiana Embutida",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "a6c4182f-9bd3-4a8e-8557-05952b2dc62a",
+    "codigo": "6000_0",
+    "descricao": "Vidro Temprado 8mm Cobertura Área Gourmet",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "46e88056-13be-4033-89d7-10cf0df92fdb",
+    "codigo": "7000_0",
+    "descricao": "Trama de Madeira (Madeiramento) para Telhado",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "c79399a7-b783-4fe5-8939-30db337b569f",
+    "codigo": "7001_0",
+    "descricao": "Telhamento com Telha de Aluzinco",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "a19532bb-6aa9-4ba0-b921-5adbf156e023",
+    "codigo": "7002_0",
+    "descricao": "Calhas, Rufos e Algerosas",
+    "unidade_producao": "m",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "26b80c2a-3a27-4e8e-b373-1a1f1d85a250",
+    "codigo": "8000_0",
+    "descricao": "Impermeabilização de Paredes com Argamassa Polimérica H=1,00m",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "68715f6b-9fa9-438f-b71e-4d306868ec34",
+    "codigo": "8001_0",
+    "descricao": "Impermaeabilização de Piso e Paredes Áreas Molhadas H=1,80m",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "4670d015-4a8f-486c-a7bc-d70cf2967621",
+    "codigo": "8002_0",
+    "descricao": "Impermaeabilização de Piso (Terraços)",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "17ea1363-650d-4f2b-bfce-01eef96d9819",
+    "codigo": "9000_0",
+    "descricao": "Chapisco",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "e77bc1b3-a87c-494c-bad3-cac1646d3183",
+    "codigo": "9001_0",
+    "descricao": "Emboço/Reboco",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "343fad4b-2cad-413a-80b9-e003c769a341",
+    "codigo": "9002_0",
+    "descricao": "Revestimento Cerâmico em Paredes - Porcelanato",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "a82912d8-fbac-4e81-b1e8-eb343d730f55",
+    "codigo": "9003_0",
+    "descricao": "Kit Material Descartável para Revestimento Argamassado em Paredes/Teto",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "97400f3c-75a5-47c4-abdc-116c2b66fc2a",
+    "codigo": "10000_0",
+    "descricao": "Forro Dryawall",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "2293ab5f-4d1f-43c3-84a7-5a1aca3f952b",
+    "codigo": "10001_0",
+    "descricao": "Reboco em Laje (Teto)",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "b22e2620-8ae6-4482-839f-08c21a76d45c",
+    "codigo": "11002_0",
+    "descricao": "Revestimento Pedra Natural Fachada",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "f0760458-aacc-465f-892e-3a037cf75a51",
+    "codigo": "12000_0",
+    "descricao": "Pintura Acrílica Sobre Paredes - Interno",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "eefb5bbd-81f4-48bf-bb7d-3632572d65f5",
+    "codigo": "12002_0",
+    "descricao": "Massa Fina de Acabamento Interna",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "b7d02eac-676e-4ea5-be33-758843ae29fd",
+    "codigo": "12003_0",
+    "descricao": "Massa Fina de Acabamento Externa",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "f33e95c0-9e60-4ca5-a507-ce0012f502d1",
+    "codigo": "12004_0",
+    "descricao": "Pintura Acrílica em Pisos - Alto Fluxo",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "89237b06-a8b9-424b-b137-9950f13d0a94",
+    "codigo": "12005_0",
+    "descricao": "Pintura Acrílica em Teto - Forro",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "4112a95d-53ce-4cd0-9805-3e10ae0daf8e",
+    "codigo": "12006_0",
+    "descricao": "Materiais Descartáveis de Pintura",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "0601557f-f709-43b3-aff6-b63529c4d1f0",
+    "codigo": "12001_0",
+    "descricao": "Pintura Acrílica Sobre Paredes - Externo",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "f0ee9f46-5a36-4085-a767-281dfbb56507",
+    "codigo": "13000_0",
+    "descricao": "Contrapiso de Regularização (Cimento e Areia)",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "07f98485-e8d5-4fab-8797-e9f3b13a99b9",
+    "codigo": "13001_0",
+    "descricao": "Contrapiso de Regularização (Cimento e Areia) Pav2",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "11ae076e-fb6d-40e3-a303-853d9a66f5df",
+    "codigo": "15002_0",
+    "descricao": "Interruptores",
+    "unidade_producao": "un",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "ed06224f-8c1b-456e-a199-f1ff95121a0c",
+    "codigo": "13002_0",
+    "descricao": "Revestimento Cerâmico em Pisos - Porcelanato",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "ba17594a-fcee-44b1-ada0-d46889a39608",
+    "codigo": "13005_0",
+    "descricao": "Revestimento em Pisos - Laminado",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "96f94d74-294d-4e7d-910c-6746481dcae1",
+    "codigo": "13006_0",
+    "descricao": "Pisos Externos Acessos - Garagem",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "001de665-af90-4a7a-bd7b-2752672ff610",
+    "codigo": "13007_0",
+    "descricao": "Piso - Contrapiso Concreto Armado  - Externo - Acessos",
+    "unidade_producao": "m³",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "8ba5aff9-6a6c-4778-97bb-fd46768eb94a",
+    "codigo": "14000_0",
+    "descricao": "Pingadeiras e Soleiras",
+    "unidade_producao": "m",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "ca08ca1c-92bd-4120-8e52-39f79332fa30",
+    "codigo": "14001_0",
+    "descricao": "Revestimento em Granito para Escada",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "c31d9eaa-c73d-460c-8c0b-0678563411f7",
+    "codigo": "15003_0",
+    "descricao": "Tomadas",
+    "unidade_producao": "un",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "c6c14646-d19a-4594-b052-524a1a0c4421",
+    "codigo": "14002_0",
+    "descricao": "Rodapé - Poliestireno 7cm",
+    "unidade_producao": "m",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "95339491-1aec-4f63-9713-2647a7e6ccc4",
+    "codigo": "14005_0",
+    "descricao": "Guarda-Corpo Sacadas e Escada",
+    "unidade_producao": "un",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "f11f5705-86d3-40fe-a512-d27125b6788e",
+    "codigo": "15000_0",
+    "descricao": "Caixas de Embutir",
+    "unidade_producao": "vb",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "ae2992ff-a70a-40d2-8954-b309bd7e8ffd",
+    "codigo": "15004_0",
+    "descricao": "Luminárias",
+    "unidade_producao": "un",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "10731008-f42e-4611-ba12-4aa1a5234097",
+    "codigo": "15005_0",
+    "descricao": "QD - Quadro de Distribuição",
+    "unidade_producao": "un",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "57c27149-2977-4d7f-b7a9-26b8fa1be4bf",
+    "codigo": "15006_0",
+    "descricao": "Balde e Haste Aterramento",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "8386d569-e321-435c-8879-af3099c0d258",
+    "codigo": "15007_0",
+    "descricao": "Eletroduto PEAD",
+    "unidade_producao": "m",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "88a870e1-d337-4764-b105-2b139e2b7fe7",
+    "codigo": "15008_0",
+    "descricao": "Enfiassão - Cabos Flex",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "30f81282-28f2-4386-b561-d4a5bbcae7a0",
+    "codigo": "15001_0",
+    "descricao": "Eletrodutos em Paredes e Laje",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "62c2c6bd-b779-49d7-bacc-98277a61941a",
+    "codigo": "19000_0",
+    "descricao": "Limpeza Final",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "48d91b88-f76f-4e97-b611-dd3012d25787",
+    "codigo": "16000_0",
+    "descricao": "Conexões para Água Fria",
+    "unidade_producao": "vb",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "ead4eec9-52fe-4907-8929-6e3de30a4e3e",
+    "codigo": "16001_0",
+    "descricao": "Tubos Rigidos - Hidráulica",
+    "unidade_producao": "m",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "16001179-968a-43fa-8179-e33d49c36d7e",
+    "codigo": "16004_0",
+    "descricao": "Conexões para Água Quente",
+    "unidade_producao": "vb",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "8c8640f8-7886-4c90-adc3-65348c635ae3",
+    "codigo": "16005_0",
+    "descricao": "Reservatório Água 1000L",
+    "unidade_producao": "un",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "d6b3c5c2-8f18-4446-8fcb-1548dfd81b49",
+    "codigo": "17000_0",
+    "descricao": "Caixas e Ralos",
+    "unidade_producao": "vb",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "d2a2adf3-5457-4769-89c1-515954611eae",
+    "codigo": "17001_0",
+    "descricao": "Conexões para Esgoto/Pluvial",
+    "unidade_producao": "vb",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "6356a901-7830-49b6-adda-98478975cf2b",
+    "codigo": "17002_0",
+    "descricao": "Tubos Rigidos - Esgoto/Pluvial",
+    "unidade_producao": "m",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "66d3cda5-af50-482d-8fc4-a9f0c3c64750",
+    "codigo": "18000_0",
+    "descricao": "Louças",
+    "unidade_producao": "vb",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "928336e7-2a80-4399-83d4-8d1774ee2582",
+    "codigo": "18001_0",
+    "descricao": "Metais",
+    "unidade_producao": "vb",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "d41d3b6d-ac13-4339-83b0-e529723f6742",
+    "codigo": "19001_0",
+    "descricao": "Produtos de Limpeza Final",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "a59e7f9c-e206-4fc5-b94e-4703524ee748",
+    "codigo": "C-0022",
+    "descricao": "Telhamento com Telha Cerâmica de Barro (francesa/romana)",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "Fornecimento e assentamento de telha cerâmica de barro tipo francesa ou romana. Inclui argamassa de fixação traço 1:4, mão de obra de telhadeiro. Telha: aprox. 16 un/m², rendimento variável conforme modelo. Não inclui madeiramento (ver 7000_0).",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "6d90aad5-1bfb-4ae2-8ce4-18f362eff190",
+    "codigo": "C-0023",
+    "descricao": "Cumeeira Cerâmica — Fornecimento e Assentamento",
+    "unidade_producao": "m",
+    "producao": "1",
+    "descricao_tecnica": "Cumeeira cerâmica complementar à telha de barro. Inclui argamassa de assentamento e mão de obra.",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "29525735-e516-4d31-af10-a1b1833f75fc",
+    "codigo": "C-0024",
+    "descricao": "Forro de PVC — Fornecimento e Montagem",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "Forro de PVC liso/frisado 8 cm branco, espessura 8mm. Inclui perfil de PVC, mata-junta, estrutura metálica (perfil ômega) e parafusos. Rendimento padrão para cômodos residenciais.",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "a792c9b6-ef28-4d66-b5dc-e1802a9e54f3",
+    "codigo": "C-0025",
+    "descricao": "Piso Cerâmico 60×60 cm — Fornecimento e Assentamento",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "Piso cerâmico 60×60 cm, fornecimento (R$19,90/m²) + assentamento. Não inclui cimento cola (ver 13009_0) nem rejunte (ver 13010_0). Acréscimo de 10% para perdas nas bordas.",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "834bc983-81be-47a4-8af0-a778000fd23a",
+    "codigo": "C-0026",
+    "descricao": "Cimento Cola ACII — Fornecimento e Aplicação",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "Cimento cola ACII para assentamento de cerâmica. Consumo: ~5 kg/m². Saco 20 kg rende ~4 m². Inclui mão de obra de espalhar e nivelamento.",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "12f72239-207a-4d5d-93d9-47454931a366",
+    "codigo": "C-0027",
+    "descricao": "Rejunte Cerâmico — Fornecimento e Aplicação",
+    "unidade_producao": "m²",
+    "producao": "1",
+    "descricao_tecnica": "Rejunte colorido para pisos cerâmicos 60×60. Consumo médio: ~200g/m² para junta 3mm. Inclui mão de obra de aplicação e limpeza.",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "c36ff0a3-06cf-4aff-8e01-d4b07a4b6bb4",
+    "codigo": "C-0028",
+    "descricao": "Alvenaria Estrutural — Blocos Ceramicos 14x19x29",
+    "unidade_producao": "m2",
+    "producao": "1",
+    "descricao_tecnica": "Assentamento de bloco ceramico estrutural 14x19x29 cm. Coeficientes por m2: Bloco 14x19x29: 17,5 un (coef 16,67 + 5% perda); Argamassa de assentamento 1:1:6 (cp+cal+areia): 0,018 m3; Inclui mao de obra de pedreiro.",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "f956bb91-bc62-43ad-87b0-ad66bfa5948c",
+    "codigo": "C-0029",
+    "descricao": "Verga c/ Bloco Calha 14x19x29 + Trelica H8 — por metro",
+    "unidade_producao": "m",
+    "producao": "1",
+    "descricao_tecnica": "Verga armada executada com bloco calha ceramico 14x19x29, trelica espaco H8 6m e preenchimento com micro-concreto. Coeficientes por metro de verga: Bloco calha 14x19x29: 3.5 un/m (modulo 30cm, 5% perda); Trelica espaco H8 6m: 0.35 un/m (2 trelicas x 1m / 6m + perda); Micro-concreto/grout: 0.012 m3/m (secao canal 10x12cm); Vao + 20cm de transpasse cada lado. Nao inclui a alvenaria adjacente.",
+    "status": "ativo",
+    "data_alteracao": ""
+  },
+  {
+    "id": "36fda93a-4c79-438c-a73c-369a7754ff9c",
+    "codigo": "C-0030",
+    "descricao": "Contraverga c/ Bloco Calha 14x19x29 + Trelica H8 — por metro",
+    "unidade_producao": "m",
+    "producao": "1",
+    "descricao_tecnica": "Contraverga armada (somente sob janelas) com bloco calha 14x19x29 + trelica H8. Mesmos coeficientes da verga (4003_0). Bloco calha 14x19x29: 3.5 un/m; Trelica H8 6m: 0.35 un/m; Micro-concreto: 0.012 m3/m.",
+    "status": "ativo",
+    "data_alteracao": ""
+  }
+]
