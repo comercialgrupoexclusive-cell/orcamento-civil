@@ -1,7 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 
-const DATA_DIR = path.join(process.cwd(), 'data');
+const DATA_DIR   = path.join(process.cwd(), 'data');
+const TMP_DIR    = '/tmp/orcamento-data';
 
 export const SHEET_HEADERS: Record<string, string[]> = {
   INSUMOS: ['id', 'codigo', 'descricao', 'unidade', 'preco', 'tipo', 'categoria', 'status', 'data_alteracao'],
@@ -16,66 +17,109 @@ export const SHEET_HEADERS: Record<string, string[]> = {
   CONFIG: ['chave', 'valor'],
 };
 
-// ─── Detectar ambiente ────────────────────────────────────────────────────────
+// ─── Detecção de ambiente ─────────────────────────────────────────────────────
 
-/** True quando rodando no Vercel (serverless) com KV configurado */
+/** Vercel KV configurado (recomendado para produção com dados persistentes) */
 const USE_KV = !!(process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN);
 
-// ─── Operações locais (filesystem) ───────────────────────────────────────────
+/** Rodando no Vercel sem KV → usa /tmp com seed dos arquivos bundled */
+const IS_VERCEL = process.env.VERCEL === '1';
+
+// ─── Filesystem local (dev) ───────────────────────────────────────────────────
 
 function fp(sheetName: string): string {
   return path.join(DATA_DIR, `${sheetName}.json`);
 }
 
-function ensureDir() {
+function ensureLocalDir() {
   if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
 }
 
 function readLocalFile(sheetName: string): Record<string, string>[] {
-  ensureDir();
+  ensureLocalDir();
   const file = fp(sheetName);
   if (!fs.existsSync(file)) return [];
   try { return JSON.parse(fs.readFileSync(file, 'utf-8')); } catch { return []; }
 }
 
 function writeLocalFile(sheetName: string, rows: Record<string, string>[]): void {
-  ensureDir();
+  ensureLocalDir();
   fs.writeFileSync(fp(sheetName), JSON.stringify(rows, null, 2), 'utf-8');
 }
 
-// ─── Operações Vercel KV ──────────────────────────────────────────────────────
+// ─── /tmp storage (Vercel sem KV) ────────────────────────────────────────────
+// Persiste enquanto o serverless instance estiver "quente" (minutos a horas).
+// Ideal para o fluxo: criar orçamento → exportar backup → importar local.
+
+function ensureTmpDir() {
+  try {
+    if (!fs.existsSync(TMP_DIR)) fs.mkdirSync(TMP_DIR, { recursive: true });
+  } catch { /* /tmp pode não existir no ambiente */ }
+}
+
+function tmpPath(sheetName: string): string {
+  return path.join(TMP_DIR, `${sheetName}.json`);
+}
+
+function readTmpFile(sheetName: string): Record<string, string>[] {
+  ensureTmpDir();
+  const tmp = tmpPath(sheetName);
+  if (fs.existsSync(tmp)) {
+    try { return JSON.parse(fs.readFileSync(tmp, 'utf-8')); } catch { /* ignore */ }
+  }
+  // Seed a partir dos arquivos bundled com o deploy
+  const bundled = fp(sheetName);
+  if (fs.existsSync(bundled)) {
+    const data = JSON.parse(fs.readFileSync(bundled, 'utf-8'));
+    try { fs.writeFileSync(tmp, JSON.stringify(data, null, 2)); } catch { /* ignore */ }
+    return data;
+  }
+  return [];
+}
+
+function writeTmpFile(sheetName: string, rows: Record<string, string>[]): void {
+  ensureTmpDir();
+  fs.writeFileSync(tmpPath(sheetName), JSON.stringify(rows, null, 2));
+}
+
+// ─── Vercel KV (produção com persistência real) ───────────────────────────────
 
 async function kvRead(sheetName: string): Promise<Record<string, string>[]> {
   try {
     const { kv } = await import('@vercel/kv');
     const data = await kv.get<Record<string, string>[]>(`sheet:${sheetName}`);
     if (data !== null) return data;
-    // KV vazio → retorna lista vazia (usuário deve restaurar backup)
-    return [];
+    // KV vazio → seed dos arquivos bundled
+    const seed = readLocalFile(sheetName);
+    if (seed.length > 0) await kv.set(`sheet:${sheetName}`, seed);
+    return seed;
   } catch {
-    // fallback para filesystem se KV falhar
-    return readLocalFile(sheetName);
+    return readTmpFile(sheetName);
   }
 }
 
 async function kvWrite(sheetName: string, rows: Record<string, string>[]): Promise<void> {
-  const { kv } = await import('@vercel/kv');
-  await kv.set(`sheet:${sheetName}`, rows);
+  try {
+    const { kv } = await import('@vercel/kv');
+    await kv.set(`sheet:${sheetName}`, rows);
+  } catch {
+    writeTmpFile(sheetName, rows);
+  }
 }
 
 // ─── API pública ──────────────────────────────────────────────────────────────
 
 export async function readSheet(sheetName: string): Promise<Record<string, string>[]> {
-  return USE_KV ? kvRead(sheetName) : readLocalFile(sheetName);
+  if (USE_KV)           return kvRead(sheetName);
+  if (IS_VERCEL)        return readTmpFile(sheetName);
+  return readLocalFile(sheetName);
 }
 
-/** Escreve/sobrescreve uma tabela inteira (usado pelo backup/restore) */
+/** Sobrescreve uma tabela inteira (backup/restore e appendRow) */
 export async function writeFile(sheetName: string, rows: Record<string, string>[]): Promise<void> {
-  if (USE_KV) {
-    await kvWrite(sheetName, rows);
-  } else {
-    writeLocalFile(sheetName, rows);
-  }
+  if (USE_KV)    { await kvWrite(sheetName, rows); return; }
+  if (IS_VERCEL) { writeTmpFile(sheetName, rows); return; }
+  writeLocalFile(sheetName, rows);
 }
 
 export async function appendRow(sheetName: string, data: Record<string, unknown>): Promise<void> {
@@ -113,11 +157,10 @@ export async function deleteRowById(sheetName: string, id: string): Promise<bool
 
 export async function initSheets(): Promise<{ criadas: string[] }> {
   const criadas: string[] = [];
-  if (!USE_KV) {
-    ensureDir();
+  if (!IS_VERCEL && !USE_KV) {
+    ensureLocalDir();
     for (const name of Object.keys(SHEET_HEADERS)) {
-      const file = fp(name);
-      if (!fs.existsSync(file)) {
+      if (!fs.existsSync(fp(name))) {
         writeLocalFile(name, []);
         criadas.push(name);
       }
