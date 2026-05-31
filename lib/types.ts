@@ -155,6 +155,49 @@ export interface CalcParamsRaw {
   escoras_vigas_f: number;      // escoras de vigas aéreas
   area_lajes: number;
   volume_concreto_lajes: number;
+  comp_forma_laje: number;          // perímetro de fechamento das lajes (m)
+  // Alvenaria — tipo
+  tipo_alv: number;                 // 1 = vedação, 2 = estrutural
+  // Esquadrias (derivado dos vãos)
+  n_portas: number;
+  // (area_vaos_janelas já existe acima — usado para esquadria de janela)
+  // Cobertura
+  area_telhado: number;
+  comp_rufos: number;
+  comp_calhas: number;
+  tipo_telha: number;               // 1 = barro colonial, 2 = aluzinco
+  // Impermeabilização
+  area_imper_molhada: number;
+  // Revestimento interno
+  area_revest_interno: number;      // chapisco + reboco (2 faces internas)
+  area_ceramica_parede: number;     // áreas molhadas com cerâmica
+  // Forro
+  area_forro: number;
+  // Pintura
+  area_pintura_interna: number;
+  area_pintura_externa: number;
+  // Pisos
+  area_piso: number;
+  // Acabamento
+  comp_rodape: number;
+  // Elétrica (derivado da lista de ambientes)
+  ele_tomada_simples: number;
+  ele_tomada_dupla: number;
+  ele_interruptor: number;
+  ele_luminaria: number;
+  ele_chuveiro: number;
+  // Hidráulica
+  n_pontos_agua: number;
+  metros_rede_agua: number;
+  // Esgoto
+  n_pontos_esgoto: number;
+  n_caixa_sifonada: number;
+  n_caixa_inspecao: number;
+  // Louças e metais / banheiro
+  n_banheiros: number;
+  // Fundação profunda (derivado da lista de estacas)
+  estacas_equiv: number;            // Σ qtd × (prof / 3) — custo linear por metro
+  n_blocos_estaca: number;
 }
 
 export interface CalcItem {
@@ -224,4 +267,24 @@ export interface CalcLajeItem {
   comp: number;
   larg: number;
   esp: number;
+}
+
+// Fundação profunda — estacas com profundidade livre (m)
+export interface CalcEstacaItem {
+  id: string;
+  desc: string;
+  qtd: number;     // número de estacas desse tipo
+  prof: number;    // profundidade em metros (livre — o usuário escolhe)
+  blocos: number;  // nº de blocos de coroamento desse grupo
+}
+
+// Elétrica — pontos por ambiente (default 3 tomadas + 1 luz, editável)
+export interface CalcAmbienteEle {
+  id: string;
+  nome: string;
+  tomadas: number;        // tomadas simples
+  tomadas_duplas: number; // tomadas duplas
+  interruptores: number;
+  luminarias: number;
+  chuveiro: boolean;      // ponto de chuveiro
 }
