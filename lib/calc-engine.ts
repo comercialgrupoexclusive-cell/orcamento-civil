@@ -29,7 +29,7 @@ export const CALC_GRUPOS: CalcGrupo[] = [
   { id: 'esquadrias',   nome: 'Esquadrias e Vidros',            etapa_codigo: '05', cor: 'amber',  emoji: '🚪', descricao: 'Portas e janelas — geradas automaticamente dos vãos' },
   { id: 'cobertura',    nome: 'Cobertura',                      etapa_codigo: '07', cor: 'orange', emoji: '🏚️', descricao: 'Madeiramento, telha, rufos e calhas' },
   { id: 'imperme',      nome: 'Impermeabilização',              etapa_codigo: '08', cor: 'blue',   emoji: '💧', descricao: 'Áreas molhadas' },
-  { id: 'revest',       nome: 'Revestimentos Internos',         etapa_codigo: '09', cor: 'teal',   emoji: ([char]0xD83D + [char]0xDFEB), descricao: 'Chapisco, reboco e ceramica de parede' },
+  { id: 'revest',       nome: 'Revestimentos Internos',         etapa_codigo: '09', cor: 'teal',   emoji: '🧱', descricao: 'Chapisco, reboco e ceramica de parede' },
   { id: 'forro',        nome: 'Forro',                          etapa_codigo: '10', cor: 'violet', emoji: '⬜', descricao: 'Forro de PVC / drywall' },
   { id: 'pintura',      nome: 'Pintura',                        etapa_codigo: '12', cor: 'green',  emoji: '🎨', descricao: 'Massa e pintura interna/externa e teto' },
   { id: 'pisos',        nome: 'Pisos e Contrapisos',            etapa_codigo: '13', cor: 'amber',  emoji: '🔲', descricao: 'Contrapiso de regularização e piso cerâmico' },

@@ -15,7 +15,7 @@ import {
 } from 'lucide-react';
 import { toast } from 'sonner';
 import Link from 'next/link';
-import type { CalcVao, CalcParamsRaw, CalcItem, CalcPilarItem, CalcVigaIndItem, CalcLajeItem } from '@/lib/types';
+import type { CalcVao, CalcParamsRaw, CalcItem, CalcPilarItem, CalcVigaIndItem, CalcLajeItem, CalcEstacaItem, CalcAmbienteEle } from '@/lib/types';
 import {
   CALC_GRUPOS, calcularQuantitativos, fmtQtd, derivarParams,
 } from '@/lib/calc-engine';
@@ -248,11 +248,22 @@ function SecaoAlvenaria({
 
   return (
     <div className="space-y-4">
-      <div className="grid sm:grid-cols-2 gap-3">
+      <div className="grid sm:grid-cols-3 gap-3 items-end">
         <InputNum label="Comprimento total de paredes" campo="comp_paredes" params={params} setParams={setParams}
           suffix="m" helper="Soma do perímetro externo + paredes internas" step={0.5} />
         <InputNum label="Altura das paredes" campo="alt_paredes" params={params} setParams={setParams}
           suffix="m" placeholder="2.80" step={0.05} helper="Pé-direito líquido (sem laje)" />
+        <div className="grid gap-1">
+          <Label className="text-xs font-medium">Tipo de alvenaria</Label>
+          <Select value={String(params.tipo_alv ?? 2)} onValueChange={v => setParams(p => ({ ...p, tipo_alv: Number(v) }))}>
+            <SelectTrigger className="h-9 text-sm"><SelectValue /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="2">Estrutural (bloco horizontal)</SelectItem>
+              <SelectItem value="1">Vedação (bloco vertical)</SelectItem>
+            </SelectContent>
+          </Select>
+          <p className="text-[11px] text-muted-foreground">Define a composição usada</p>
+        </div>
       </div>
 
       {/* Resumo de área — aparece assim que comp_paredes e alt_paredes são preenchidos */}
@@ -362,6 +373,138 @@ function SecaoAlvenaria({
     </div>
   );
 }
+
+﻿// --- Novas Secoes ---
+function SecaoEstacas({ estacas, setEstacas }: { estacas: CalcEstacaItem[]; setEstacas: (v: CalcEstacaItem[]) => void }) {
+  function add() { setEstacas([...estacas, { id: Math.random().toString(36).slice(2), desc: '', qtd: 1, prof: 3, blocos: 1 }]); }
+  function remove(id: string) { setEstacas(estacas.filter(e => e.id !== id)); }
+  function upd<K extends keyof CalcEstacaItem>(id: string, f: K, v: CalcEstacaItem[K]) { setEstacas(estacas.map(e => e.id === id ? { ...e, [f]: v } : e)); }
+  const totalEquiv = estacas.reduce((s, e) => s + e.qtd * (e.prof / 3), 0);
+  const totalBlocos = estacas.reduce((s, e) => s + e.blocos, 0);
+  return (
+    <div className="space-y-3">
+      <div className="flex justify-between items-center">
+        <p className="text-xs text-muted-foreground">Profundidade em metros <strong>livre</strong>. Custo = equiv. trechos de 3 m.</p>
+        <Button size="sm" variant="outline" className="h-7 text-xs" onClick={add}><Plus className="h-3 w-3 mr-1" /> Adicionar Estaca</Button>
+      </div>
+      {estacas.length === 0 && <div className="border border-dashed rounded-lg py-4 text-center text-xs text-muted-foreground">Nenhuma estaca cadastrada</div>}
+      {estacas.length > 0 && (
+        <div className="border rounded-lg overflow-auto"><table className="w-full text-xs min-w-[520px]">
+          <thead><tr className="bg-muted/50 border-b"><th className="text-left px-3 py-2">Descricao</th><th className="text-center px-2 py-2 w-16">Qtd</th><th className="text-center px-2 py-2">Prof.(m)</th><th className="text-center px-2 py-2">Blocos</th><th className="text-right px-2 py-2">Equiv.</th><th className="w-8"></th></tr></thead>
+          <tbody>{estacas.map(e => { const eq = e.qtd*(e.prof/3); return (
+            <tr key={e.id} className="border-b last:border-0 hover:bg-muted/20">
+              <td className="px-2 py-1.5"><input type="text" value={e.desc} onChange={ev=>upd(e.id,'desc',ev.target.value)} placeholder="E1" className="h-7 text-xs border rounded px-2 w-full"/></td>
+              <td className="px-2 py-1.5"><input type="number" min={1} step={1} value={e.qtd} onFocus={ev=>ev.target.select()} onChange={ev=>upd(e.id,'qtd',Number(ev.target.value))} className="h-7 text-xs border rounded px-2 text-center w-14 block mx-auto"/></td>
+              <td className="px-2 py-1.5"><input type="number" min={0.5} step={0.5} value={e.prof} onFocus={ev=>ev.target.select()} onChange={ev=>upd(e.id,'prof',Number(ev.target.value))} className="h-7 text-xs border rounded px-2 text-center w-20 block mx-auto"/></td>
+              <td className="px-2 py-1.5"><input type="number" min={0} step={1} value={e.blocos} onFocus={ev=>ev.target.select()} onChange={ev=>upd(e.id,'blocos',Number(ev.target.value))} className="h-7 text-xs border rounded px-2 text-center w-16 block mx-auto"/></td>
+              <td className="px-2 py-1.5 text-right font-semibold text-blue-700">{eq.toFixed(2)} un</td>
+              <td className="px-1 py-1.5"><button onClick={()=>remove(e.id)} className="text-muted-foreground hover:text-destructive"><Trash2 className="h-3 w-3"/></button></td>
+            </tr>); })}
+          </tbody></table></div>
+      )}
+      {estacas.length > 0 && (<div className="grid grid-cols-3 gap-2 text-xs">
+        <div className="rounded-lg border bg-blue-50 border-blue-200 px-3 py-2 col-span-2"><p className="text-blue-700">Equiv. total (Sigma qtd x prof / 3)</p><p className="font-bold tabular-nums text-blue-800">{totalEquiv.toFixed(2)} un de 3 m</p></div>
+        <div className="rounded-lg border bg-muted/30 px-3 py-2"><p className="text-muted-foreground">Blocos de coroamento</p><p className="font-bold tabular-nums">{totalBlocos} un</p></div>
+      </div>)}
+    </div>
+  );
+}
+function SecaoCobertura({ params, setParams }: { params: Partial<CalcParamsRaw>; setParams: (fn: (p: Partial<CalcParamsRaw>) => Partial<CalcParamsRaw>) => void }) {
+  return (<div className="space-y-3">
+    <div className="grid sm:grid-cols-2 gap-3">
+      <InputNum label="Area do telhado" campo="area_telhado" params={params} setParams={setParams} suffix="m2" step={1} helper="Area real com beiral" />
+      <div className="grid gap-1"><Label className="text-xs font-medium">Tipo de telha</Label>
+        <Select value={String(params.tipo_telha ?? 1)} onValueChange={v => setParams(p => ({ ...p, tipo_telha: Number(v) }))}><SelectTrigger className="h-9 text-sm"><SelectValue /></SelectTrigger>
+          <SelectContent><SelectItem value="1">Barro colonial (madeira + telha)</SelectItem><SelectItem value="2">Aluzinco (estrutura metalica)</SelectItem></SelectContent>
+        </Select>
+        <p className="text-[11px] text-muted-foreground">{params.tipo_telha === 2 ? 'cmp-7000+cmp-7001' : 'cmp-7004+cmp-7005'}</p>
+      </div>
+    </div>
+    <div className="grid sm:grid-cols-2 gap-3">
+      <InputNum label="Rufos" campo="comp_rufos" params={params} setParams={setParams} suffix="m" step={0.5} helper="cmp-7002" />
+      <InputNum label="Calhas" campo="comp_calhas" params={params} setParams={setParams} suffix="m" step={0.5} helper="cmp-7003" />
+    </div>
+  </div>);
+}
+function SecaoImperme({ params, setParams }: { params: Partial<CalcParamsRaw>; setParams: (fn: (p: Partial<CalcParamsRaw>) => Partial<CalcParamsRaw>) => void }) {
+  return <div className="grid sm:grid-cols-2 gap-3"><InputNum label="Area molhada" campo="area_imper_molhada" params={params} setParams={setParams} suffix="m2" step={0.5} helper="Banheiros, cozinha - cmp-8001" /></div>;
+}
+function SecaoRevest({ params, setParams }: { params: Partial<CalcParamsRaw>; setParams: (fn: (p: Partial<CalcParamsRaw>) => Partial<CalcParamsRaw>) => void }) {
+  return (<div className="grid sm:grid-cols-2 gap-3"><InputNum label="Chapisco+reboco" campo="area_revest_interno" params={params} setParams={setParams} suffix="m2" step={1} helper="cmp-9000+cmp-9001" /><InputNum label="Ceramica parede" campo="area_ceramica_parede" params={params} setParams={setParams} suffix="m2" step={0.5} helper="cmp-9004" /></div>);
+}
+function SecaoForro({ params, setParams }: { params: Partial<CalcParamsRaw>; setParams: (fn: (p: Partial<CalcParamsRaw>) => Partial<CalcParamsRaw>) => void }) {
+  return <div className="grid sm:grid-cols-2 gap-3"><InputNum label="Area de forro" campo="area_forro" params={params} setParams={setParams} suffix="m2" step={1} helper="Forro PVC - cmp-10002" /></div>;
+}
+function SecaoPintura({ params, setParams }: { params: Partial<CalcParamsRaw>; setParams: (fn: (p: Partial<CalcParamsRaw>) => Partial<CalcParamsRaw>) => void }) {
+  return (<div className="grid sm:grid-cols-2 gap-3"><InputNum label="Pintura interna" campo="area_pintura_interna" params={params} setParams={setParams} suffix="m2" step={1} helper="cmp-12002+cmp-12000" /><InputNum label="Pintura externa" campo="area_pintura_externa" params={params} setParams={setParams} suffix="m2" step={1} helper="cmp-12003+cmp-12001" /></div>);
+}
+function SecaoPisos({ params, setParams }: { params: Partial<CalcParamsRaw>; setParams: (fn: (p: Partial<CalcParamsRaw>) => Partial<CalcParamsRaw>) => void }) {
+  return <div className="grid sm:grid-cols-2 gap-3"><InputNum label="Area de piso" campo="area_piso" params={params} setParams={setParams} suffix="m2" step={1} helper="Contrapiso cmp-13000 + ceramica cmp-13012" /></div>;
+}
+function SecaoAcabamento({ params, setParams }: { params: Partial<CalcParamsRaw>; setParams: (fn: (p: Partial<CalcParamsRaw>) => Partial<CalcParamsRaw>) => void }) {
+  return <div className="grid sm:grid-cols-2 gap-3"><InputNum label="Comprimento rodape" campo="comp_rodape" params={params} setParams={setParams} suffix="m" step={0.5} helper="Rodape ceramico - cmp-14002" /></div>;
+}
+function SecaoHidraulica({ params, setParams }: { params: Partial<CalcParamsRaw>; setParams: (fn: (p: Partial<CalcParamsRaw>) => Partial<CalcParamsRaw>) => void }) {
+  return (<div className="grid sm:grid-cols-2 gap-3"><InputNum label="Pontos de agua fria" campo="n_pontos_agua" params={params} setParams={setParams} step={1} helper="cmp-16000 + reservatorio cmp-16005" /><InputNum label="Metros de rede" campo="metros_rede_agua" params={params} setParams={setParams} suffix="m" step={1} helper="cmp-16006" /></div>);
+}
+function SecaoEsgoto({ params, setParams }: { params: Partial<CalcParamsRaw>; setParams: (fn: (p: Partial<CalcParamsRaw>) => Partial<CalcParamsRaw>) => void }) {
+  return (<div className="grid sm:grid-cols-2 gap-3"><InputNum label="Pontos de esgoto" campo="n_pontos_esgoto" params={params} setParams={setParams} step={1} helper="cmp-17001+cmp-17003" /><InputNum label="Cx. sifonadas" campo="n_caixa_sifonada" params={params} setParams={setParams} step={1} helper="cmp-17004" /><InputNum label="Cx. inspecao" campo="n_caixa_inspecao" params={params} setParams={setParams} step={1} helper="cmp-17006" /></div>);
+}
+function SecaoBanheiro({ params, setParams }: { params: Partial<CalcParamsRaw>; setParams: (fn: (p: Partial<CalcParamsRaw>) => Partial<CalcParamsRaw>) => void }) {
+  return <div className="grid sm:grid-cols-2 gap-3"><InputNum label="Numero de banheiros" campo="n_banheiros" params={params} setParams={setParams} step={1} min={0} helper="Loucas cmp-18000 + metais cmp-18001" /></div>;
+}
+function SecaoComplementos() {
+  return <div className="p-3 rounded-lg border bg-green-50/40 border-green-200"><p className="text-xs text-green-800 font-medium">Limpeza final incluida automaticamente - cmp-19001 (1 vb).</p></div>;
+}
+const AMBIENTES_RAPIDOS_ELE = [
+  { label: 'Quarto',   defaults: { tomadas: 3, tomadas_duplas: 0, interruptores: 1, luminarias: 1, chuveiro: false } },
+  { label: 'Sala',     defaults: { tomadas: 4, tomadas_duplas: 1, interruptores: 1, luminarias: 2, chuveiro: false } },
+  { label: 'Cozinha',  defaults: { tomadas: 4, tomadas_duplas: 1, interruptores: 1, luminarias: 1, chuveiro: false } },
+  { label: 'Banheiro', defaults: { tomadas: 1, tomadas_duplas: 0, interruptores: 1, luminarias: 1, chuveiro: true  } },
+];
+function SecaoEletrica({ ambientes, setAmbientes }: { ambientes: CalcAmbienteEle[]; setAmbientes: (v: CalcAmbienteEle[]) => void }) {
+  function addAmb(nome: string, def: Omit<CalcAmbienteEle,'id'|'nome'>) { setAmbientes([...ambientes, { id: Math.random().toString(36).slice(2), nome, ...def }]); }
+  function remove(id: string) { setAmbientes(ambientes.filter(a => a.id !== id)); }
+  function upd<K extends keyof CalcAmbienteEle>(id: string, f: K, v: CalcAmbienteEle[K]) { setAmbientes(ambientes.map(a => a.id === id ? { ...a, [f]: v } : a)); }
+  const tot = ambientes.reduce((acc, a) => ({ tomadas: acc.tomadas+a.tomadas, duplas: acc.duplas+a.tomadas_duplas, inter: acc.inter+a.interruptores, lum: acc.lum+a.luminarias, ch: acc.ch+(a.chuveiro?1:0) }), { tomadas:0, duplas:0, inter:0, lum:0, ch:0 });
+  return (
+    <div className="space-y-3">
+      <div><p className="text-xs text-muted-foreground mb-2">Adicione ambientes. Padrao: 3 tomadas + 1 luz.</p>
+        <div className="flex flex-wrap gap-2">
+          {AMBIENTES_RAPIDOS_ELE.map(a => <Button key={a.label} size="sm" variant="outline" className="h-7 text-xs" onClick={() => addAmb(a.label, a.defaults)}><Plus className="h-3 w-3 mr-1"/>{a.label}</Button>)}
+          <Button size="sm" variant="outline" className="h-7 text-xs" onClick={() => addAmb('Ambiente', { tomadas:3, tomadas_duplas:0, interruptores:1, luminarias:1, chuveiro:false })}><Plus className="h-3 w-3 mr-1"/> Outro</Button>
+        </div>
+      </div>
+      {ambientes.length === 0 && <div className="border border-dashed rounded-lg py-4 text-center text-xs text-muted-foreground">Nenhum ambiente - use os botoes acima</div>}
+      {ambientes.length > 0 && (<div className="border rounded-lg overflow-auto">
+        <table className="w-full text-xs min-w-[640px]"><thead><tr className="bg-muted/50 border-b">
+          <th className="text-left px-3 py-2 w-28">Ambiente</th><th className="text-center px-2 py-2">Tom.s</th><th className="text-center px-2 py-2">Tom.d</th>
+          <th className="text-center px-2 py-2">Interrup.</th><th className="text-center px-2 py-2">Luminarias</th><th className="text-center px-2 py-2">Chuveiro</th><th className="w-8"></th>
+        </tr></thead>
+        <tbody>{ambientes.map(a => (
+          <tr key={a.id} className="border-b last:border-0 hover:bg-muted/20">
+            <td className="px-2 py-1.5"><input type="text" value={a.nome} onChange={e=>upd(a.id,'nome',e.target.value)} className="h-7 text-xs border rounded px-2 w-full"/></td>
+            <td className="px-2 py-1.5"><input type="number" min={0} step={1} value={a.tomadas} onFocus={e=>e.target.select()} onChange={e=>upd(a.id,'tomadas',Number(e.target.value))} className="h-7 text-xs border rounded px-2 text-center w-14 block mx-auto"/></td>
+            <td className="px-2 py-1.5"><input type="number" min={0} step={1} value={a.tomadas_duplas} onFocus={e=>e.target.select()} onChange={e=>upd(a.id,'tomadas_duplas',Number(e.target.value))} className="h-7 text-xs border rounded px-2 text-center w-14 block mx-auto"/></td>
+            <td className="px-2 py-1.5"><input type="number" min={0} step={1} value={a.interruptores} onFocus={e=>e.target.select()} onChange={e=>upd(a.id,'interruptores',Number(e.target.value))} className="h-7 text-xs border rounded px-2 text-center w-14 block mx-auto"/></td>
+            <td className="px-2 py-1.5"><input type="number" min={0} step={1} value={a.luminarias} onFocus={e=>e.target.select()} onChange={e=>upd(a.id,'luminarias',Number(e.target.value))} className="h-7 text-xs border rounded px-2 text-center w-14 block mx-auto"/></td>
+            <td className="px-2 py-1.5 text-center"><input type="checkbox" checked={a.chuveiro} onChange={e=>upd(a.id,'chuveiro',e.target.checked)} className="h-4 w-4 accent-primary"/></td>
+            <td className="px-1 py-1.5"><button onClick={()=>remove(a.id)} className="text-muted-foreground hover:text-destructive"><Trash2 className="h-3 w-3"/></button></td>
+          </tr>
+        ))}</tbody>
+        </table></div>
+      )}
+      {ambientes.length > 0 && (<div className="grid grid-cols-5 gap-2 text-xs">
+        <div className="rounded-lg border bg-amber-50 border-amber-200 px-3 py-2"><p className="opacity-70">Tom.simples</p><p className="font-bold">{tot.tomadas}</p></div>
+        <div className="rounded-lg border bg-orange-50 border-orange-200 px-3 py-2"><p className="opacity-70">Tom.duplas</p><p className="font-bold">{tot.duplas}</p></div>
+        <div className="rounded-lg border bg-violet-50 border-violet-200 px-3 py-2"><p className="opacity-70">Interruptores</p><p className="font-bold">{tot.inter}</p></div>
+        <div className="rounded-lg border bg-teal-50 border-teal-200 px-3 py-2"><p className="opacity-70">Luminarias</p><p className="font-bold">{tot.lum}</p></div>
+        <div className="rounded-lg border bg-blue-50 border-blue-200 px-3 py-2"><p className="opacity-70">Chuveiros</p><p className="font-bold">{tot.ch}</p></div>
+      </div>)}
+    </div>
+  );
+}
+
 
 // ─── Painel de preview ────────────────────────────────────────────────────────
 function PainelPreview({
@@ -962,27 +1105,27 @@ function CalculadoraContent() {
   const [orcamentoTitulo, setOrcamentoTitulo] = useState(orcTituloParam);
 
   const [params, setParams] = useState<Partial<CalcParamsRaw>>({
-    esp_estribo: 0.15,
-    n_barras_long: 4,
-    tabua_larg: 0.20,
+    esp_estribo: 0.15, n_barras_long: 4, tabua_larg: 0.20,
+    tipo_alv: 2, tipo_telha: 1,
   });
   const [vaos, setVaos] = useState<CalcVao[]>([]);
   const [pilares, setPilares] = useState<CalcPilarItem[]>([]);
   const [vigas, setVigas] = useState<CalcVigaIndItem[]>([]);
   const [lajes, setLajes] = useState<CalcLajeItem[]>([]);
+  const [estacas, setEstacas] = useState<CalcEstacaItem[]>([]);
+  const [ambientesEle, setAmbientesEle] = useState<CalcAmbienteEle[]>([]);
 
   const [expandidos, setExpandidos] = useState<Record<string, boolean>>({
-    preliminares: true,
-    fundacoes: false,
-    alvenaria: false,
-    pilares: false,
-    vigas_ind: false,
-    laje: false,
+    preliminares: true, fundacoes: false, estacas: false, laje: false,
+    pilares: false, vigas_ind: false, alvenaria: false, esquadrias: false,
+    cobertura: false, imperme: false, revest: false, forro: false,
+    pintura: false, pisos: false, acabamento: false, eletrica: false,
+    hidraulica: false, esgoto: false, banheiro: false, complementos: false,
   });
 
   const calcItems = useMemo(
-    () => calcularQuantitativos(params, vaos, pilares, vigas, lajes),
-    [params, vaos, pilares, vigas, lajes],
+    () => calcularQuantitativos(params, vaos, pilares, vigas, lajes, estacas, ambientesEle),
+    [params, vaos, pilares, vigas, lajes, estacas, ambientesEle],
   );
   const [selecionados, setSelecionados] = useState<Set<string>>(new Set());
   const [aplicando, setAplicando] = useState(false);
@@ -1140,9 +1283,6 @@ function CalculadoraContent() {
               {grupo.id === 'fundacoes' && (
                 <SecaoFundacoes params={params} setParams={setParams} />
               )}
-              {grupo.id === 'alvenaria' && (
-                <SecaoAlvenaria params={params} setParams={setParams} vaos={vaos} setVaos={setVaos} />
-              )}
               {grupo.id === 'pilares' && (
                 <SecaoPilares pilares={pilares} setPilares={setPilares} />
               )}
@@ -1151,6 +1291,54 @@ function CalculadoraContent() {
               )}
               {grupo.id === 'laje' && (
                 <SecaoLaje lajes={lajes} setLajes={setLajes} />
+              )}
+              {grupo.id === 'estacas' && (
+                <SecaoEstacas estacas={estacas} setEstacas={setEstacas} />
+              )}
+              {grupo.id === 'alvenaria' && (
+                <SecaoAlvenaria params={params} setParams={setParams} vaos={vaos} setVaos={setVaos} />
+              )}
+              {grupo.id === 'esquadrias' && (
+                <div className='p-3 rounded-lg border bg-amber-50/40 border-amber-200'>
+                  <p className='text-xs text-amber-800 font-medium'>Gerado automaticamente dos vãos</p>
+                  <p className='text-[11px] text-amber-700 mt-1'>Adicione portas e janelas na seção Alvenaria.</p>
+                </div>
+              )}
+              {grupo.id === 'cobertura' && (
+                <SecaoCobertura params={params} setParams={setParams} />
+              )}
+              {grupo.id === 'imperme' && (
+                <SecaoImperme params={params} setParams={setParams} />
+              )}
+              {grupo.id === 'revest' && (
+                <SecaoRevest params={params} setParams={setParams} />
+              )}
+              {grupo.id === 'forro' && (
+                <SecaoForro params={params} setParams={setParams} />
+              )}
+              {grupo.id === 'pintura' && (
+                <SecaoPintura params={params} setParams={setParams} />
+              )}
+              {grupo.id === 'pisos' && (
+                <SecaoPisos params={params} setParams={setParams} />
+              )}
+              {grupo.id === 'acabamento' && (
+                <SecaoAcabamento params={params} setParams={setParams} />
+              )}
+              {grupo.id === 'eletrica' && (
+                <SecaoEletrica ambientes={ambientesEle} setAmbientes={setAmbientesEle} />
+              )}
+              {grupo.id === 'hidraulica' && (
+                <SecaoHidraulica params={params} setParams={setParams} />
+              )}
+              {grupo.id === 'esgoto' && (
+                <SecaoEsgoto params={params} setParams={setParams} />
+              )}
+              {grupo.id === 'banheiro' && (
+                <SecaoBanheiro params={params} setParams={setParams} />
+              )}
+              {grupo.id === 'complementos' && (
+                <SecaoComplementos />
               )}
             </GrupoSection>
           ))}
