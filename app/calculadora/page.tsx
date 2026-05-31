@@ -374,7 +374,7 @@ function SecaoAlvenaria({
   );
 }
 
-﻿// --- Novas Secoes ---
+// --- Novas Secoes ---
 function SecaoEstacas({ estacas, setEstacas }: { estacas: CalcEstacaItem[]; setEstacas: (v: CalcEstacaItem[]) => void }) {
   function add() { setEstacas([...estacas, { id: Math.random().toString(36).slice(2), desc: '', qtd: 1, prof: 3, blocos: 1 }]); }
   function remove(id: string) { setEstacas(estacas.filter(e => e.id !== id)); }
