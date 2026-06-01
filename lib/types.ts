@@ -30,6 +30,7 @@ export interface Composicao {
   descricao_tecnica: string;
   status: StatusRegistro;
   custo_unitario?: number;
+  etapa_codigo?: string;
 }
 
 export interface ItemComposicao {
