@@ -1021,5 +1021,16 @@
     "status": "ativo",
     "data_alteracao": "2026-05-29",
     "etapa_codigo": "05"
+  },
+  {
+    "id": "cmp-4003",
+    "codigo": "4003",
+    "descricao": "Cinta de Coroamento em Canela Cerâmica",
+    "unidade_producao": "m",
+    "producao": 1,
+    "descricao_tecnica": "",
+    "status": "ativo",
+    "data_alteracao": "2026-06-02",
+    "etapa_codigo": "04"
   }
 ]

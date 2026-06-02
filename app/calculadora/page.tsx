@@ -254,21 +254,58 @@ function SecaoLoucas({ ambientes, setAmbientes }: { ambientes: CalcAmbiente[]; s
   );
 }
 
+// --- Campo obrigatório com asterisco e destaque quando vazio ---
+function InputNumReq({ label, campo, params, setParams, suffix, step, placeholder, helper }: Parameters<typeof InputNum>[0]) {
+  const vazio = !params[campo];
+  return (
+    <div className="grid gap-1">
+      <Label className="text-xs font-medium flex items-center gap-1">
+        {label}
+        <span className="text-destructive font-bold">*</span>
+        {vazio && <span className="text-[10px] text-amber-600 font-normal">(obrigatório)</span>}
+      </Label>
+      <div className="relative">
+        <Input type="number" min={0} step={step ?? 0.01}
+          value={params[campo] ?? ''}
+          onFocus={e => e.target.select()}
+          onChange={e => { const n = e.target.value === '' ? undefined : Number(e.target.value); setParams(p => ({ ...p, [campo]: n })); }}
+          placeholder={placeholder || '0'}
+          className={`h-9 text-sm ${suffix ? 'pr-10' : ''} ${vazio ? 'border-amber-400 bg-amber-50/40 focus:border-amber-500' : 'border-green-400 bg-green-50/30'}`} />
+        {suffix && <span className="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-muted-foreground pointer-events-none">{suffix}</span>}
+      </div>
+      {helper && <p className="text-[11px] text-muted-foreground">{helper}</p>}
+    </div>
+  );
+}
+
 // --- SecaoPreliminares (Dados do Projeto) ---
 function SecaoPreliminares({ params, setParams, ambientes, setAmbientes }: {
   params: Partial<CalcParamsRaw>; setParams: (fn: (p: Partial<CalcParamsRaw>) => Partial<CalcParamsRaw>) => void;
   ambientes: CalcAmbiente[]; setAmbientes: (v: CalcAmbiente[]) => void;
 }) {
+  const camposObrig: Array<keyof CalcParamsRaw> = ['area_construida','area_terreno','perimetro_terreno','perimetro_paredes','perimetro_externo','comp_paredes_internas','pe_direito'];
+  const preenchidos = camposObrig.filter(c => params[c] && (params[c] as number) > 0).length;
   return (
     <div className="space-y-4">
+      {/* Barra de progresso dos campos obrigatórios */}
+      <div className="flex items-center gap-2 text-xs">
+        <div className="flex-1 h-1.5 bg-muted rounded-full overflow-hidden">
+          <div className={`h-full rounded-full transition-all ${preenchidos === camposObrig.length ? 'bg-green-500' : 'bg-amber-400'}`}
+            style={{ width: `${(preenchidos / camposObrig.length) * 100}%` }} />
+        </div>
+        <span className={`shrink-0 font-medium ${preenchidos === camposObrig.length ? 'text-green-600' : 'text-amber-600'}`}>
+          {preenchidos}/{camposObrig.length} campos
+        </span>
+      </div>
+
       <div className="grid sm:grid-cols-3 gap-3">
-        <InputNum label="Área Construída Total" campo="area_construida" params={params} setParams={setParams} suffix="m²" step={1} />
-        <InputNum label="Área Terreno" campo="area_terreno" params={params} setParams={setParams} suffix="m²" step={1} />
-        <InputNum label="Perímetro Terreno" campo="perimetro_terreno" params={params} setParams={setParams} suffix="m" step={0.5} helper="Para tapumes" />
-        <InputNum label="Perímetro de Paredes" campo="perimetro_paredes" params={params} setParams={setParams} suffix="m" step={0.5} helper="Total de paredes" />
-        <InputNum label="Perímetro Externo Edificação" campo="perimetro_externo" params={params} setParams={setParams} suffix="m" step={0.5} />
-        <InputNum label="Comprimento Paredes Internas" campo="comp_paredes_internas" params={params} setParams={setParams} suffix="m" step={0.5} />
-        <InputNum label="Pé Direito" campo="pe_direito" params={params} setParams={setParams} suffix="m" step={0.05} placeholder="2.80" />
+        <InputNumReq label="Área Construída Total" campo="area_construida" params={params} setParams={setParams} suffix="m²" step={1} />
+        <InputNumReq label="Área Terreno" campo="area_terreno" params={params} setParams={setParams} suffix="m²" step={1} />
+        <InputNumReq label="Perímetro Terreno" campo="perimetro_terreno" params={params} setParams={setParams} suffix="m" step={0.5} helper="Para tapumes" />
+        <InputNumReq label="Perímetro de Paredes" campo="perimetro_paredes" params={params} setParams={setParams} suffix="m" step={0.5} helper="Total de paredes" />
+        <InputNumReq label="Perímetro Externo Edificação" campo="perimetro_externo" params={params} setParams={setParams} suffix="m" step={0.5} />
+        <InputNumReq label="Comprimento Paredes Internas" campo="comp_paredes_internas" params={params} setParams={setParams} suffix="m" step={0.5} />
+        <InputNumReq label="Pé Direito" campo="pe_direito" params={params} setParams={setParams} suffix="m" step={0.05} placeholder="2.80" />
       </div>
       <div className="border-t pt-4">
         <div className="flex items-center gap-2 mb-2">
@@ -380,6 +417,13 @@ function SecaoAlvenaria({ params, setParams, vaos, setVaos }: { params: Partial<
   const derived = derivarParams(params, vaos);
   const bruta = (params.comp_paredes || 0) * (params.alt_paredes || 0);
   const liquida = Math.max(0, bruta - (derived.area_vaos || 0));
+  const comCinta = (params.cinta_coroamento ?? 0) === 1;
+
+  // Valor sugerido da cinta = perímetro de paredes dos Dados do Projeto
+  const cintaSugerida = params.perimetro_paredes || params.comp_paredes || undefined;
+  // Derived com cinta para o SugEdit
+  const derivedComCinta: Partial<CalcParamsRaw> = { ...derived, comp_paredes: cintaSugerida };
+
   return (
     <div className="space-y-4">
       <div className="grid sm:grid-cols-3 gap-3">
@@ -422,6 +466,30 @@ function SecaoAlvenaria({ params, setParams, vaos, setVaos }: { params: Partial<
               ))}</tbody>
             </table></div>
         }
+      </div>
+
+      {/* Cinta de coroamento (opcional) */}
+      <div className={`rounded-lg border p-3 space-y-2 transition-colors ${comCinta ? 'border-orange-300 bg-orange-50/40' : 'border-dashed border-border bg-muted/20'}`}>
+        <label className="flex items-center gap-2 cursor-pointer">
+          <input type="checkbox" checked={comCinta}
+            onChange={e => setParams(p => ({ ...p, cinta_coroamento: e.target.checked ? 1 : 0 }))}
+            className="h-4 w-4 accent-primary" />
+          <span className="text-xs font-semibold">Incluir Cinta Superior de Coroamento</span>
+          <span className="text-[10px] text-muted-foreground">— Cinta de Coroamento em Canela Cerâmica</span>
+        </label>
+        {comCinta && (
+          <div className="ml-6">
+            <SugEdit
+              label="Comprimento da cinta (perímetro de paredes)"
+              campo="comp_paredes"
+              params={params}
+              setParams={setParams}
+              derived={derivedComCinta}
+              unidade="m"
+              obs="Sugerido = perímetro de paredes dos Dados do Projeto"
+            />
+          </div>
+        )}
       </div>
     </div>
   );
@@ -819,7 +887,7 @@ function CalculadoraContent() {
   const [params, setParams] = useState<Partial<CalcParamsRaw>>({
     esp_estribo: 0.15, n_barras_long: 4, tabua_larg: 0.20, bitola_baldrame: 8, tipo_alv: 2,
     tipo_telha: 1, forro_tipo: 1, piso_tipo: 1, rodape_tipo: 1, pe_direito: 2.8,
-    massa_int: 1, contrapiso_armado: 0,
+    massa_int: 1, contrapiso_armado: 0, cinta_coroamento: 0,
   });
   const [vaos, setVaos] = useState<CalcVao[]>([]);
   const [pilares, setPilares] = useState<CalcPilarItem[]>([]);

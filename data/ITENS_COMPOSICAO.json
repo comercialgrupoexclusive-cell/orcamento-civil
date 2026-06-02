@@ -3,35 +3,35 @@
     "id": "itc-1000-L7-1",
     "composicao_id": "cmp-1000",
     "insumo_id": "ins-L7",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "Hr"
   },
   {
     "id": "itc-1001-P18-1",
     "composicao_id": "cmp-1001",
     "insumo_id": "ins-P18",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-1002-P654-1",
     "composicao_id": "cmp-1002",
     "insumo_id": "ins-P654",
-    "coeficiente": 2.0,
+    "coeficiente": 2,
     "unidade": "m²"
   },
   {
     "id": "itc-1002-P549-1",
     "composicao_id": "cmp-1002",
     "insumo_id": "ins-P549",
-    "coeficiente": 4.0,
+    "coeficiente": 4,
     "unidade": "un"
   },
   {
     "id": "itc-1002-P652-1",
     "composicao_id": "cmp-1002",
     "insumo_id": "ins-P652",
-    "coeficiente": 20.0,
+    "coeficiente": 20,
     "unidade": "un"
   },
   {
@@ -80,7 +80,7 @@
     "id": "itc-1003-MO-A001-1",
     "composicao_id": "cmp-1003",
     "insumo_id": "ins-MO-A001",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
@@ -150,112 +150,112 @@
     "id": "itc-1004-MO-A002-1",
     "composicao_id": "cmp-1004",
     "insumo_id": "ins-MO-A002",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-1005-P175-1",
     "composicao_id": "cmp-1005",
     "insumo_id": "ins-P175",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-1005-P212-1",
     "composicao_id": "cmp-1005",
     "insumo_id": "ins-P212",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-1005-P217-1",
     "composicao_id": "cmp-1005",
     "insumo_id": "ins-P217",
-    "coeficiente": 2.0,
+    "coeficiente": 2,
     "unidade": "un"
   },
   {
     "id": "itc-1005-P216-1",
     "composicao_id": "cmp-1005",
     "insumo_id": "ins-P216",
-    "coeficiente": 4.0,
+    "coeficiente": 4,
     "unidade": "un"
   },
   {
     "id": "itc-1005-P378-1",
     "composicao_id": "cmp-1005",
     "insumo_id": "ins-P378",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-1005-P318-1",
     "composicao_id": "cmp-1005",
     "insumo_id": "ins-P318",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-1005-P327-1",
     "composicao_id": "cmp-1005",
     "insumo_id": "ins-P327",
-    "coeficiente": 5.0,
+    "coeficiente": 5,
     "unidade": "un"
   },
   {
     "id": "itc-1005-P597-1",
     "composicao_id": "cmp-1005",
     "insumo_id": "ins-P597",
-    "coeficiente": 2.0,
+    "coeficiente": 2,
     "unidade": "un"
   },
   {
     "id": "itc-1005-P176-1",
     "composicao_id": "cmp-1005",
     "insumo_id": "ins-P176",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-1006-P604-1",
     "composicao_id": "cmp-1006",
     "insumo_id": "ins-P604",
-    "coeficiente": 15.0,
+    "coeficiente": 15,
     "unidade": "un"
   },
   {
     "id": "itc-1006-P192-1",
     "composicao_id": "cmp-1006",
     "insumo_id": "ins-P192",
-    "coeficiente": 2.0,
+    "coeficiente": 2,
     "unidade": "un"
   },
   {
     "id": "itc-1006-P559-1",
     "composicao_id": "cmp-1006",
     "insumo_id": "ins-P559",
-    "coeficiente": 5.0,
+    "coeficiente": 5,
     "unidade": "un"
   },
   {
     "id": "itc-1006-P360-1",
     "composicao_id": "cmp-1006",
     "insumo_id": "ins-P360",
-    "coeficiente": 2.0,
+    "coeficiente": 2,
     "unidade": "un"
   },
   {
     "id": "itc-1007-P632-1",
     "composicao_id": "cmp-1007",
     "insumo_id": "ins-P632",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-1008-P633-1",
     "composicao_id": "cmp-1008",
     "insumo_id": "ins-P633",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
@@ -297,21 +297,21 @@
     "id": "itc-1009-MO-A003-1",
     "composicao_id": "cmp-1009",
     "insumo_id": "ins-MO-A003",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "m"
   },
   {
     "id": "itc-1010-P655-1",
     "composicao_id": "cmp-1010",
     "insumo_id": "ins-P655",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-1011-P656-1",
     "composicao_id": "cmp-1011",
     "insumo_id": "ins-P656",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
@@ -353,14 +353,14 @@
     "id": "itc-2000-MO-A004-1",
     "composicao_id": "cmp-2000",
     "insumo_id": "ins-MO-A004",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "m²"
   },
   {
     "id": "itc-2001-P27-1",
     "composicao_id": "cmp-2001",
     "insumo_id": "ins-P27",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
@@ -388,14 +388,14 @@
     "id": "itc-2001-P51-1",
     "composicao_id": "cmp-2001",
     "insumo_id": "ins-P51",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-2001-P52-1",
     "composicao_id": "cmp-2001",
     "insumo_id": "ins-P52",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
@@ -416,7 +416,7 @@
     "id": "itc-2001-MO-A005-1",
     "composicao_id": "cmp-2001",
     "insumo_id": "ins-MO-A005",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
@@ -465,7 +465,7 @@
     "id": "itc-2002-MO-A006-1",
     "composicao_id": "cmp-2002",
     "insumo_id": "ins-MO-A006",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
@@ -479,7 +479,7 @@
     "id": "itc-2004-MO-A007-1",
     "composicao_id": "cmp-2004",
     "insumo_id": "ins-MO-A007",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "m²"
   },
   {
@@ -507,7 +507,7 @@
     "id": "itc-2005-MO-A008-1",
     "composicao_id": "cmp-2005",
     "insumo_id": "ins-MO-A008",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "m²"
   },
   {
@@ -570,14 +570,14 @@
     "id": "itc-2006-MO-A009-1",
     "composicao_id": "cmp-2006",
     "insumo_id": "ins-MO-A009",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "m²"
   },
   {
     "id": "itc-3007-P45-1",
     "composicao_id": "cmp-3007",
     "insumo_id": "ins-P45",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "m³"
   },
   {
@@ -605,7 +605,7 @@
     "id": "itc-3007-M9-1",
     "composicao_id": "cmp-3007",
     "insumo_id": "ins-M9",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "m²"
   },
   {
@@ -647,77 +647,77 @@
     "id": "itc-3008-MO-A010-1",
     "composicao_id": "cmp-3008",
     "insumo_id": "ins-MO-A010",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "m"
   },
   {
     "id": "itc-3009-P49-1",
     "composicao_id": "cmp-3009",
     "insumo_id": "ins-P49",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "m³"
   },
   {
     "id": "itc-3009-MO-A011-1",
     "composicao_id": "cmp-3009",
     "insumo_id": "ins-MO-A011",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "m²"
   },
   {
     "id": "itc-3016-P50-1",
     "composicao_id": "cmp-3016",
     "insumo_id": "ins-P50",
-    "coeficiente": 6.0,
+    "coeficiente": 6,
     "unidade": "un"
   },
   {
     "id": "itc-3016-P51-1",
     "composicao_id": "cmp-3016",
     "insumo_id": "ins-P51",
-    "coeficiente": 12.0,
+    "coeficiente": 12,
     "unidade": "un"
   },
   {
     "id": "itc-3016-P37-1",
     "composicao_id": "cmp-3016",
     "insumo_id": "ins-P37",
-    "coeficiente": 15.0,
+    "coeficiente": 15,
     "unidade": "un"
   },
   {
     "id": "itc-3016-P627-1",
     "composicao_id": "cmp-3016",
     "insumo_id": "ins-P627",
-    "coeficiente": 5.0,
+    "coeficiente": 5,
     "unidade": "un"
   },
   {
     "id": "itc-3016-P56-1",
     "composicao_id": "cmp-3016",
     "insumo_id": "ins-P56",
-    "coeficiente": 2.0,
+    "coeficiente": 2,
     "unidade": "un"
   },
   {
     "id": "itc-3016-P30-1",
     "composicao_id": "cmp-3016",
     "insumo_id": "ins-P30",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-3016-P32-1",
     "composicao_id": "cmp-3016",
     "insumo_id": "ins-P32",
-    "coeficiente": 15.0,
+    "coeficiente": 15,
     "unidade": "un"
   },
   {
     "id": "itc-3016-MO-A012-1",
     "composicao_id": "cmp-3016",
     "insumo_id": "ins-MO-A012",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
@@ -731,7 +731,7 @@
     "id": "itc-4000-P63-1",
     "composicao_id": "cmp-4000",
     "insumo_id": "ins-P63",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
@@ -759,7 +759,7 @@
     "id": "itc-4000-MO-A013-1",
     "composicao_id": "cmp-4000",
     "insumo_id": "ins-MO-A013",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "m²"
   },
   {
@@ -794,7 +794,7 @@
     "id": "itc-4001-P51-1",
     "composicao_id": "cmp-4001",
     "insumo_id": "ins-P51",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
@@ -808,21 +808,21 @@
     "id": "itc-4001-M63-1",
     "composicao_id": "cmp-4001",
     "insumo_id": "ins-M63",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "m²"
   },
   {
     "id": "itc-4002-P173-1",
     "composicao_id": "cmp-4002",
     "insumo_id": "ins-P173",
-    "coeficiente": 17.0,
+    "coeficiente": 17,
     "unidade": "un"
   },
   {
     "id": "itc-4002-P63-1",
     "composicao_id": "cmp-4002",
     "insumo_id": "ins-P63",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
@@ -850,35 +850,35 @@
     "id": "itc-4002-MO-A013-1",
     "composicao_id": "cmp-4002",
     "insumo_id": "ins-MO-A013",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "m²"
   },
   {
     "id": "itc-5002-P648-1",
     "composicao_id": "cmp-5002",
     "insumo_id": "ins-P648",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "m²"
   },
   {
     "id": "itc-5003-P649-1",
     "composicao_id": "cmp-5003",
     "insumo_id": "ins-P649",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "m²"
   },
   {
     "id": "itc-6000-P615-1",
     "composicao_id": "cmp-6000",
     "insumo_id": "ins-P615",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "m²"
   },
   {
     "id": "itc-7000-P8-1",
     "composicao_id": "cmp-7000",
     "insumo_id": "ins-P8",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
@@ -906,14 +906,14 @@
     "id": "itc-7000-MO-A014-1",
     "composicao_id": "cmp-7000",
     "insumo_id": "ins-MO-A014",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "m²"
   },
   {
     "id": "itc-7001-P616-1",
     "composicao_id": "cmp-7001",
     "insumo_id": "ins-P616",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "m"
   },
   {
@@ -934,7 +934,7 @@
     "id": "itc-7001-M26-1",
     "composicao_id": "cmp-7001",
     "insumo_id": "ins-M26",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
@@ -990,14 +990,14 @@
     "id": "itc-7004-P6-1",
     "composicao_id": "cmp-7004",
     "insumo_id": "ins-P6",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-7004-MO-A015-1",
     "composicao_id": "cmp-7004",
     "insumo_id": "ins-MO-A015",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "m²"
   },
   {
@@ -1018,7 +1018,7 @@
     "id": "itc-7005-M26-1",
     "composicao_id": "cmp-7005",
     "insumo_id": "ins-M26",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
@@ -1039,7 +1039,7 @@
     "id": "itc-7006-M26-1",
     "composicao_id": "cmp-7006",
     "insumo_id": "ins-M26",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
@@ -1060,7 +1060,7 @@
     "id": "itc-8000-M52-1",
     "composicao_id": "cmp-8000",
     "insumo_id": "ins-M52",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
@@ -1081,7 +1081,7 @@
     "id": "itc-8001-M52-1",
     "composicao_id": "cmp-8001",
     "insumo_id": "ins-M52",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
@@ -1102,7 +1102,7 @@
     "id": "itc-8002-M52-1",
     "composicao_id": "cmp-8002",
     "insumo_id": "ins-M52",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
@@ -1123,7 +1123,7 @@
     "id": "itc-9000-M25-1",
     "composicao_id": "cmp-9000",
     "insumo_id": "ins-M25",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
@@ -1158,7 +1158,7 @@
     "id": "itc-9001-M36-1",
     "composicao_id": "cmp-9001",
     "insumo_id": "ins-M36",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
@@ -1193,21 +1193,21 @@
     "id": "itc-9002-M2-1",
     "composicao_id": "cmp-9002",
     "insumo_id": "ins-M2",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "m²"
   },
   {
     "id": "itc-9003-P278-1",
     "composicao_id": "cmp-9003",
     "insumo_id": "ins-P278",
-    "coeficiente": 2.0,
+    "coeficiente": 2,
     "unidade": "un"
   },
   {
     "id": "itc-9003-P277-1",
     "composicao_id": "cmp-9003",
     "insumo_id": "ins-P277",
-    "coeficiente": 4.0,
+    "coeficiente": 4,
     "unidade": "un"
   },
   {
@@ -1242,7 +1242,7 @@
     "id": "itc-9004-M2-1",
     "composicao_id": "cmp-9004",
     "insumo_id": "ins-M2",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "m²"
   },
   {
@@ -1305,7 +1305,7 @@
     "id": "itc-10000-M34-1",
     "composicao_id": "cmp-10000",
     "insumo_id": "ins-M34",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
@@ -1319,7 +1319,7 @@
     "id": "itc-10002-P6-1",
     "composicao_id": "cmp-10002",
     "insumo_id": "ins-P6",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
@@ -1333,7 +1333,7 @@
     "id": "itc-10002-MO-A016-1",
     "composicao_id": "cmp-10002",
     "insumo_id": "ins-MO-A016",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "m²"
   },
   {
@@ -1354,7 +1354,7 @@
     "id": "itc-12000-M61-1",
     "composicao_id": "cmp-12000",
     "insumo_id": "ins-M61",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
@@ -1375,7 +1375,7 @@
     "id": "itc-12001-M61-1",
     "composicao_id": "cmp-12001",
     "insumo_id": "ins-M61",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
@@ -1403,7 +1403,7 @@
     "id": "itc-12002-MO-A017-1",
     "composicao_id": "cmp-12002",
     "insumo_id": "ins-MO-A017",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "m²"
   },
   {
@@ -1431,7 +1431,7 @@
     "id": "itc-12003-MO-A017-1",
     "composicao_id": "cmp-12003",
     "insumo_id": "ins-MO-A017",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "m²"
   },
   {
@@ -1445,7 +1445,7 @@
     "id": "itc-12004-M6-1",
     "composicao_id": "cmp-12004",
     "insumo_id": "ins-M6",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "m²"
   },
   {
@@ -1466,28 +1466,28 @@
     "id": "itc-12005-M61-1",
     "composicao_id": "cmp-12005",
     "insumo_id": "ins-M61",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-12006-P118-1",
     "composicao_id": "cmp-12006",
     "insumo_id": "ins-P118",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-12006-P120-1",
     "composicao_id": "cmp-12006",
     "insumo_id": "ins-P120",
-    "coeficiente": 3.0,
+    "coeficiente": 3,
     "unidade": "un"
   },
   {
     "id": "itc-12006-P124-1",
     "composicao_id": "cmp-12006",
     "insumo_id": "ins-P124",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
@@ -1508,7 +1508,7 @@
     "id": "itc-13000-M32-1",
     "composicao_id": "cmp-13000",
     "insumo_id": "ins-M32",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
@@ -1543,7 +1543,7 @@
     "id": "itc-13002-M14-1",
     "composicao_id": "cmp-13002",
     "insumo_id": "ins-M14",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
@@ -1564,7 +1564,7 @@
     "id": "itc-13005-M14-1",
     "composicao_id": "cmp-13005",
     "insumo_id": "ins-M14",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
@@ -1599,14 +1599,14 @@
     "id": "itc-13012-M14-1",
     "composicao_id": "cmp-13012",
     "insumo_id": "ins-M14",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-14000-P286-1",
     "composicao_id": "cmp-14000",
     "insumo_id": "ins-P286",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "m²"
   },
   {
@@ -1620,28 +1620,28 @@
     "id": "itc-14000-M53-1",
     "composicao_id": "cmp-14000",
     "insumo_id": "ins-M53",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-14001-P619-1",
     "composicao_id": "cmp-14001",
     "insumo_id": "ins-P619",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-14001-P160-1",
     "composicao_id": "cmp-14001",
     "insumo_id": "ins-P160",
-    "coeficiente": 4.0,
+    "coeficiente": 4,
     "unidade": "un"
   },
   {
     "id": "itc-14001-MO-A018-1",
     "composicao_id": "cmp-14001",
     "insumo_id": "ins-MO-A018",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
@@ -1669,91 +1669,91 @@
     "id": "itc-14002-MO-A019-1",
     "composicao_id": "cmp-14002",
     "insumo_id": "ins-MO-A019",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-15002-P-A003-1",
     "composicao_id": "cmp-15002",
     "insumo_id": "ins-P-A003",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-15002-P560-1",
     "composicao_id": "cmp-15002",
     "insumo_id": "ins-P560",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-15002-P667-1",
     "composicao_id": "cmp-15002",
     "insumo_id": "ins-P667",
-    "coeficiente": 15.0,
+    "coeficiente": 15,
     "unidade": "m"
   },
   {
     "id": "itc-15002-P670-1",
     "composicao_id": "cmp-15002",
     "insumo_id": "ins-P670",
-    "coeficiente": 20.0,
+    "coeficiente": 20,
     "unidade": "m"
   },
   {
     "id": "itc-15002-M7-1",
     "composicao_id": "cmp-15002",
     "insumo_id": "ins-M7",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-15004-P207-1",
     "composicao_id": "cmp-15004",
     "insumo_id": "ins-P207",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-15004-P667-1",
     "composicao_id": "cmp-15004",
     "insumo_id": "ins-P667",
-    "coeficiente": 5.0,
+    "coeficiente": 5,
     "unidade": "m"
   },
   {
     "id": "itc-15004-P670-1",
     "composicao_id": "cmp-15004",
     "insumo_id": "ins-P670",
-    "coeficiente": 5.0,
+    "coeficiente": 5,
     "unidade": "m"
   },
   {
     "id": "itc-15004-M7-1",
     "composicao_id": "cmp-15004",
     "insumo_id": "ins-M7",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-15005-P509-1",
     "composicao_id": "cmp-15005",
     "insumo_id": "ins-P509",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-15005-P501-1",
     "composicao_id": "cmp-15005",
     "insumo_id": "ins-P501",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-15005-P502-1",
     "composicao_id": "cmp-15005",
     "insumo_id": "ins-P502",
-    "coeficiente": 7.0,
+    "coeficiente": 7,
     "unidade": "un"
   },
   {
@@ -1767,21 +1767,21 @@
     "id": "itc-15005-P504-1",
     "composicao_id": "cmp-15005",
     "insumo_id": "ins-P504",
-    "coeficiente": 2.0,
+    "coeficiente": 2,
     "unidade": "un"
   },
   {
     "id": "itc-15006-P209-1",
     "composicao_id": "cmp-15006",
     "insumo_id": "ins-P209",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-15006-M7-1",
     "composicao_id": "cmp-15006",
     "insumo_id": "ins-M7",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
@@ -1795,322 +1795,322 @@
     "id": "itc-15007-M4-1",
     "composicao_id": "cmp-15007",
     "insumo_id": "ins-M4",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-15009-P-A005-1",
     "composicao_id": "cmp-15009",
     "insumo_id": "ins-P-A005",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-15009-P560-1",
     "composicao_id": "cmp-15009",
     "insumo_id": "ins-P560",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-15009-P667-1",
     "composicao_id": "cmp-15009",
     "insumo_id": "ins-P667",
-    "coeficiente": 5.0,
+    "coeficiente": 5,
     "unidade": "m"
   },
   {
     "id": "itc-15009-P670-1",
     "composicao_id": "cmp-15009",
     "insumo_id": "ins-P670",
-    "coeficiente": 15.0,
+    "coeficiente": 15,
     "unidade": "m"
   },
   {
     "id": "itc-15009-M7-1",
     "composicao_id": "cmp-15009",
     "insumo_id": "ins-M7",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-15010-P-A006-1",
     "composicao_id": "cmp-15010",
     "insumo_id": "ins-P-A006",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-15010-P560-1",
     "composicao_id": "cmp-15010",
     "insumo_id": "ins-P560",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-15010-P667-1",
     "composicao_id": "cmp-15010",
     "insumo_id": "ins-P667",
-    "coeficiente": 5.0,
+    "coeficiente": 5,
     "unidade": "m"
   },
   {
     "id": "itc-15010-P670-1",
     "composicao_id": "cmp-15010",
     "insumo_id": "ins-P670",
-    "coeficiente": 15.0,
+    "coeficiente": 15,
     "unidade": "m"
   },
   {
     "id": "itc-15010-M7-1",
     "composicao_id": "cmp-15010",
     "insumo_id": "ins-M7",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-15011-P-A005-1",
     "composicao_id": "cmp-15011",
     "insumo_id": "ins-P-A005",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-15011-P560-1",
     "composicao_id": "cmp-15011",
     "insumo_id": "ins-P560",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-15011-P667-1",
     "composicao_id": "cmp-15011",
     "insumo_id": "ins-P667",
-    "coeficiente": 5.0,
+    "coeficiente": 5,
     "unidade": "m"
   },
   {
     "id": "itc-15011-P671-1",
     "composicao_id": "cmp-15011",
     "insumo_id": "ins-P671",
-    "coeficiente": 15.0,
+    "coeficiente": 15,
     "unidade": "m"
   },
   {
     "id": "itc-15011-M7-1",
     "composicao_id": "cmp-15011",
     "insumo_id": "ins-M7",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-15012-P-A005-1",
     "composicao_id": "cmp-15012",
     "insumo_id": "ins-P-A005",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-15012-P560-1",
     "composicao_id": "cmp-15012",
     "insumo_id": "ins-P560",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-15012-P667-1",
     "composicao_id": "cmp-15012",
     "insumo_id": "ins-P667",
-    "coeficiente": 5.0,
+    "coeficiente": 5,
     "unidade": "m"
   },
   {
     "id": "itc-15012-P671-1",
     "composicao_id": "cmp-15012",
     "insumo_id": "ins-P671",
-    "coeficiente": 15.0,
+    "coeficiente": 15,
     "unidade": "m"
   },
   {
     "id": "itc-15012-M7-1",
     "composicao_id": "cmp-15012",
     "insumo_id": "ins-M7",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-15013-P593-1",
     "composicao_id": "cmp-15013",
     "insumo_id": "ins-P593",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-15013-P560-1",
     "composicao_id": "cmp-15013",
     "insumo_id": "ins-P560",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-15013-P667-1",
     "composicao_id": "cmp-15013",
     "insumo_id": "ins-P667",
-    "coeficiente": 5.0,
+    "coeficiente": 5,
     "unidade": "m"
   },
   {
     "id": "itc-15013-P672-1",
     "composicao_id": "cmp-15013",
     "insumo_id": "ins-P672",
-    "coeficiente": 50.0,
+    "coeficiente": 50,
     "unidade": "m"
   },
   {
     "id": "itc-15013-M7-1",
     "composicao_id": "cmp-15013",
     "insumo_id": "ins-M7",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-16000-P556-1",
     "composicao_id": "cmp-16000",
     "insumo_id": "ins-P556",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-16000-P371-1",
     "composicao_id": "cmp-16000",
     "insumo_id": "ins-P371",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-16000-P524-1",
     "composicao_id": "cmp-16000",
     "insumo_id": "ins-P524",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-16000-P327-1",
     "composicao_id": "cmp-16000",
     "insumo_id": "ins-P327",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-16000-P326-1",
     "composicao_id": "cmp-16000",
     "insumo_id": "ins-P326",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-16000-P597-1",
     "composicao_id": "cmp-16000",
     "insumo_id": "ins-P597",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-16000-P598-1",
     "composicao_id": "cmp-16000",
     "insumo_id": "ins-P598",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-16000-P600-1",
     "composicao_id": "cmp-16000",
     "insumo_id": "ins-P600",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-16000-P527-1",
     "composicao_id": "cmp-16000",
     "insumo_id": "ins-P527",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-16000-M58-1",
     "composicao_id": "cmp-16000",
     "insumo_id": "ins-M58",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-16005-P81-1",
     "composicao_id": "cmp-16005",
     "insumo_id": "ins-P81",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-16005-P324-1",
     "composicao_id": "cmp-16005",
     "insumo_id": "ins-P324",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-16005-P316-1",
     "composicao_id": "cmp-16005",
     "insumo_id": "ins-P316",
-    "coeficiente": 6.0,
+    "coeficiente": 6,
     "unidade": "un"
   },
   {
     "id": "itc-16005-MO-A020-1",
     "composicao_id": "cmp-16005",
     "insumo_id": "ins-MO-A020",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-16005-P651-1",
     "composicao_id": "cmp-16005",
     "insumo_id": "ins-P651",
-    "coeficiente": 2.0,
+    "coeficiente": 2,
     "unidade": "un"
   },
   {
     "id": "itc-16005-P650-1",
     "composicao_id": "cmp-16005",
     "insumo_id": "ins-P650",
-    "coeficiente": 2.0,
+    "coeficiente": 2,
     "unidade": "un"
   },
   {
     "id": "itc-16005-P623-1",
     "composicao_id": "cmp-16005",
     "insumo_id": "ins-P623",
-    "coeficiente": 2.0,
+    "coeficiente": 2,
     "unidade": "un"
   },
   {
     "id": "itc-16005-P376-1",
     "composicao_id": "cmp-16005",
     "insumo_id": "ins-P376",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-16005-P318-1",
     "composicao_id": "cmp-16005",
     "insumo_id": "ins-P318",
-    "coeficiente": 2.0,
+    "coeficiente": 2,
     "unidade": "un"
   },
   {
     "id": "itc-16005-P377-1",
     "composicao_id": "cmp-16005",
     "insumo_id": "ins-P377",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
@@ -2124,189 +2124,189 @@
     "id": "itc-16006-M58-1",
     "composicao_id": "cmp-16006",
     "insumo_id": "ins-M58",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-16007-P651-1",
     "composicao_id": "cmp-16007",
     "insumo_id": "ins-P651",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-16007-P650-1",
     "composicao_id": "cmp-16007",
     "insumo_id": "ins-P650",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-16007-P623-1",
     "composicao_id": "cmp-16007",
     "insumo_id": "ins-P623",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-16007-P493-1",
     "composicao_id": "cmp-16007",
     "insumo_id": "ins-P493",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-16007-M58-1",
     "composicao_id": "cmp-16007",
     "insumo_id": "ins-M58",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-16007-P315-1",
     "composicao_id": "cmp-16007",
     "insumo_id": "ins-P315",
-    "coeficiente": 2.0,
+    "coeficiente": 2,
     "unidade": "un"
   },
   {
     "id": "itc-16007-P316-1",
     "composicao_id": "cmp-16007",
     "insumo_id": "ins-P316",
-    "coeficiente": 2.0,
+    "coeficiente": 2,
     "unidade": "un"
   },
   {
     "id": "itc-16007-P554-1",
     "composicao_id": "cmp-16007",
     "insumo_id": "ins-P554",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-16007-MO-A021-1",
     "composicao_id": "cmp-16007",
     "insumo_id": "ins-MO-A021",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-16007-P315-2",
     "composicao_id": "cmp-16007",
     "insumo_id": "ins-P315",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-16007-P316-2",
     "composicao_id": "cmp-16007",
     "insumo_id": "ins-P316",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-16007-P555-1",
     "composicao_id": "cmp-16007",
     "insumo_id": "ins-P555",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-16007-P376-1",
     "composicao_id": "cmp-16007",
     "insumo_id": "ins-P376",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-16007-P417-1",
     "composicao_id": "cmp-16007",
     "insumo_id": "ins-P417",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-16007-P554-2",
     "composicao_id": "cmp-16007",
     "insumo_id": "ins-P554",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-16007-P555-2",
     "composicao_id": "cmp-16007",
     "insumo_id": "ins-P555",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-16011-P323-1",
     "composicao_id": "cmp-16011",
     "insumo_id": "ins-P323",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-16011-P324-1",
     "composicao_id": "cmp-16011",
     "insumo_id": "ins-P324",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-16011-P316-1",
     "composicao_id": "cmp-16011",
     "insumo_id": "ins-P316",
-    "coeficiente": 6.0,
+    "coeficiente": 6,
     "unidade": "un"
   },
   {
     "id": "itc-16011-MO-A020-1",
     "composicao_id": "cmp-16011",
     "insumo_id": "ins-MO-A020",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-16011-P651-1",
     "composicao_id": "cmp-16011",
     "insumo_id": "ins-P651",
-    "coeficiente": 2.0,
+    "coeficiente": 2,
     "unidade": "un"
   },
   {
     "id": "itc-16011-P650-1",
     "composicao_id": "cmp-16011",
     "insumo_id": "ins-P650",
-    "coeficiente": 2.0,
+    "coeficiente": 2,
     "unidade": "un"
   },
   {
     "id": "itc-16011-P623-1",
     "composicao_id": "cmp-16011",
     "insumo_id": "ins-P623",
-    "coeficiente": 2.0,
+    "coeficiente": 2,
     "unidade": "un"
   },
   {
     "id": "itc-16011-P376-1",
     "composicao_id": "cmp-16011",
     "insumo_id": "ins-P376",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-16011-P318-1",
     "composicao_id": "cmp-16011",
     "insumo_id": "ins-P318",
-    "coeficiente": 2.0,
+    "coeficiente": 2,
     "unidade": "un"
   },
   {
     "id": "itc-16011-P377-1",
     "composicao_id": "cmp-16011",
     "insumo_id": "ins-P377",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
@@ -2383,203 +2383,203 @@
     "id": "itc-17003-P319-1",
     "composicao_id": "cmp-17003",
     "insumo_id": "ins-P319",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-17003-P320-1",
     "composicao_id": "cmp-17003",
     "insumo_id": "ins-P320",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-17003-MO-A022-1",
     "composicao_id": "cmp-17003",
     "insumo_id": "ins-MO-A022",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-17004-P234-1",
     "composicao_id": "cmp-17004",
     "insumo_id": "ins-P234",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-17004-P320-1",
     "composicao_id": "cmp-17004",
     "insumo_id": "ins-P320",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-17004-MO-A022-1",
     "composicao_id": "cmp-17004",
     "insumo_id": "ins-MO-A022",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-17005-P675-1",
     "composicao_id": "cmp-17005",
     "insumo_id": "ins-P675",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-17005-P320-1",
     "composicao_id": "cmp-17005",
     "insumo_id": "ins-P320",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-17005-MO-A022-1",
     "composicao_id": "cmp-17005",
     "insumo_id": "ins-MO-A022",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-17006-P519-1",
     "composicao_id": "cmp-17006",
     "insumo_id": "ins-P519",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-17006-MO-A022-1",
     "composicao_id": "cmp-17006",
     "insumo_id": "ins-MO-A022",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-18000-P132-1",
     "composicao_id": "cmp-18000",
     "insumo_id": "ins-P132",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-18000-P291-1",
     "composicao_id": "cmp-18000",
     "insumo_id": "ins-P291",
-    "coeficiente": 2.0,
+    "coeficiente": 2,
     "unidade": "un"
   },
   {
     "id": "itc-18000-P128-1",
     "composicao_id": "cmp-18000",
     "insumo_id": "ins-P128",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-18000-P676-1",
     "composicao_id": "cmp-18000",
     "insumo_id": "ins-P676",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-18000-MO-A022-1",
     "composicao_id": "cmp-18000",
     "insumo_id": "ins-MO-A022",
-    "coeficiente": 3.0,
+    "coeficiente": 3,
     "unidade": "un"
   },
   {
     "id": "itc-18000-P-A007-1",
     "composicao_id": "cmp-18000",
     "insumo_id": "ins-P-A007",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-18001-P551-1",
     "composicao_id": "cmp-18001",
     "insumo_id": "ins-P551",
-    "coeficiente": 6.0,
+    "coeficiente": 6,
     "unidade": "un"
   },
   {
     "id": "itc-18001-P587-1",
     "composicao_id": "cmp-18001",
     "insumo_id": "ins-P587",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-18001-P130-1",
     "composicao_id": "cmp-18001",
     "insumo_id": "ins-P130",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-18001-P126-1",
     "composicao_id": "cmp-18001",
     "insumo_id": "ins-P126",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-19000-M55-1",
     "composicao_id": "cmp-19000",
     "insumo_id": "ins-M55",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-19001-P591-1",
     "composicao_id": "cmp-19001",
     "insumo_id": "ins-P591",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-19001-P315-1",
     "composicao_id": "cmp-19001",
     "insumo_id": "ins-P315",
-    "coeficiente": 2.0,
+    "coeficiente": 2,
     "unidade": "un"
   },
   {
     "id": "itc-19001-P316-1",
     "composicao_id": "cmp-19001",
     "insumo_id": "ins-P316",
-    "coeficiente": 2.0,
+    "coeficiente": 2,
     "unidade": "un"
   },
   {
     "id": "itc-19001-P555-1",
     "composicao_id": "cmp-19001",
     "insumo_id": "ins-P555",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-19001-MO-A021-1",
     "composicao_id": "cmp-19001",
     "insumo_id": "ins-MO-A021",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-2001.1-P51-1",
     "composicao_id": "cmp-2001.1",
     "insumo_id": "ins-P51",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-2001.1-P52-1",
     "composicao_id": "cmp-2001.1",
     "insumo_id": "ins-P52",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
@@ -2600,14 +2600,14 @@
     "id": "itc-2001.1-MO-A023-1",
     "composicao_id": "cmp-2001.1",
     "insumo_id": "ins-MO-A023",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-2002.1-P52-1",
     "composicao_id": "cmp-2002.1",
     "insumo_id": "ins-P52",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
@@ -2656,21 +2656,21 @@
     "id": "itc-2002.1-MO-A024-1",
     "composicao_id": "cmp-2002.1",
     "insumo_id": "ins-MO-A024",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-2002.2-P52-1",
     "composicao_id": "cmp-2002.2",
     "insumo_id": "ins-P52",
-    "coeficiente": 2.0,
+    "coeficiente": 2,
     "unidade": "un"
   },
   {
     "id": "itc-2002.2-P54-1",
     "composicao_id": "cmp-2002.2",
     "insumo_id": "ins-P54",
-    "coeficiente": 3.0,
+    "coeficiente": 3,
     "unidade": "un"
   },
   {
@@ -2712,7 +2712,7 @@
     "id": "itc-2002.2-MO-A025-1",
     "composicao_id": "cmp-2002.2",
     "insumo_id": "ins-MO-A025",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
@@ -2733,14 +2733,14 @@
     "id": "itc-2002.3-P32-1",
     "composicao_id": "cmp-2002.3",
     "insumo_id": "ins-P32",
-    "coeficiente": 6.0,
+    "coeficiente": 6,
     "unidade": "un"
   },
   {
     "id": "itc-2002.3-M31-1",
     "composicao_id": "cmp-2002.3",
     "insumo_id": "ins-M31",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
@@ -2754,7 +2754,7 @@
     "id": "itc-2003.1-P54-1",
     "composicao_id": "cmp-2003.1",
     "insumo_id": "ins-P54",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
@@ -2768,7 +2768,7 @@
     "id": "itc-2003.1-P50-1",
     "composicao_id": "cmp-2003.1",
     "insumo_id": "ins-P50",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
@@ -2789,7 +2789,7 @@
     "id": "itc-2003.1-MO-A026-1",
     "composicao_id": "cmp-2003.1",
     "insumo_id": "ins-MO-A026",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "m"
   },
   {
@@ -2824,7 +2824,7 @@
     "id": "itc-2003.2-MO-A027-1",
     "composicao_id": "cmp-2003.2",
     "insumo_id": "ins-MO-A027",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "m"
   },
   {
@@ -2859,21 +2859,21 @@
     "id": "itc-2003.3-MO-A028-1",
     "composicao_id": "cmp-2003.3",
     "insumo_id": "ins-MO-A028",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "m"
   },
   {
     "id": "itc-5004-P800",
     "composicao_id": "cmp-5004",
     "insumo_id": "ins-P800",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "m²"
   },
   {
     "id": "itc-5004-P801",
     "composicao_id": "cmp-5004",
     "insumo_id": "ins-P801",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "m²"
   },
   {
@@ -2887,14 +2887,14 @@
     "id": "itc-5004-MO029",
     "composicao_id": "cmp-5004",
     "insumo_id": "ins-MO-A029",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "m²"
   },
   {
     "id": "itc-5005-P800",
     "composicao_id": "cmp-5005",
     "insumo_id": "ins-P800",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "m²"
   },
   {
@@ -2908,49 +2908,98 @@
     "id": "itc-5005-MO029",
     "composicao_id": "cmp-5005",
     "insumo_id": "ins-MO-A029",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "m²"
   },
   {
     "id": "itc-5006-P803",
     "composicao_id": "cmp-5006",
     "insumo_id": "ins-P803",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-5006-P804",
     "composicao_id": "cmp-5006",
     "insumo_id": "ins-P804",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-5006-P805",
     "composicao_id": "cmp-5006",
     "insumo_id": "ins-P805",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-5006-P806",
     "composicao_id": "cmp-5006",
     "insumo_id": "ins-P806",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-5006-P807",
     "composicao_id": "cmp-5006",
     "insumo_id": "ins-P807",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
   },
   {
     "id": "itc-5006-MO030",
     "composicao_id": "cmp-5006",
     "insumo_id": "ins-MO-A030",
-    "coeficiente": 1.0,
+    "coeficiente": 1,
     "unidade": "un"
+  },
+  {
+    "id": "itc-4003-P57-1",
+    "composicao_id": "cmp-4003",
+    "insumo_id": "ins-P57",
+    "coeficiente": 3.384615,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-4003-P32-1",
+    "composicao_id": "cmp-4003",
+    "insumo_id": "ins-P32",
+    "coeficiente": 0.092308,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-4003-P33-1",
+    "composicao_id": "cmp-4003",
+    "insumo_id": "ins-P33",
+    "coeficiente": 0.015385,
+    "unidade": "m³"
+  },
+  {
+    "id": "itc-4003-P34-1",
+    "composicao_id": "cmp-4003",
+    "insumo_id": "ins-P34",
+    "coeficiente": 0.015385,
+    "unidade": "m³"
+  },
+  {
+    "id": "itc-4003-P51-1",
+    "composicao_id": "cmp-4003",
+    "insumo_id": "ins-P51",
+    "coeficiente": 1,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-4003-P64-1",
+    "composicao_id": "cmp-4003",
+    "insumo_id": "ins-P64",
+    "coeficiente": 0.169231,
+    "unidade": "un"
+  },
+  {
+    "id": "itc-4003-M63-1",
+    "composicao_id": "cmp-4003",
+    "insumo_id": "ins-M63",
+    "coeficiente": 1,
+    "unidade": "m²"
   }
 ]

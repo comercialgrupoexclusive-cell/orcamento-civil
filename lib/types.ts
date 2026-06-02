@@ -147,6 +147,7 @@ export interface CalcParamsRaw {
   // Alvenaria / Paredes e Painéis
   comp_paredes: number;
   alt_paredes: number;
+  cinta_coroamento: number;        // 1 = incluir cinta superior, 0 = não
   // Derivados de vaos[]
   area_vaos: number;
   area_vaos_janelas: number;
