@@ -6,9 +6,9 @@ const TMP_DIR    = '/tmp/orcamento-data';
 
 export const SHEET_HEADERS: Record<string, string[]> = {
   INSUMOS: ['id', 'codigo', 'descricao', 'unidade', 'preco', 'tipo', 'categoria', 'status', 'data_alteracao'],
-  COMPOSICOES: ['id', 'codigo', 'descricao', 'unidade_producao', 'producao', 'descricao_tecnica', 'status', 'data_alteracao'],
+  COMPOSICOES: ['id', 'codigo', 'descricao', 'unidade_producao', 'producao', 'descricao_tecnica', 'status', 'data_alteracao', 'etapa_codigo', 'categoria'],
   ITENS_COMPOSICAO: ['id', 'composicao_id', 'insumo_id', 'coeficiente', 'unidade'],
-  ORCAMENTOS: ['id', 'titulo', 'descricao', 'data_criacao', 'data_atualizacao', 'status', 'bdi_percentual'],
+  ORCAMENTOS: ['id', 'titulo', 'descricao', 'area_construida', 'data_criacao', 'data_atualizacao', 'status', 'bdi_percentual'],
   ITENS_ORCAMENTO: [
     'id', 'orcamento_id', 'etapa_codigo', 'sub_etapa', 'composicao_id',
     'descricao_override', 'unidade_override', 'custo_unitario_override',
