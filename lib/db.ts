@@ -86,44 +86,51 @@ function writeTmpFile(sheetName: string, rows: Record<string, string>[]): void {
 
 const BLOB_BASE = 'data';
 
+/** Extrai o store ID do token Vercel Blob (formato: vercel_blob_rw_STOREID_xxxx) */
+function blobStoreUrl(): string | null {
+  const token = process.env.BLOB_READ_WRITE_TOKEN || '';
+  const parts = token.split('_');
+  // vercel(0) blob(1) rw(2) STOREID(3) hash(4)
+  const storeId = parts[3];
+  if (!storeId) return null;
+  return `https://${storeId.toLowerCase()}.private.blob.vercel-storage.com`;
+}
+
 async function blobRead(sheetName: string): Promise<Record<string, string>[]> {
-  // 1. Tenta cache /tmp primeiro (warm invocation)
+  // Cache /tmp curto (5s) — apenas para múltiplas leituras na mesma invocação
   const tmp = tmpPath(sheetName);
   if (fs.existsSync(tmp)) {
     try {
       const stat = fs.statSync(tmp);
-      // Cache válido por 60 segundos
-      if (Date.now() - stat.mtimeMs < 60_000) {
+      if (Date.now() - stat.mtimeMs < 5_000) {
         return JSON.parse(fs.readFileSync(tmp, 'utf-8'));
       }
     } catch { /**/ }
   }
 
+  const token = process.env.BLOB_READ_WRITE_TOKEN || '';
+  const blobPath = `${BLOB_BASE}/${sheetName}.json`;
+
   try {
-    const { list, head } = await import('@vercel/blob');
-
-    // Verificar se o arquivo existe no Blob
-    const blobPath = `${BLOB_BASE}/${sheetName}.json`;
-    const { blobs } = await list({ prefix: blobPath, limit: 1 });
-
-    if (blobs.length > 0) {
-      const res = await fetch(blobs[0].downloadUrl, {
-        headers: { 'Authorization': `Bearer ${process.env.BLOB_READ_WRITE_TOKEN}` },
-        cache: 'no-store',
+    // URL direta — sem list() que pode retornar downloadUrl expirada
+    const baseUrl = blobStoreUrl();
+    if (baseUrl) {
+      const res = await fetch(`${baseUrl}/${blobPath}`, {
+        headers: { Authorization: `Bearer ${token}` },
       });
       if (res.ok) {
         const data = await res.json() as Record<string, string>[];
-        // Salva no cache /tmp
         try { ensureTmpDir(); fs.writeFileSync(tmp, JSON.stringify(data, null, 2)); } catch { /**/ }
         return data;
       }
+      if (res.status !== 404) {
+        console.error('[blob] read HTTP', res.status, sheetName);
+      }
     }
 
-    // Blob não existe → seed dos arquivos bundled
+    // Blob não existe (404) → seed dos arquivos bundled e salva no Blob
     const seed = readLocalFile(sheetName);
-    if (seed.length > 0) {
-      await blobWrite(sheetName, seed);
-    }
+    if (seed.length > 0) await blobWrite(sheetName, seed);
     return seed;
   } catch (err) {
     console.error('[blob] read error', sheetName, err);
