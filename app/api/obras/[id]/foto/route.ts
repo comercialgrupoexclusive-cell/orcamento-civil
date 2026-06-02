@@ -21,9 +21,9 @@ export async function POST(
     const ext = file.type.split('/')[1]?.replace('jpeg', 'jpg') || 'jpg';
     const filename = `obras/${id}/foto.${ext}`;
 
-    // Blob público — URL permanente, sem necessidade de auth no browser
+    // Blob privado — servido via proxy /api/obras/[id]/foto/imagem
     const blob = await put(filename, await file.arrayBuffer(), {
-      access: 'public',
+      access: 'private',
       contentType: file.type,
       addRandomSuffix: false,
       allowOverwrite: true,

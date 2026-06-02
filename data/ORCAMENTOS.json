@@ -10,32 +10,32 @@
   },
   {
     "id": "orc-geminada-42m2-2026",
-    "titulo": "Casa Geminada 42m² - Alv. Estrutural | Telha Barro | Piso Cerâmico",
+    "titulo": "Casa Geminada 42m² - Alv. Estrutural | TESTE - Telha Barro | Piso Cerâmico",
     "descricao": "5.0×8.4m=42m² (una unidade geminada) | Micro Estaca C25 | Viga Baldrame 15×30 | Alvenaria Estrutural | Bloco Calha | Telha Barro Natural | Piso Cerâmico | Forro PVC | Esquadrias Alumínio Popular | Portas Madeira Popular | Bacia Acoplada",
     "data_criacao": "2026-05-29",
-    "data_atualizacao": "2026-06-02T12:34:43.232Z",
+    "data_atualizacao": "2026-06-02T20:01:20.900Z",
     "status": "em_andamento",
     "bdi_percentual": "0.25",
-    "area_construida": "43"
+    "area_construida": "0"
   },
   {
     "id": "779114f9-87e7-4b9e-b6f1-77b32105bd1b",
-    "titulo": "Teste Final Casa de 43m²",
+    "titulo": "Casa 43m² Unifamiliar",
     "descricao": "",
-    "area_construida": "43",
+    "area_construida": "0",
     "data_criacao": "2026-06-02T18:40:46.013Z",
-    "data_atualizacao": "2026-06-02T19:02:54.263Z",
+    "data_atualizacao": "2026-06-02T20:03:53.301Z",
     "status": "em_andamento",
     "bdi_percentual": "0"
   },
   {
-    "id": "df8b899d-d338-473b-9dd1-407484ad25c9",
-    "titulo": "Cópia de Teste Final Casa de 43m²",
+    "id": "8cfca47c-a5d9-4ad3-958e-ea2e623a7d80",
+    "titulo": "Cópia de Casa 43m² Unifamiliar",
     "descricao": "",
-    "area_construida": "43",
-    "data_criacao": "2026-06-02T19:33:49.370Z",
-    "data_atualizacao": "2026-06-02T19:33:49.370Z",
-    "status": "em_andamento",
+    "area_construida": "0",
+    "data_criacao": "2026-06-02T20:12:20.497Z",
+    "data_atualizacao": "2026-06-02T23:19:42.049Z",
+    "status": "aprovado",
     "bdi_percentual": "0"
   }
 ]

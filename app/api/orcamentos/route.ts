@@ -18,10 +18,25 @@ export async function GET(req: NextRequest) {
 
     const insumoMap = Object.fromEntries(insumos.map(i => [i.id, i]));
 
-    const custoComposicao = (composicaoId: string) =>
-      itensComposicao
-        .filter(i => i.composicao_id === composicaoId)
-        .reduce((acc, i) => acc + Number(insumoMap[i.insumo_id]?.preco || 0) * Number(i.coeficiente || 0), 0);
+    // Calcula custo efetivo de um item do orçamento considerando qtd_overrides
+    // (mesma lógica do /api/orcamentos/[id]/route.ts)
+    function custoItemEfetivo(item: Record<string, string>): number {
+      const qtd = Number(item.quantidade) || 0;
+      const cuOverride = Number(item.custo_unitario_override) || 0;
+      if (cuOverride) return cuOverride * qtd;
+
+      const qtdOvs: Record<string, number> = {};
+      try { Object.assign(qtdOvs, JSON.parse(item.qtd_overrides || '{}')); } catch { /**/ }
+
+      const insItens = itensComposicao.filter(ic => ic.composicao_id === item.composicao_id);
+      if (insItens.length === 0) return 0;
+
+      return insItens.reduce((acc, ic) => {
+        const preco  = Number(insumoMap[ic.insumo_id]?.preco || 0);
+        const qtdIns = ic.insumo_id in qtdOvs ? qtdOvs[ic.insumo_id] : Number(ic.coeficiente || 0) * qtd;
+        return acc + preco * qtdIns;
+      }, 0);
+    }
 
     const filtrados = soTemplates
       ? rows.filter(r => r.status === 'template')
@@ -30,10 +45,7 @@ export async function GET(req: NextRequest) {
     const result = filtrados.map(row => {
       const bdi = Number(row.bdi_percentual) || 0;
       const orcItens = itens.filter(i => i.orcamento_id === row.id);
-      const totalDireto = orcItens.reduce((acc, i) => {
-        const custo = Number(i.custo_unitario_override) || custoComposicao(i.composicao_id);
-        return acc + custo * Number(i.quantidade || 0);
-      }, 0);
+      const totalDireto = orcItens.reduce((acc, i) => acc + custoItemEfetivo(i), 0);
       return {
         id: row.id,
         titulo: row.titulo,

@@ -1,7 +1,6 @@
 /**
- * Proxy que serve a foto da obra diretamente do Vercel Blob privado.
- * O browser chama /api/obras/[id]/foto/imagem e esta rota
- * baixa o blob com autenticação e retorna os bytes como image/jpeg.
+ * Proxy que serve a foto da obra do Vercel Blob privado.
+ * Usa Authorization: Bearer para autenticar com o blob store privado.
  */
 import { NextRequest, NextResponse } from 'next/server';
 import { readSheet } from '@/lib/db';
@@ -23,16 +22,19 @@ export async function GET(
     const fotoUrl = obra.foto_url || '';
     if (!fotoUrl) return new NextResponse(null, { status: 404 });
 
-    // Tenta buscar diretamente (funciona para URLs públicas)
-    // Para blobs privados legados, tenta também com o token
-    let res = await fetch(fotoUrl);
+    const token = process.env.BLOB_READ_WRITE_TOKEN ?? '';
+
+    // Blob privado: requer Authorization header
+    const res = await fetch(fotoUrl, {
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+      // Sem cache no fetch do servidor para sempre pegar a versão mais recente
+      cache: 'no-store',
+    });
+
     if (!res.ok) {
-      const token = process.env.BLOB_READ_WRITE_TOKEN;
-      if (token) {
-        res = await fetch(fotoUrl, { headers: { Authorization: `Bearer ${token}` } });
-      }
+      console.error(`[foto proxy] fetch falhou: ${res.status} ${fotoUrl.slice(0, 80)}`);
+      return new NextResponse(null, { status: res.status });
     }
-    if (!res.ok) return new NextResponse(null, { status: res.status });
 
     const contentType = res.headers.get('content-type') || 'image/jpeg';
     const buffer = await res.arrayBuffer();
@@ -40,11 +42,11 @@ export async function GET(
     return new NextResponse(buffer, {
       headers: {
         'Content-Type': contentType,
-        'Cache-Control': 'public, max-age=3600, stale-while-revalidate=7200',
+        'Cache-Control': 'private, max-age=1800',
       },
     });
   } catch (err) {
-    console.error('[foto proxy]', err);
+    console.error('[foto proxy] erro:', err);
     return new NextResponse(null, { status: 500 });
   }
 }

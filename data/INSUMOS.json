@@ -1709,11 +1709,11 @@
     "codigo": "P670",
     "descricao": "Cabo flexível 2,5 mm² 750V PVC antichama por metro",
     "unidade": "m",
-    "preco": 25,
+    "preco": "2.5",
     "tipo": "M",
     "categoria": "Tubulação e Hidráulica",
     "status": "ativo",
-    "data_alteracao": "2026-05-29"
+    "data_alteracao": "2026-06-02T19:50:30.016Z"
   },
   {
     "id": "ins-M7",
@@ -1852,11 +1852,11 @@
     "codigo": "P671",
     "descricao": "Cabo flexível 4 mm² 750V PVC antichama por metro",
     "unidade": "m",
-    "preco": 25,
+    "preco": "4",
     "tipo": "M",
     "categoria": "Tubulação e Hidráulica",
     "status": "ativo",
-    "data_alteracao": "2026-05-29"
+    "data_alteracao": "2026-06-02T19:50:33.051Z"
   },
   {
     "id": "ins-P593",
@@ -1874,11 +1874,11 @@
     "codigo": "P672",
     "descricao": "Cabo flexível 6 mm² 750V PVC antichama por metro",
     "unidade": "m",
-    "preco": 25,
+    "preco": "10",
     "tipo": "M",
     "categoria": "Tubulação e Hidráulica",
     "status": "ativo",
-    "data_alteracao": "2026-05-29"
+    "data_alteracao": "2026-06-02T19:50:35.506Z"
   },
   {
     "id": "ins-P556",

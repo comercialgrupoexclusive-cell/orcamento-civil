@@ -3001,5 +3001,19 @@
     "insumo_id": "ins-M63",
     "coeficiente": 1,
     "unidade": "m²"
+  },
+  {
+    "id": "bd3547fb-f148-459b-a441-b2734a8d8400",
+    "composicao_id": "cmp-18001",
+    "insumo_id": "ins-P554",
+    "coeficiente": "1",
+    "unidade": "un"
+  },
+  {
+    "id": "583ebb8e-8bd6-42a2-b2ef-6fe6d7a8db37",
+    "composicao_id": "cmp-18001",
+    "insumo_id": "ins-P555",
+    "coeficiente": "1",
+    "unidade": "un"
   }
 ]
