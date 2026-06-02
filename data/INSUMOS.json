@@ -2490,11 +2490,11 @@
     "codigo": "M31",
     "descricao": "Mão de Obra - Concreto Manual em Obra - Preparo em Betoneira",
     "unidade": "un",
-    "preco": 0,
+    "preco": "25",
     "tipo": "MO",
     "categoria": "Mão de Obra",
     "status": "ativo",
-    "data_alteracao": "2026-05-29"
+    "data_alteracao": "2026-06-02T18:55:41.412Z"
   },
   {
     "id": "ins-MO-A026",

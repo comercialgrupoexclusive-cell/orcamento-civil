@@ -1,23 +1,5 @@
 [
   {
-    "id": "318dd043-67f2-4e0c-a178-c8dfd127a661",
-    "titulo": "Teste 1",
-    "descricao": "",
-    "data_criacao": "2026-05-28T18:32:16.418Z",
-    "data_atualizacao": "2026-05-28T18:32:16.418Z",
-    "status": "em_andamento",
-    "bdi_percentual": "0"
-  },
-  {
-    "id": "b556e693-acc2-4573-b484-f64d147539ae",
-    "titulo": "[Template] Casa Geminada 42 m² — Estrutura + Telha Barro + Forro PVC",
-    "descricao": "Template baseado na Planta Baixa Casa 42m² (5.00×8.40m). 5 ambientes: Cozinha(7.25m²), Dorm1(7.25m²), Dorm2(7.25m²), Estar(8.95m²), Banho(2.44m²). Área de Serviço externa ~4.5m². Sem laje. Estrutura de vigas 15×30 (43m, 4Ø8). 11 micro estacas C25. Telha de barro. Forro PVC. Piso cerâmico 60×60 R$19.90. 3 tomadas + 1 interruptor + 1 luminária por ambiente (6 ambientes). Louças simples: bacia+caixa acoplada, lavatório coluna, pia cozinha inox.",
-    "data_criacao": "2026-05-29T01:43:58.014Z",
-    "data_atualizacao": "2026-05-29T01:43:58.014Z",
-    "status": "em_andamento",
-    "bdi_percentual": "25"
-  },
-  {
     "id": "e6e42868-d5d8-4836-a5af-fea83528b61f",
     "titulo": "[Template] Casa Geminada 42 m2 | Alv. Estrutural 14x19x29 | Telha Barro | Cinta 15x30 | Sem Laje | Forro PVC",
     "descricao": "Template gerado automaticamente",
@@ -25,15 +7,6 @@
     "data_atualizacao": "2026-05-29T02:27:13.818Z",
     "status": "template",
     "bdi_percentual": "0"
-  },
-  {
-    "id": "6782f9fb-840e-497c-8b14-b5bf3c53df6e",
-    "titulo": "Casa Geminada 42 m2 — Alv. Estrutural | Telha Barro | Sem Laje | BDI 25%",
-    "descricao": "Orcamento gerado a partir do template. Planta Baixa 5.00x8.40m. Elaborado 28/05/2026.",
-    "data_criacao": "2026-05-29T02:14:03.574Z",
-    "data_atualizacao": "2026-05-29T02:14:03.574Z",
-    "status": "em_andamento",
-    "bdi_percentual": "25"
   },
   {
     "id": "orc-geminada-42m2-2026",
@@ -46,57 +19,12 @@
     "area_construida": "43"
   },
   {
-    "id": "82d8fdee-b4bb-44b1-a4fd-00f2cfd407ea",
-    "titulo": "teste 2",
+    "id": "779114f9-87e7-4b9e-b6f1-77b32105bd1b",
+    "titulo": "Teste Final Casa de 43m²",
     "descricao": "",
-    "data_criacao": "2026-06-01T11:58:18.531Z",
-    "data_atualizacao": "2026-06-01T11:58:18.531Z",
-    "status": "em_andamento",
-    "bdi_percentual": "0"
-  },
-  {
-    "id": "fc465879-cf2d-4b59-ae97-a33d6542b1af",
-    "titulo": "nova calculadora",
-    "descricao": "",
-    "data_criacao": "2026-06-02T02:15:28.033Z",
-    "data_atualizacao": "2026-06-02T02:15:28.033Z",
-    "status": "em_andamento",
-    "bdi_percentual": "0"
-  },
-  {
-    "id": "f96d108e-3fd4-470c-8d53-dec7c3a5865b",
-    "titulo": "nova calculadora v4",
-    "descricao": "",
-    "data_criacao": "2026-06-02T11:32:30.864Z",
-    "data_atualizacao": "2026-06-02T11:32:30.864Z",
-    "status": "em_andamento",
-    "bdi_percentual": "0"
-  },
-  {
-    "id": "2c6da2ed-59ba-499a-8ee2-450993458f23",
-    "titulo": "teste v5",
-    "descricao": "",
-    "data_criacao": "2026-06-02T12:03:06.735Z",
-    "data_atualizacao": "2026-06-02T12:14:04.948Z",
-    "status": "em_andamento",
-    "bdi_percentual": "0",
-    "area_construida": "43"
-  },
-  {
-    "id": "eb78ffec-cc4b-4665-82eb-acfde5082f5b",
-    "titulo": "v6",
-    "descricao": "",
-    "data_criacao": "2026-06-02T12:39:19.101Z",
-    "data_atualizacao": "2026-06-02T12:39:19.101Z",
-    "status": "em_andamento",
-    "bdi_percentual": "0"
-  },
-  {
-    "id": "2dc39abb-71b5-4044-829b-c814fbd2776c",
-    "titulo": "v8",
-    "descricao": "",
-    "data_criacao": "2026-06-02T13:10:44.909Z",
-    "data_atualizacao": "2026-06-02T13:10:44.909Z",
+    "area_construida": "43",
+    "data_criacao": "2026-06-02T18:40:46.013Z",
+    "data_atualizacao": "2026-06-02T19:02:54.263Z",
     "status": "em_andamento",
     "bdi_percentual": "0"
   }
