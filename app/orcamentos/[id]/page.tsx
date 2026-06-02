@@ -15,7 +15,7 @@ import Link from 'next/link';
 import {
   ArrowLeft, Plus, Trash2, RefreshCw, Check, X,
   Download, FileText, GripVertical, Pencil, Calendar,
-  ChevronRight, ChevronDown, BarChart3, List, LayoutTemplate, Layers, Zap, Search, TrendingUp,
+  ChevronRight, ChevronDown, BarChart3, List, LayoutTemplate, Layers, Zap, Search, TrendingUp, Printer,
 } from 'lucide-react';
 import {
   BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, Tooltip, Legend,
@@ -1040,6 +1040,8 @@ export default function OrcamentoDetalhePage({ params }: { params: Promise<{ id:
   const [orc, setOrc] = useState<OrcamentoDetalhe | null>(null);
   const [loading, setLoading] = useState(true);
   const [aba, setAba] = useState<'planilha' | 'abc' | 'dashboard'>('planilha');
+  const [modalPrint, setModalPrint] = useState(false);
+  const [printSecs, setPrintSecs] = useState({ planilha: true, abc: true, dashboard: true });
 
   // Modal adicionar item
   const [modalAberto, setModalAberto] = useState(false);
@@ -1449,12 +1451,12 @@ export default function OrcamentoDetalhePage({ params }: { params: Promise<{ id:
               <LayoutTemplate className="h-3.5 w-3.5 mr-1" /> Template
             </Button>
             <Button variant="outline" size="sm" className="h-8"
-              onClick={() => window.open(`/api/exportar?tipo=orcamento&id=${id}`, '_blank')} title="Exportar Excel">
-              <Download className="h-3.5 w-3.5 mr-1" /> XLSX
+              onClick={() => window.open(`/api/exportar?tipo=orcamento&id=${id}`, '_blank')} title="Exportar Excel — 5 abas">
+              <Download className="h-3.5 w-3.5 mr-1" /> Excel
             </Button>
             <Button variant="outline" size="sm" className="h-8"
-              onClick={() => window.open(`/api/exportar?tipo=pdf&id=${id}`, '_blank')} title="Exportar PDF">
-              <FileText className="h-3.5 w-3.5 mr-1" /> PDF
+              onClick={() => setModalPrint(true)} title="Imprimir / Exportar PDF">
+              <Printer className="h-3.5 w-3.5 mr-1" /> Imprimir
             </Button>
             <Link
               href={`/calculadora?orcamento_id=${id}&orcamento_titulo=${encodeURIComponent(orc?.titulo || '')}`}
@@ -1537,10 +1539,10 @@ export default function OrcamentoDetalhePage({ params }: { params: Promise<{ id:
       </div>
 
       {/* ═══ ABA: CURVA ABC ══════════════════════════════════════════════════ */}
-      {aba === 'abc' && <CurvaABC orc={orc} />}
+      {aba === 'abc' && <div className="print-abc"><CurvaABC orc={orc} /></div>}
 
       {/* ═══ ABA: DASHBOARD ══════════════════════════════════════════════════ */}
-      {aba === 'dashboard' && <DashboardOrcamento orc={orc} />}
+      {aba === 'dashboard' && <div className="print-dashboard"><DashboardOrcamento orc={orc} /></div>}
 
       {/* ═══ ABA: PLANILHA ═══════════════════════════════════════════════════ */}
       {aba === 'planilha' && (
@@ -2218,6 +2220,70 @@ export default function OrcamentoDetalhePage({ params }: { params: Promise<{ id:
           </Dialog>
         );
       })()}
+
+      {/* ══ Modal Imprimir / PDF ══════════════════════════════════════════════ */}
+      {modalPrint && (
+        <Dialog open={modalPrint} onOpenChange={setModalPrint}>
+          <DialogContent className="max-w-sm">
+            <DialogHeader>
+              <DialogTitle className="flex items-center gap-2">
+                <Printer className="h-4 w-4" /> Imprimir / Exportar PDF
+              </DialogTitle>
+            </DialogHeader>
+            <div className="space-y-3 py-2">
+              <p className="text-xs text-muted-foreground">Selecione as seções que deseja incluir na impressão:</p>
+              {([
+                { key: 'planilha',  label: 'Planilha',  desc: 'Orçamento analítico completo por etapas' },
+                { key: 'abc',       label: 'Curva ABC',  desc: 'Análise de insumos A/B/C por custo' },
+                { key: 'dashboard', label: 'Dashboard',  desc: 'Resumo visual com categorias e etapas' },
+              ] as { key: keyof typeof printSecs; label: string; desc: string }[]).map(s => (
+                <label key={s.key} className="flex items-start gap-3 p-3 border rounded-lg cursor-pointer hover:bg-muted/40 transition-colors">
+                  <input type="checkbox" checked={printSecs[s.key]}
+                    onChange={e => setPrintSecs(p => ({ ...p, [s.key]: e.target.checked }))}
+                    className="mt-0.5 h-4 w-4 accent-primary" />
+                  <div>
+                    <p className="text-sm font-medium">{s.label}</p>
+                    <p className="text-xs text-muted-foreground">{s.desc}</p>
+                  </div>
+                </label>
+              ))}
+              {!printSecs.planilha && !printSecs.abc && !printSecs.dashboard && (
+                <p className="text-xs text-destructive">Selecione ao menos uma seção.</p>
+              )}
+            </div>
+            <DialogFooter>
+              <Button variant="outline" onClick={() => setModalPrint(false)}>Cancelar</Button>
+              <Button
+                disabled={!printSecs.planilha && !printSecs.abc && !printSecs.dashboard}
+                onClick={() => {
+                  document.documentElement.dataset.printPlanilha  = printSecs.planilha  ? '1' : '0';
+                  document.documentElement.dataset.printAbc       = printSecs.abc       ? '1' : '0';
+                  document.documentElement.dataset.printDashboard = printSecs.dashboard ? '1' : '0';
+                  setModalPrint(false);
+                  setTimeout(() => window.print(), 200);
+                }}>
+                <Printer className="h-4 w-4 mr-1.5" /> Gerar PDF / Imprimir
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      )}
+
+      {/* CSS de impressão */}
+      <style>{`
+        @media print {
+          nav, aside, [data-sidebar], .no-print { display: none !important; }
+          @page { margin: 1.5cm; size: A4; }
+          html[data-print-planilha='0']  .print-planilha  { display: none !important; }
+          html[data-print-abc='0']       .print-abc       { display: none !important; }
+          html[data-print-dashboard='0'] .print-dashboard { display: none !important; }
+          .print-planilha, .print-abc, .print-dashboard { page-break-before: always; }
+          * { box-shadow: none !important; }
+          button, [role="button"] { display: none !important; }
+          table { width: 100%; border-collapse: collapse; font-size: 9pt; }
+          th, td { border: 1px solid #ccc; padding: 4px 6px; }
+        }
+      `}</style>
     </div>
   );
 }

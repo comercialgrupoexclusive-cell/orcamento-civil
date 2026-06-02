@@ -118,7 +118,7 @@ export default function ImportarPage() {
                   <p>Chapisco                         |  200</p>
                 </div>
                 <p className="text-blue-600">✓ O sistema identifica a composição pelo nome (ou código) e preenche etapa, unidade e custo automaticamente.</p>
-                <p className="text-blue-500">Dica: baixe o modelo pelo módulo <strong>Exportar → Modelo de Orçamento</strong>.</p>
+                <p className="text-blue-500">Dica: baixe o modelo pelo módulo <strong>Exportar → Exportar Modelo Excel</strong>.</p>
               </div>
             </>
           )}
@@ -205,7 +205,7 @@ export default function ImportarPage() {
         <p className="font-medium">Como usar</p>
         {tipo === 'orcamento' ? (
           <>
-            <p>1. Baixe o modelo em <strong>Exportar → Modelo de Orçamento</strong></p>
+            <p>1. Baixe o modelo em <strong>Exportar → Exportar Modelo Excel</strong></p>
             <p>2. Preencha só a coluna <strong>Composição</strong> (nome ou código) e <strong>Quantidade</strong></p>
             <p>3. Informe o título e BDI acima, depois importe — a etapa e o custo são preenchidos automaticamente</p>
           </>
