@@ -85,6 +85,7 @@ export default function ObraDetalhePage({ params }: { params: Promise<{ id: stri
         <Link href="/obras" className="text-muted-foreground hover:text-foreground"><ArrowLeft className="h-4 w-4" /></Link>
         <h1 className="text-xl font-bold flex-1">{obra.nome}</h1>
         <Button variant="outline" size="sm" onClick={carregar} disabled={loading}><RefreshCw className={`h-3.5 w-3.5 ${loading ? 'animate-spin' : ''}`} /></Button>
+        <Link href={`/obras/${id}/editar`}><Button variant="outline" size="sm"><Pencil className="h-3.5 w-3.5 mr-1" /> Editar</Button></Link>
         <Link href={`/gerenciamento?obra_id=${id}`}><Button size="sm">Gerenciar Etapas</Button></Link>
       </div>
 

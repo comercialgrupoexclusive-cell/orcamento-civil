@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
-import { Building2, Plus, MapPin, User, TrendingUp, CheckCircle2, Clock, ChevronRight, RefreshCw } from 'lucide-react';
+import { Building2, Plus, MapPin, User, TrendingUp, CheckCircle2, Clock, ChevronRight, RefreshCw, Pencil } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 
@@ -121,6 +121,11 @@ export default function ObrasPage() {
                   <Link href={`/obras/${obra.id}`}>
                     <Button size="sm" variant="outline" className="h-8 text-xs w-full">
                       Detalhes <ChevronRight className="h-3.5 w-3.5 ml-1" />
+                    </Button>
+                  </Link>
+                  <Link href={`/obras/${obra.id}/editar`}>
+                    <Button size="sm" variant="outline" className="h-8 text-xs w-full">
+                      <Pencil className="h-3.5 w-3.5 mr-1" /> Editar
                     </Button>
                   </Link>
                   <Link href={`/gerenciamento?obra_id=${obra.id}`}>
