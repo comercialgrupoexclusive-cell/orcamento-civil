@@ -4,11 +4,11 @@
     "codigo": "L7",
     "descricao": "Retroescavadeira Incluindo Operador",
     "unidade": "Hr",
-    "preco": 367.5,
+    "preco": "350",
     "tipo": "E",
     "categoria": "Equipamentos",
     "status": "ativo",
-    "data_alteracao": "2026-05-29"
+    "data_alteracao": "2026-06-02T19:12:40.521Z"
   },
   {
     "id": "ins-P18",

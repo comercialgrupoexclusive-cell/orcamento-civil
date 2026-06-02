@@ -226,7 +226,8 @@ function CelulaNum({ valor, onSalvar, corStatus, decimais = 4 }: { valor: number
   const [val, setVal] = useState(String(limpo));
   async function salvar() {
     const num = Number(val);
-    if (isNaN(num) || num === limpo) { setEditando(false); return; }
+    if (isNaN(num) || num < 0) { setEditando(false); return; }
+    // Sempre salva ao confirmar — mesmo valor igual muda de amarelo para verde
     await onSalvar(num); setEditando(false);
   }
 

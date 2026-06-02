@@ -5812,7 +5812,7 @@
     "unidade_override": "",
     "custo_unitario_override": "0",
     "quantidade": "1",
-    "quantidade_tipo": "AUTO",
+    "quantidade_tipo": "MANUAL",
     "ordem": "2",
     "qtd_overrides": ""
   },
@@ -5826,7 +5826,7 @@
     "unidade_override": "",
     "custo_unitario_override": "0",
     "quantidade": "90",
-    "quantidade_tipo": "AUTO",
+    "quantidade_tipo": "MANUAL",
     "ordem": "3",
     "qtd_overrides": ""
   },
@@ -5840,7 +5840,7 @@
     "unidade_override": "",
     "custo_unitario_override": "0",
     "quantidade": "1",
-    "quantidade_tipo": "AUTO",
+    "quantidade_tipo": "MANUAL",
     "ordem": "4",
     "qtd_overrides": ""
   },
@@ -5854,7 +5854,7 @@
     "unidade_override": "",
     "custo_unitario_override": "0",
     "quantidade": "1",
-    "quantidade_tipo": "AUTO",
+    "quantidade_tipo": "MANUAL",
     "ordem": "5",
     "qtd_overrides": ""
   },
