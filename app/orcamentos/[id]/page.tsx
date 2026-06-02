@@ -520,6 +520,7 @@ function DashboardOrcamento({ orc }: { orc: OrcamentoDetalhe }) {
     }
   }
   const categorias = Array.from(catMap.values())
+    .filter(c => c.tipo !== 'MO')   // Dashboard: apenas materiais/equipamentos, MO fica nos cards acima
     .sort((a, b) => b.custo - a.custo)
     .map((c, i) => ({ ...c, fill: getCatColor(c.nome, i), pct: totalDireto > 0 ? c.custo / totalDireto * 100 : 0 }));
 
