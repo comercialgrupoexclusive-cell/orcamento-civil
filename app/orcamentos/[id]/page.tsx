@@ -1538,11 +1538,61 @@ export default function OrcamentoDetalhePage({ params }: { params: Promise<{ id:
         </button>
       </div>
 
-      {/* ═══ ABA: CURVA ABC ══════════════════════════════════════════════════ */}
-      {aba === 'abc' && <div className="print-abc"><CurvaABC orc={orc} /></div>}
+      {/* ═══ ABAS NA TELA (screen-only) ══════════════════════════════════════ */}
+      <div className="screen-only">
+        {aba === 'abc'       && <CurvaABC orc={orc} />}
+        {aba === 'dashboard' && <DashboardOrcamento orc={orc} />}
+      </div>
 
-      {/* ═══ ABA: DASHBOARD ══════════════════════════════════════════════════ */}
-      {aba === 'dashboard' && <div className="print-dashboard"><DashboardOrcamento orc={orc} /></div>}
+      {/* ═══ ÁREA EXCLUSIVA DE IMPRESSÃO — sempre no DOM, invisível na tela ══ */}
+      <div className="print-area" aria-hidden="true">
+        <div className="print-planilha print-section">
+          <h2 className="print-section-title">Planilha — {orc.titulo}</h2>
+          {orc.etapas.map(etapa => (
+            <div key={etapa.codigo} style={{ marginBottom: '16px' }}>
+              <div style={{ background: '#1E3A5F', color: '#fff', padding: '4px 8px', fontWeight: 'bold', fontSize: '10pt' }}>
+                {etapa.codigo} — {etapa.descricao} · {fmtBRL(etapa.subtotal)}
+              </div>
+              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '8pt' }}>
+                <thead>
+                  <tr style={{ background: '#D6E0F0' }}>
+                    <th style={{ border: '1px solid #ccc', padding: '3px 6px', textAlign: 'left' }}>Código</th>
+                    <th style={{ border: '1px solid #ccc', padding: '3px 6px', textAlign: 'left' }}>Descrição</th>
+                    <th style={{ border: '1px solid #ccc', padding: '3px 6px', textAlign: 'center' }}>Und</th>
+                    <th style={{ border: '1px solid #ccc', padding: '3px 6px', textAlign: 'right' }}>Qtd</th>
+                    <th style={{ border: '1px solid #ccc', padding: '3px 6px', textAlign: 'right' }}>C. Unit.</th>
+                    <th style={{ border: '1px solid #ccc', padding: '3px 6px', textAlign: 'right' }}>Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {etapa.itens.map(item => (
+                    <tr key={item.id}>
+                      <td style={{ border: '1px solid #ccc', padding: '3px 6px' }}>{item.composicao?.codigo || ''}</td>
+                      <td style={{ border: '1px solid #ccc', padding: '3px 6px' }}>{item.descricao_override || item.composicao?.descricao || ''}</td>
+                      <td style={{ border: '1px solid #ccc', padding: '3px 6px', textAlign: 'center' }}>{item.unidade_override || item.composicao?.unidade_producao || ''}</td>
+                      <td style={{ border: '1px solid #ccc', padding: '3px 6px', textAlign: 'right' }}>{item.quantidade.toLocaleString('pt-BR', { maximumFractionDigits: 3 })}</td>
+                      <td style={{ border: '1px solid #ccc', padding: '3px 6px', textAlign: 'right' }}>{fmtBRL(item.custo_unitario_efetivo)}</td>
+                      <td style={{ border: '1px solid #ccc', padding: '3px 6px', textAlign: 'right' }}>{fmtBRL(item.custo_total)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ))}
+          <div style={{ borderTop: '2px solid #1E3A5F', paddingTop: '8px', textAlign: 'right', fontWeight: 'bold', fontSize: '11pt' }}>
+            TOTAL GERAL: {fmtBRL(orc.total_direto)}
+            {orc.bdi_percentual > 0 && <> &nbsp;|&nbsp; TOTAL COM BDI ({orc.bdi_percentual}%): {fmtBRL(orc.total_com_bdi)}</>}
+          </div>
+        </div>
+        <div className="print-abc print-section">
+          <h2 className="print-section-title">Curva ABC de Insumos</h2>
+          <CurvaABC orc={orc} />
+        </div>
+        <div className="print-dashboard print-section">
+          <h2 className="print-section-title">Dashboard</h2>
+          <DashboardOrcamento orc={orc} />
+        </div>
+      </div>
 
       {/* ═══ ABA: PLANILHA ═══════════════════════════════════════════════════ */}
       {aba === 'planilha' && (
@@ -2271,17 +2321,36 @@ export default function OrcamentoDetalhePage({ params }: { params: Promise<{ id:
 
       {/* CSS de impressão */}
       <style>{`
+        /* Tela: ocultar área de impressão */
+        .print-area { display: none; }
+
+        /* Impressão */
         @media print {
-          nav, aside, [data-sidebar], .no-print { display: none !important; }
+          /* Mostrar só a área de impressão, ocultar tudo mais */
+          .print-area { display: block !important; }
+          .screen-only { display: none !important; }
+          nav, aside, [data-sidebar], .no-print,
+          header, [class*="sidebar"], [class*="Sidebar"] { display: none !important; }
+
+          /* Página */
           @page { margin: 1.5cm; size: A4; }
+
+          /* Controle por checkbox */
           html[data-print-planilha='0']  .print-planilha  { display: none !important; }
           html[data-print-abc='0']       .print-abc       { display: none !important; }
           html[data-print-dashboard='0'] .print-dashboard { display: none !important; }
-          .print-planilha, .print-abc, .print-dashboard { page-break-before: always; }
-          * { box-shadow: none !important; }
-          button, [role="button"] { display: none !important; }
-          table { width: 100%; border-collapse: collapse; font-size: 9pt; }
-          th, td { border: 1px solid #ccc; padding: 4px 6px; }
+
+          /* Quebra de página entre seções */
+          .print-section { page-break-before: always; }
+          .print-section:first-child { page-break-before: auto; }
+          .print-section-title {
+            font-size: 13pt; font-weight: bold; margin-bottom: 12px;
+            color: #1E3A5F; border-bottom: 2px solid #1E3A5F; padding-bottom: 4px;
+          }
+
+          /* Limpar visuais */
+          * { box-shadow: none !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+          button, [role="button"], input, select { display: none !important; }
         }
       `}</style>
     </div>
