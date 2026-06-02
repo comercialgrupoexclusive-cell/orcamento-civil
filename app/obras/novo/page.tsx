@@ -134,7 +134,11 @@ export default function NovaObraPage() {
           <div className="grid gap-1.5">
             <Label>Orçamento vinculado</Label>
             <Select value={form.orcamento_id} onValueChange={v => set('orcamento_id', v ?? '')}>
-              <SelectTrigger className="h-10"><SelectValue placeholder="Selecionar orçamento (opcional)..." /></SelectTrigger>
+              <SelectTrigger className="h-10">
+                <span className={`flex-1 text-left truncate text-sm ${!form.orcamento_id ? 'text-muted-foreground' : ''}`}>
+                  {form.orcamento_id ? orcamentos.find(o => o.id === form.orcamento_id)?.titulo || form.orcamento_id : 'Selecionar orçamento (opcional)...'}
+                </span>
+              </SelectTrigger>
               <SelectContent>
                 {orcamentos.map(o => <SelectItem key={o.id} value={o.id}>{o.titulo}</SelectItem>)}
               </SelectContent>

@@ -286,7 +286,11 @@ export default function OrcamentosPage() {
                   const t = templates.find(x => x.id === v);
                   if (t) setForm(f => ({ ...f, titulo: t.titulo.replace('[Template] ', ''), bdi_percentual: String(t.bdi_percentual) }));
                 }}>
-                  <SelectTrigger><SelectValue placeholder="Selecione um template..." /></SelectTrigger>
+                  <SelectTrigger>
+                    <span className={`flex-1 text-left truncate text-sm ${!templateSelecionado ? 'text-muted-foreground' : ''}`}>
+                      {templateSelecionado ? (templates.find(t => t.id === templateSelecionado)?.titulo?.replace('[Template] ', '') || templateSelecionado) : 'Selecione um template...'}
+                    </span>
+                  </SelectTrigger>
                   <SelectContent>
                     {templates.map(t => (
                       <SelectItem key={t.id} value={t.id}>

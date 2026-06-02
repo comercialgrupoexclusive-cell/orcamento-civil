@@ -137,7 +137,9 @@ function GerenciamentoContent() {
         <div className="flex-1 min-w-48 max-w-sm">
           <Select value={obraId} onValueChange={v => setObraId(v ?? "")}>
             <SelectTrigger className="h-9 text-sm bg-background">
-              <SelectValue placeholder="Selecionar obra..." />
+              <span className={`flex-1 text-left truncate text-sm ${!obraId ? 'text-muted-foreground' : ''}`}>
+                {obraId ? obras.find(o => o.id === obraId)?.nome || obraId : 'Selecionar obra...'}
+              </span>
             </SelectTrigger>
             <SelectContent>
               {obras.map(o => <SelectItem key={o.id} value={o.id}>{o.nome} — {o.cidade}/{o.estado}</SelectItem>)}

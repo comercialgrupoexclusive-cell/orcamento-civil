@@ -1155,6 +1155,12 @@ export default function OrcamentoDetalhePage({ params }: { params: Promise<{ id:
   const [loading, setLoading] = useState(true);
   const [aba, setAba] = useState<'planilha' | 'abc' | 'dashboard'>('planilha');
   const [modalPrint, setModalPrint] = useState(false);
+  // Vincular a obra
+  const [obras, setObras] = useState<{ id: string; nome: string; orcamento_id: string }[]>([]);
+  const [modalVincularObra, setModalVincularObra] = useState(false);
+  const [obraVinculadaId, setObraVinculadaId] = useState('');
+  const [importarEtapas, setImportarEtapas] = useState(true);
+  const [vinculando, setVinculando] = useState(false);
   const [printSecs, setPrintSecs] = useState({ planilha: true, abc: true, dashboard: true });
 
   // Modal adicionar item
@@ -1490,6 +1496,41 @@ export default function OrcamentoDetalhePage({ params }: { params: Promise<{ id:
     }
   }
 
+  // ── Obras (para vincular) ────────────────────────────────────────────────────
+  useEffect(() => {
+    if (!modalVincularObra) return;
+    fetch('/api/obras').then(r => r.json()).then(d => {
+      if (Array.isArray(d)) setObras(d.map((o: { id: string; nome: string; orcamento_id: string }) => ({ id: o.id, nome: o.nome, orcamento_id: o.orcamento_id || '' })));
+    }).catch(() => {});
+  }, [modalVincularObra]);
+
+  async function vincularAObra() {
+    if (!obraVinculadaId) { toast.error('Selecione uma obra'); return; }
+    setVinculando(true);
+    try {
+      // 1. Vincula o orçamento à obra
+      const resVinc = await fetch(`/api/obras/${obraVinculadaId}`, {
+        method: 'PUT', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ orcamento_id: id }),
+      });
+      if (!resVinc.ok) { toast.error('Erro ao vincular obra'); return; }
+
+      // 2. Opcionalmente importa as etapas
+      if (importarEtapas) {
+        const resImp = await fetch(`/api/obras/${obraVinculadaId}/importar-orcamento`, {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ modo: 'merge', orcamento_id: id }),
+        });
+        const dataImp = await resImp.json();
+        if (resImp.ok) toast.success(`Vinculado! ${dataImp.message}`);
+        else toast.success('Vinculado! (sem etapas importadas)');
+      } else {
+        toast.success('Orçamento vinculado à obra!');
+      }
+      setModalVincularObra(false);
+    } finally { setVinculando(false); }
+  }
+
   // ── Renderização loading/erro ────────────────────────────────────────────────
   if (loading && !orc) {
     return (
@@ -1578,6 +1619,11 @@ export default function OrcamentoDetalhePage({ params }: { params: Promise<{ id:
               title="Calcular quantitativos parametricamente">
               <Zap className="h-3.5 w-3.5 mr-1" /> Calcular
             </Link>
+            <Button variant="outline" size="sm" className="h-8 border-green-300 text-green-700 hover:bg-green-50"
+              onClick={() => { setObraVinculadaId(''); setImportarEtapas(true); setModalVincularObra(true); }}
+              title="Vincular este orçamento a uma obra e importar etapas">
+              <FileText className="h-3.5 w-3.5 mr-1" /> Vincular a obra
+            </Button>
             <Button size="sm" variant="outline" className="h-8" onClick={() => abrirModal('01')} title="Adicionar composição simples">
               <Plus className="h-3.5 w-3.5 mr-1" /> Composição
             </Button>
@@ -2432,6 +2478,66 @@ export default function OrcamentoDetalhePage({ params }: { params: Promise<{ id:
           </DialogContent>
         </Dialog>
       )}
+
+      {/* ══ Modal Vincular a obra ════════════════════════════════════════════ */}
+      <Dialog open={modalVincularObra} onOpenChange={v => { if (!v) setModalVincularObra(false); }}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2 text-base">
+              <FileText className="h-4 w-4 text-green-600" /> Vincular à Obra
+            </DialogTitle>
+          </DialogHeader>
+          <div className="grid gap-4 py-1">
+            <p className="text-xs text-muted-foreground">
+              O orçamento <strong>{orc?.titulo}</strong> será vinculado à obra selecionada.
+            </p>
+            <div className="grid gap-1.5">
+              <Label className="text-xs font-semibold">Obra de destino <span className="text-destructive">*</span></Label>
+              <Select value={obraVinculadaId || '_none'} onValueChange={v => { if (v) setObraVinculadaId(v === '_none' ? '' : v); }}>
+                <SelectTrigger className="h-9">
+                  <span className={`flex-1 text-left truncate text-sm ${!obraVinculadaId ? 'text-muted-foreground' : ''}`}>
+                    {obraVinculadaId ? obras.find(o => o.id === obraVinculadaId)?.nome || obraVinculadaId : 'Selecionar obra...'}
+                  </span>
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="_none">— Selecione —</SelectItem>
+                  {obras.map(o => (
+                    <SelectItem key={o.id} value={o.id}>
+                      {o.nome}
+                      {o.orcamento_id && o.orcamento_id !== id ? <span className="text-amber-500 ml-1 text-[10px]">(tem orçamento)</span> : ''}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <label className="flex items-center gap-2.5 text-sm cursor-pointer">
+              <input type="checkbox" checked={importarEtapas} onChange={e => setImportarEtapas(e.target.checked)}
+                className="h-4 w-4 accent-primary rounded" />
+              <div>
+                <p className="font-medium">Importar etapas do orçamento para a obra</p>
+                <p className="text-xs text-muted-foreground mt-0.5">
+                  Cria as etapas e serviços do orçamento dentro da obra automaticamente
+                </p>
+              </div>
+            </label>
+            {obraVinculadaId && obras.find(o => o.id === obraVinculadaId)?.orcamento_id &&
+              obras.find(o => o.id === obraVinculadaId)?.orcamento_id !== id && (
+              <div className="rounded-lg bg-amber-50 border border-amber-200 px-3 py-2 text-xs text-amber-700">
+                ⚠ Esta obra já tem outro orçamento vinculado. Ele será substituído.
+              </div>
+            )}
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setModalVincularObra(false)}>Cancelar</Button>
+            <Button onClick={vincularAObra} disabled={vinculando || !obraVinculadaId || obraVinculadaId === '_none'}
+              className="bg-green-600 hover:bg-green-700">
+              {vinculando
+                ? <><RefreshCw className="h-3.5 w-3.5 animate-spin mr-1.5" /> Vinculando...</>
+                : <><Check className="h-3.5 w-3.5 mr-1.5" /> Vincular{importarEtapas ? ' e importar' : ''}</>}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       {/* CSS de impressão */}
       <style>{`

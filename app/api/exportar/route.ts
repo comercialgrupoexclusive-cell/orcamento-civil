@@ -43,13 +43,14 @@ async function exportarOrcamento(orcamentoId: string): Promise<Buffer> {
     .filter(i => i.orcamento_id === orcamentoId)
     .sort((a, b) => (Number(a.ordem) || 0) - (Number(b.ordem) || 0))
     .map(i => {
-      const comp   = compMap[i.composicao_id];
-      const qtd    = Number(i.quantidade) || 0;
-      const cu     = Number(i.custo_unitario_override) || custoBase(i.composicao_id);
-      const total  = cu * qtd;
+      const comp = compMap[i.composicao_id];
+      const qtd  = Number(i.quantidade) || 0;
+
+      // Parse per-insumo overrides de quantidade
       const qtdOvs: Record<string, number> = {};
       try { Object.assign(qtdOvs, JSON.parse(i.qtd_overrides || '{}')); } catch { /**/ }
 
+      // Calcula insumos PRIMEIRO (com overrides) — igual à API
       const insumosItem = itensComp
         .filter(ic => ic.composicao_id === i.composicao_id)
         .map(ic => {
@@ -58,17 +59,33 @@ async function exportarOrcamento(orcamentoId: string): Promise<Buffer> {
           const preco  = Number(ins?.preco || 0);
           const qtdIns = ic.insumo_id in qtdOvs ? qtdOvs[ic.insumo_id] : coef * qtd;
           return {
-            insumo_id : ic.insumo_id,
-            descricao : ins?.descricao || '',
-            unidade   : ic.unidade || ins?.unidade || '',
-            categoria : ins?.categoria || '',
-            tipo      : ins?.tipo || 'M',
+            insumo_id  : ic.insumo_id,
+            descricao  : ins?.descricao || '',
+            unidade    : ic.unidade || ins?.unidade || '',
+            categoria  : ins?.categoria || '',
+            tipo       : ins?.tipo || 'M',
             coeficiente: coef,
             preco_unit : preco,
             qtd_total  : qtdIns,
             custo_item : preco * qtdIns,
           };
         });
+
+      // Deriva custo efetivo dos insumos (mesma lógica da API /orcamentos/[id]/route.ts)
+      const custoTotalInsumos = insumosItem.reduce((a, ins) => a + ins.custo_item, 0);
+      const cuOverride = Number(i.custo_unitario_override);
+      let total: number;
+      let cu: number;
+      if (cuOverride) {
+        total = cuOverride * qtd;
+        cu    = cuOverride;
+      } else if (insumosItem.length > 0) {
+        total = custoTotalInsumos;
+        cu    = qtd > 0 ? custoTotalInsumos / qtd : 0;
+      } else {
+        cu    = custoBase(i.composicao_id);
+        total = cu * qtd;
+      }
 
       const breakdown = { M: 0, MO: 0, E: 0, S: 0 };
       for (const ins of insumosItem) {
@@ -247,16 +264,10 @@ async function exportarOrcamento(orcamentoId: string): Promise<Buffer> {
   }
 
   // ══════════════════════════════════════════════════════════════════════════
-  // ABA 3 — Curva ABC (insumos agregados)
+  // ABA 3 — Curva ABC (insumos agregados por tipo)
   // ══════════════════════════════════════════════════════════════════════════
-  const wsABC = wb.addWorksheet('Curva ABC');
-  const colsABC = ['#','Insumo','Categoria','Tipo','Unidade','Qtd Total','Preço Unit. (R$)','Custo Total (R$)','% Item','% Acum.','Classe ABC'];
-  wsABC.addRow(colsABC).eachCell(c => {
-    c.fill = cor('FF2D5986'); c.font = { bold: true, color: { argb: 'FFFFFFFF' }, size: 9 }; c.border = bordaFull;
-  });
-  wsABC.columns = [{ width: 5 },{ width: 40 },{ width: 22 },{ width: 12 },{ width: 10 },{ width: 14 },{ width: 18 },{ width: 18 },{ width: 10 },{ width: 10 },{ width: 12 }];
 
-  // Agrega insumos
+  // Agrega insumos de todos os itens
   const insAggMap = new Map<string, { descricao: string; categoria: string; tipo: string; unidade: string; qtd: number; custo: number; preco_unit: number }>();
   for (const item of orcItens) {
     for (const ins of item.insumosItem) {
@@ -266,26 +277,35 @@ async function exportarOrcamento(orcamentoId: string): Promise<Buffer> {
     }
   }
   const insAgg = Array.from(insAggMap.values()).sort((a, b) => b.custo - a.custo);
-  const totalABC = insAgg.reduce((a, i) => a + i.custo, 0);
-  let acumABC = 0;
-  insAgg.forEach((ins, idx) => {
-    acumABC += ins.custo;
-    const pctItem = pct(ins.custo, totalABC);
-    const pctAcum = pct(acumABC, totalABC);
-    const classe = pctAcum <= 50 ? 'A' : pctAcum <= 80 ? 'B' : 'C';
-    const fillABC = classe === 'A' ? 'FFFFF0F0' : classe === 'B' ? 'FFFFFBE8' : 'FFF0FFF0';
-    const row = wsABC.addRow([
-      idx + 1, ins.descricao, ins.categoria, ins.tipo, ins.unidade,
-      fmtN(ins.qtd), fmtN(ins.preco_unit), fmtN(ins.custo),
-      pctItem, pctAcum, classe,
-    ]);
-    row.eachCell((c, ci) => {
-      c.border = bordaFull; c.font = { size: 9 };
-      c.fill = cor(fillABC);
-      if (ci === 11) c.font = { ...c.font, bold: true };
-      if (ci >= 6) c.numFmt = '#,##0.00';
+
+  function criarAbaABC(nomeAba: string, lista: typeof insAgg) {
+    const ws = wb.addWorksheet(nomeAba);
+    const cols = ['#','Insumo','Categoria','Tipo','Unidade','Qtd Total','Preço Unit. (R$)','Custo Total (R$)','% Item','% Acum.','Classe ABC'];
+    ws.addRow(cols).eachCell(c => {
+      c.fill = cor('FF2D5986'); c.font = { bold: true, color: { argb: 'FFFFFFFF' }, size: 9 }; c.border = bordaFull;
     });
-  });
+    ws.columns = [{ width: 5 },{ width: 40 },{ width: 22 },{ width: 12 },{ width: 10 },{ width: 14 },{ width: 18 },{ width: 18 },{ width: 10 },{ width: 10 },{ width: 12 }];
+    const total = lista.reduce((a, i) => a + i.custo, 0);
+    let acum = 0;
+    lista.forEach((ins, idx) => {
+      acum += ins.custo;
+      const pctItem = pct(ins.custo, total);
+      const pctAcum = pct(acum, total);
+      const classe = pctAcum <= 50 ? 'A' : pctAcum <= 80 ? 'B' : 'C';
+      const fill = classe === 'A' ? 'FFFFF0F0' : classe === 'B' ? 'FFFFFBE8' : 'FFF0FFF0';
+      const row = ws.addRow([idx + 1, ins.descricao, ins.categoria, ins.tipo, ins.unidade, fmtN(ins.qtd), fmtN(ins.preco_unit), fmtN(ins.custo), pctItem, pctAcum, classe]);
+      row.eachCell((c, ci) => { c.border = bordaFull; c.font = { size: 9 }; c.fill = cor(fill); if (ci === 11) c.font = { ...c.font, bold: true }; if (ci >= 6) c.numFmt = '#,##0.00'; });
+    });
+    if (lista.length > 0) {
+      const rowTot = ws.addRow(['', 'TOTAL', '', '', '', '', '', fmtN(total), '', '', '']);
+      rowTot.eachCell((c, ci) => { c.border = bordaFull; c.font = { bold: true, size: 9 }; c.fill = cor('FFD6E0F0'); if (ci >= 6) c.numFmt = '#,##0.00'; });
+    }
+  }
+
+  criarAbaABC('ABC - Material',     insAgg.filter(i => i.tipo === 'M'));
+  criarAbaABC('ABC - Mão de Obra',  insAgg.filter(i => i.tipo === 'MO'));
+  criarAbaABC('ABC - Equipamento',  insAgg.filter(i => i.tipo === 'E'));
+  criarAbaABC('ABC - Geral',        insAgg);
 
   // ══════════════════════════════════════════════════════════════════════════
   // ABA 4 — Por Categoria de Insumo

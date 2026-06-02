@@ -1,11 +1,11 @@
 'use client';
 
-import { useEffect, useState, useCallback, use } from 'react';
+import { useEffect, useState, useCallback, use, useRef } from 'react';
 import Link from 'next/link';
 import {
   ArrowLeft, Building2, MapPin, User, Phone, Plus, Trash2,
   RefreshCw, MessageCircle, CheckCircle2, Clock, AlertCircle,
-  Pencil, Save, X, Camera, Calendar, FileText, ChevronRight,
+  Pencil, Save, X, Camera, Calendar, FileText, ChevronRight, Zap, ExternalLink, Search,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -93,6 +93,12 @@ export default function ObraDetalhePage({ params }: { params: Promise<{ id: stri
   const [novoForn, setNovoForn] = useState({ nome: '', especialidade: '', telefone: '', whatsapp: '', email: '', observacoes: '' });
   const [showFornForm, setShowFornForm] = useState(false);
   const [editStatus, setEditStatus] = useState('');
+  const [orcamentos, setOrcamentos] = useState<{ id: string; titulo: string }[]>([]);
+  const [salvandoOrc, setSalvandoOrc] = useState(false);
+  const [importando, setImportando] = useState(false);
+  const [showEtapaForm, setShowEtapaForm] = useState(false);
+  const [novaEtapa, setNovaEtapa] = useState({ etapa_nome: '', etapa_codigo: '', data_inicio: '', data_fim_prevista: '' });
+  const [salvandoEtapa, setSalvandoEtapa] = useState(false);
 
   const carregar = useCallback(async () => {
     setLoading(true);
@@ -106,6 +112,12 @@ export default function ObraDetalhePage({ params }: { params: Promise<{ id: stri
   }, [id]);
 
   useEffect(() => { carregar(); }, [carregar]);
+
+  useEffect(() => {
+    fetch('/api/orcamentos').then(r => r.json()).then(d => {
+      if (Array.isArray(d)) setOrcamentos(d.map((o: { id: string; titulo: string }) => ({ id: o.id, titulo: o.titulo })));
+    }).catch(() => {});
+  }, []);
 
   async function salvarStatus() {
     if (!obra) return;
@@ -135,6 +147,51 @@ export default function ObraDetalhePage({ params }: { params: Promise<{ id: stri
     if (!confirm('Remover fornecedor?')) return;
     await fetch(`/api/fornecedores/${fid}`, { method: 'DELETE' });
     carregar();
+  }
+
+  async function vincularOrcamento(orcId: string) {
+    if (!obra) return;
+    setSalvandoOrc(true);
+    try {
+      const res = await fetch(`/api/obras/${id}`, {
+        method: 'PUT', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ orcamento_id: orcId === '_none' ? '' : orcId }),
+      });
+      if (res.ok) { toast.success(orcId && orcId !== '_none' ? 'Orçamento vinculado!' : 'Vínculo removido'); carregar(); }
+      else toast.error('Erro ao vincular');
+    } finally { setSalvandoOrc(false); }
+  }
+
+  async function importarEtapasOrcamento(modo: 'merge' | 'replace' = 'merge') {
+    if (!obra?.orcamento_id) { toast.error('Vincule um orçamento primeiro'); return; }
+    if (modo === 'replace' && !confirm('Isso vai apagar todas as etapas e serviços atuais da obra e reimportar do orçamento. Continuar?')) return;
+    setImportando(true);
+    try {
+      const res = await fetch(`/api/obras/${id}/importar-orcamento`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ modo }),
+      });
+      const data = await res.json();
+      if (res.ok) { toast.success(data.message); carregar(); }
+      else toast.error(data.error || 'Erro ao importar');
+    } finally { setImportando(false); }
+  }
+
+  async function adicionarEtapa() {
+    if (!novaEtapa.etapa_nome.trim()) { toast.error('Informe o nome da etapa'); return; }
+    setSalvandoEtapa(true);
+    try {
+      const res = await fetch('/api/etapas-obra', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...novaEtapa, obra_id: id, status_execucao: 'nao_iniciado', ordem: 999 }),
+      });
+      if (res.ok) {
+        toast.success('Etapa adicionada');
+        setNovaEtapa({ etapa_nome: '', etapa_codigo: '', data_inicio: '', data_fim_prevista: '' });
+        setShowEtapaForm(false);
+        carregar();
+      } else toast.error('Erro ao adicionar etapa');
+    } finally { setSalvandoEtapa(false); }
   }
 
   if (loading) return (
@@ -193,11 +250,33 @@ export default function ObraDetalhePage({ params }: { params: Promise<{ id: stri
           <div className="flex items-start gap-3 flex-wrap">
             <div className="flex-1 min-w-0">
               <h1 className="text-xl font-bold leading-tight">{obra.nome}</h1>
-              {obra.orcamento && (
-                <p className="text-xs text-muted-foreground mt-0.5 flex items-center gap-1">
-                  <FileText className="h-3 w-3" /> {obra.orcamento.titulo}
-                </p>
-              )}
+              {/* Orçamento vinculado — clicável + seletor inline */}
+              <div className="flex items-center gap-2 mt-1 flex-wrap">
+                {obra.orcamento && obra.orcamento_id ? (
+                  <Link href={`/orcamentos/${obra.orcamento_id}`}
+                    className="text-xs text-primary hover:underline flex items-center gap-1">
+                    <FileText className="h-3 w-3" /> {obra.orcamento.titulo}
+                    <ExternalLink className="h-2.5 w-2.5 opacity-60" />
+                  </Link>
+                ) : (
+                  <span className="text-xs text-muted-foreground italic">Sem orçamento vinculado</span>
+                )}
+                <div className="relative">
+                  <Select
+                    value={obra.orcamento_id || '_none'}
+                    onValueChange={v => { if (v) vincularOrcamento(v); }}>
+                    <SelectTrigger className="h-6 text-[10px] px-2 border-dashed w-auto min-w-[120px]">
+                      <span className="text-muted-foreground">{salvandoOrc ? 'Salvando...' : obra.orcamento_id ? 'Trocar orçamento' : '+ Vincular orçamento'}</span>
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="_none">— Remover vínculo —</SelectItem>
+                      {orcamentos.map(o => (
+                        <SelectItem key={o.id} value={o.id}>{o.titulo}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
             </div>
             <div className="flex items-center gap-2 shrink-0">
               <Select value={editStatus} onValueChange={v => setEditStatus(v ?? '')}>
@@ -334,18 +413,80 @@ export default function ObraDetalhePage({ params }: { params: Promise<{ id: stri
       </div>
 
       {/* ── Etapas ── */}
-      {etapasOrdenadas.length > 0 && (
-        <div className="pt-4">
-          <Card>
-            <CardContent className="p-5 space-y-2">
-              <div className="flex items-center justify-between mb-1">
-                <p className="text-sm font-semibold">Etapas</p>
+      <div className="pt-4">
+        <Card>
+          <CardContent className="p-5 space-y-2">
+            <div className="flex items-center justify-between mb-1">
+              <p className="text-sm font-semibold">Etapas ({etapasOrdenadas.length})</p>
+              <div className="flex gap-2 flex-wrap justify-end">
+                {obra.orcamento_id && (
+                  <Button size="sm" variant="outline"
+                    className="h-7 text-xs border-amber-300 text-amber-700 hover:bg-amber-50"
+                    onClick={() => importarEtapasOrcamento('merge')}
+                    disabled={importando}
+                    title="Adiciona etapas e serviços do orçamento (mantém os existentes)">
+                    {importando ? <RefreshCw className="h-3 w-3 animate-spin mr-1" /> : <Zap className="h-3 w-3 mr-1" />}
+                    Importar do Orçamento
+                  </Button>
+                )}
+                {obra.orcamento_id && etapasOrdenadas.length > 0 && (
+                  <Button size="sm" variant="outline"
+                    className="h-7 text-xs border-red-200 text-red-600 hover:bg-red-50"
+                    onClick={() => importarEtapasOrcamento('replace')}
+                    disabled={importando}
+                    title="Apaga tudo e reimporta do orçamento">
+                    Reimportar (limpar)
+                  </Button>
+                )}
+                <Button size="sm" variant="outline" className="h-7 text-xs"
+                  onClick={() => setShowEtapaForm(s => !s)}>
+                  <Plus className="h-3 w-3 mr-1" /> Etapa manual
+                </Button>
                 <Link href={`/gerenciamento?obra_id=${id}`}>
                   <Button size="sm" variant="outline" className="h-7 text-xs">
                     <Pencil className="h-3 w-3 mr-1" /> Gerenciar
                   </Button>
                 </Link>
               </div>
+            </div>
+
+            {/* Form inline nova etapa */}
+            {showEtapaForm && (
+              <div className="border rounded-lg p-3 space-y-2 bg-muted/20">
+                <div className="grid sm:grid-cols-2 gap-2">
+                  <div className="grid gap-1">
+                    <Label className="text-xs">Nome da Etapa *</Label>
+                    <Input value={novaEtapa.etapa_nome} onChange={e => setNovaEtapa(p => ({ ...p, etapa_nome: e.target.value }))}
+                      placeholder="Ex: Fundação, Estrutura..." className="h-8 text-xs" />
+                  </div>
+                  <div className="grid gap-1">
+                    <Label className="text-xs">Código (opcional)</Label>
+                    <Input value={novaEtapa.etapa_codigo} onChange={e => setNovaEtapa(p => ({ ...p, etapa_codigo: e.target.value }))}
+                      placeholder="Ex: 02" className="h-8 text-xs" />
+                  </div>
+                  <div className="grid gap-1">
+                    <Label className="text-xs">Data início</Label>
+                    <Input type="date" value={novaEtapa.data_inicio} onChange={e => setNovaEtapa(p => ({ ...p, data_inicio: e.target.value }))} className="h-8 text-xs" />
+                  </div>
+                  <div className="grid gap-1">
+                    <Label className="text-xs">Previsão término</Label>
+                    <Input type="date" value={novaEtapa.data_fim_prevista} onChange={e => setNovaEtapa(p => ({ ...p, data_fim_prevista: e.target.value }))} className="h-8 text-xs" />
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <Button size="sm" className="h-7 text-xs" onClick={adicionarEtapa} disabled={salvandoEtapa}>
+                    {salvandoEtapa ? <><RefreshCw className="h-3 w-3 animate-spin mr-1" />Salvando...</> : 'Adicionar'}
+                  </Button>
+                  <Button size="sm" variant="ghost" className="h-7 text-xs" onClick={() => setShowEtapaForm(false)}>
+                    <X className="h-3 w-3 mr-1" /> Cancelar
+                  </Button>
+                </div>
+              </div>
+            )}
+
+            {etapasOrdenadas.length === 0 && !showEtapaForm && (
+              <p className="text-xs text-muted-foreground text-center py-4">Nenhuma etapa cadastrada. Clique em "+ Etapa" para adicionar.</p>
+            )}
               {etapasOrdenadas.map(et => {
                 const svcs = et.servicos || [];
                 const comp = svcs.filter(s => s.status_compra === 'comprado').length;
@@ -366,10 +507,9 @@ export default function ObraDetalhePage({ params }: { params: Promise<{ id: stri
                   </div>
                 );
               })}
-            </CardContent>
-          </Card>
-        </div>
-      )}
+          </CardContent>
+        </Card>
+      </div>
 
       {/* ── Fornecedores ── */}
       <div className="pt-4 pb-8">

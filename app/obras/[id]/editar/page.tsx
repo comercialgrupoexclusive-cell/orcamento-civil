@@ -338,7 +338,11 @@ export default function EditarObraPage({ params }: { params: Promise<{ id: strin
             </Label>
             <Select value={form.orcamento_id || '_none'} onValueChange={v => set('orcamento_id', !v || v === '_none' ? '' : v)}>
               <SelectTrigger className={`h-10 ${form.orcamento_id ? 'border-amber-400' : ''}`}>
-                <SelectValue placeholder="Selecionar orçamento..." />
+                <span className={`flex-1 text-left truncate text-sm ${!form.orcamento_id || form.orcamento_id === '_none' ? 'text-muted-foreground' : ''}`}>
+                  {form.orcamento_id && form.orcamento_id !== '_none'
+                    ? (orcamentos.find(o => o.id === form.orcamento_id)?.titulo || form.orcamento_id)
+                    : 'Selecionar orçamento...'}
+                </span>
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="_none">— Nenhum —</SelectItem>
@@ -354,10 +358,50 @@ export default function EditarObraPage({ params }: { params: Promise<{ id: strin
                 <Zap className="h-3 w-3" /> {orcSelecionado.titulo}
               </p>
             )}
+            {form.orcamento_id && form.orcamento_id !== '_none' && (
+              <div className="rounded-lg border border-green-200 bg-green-50 px-3 py-2">
+                <p className="text-xs text-green-800 font-semibold mb-1.5 flex items-center gap-1">
+                  <Zap className="h-3 w-3" /> Importar etapas do orçamento para a obra
+                </p>
+                <p className="text-[11px] text-green-700 mb-2">
+                  Cria as etapas e serviços do orçamento dentro da obra automaticamente.
+                </p>
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    className="text-[11px] font-semibold text-green-700 hover:text-green-900 underline"
+                    onClick={async () => {
+                      const res = await fetch(`/api/obras/${id}/importar-orcamento`, {
+                        method: 'POST', headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ modo: 'merge', orcamento_id: form.orcamento_id }),
+                      });
+                      const d = await res.json();
+                      if (res.ok) { alert(`✅ ${d.message}`); }
+                      else { alert(`❌ ${d.error}`); }
+                    }}>
+                    + Importar (adicionar)
+                  </button>
+                  <span className="text-green-400">·</span>
+                  <button
+                    type="button"
+                    className="text-[11px] font-semibold text-red-600 hover:text-red-800 underline"
+                    onClick={async () => {
+                      if (!confirm('Apaga todas as etapas atuais da obra e reimporta do orçamento. Continuar?')) return;
+                      const res = await fetch(`/api/obras/${id}/importar-orcamento`, {
+                        method: 'POST', headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ modo: 'replace', orcamento_id: form.orcamento_id }),
+                      });
+                      const d = await res.json();
+                      alert(res.ok ? `✅ ${d.message}` : `❌ ${d.error}`);
+                    }}>
+                    Reimportar (substituir tudo)
+                  </button>
+                </div>
+              </div>
+            )}
             {mudouOrcamento && (
               <div className="rounded-lg border border-amber-300 bg-amber-50 px-3 py-2 text-xs text-amber-800">
-                <p className="font-semibold">Orçamento alterado</p>
-                <p className="mt-0.5">Após salvar, acesse Gerenciamento para atualizar as etapas.</p>
+                <p className="font-semibold">⚠ Orçamento alterado — salve primeiro, depois importe as etapas</p>
               </div>
             )}
           </div>
