@@ -1059,63 +1059,93 @@ function CalculadoraContent() {
         </CardContent>
       </Card>
 
-      <div className="grid xl:grid-cols-[1fr_400px] gap-6 items-start">
-        {/* ── Stepper ── */}
-        <div className="space-y-4">
+      {/* ── Layout: lista lateral + conteúdo ───────────────────────────────── */}
+      <div className="flex gap-5 items-start">
 
-          {/* Barra de progresso + dots */}
-          <div className="space-y-2">
-            <div className="flex items-center justify-between text-xs text-muted-foreground">
-              <span className="font-medium">{CALC_GRUPOS[stepAtual].emoji} {CALC_GRUPOS[stepAtual].nome}</span>
-              <span>{stepAtual + 1} / {CALC_GRUPOS.length}</span>
+        {/* ── Navegação lateral (lista de etapas) ── */}
+        <div className="w-56 shrink-0 xl:sticky xl:top-6 space-y-1">
+          {/* Barra de progresso geral */}
+          <div className="mb-3 space-y-1">
+            <div className="flex justify-between text-[11px] text-muted-foreground">
+              <span>Progresso</span>
+              <span>{stepAtual < CALC_GRUPOS.length ? stepAtual + 1 : CALC_GRUPOS.length} / {CALC_GRUPOS.length}</span>
             </div>
-            {/* Barra */}
             <div className="h-1.5 rounded-full bg-muted overflow-hidden">
               <div className="h-full rounded-full bg-primary transition-all duration-300"
-                style={{ width: `${((stepAtual + 1) / CALC_GRUPOS.length) * 100}%` }} />
-            </div>
-            {/* Dots clicáveis */}
-            <div className="flex items-center gap-1 flex-wrap">
-              {CALC_GRUPOS.map((g, i) => {
-                const temItens = (itensPorGrupo[g.id] || 0) > 0;
-                const atual = i === stepAtual;
-                const passado = i < stepAtual;
-                return (
-                  <button key={g.id} title={g.nome} onClick={() => setStepAtual(i)}
-                    className={`transition-all rounded-full flex items-center justify-center
-                      ${atual ? 'w-7 h-7 bg-primary text-white text-[10px] font-bold ring-2 ring-primary/30' :
-                        passado ? 'w-5 h-5 bg-primary/20 text-primary text-[9px] font-bold hover:bg-primary/40' :
-                        'w-5 h-5 bg-muted text-muted-foreground text-[9px] hover:bg-muted-foreground/20'}
-                      ${temItens && !atual ? 'ring-1 ring-green-400' : ''}`}>
-                    {atual ? i + 1 : temItens ? <Check className="h-2.5 w-2.5" /> : i + 1}
-                  </button>
-                );
-              })}
+                style={{ width: `${Math.min((stepAtual / (CALC_GRUPOS.length - 1)) * 100, 100)}%` }} />
             </div>
           </div>
 
-          {/* Card da etapa atual */}
-          {(() => {
+          {/* Etapas */}
+          {CALC_GRUPOS.map((g, i) => {
+            const temItens = (itensPorGrupo[g.id] || 0) > 0;
+            const atual = i === stepAtual;
+            const visitado = i < stepAtual;
+            return (
+              <button key={g.id} onClick={() => { setStepAtual(i); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg text-left text-xs transition-all
+                  ${atual
+                    ? 'bg-primary text-primary-foreground font-semibold shadow-sm'
+                    : visitado
+                    ? 'text-foreground hover:bg-muted/60'
+                    : 'text-muted-foreground hover:bg-muted/40'}`}>
+                <span className={`shrink-0 text-sm ${atual ? 'opacity-100' : 'opacity-70'}`}>{g.emoji}</span>
+                <span className="flex-1 leading-tight truncate">{g.nome}</span>
+                {temItens && (
+                  <span className={`shrink-0 text-[10px] font-bold px-1.5 py-0.5 rounded-full
+                    ${atual ? 'bg-primary-foreground/20 text-primary-foreground' : 'bg-green-100 text-green-700 border border-green-300'}`}>
+                    {itensPorGrupo[g.id]}
+                  </span>
+                )}
+                {!temItens && visitado && (
+                  <span className="shrink-0 text-muted-foreground/50">
+                    <Check className="h-3 w-3" />
+                  </span>
+                )}
+              </button>
+            );
+          })}
+
+          {/* Etapa final: Quantitativos */}
+          <button onClick={() => { setStepAtual(CALC_GRUPOS.length); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+            className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg text-left text-xs transition-all mt-2 border-t pt-3
+              ${stepAtual === CALC_GRUPOS.length
+                ? 'bg-green-600 text-white font-semibold shadow-sm'
+                : 'text-muted-foreground hover:bg-muted/40'}`}>
+            <span className="shrink-0 text-sm">📋</span>
+            <span className="flex-1 leading-tight">Quantitativos</span>
+            {calcItems.filter(i => i.quantidade > 0).length > 0 && (
+              <span className={`shrink-0 text-[10px] font-bold px-1.5 py-0.5 rounded-full
+                ${stepAtual === CALC_GRUPOS.length ? 'bg-white/20 text-white' : 'bg-green-100 text-green-700 border border-green-300'}`}>
+                {calcItems.filter(i => i.quantidade > 0).length}
+              </span>
+            )}
+          </button>
+        </div>
+
+        {/* ── Conteúdo da etapa (largura total) ── */}
+        <div className="flex-1 min-w-0">
+          {stepAtual < CALC_GRUPOS.length ? (() => {
             const grupo = CALC_GRUPOS[stepAtual];
             const corBorder: Record<string,string> = { amber:'border-amber-200 bg-amber-50/20', blue:'border-blue-200 bg-blue-50/20', orange:'border-orange-200 bg-orange-50/20', green:'border-green-200 bg-green-50/20', violet:'border-violet-200 bg-violet-50/20', teal:'border-teal-200 bg-teal-50/20' };
             return (
               <Card className={`border-2 ${corBorder[grupo.cor] ?? 'border-border'}`}>
                 <CardContent className="p-5 space-y-4">
-                  {/* Cabeçalho da etapa */}
+                  {/* Cabeçalho */}
                   <div className="flex items-start gap-3">
                     <span className="text-2xl">{grupo.emoji}</span>
-                    <div>
+                    <div className="flex-1 min-w-0">
                       <h2 className="font-bold text-base">{grupo.nome}</h2>
                       <p className="text-xs text-muted-foreground">{grupo.descricao}</p>
                     </div>
                     {(itensPorGrupo[grupo.id] || 0) > 0 && (
-                      <span className="ml-auto text-[10px] font-bold px-2 py-0.5 rounded-full border bg-green-100 text-green-700 border-green-300 shrink-0">
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full border bg-green-100 text-green-700 border-green-300 shrink-0">
                         {itensPorGrupo[grupo.id]} item{itensPorGrupo[grupo.id] > 1 ? 's' : ''} calculado{itensPorGrupo[grupo.id] > 1 ? 's' : ''}
                       </span>
                     )}
                   </div>
 
-                  {/* Conteúdo da etapa */}
+                  {/* Conteúdo */}
                   <div className="border-t pt-4">
                     {grupo.id === 'preliminares' && <SecaoPreliminares params={params} setParams={setParams} ambientes={ambientes} setAmbientes={setAmbientes} />}
                     {grupo.id === 'fundacoes'    && <SecaoFundacoes params={params} setParams={setParams} />}
@@ -1136,10 +1166,9 @@ function CalculadoraContent() {
                     {grupo.id === 'banheiro'     && <SecaoLoucas ambientes={ambientes} setAmbientes={setAmbientes} />}
                   </div>
 
-                  {/* Navegação Anterior / Próximo */}
+                  {/* Navegação */}
                   <div className="flex items-center justify-between pt-2 border-t">
-                    <Button variant="outline" size="sm" className="h-9"
-                      disabled={stepAtual === 0}
+                    <Button variant="outline" size="sm" className="h-9" disabled={stepAtual === 0}
                       onClick={() => { setStepAtual(s => s - 1); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
                       <ChevronRight className="h-4 w-4 mr-1 rotate-180" /> Anterior
                     </Button>
@@ -1150,21 +1179,30 @@ function CalculadoraContent() {
                         Próximo <ChevronRight className="h-4 w-4 ml-1" />
                       </Button>
                     ) : (
-                      <Button size="sm" variant="default" className="h-9 bg-green-600 hover:bg-green-700"
-                        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-                        <Check className="h-4 w-4 mr-1" /> Concluído
+                      <Button size="sm" className="h-9 bg-green-600 hover:bg-green-700 text-white"
+                        onClick={() => { setStepAtual(CALC_GRUPOS.length); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
+                        <Calculator className="h-4 w-4 mr-1.5" /> Ver Quantitativos
                       </Button>
                     )}
                   </div>
                 </CardContent>
               </Card>
             );
-          })()}
-        </div>
-
-        {/* ── Painel de resultados (sticky) ── */}
-        <div className="xl:sticky xl:top-6">
-          <PainelResultados calcItems={calcItems} composicoes={composicoes} userStates={userStates} setUserStates={setUserStates} onAplicar={aplicar} aplicando={aplicando} orcamentoId={orcamentoId} />
+          })() : (
+            /* ── Etapa final: Quantitativos ── */
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <h2 className="font-bold text-base flex items-center gap-2">
+                  <Calculator className="h-5 w-5 text-primary" /> Quantitativos Calculados
+                </h2>
+                <Button variant="outline" size="sm" className="h-8"
+                  onClick={() => { setStepAtual(CALC_GRUPOS.length - 1); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
+                  <ChevronRight className="h-4 w-4 mr-1 rotate-180" /> Voltar às etapas
+                </Button>
+              </div>
+              <PainelResultados calcItems={calcItems} composicoes={composicoes} userStates={userStates} setUserStates={setUserStates} onAplicar={aplicar} aplicando={aplicando} orcamentoId={orcamentoId} />
+            </div>
+          )}
         </div>
       </div>
     </div>
