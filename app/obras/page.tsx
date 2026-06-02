@@ -74,7 +74,7 @@ export default function ObrasPage() {
                 {/* Foto ou placeholder */}
                 <div className="hidden sm:flex w-20 h-20 shrink-0 rounded-lg overflow-hidden bg-muted items-center justify-center border">
                   {obra.foto_url ? (
-                    <img src={obra.foto_url} alt={obra.nome} className="w-full h-full object-cover" />
+                    <img src={`/api/obras/${obra.id}/foto/imagem`} alt={obra.nome} className="w-full h-full object-cover" />
                   ) : (
                     <Building2 className="h-8 w-8 text-muted-foreground/40" />
                   )}

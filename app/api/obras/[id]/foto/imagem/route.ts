@@ -23,15 +23,16 @@ export async function GET(
     const fotoUrl = obra.foto_url || '';
     if (!fotoUrl) return new NextResponse(null, { status: 404 });
 
-    // Baixa o blob usando o token de autenticação
-    const token = process.env.BLOB_READ_WRITE_TOKEN;
-    const res = await fetch(fotoUrl, {
-      headers: token ? { Authorization: `Bearer ${token}` } : {},
-    });
-
+    // Tenta buscar diretamente (funciona para URLs públicas)
+    // Para blobs privados legados, tenta também com o token
+    let res = await fetch(fotoUrl);
     if (!res.ok) {
-      return new NextResponse(null, { status: res.status });
+      const token = process.env.BLOB_READ_WRITE_TOKEN;
+      if (token) {
+        res = await fetch(fotoUrl, { headers: { Authorization: `Bearer ${token}` } });
+      }
     }
+    if (!res.ok) return new NextResponse(null, { status: res.status });
 
     const contentType = res.headers.get('content-type') || 'image/jpeg';
     const buffer = await res.arrayBuffer();
@@ -39,7 +40,6 @@ export async function GET(
     return new NextResponse(buffer, {
       headers: {
         'Content-Type': contentType,
-        // Cache de 1 hora no browser
         'Cache-Control': 'public, max-age=3600, stale-while-revalidate=7200',
       },
     });
