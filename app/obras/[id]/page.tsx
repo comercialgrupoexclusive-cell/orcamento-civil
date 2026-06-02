@@ -59,11 +59,13 @@ interface ObraDetalhe {
 }
 
 // ── Exibição da foto (sem upload — upload fica em /editar) ───────────────────
-function FotoDisplay({ fotoUrl, nome, editHref }: { fotoUrl: string; nome: string; editHref: string }) {
+function FotoDisplay({ fotoUrl, obraId, nome, editHref }: { fotoUrl: string; obraId: string; nome: string; editHref: string }) {
+  // Usa o proxy para evitar URLs privadas do Blob expirando no browser
+  const imgSrc = fotoUrl ? `/api/obras/${obraId}/foto/imagem` : '';
   if (fotoUrl) {
     return (
       <div className="relative w-full rounded-xl overflow-hidden" style={{ height: '360px' }}>
-        <img src={fotoUrl} alt={nome} className="w-full h-full object-cover" />
+        <img src={imgSrc} alt={nome} className="w-full h-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
         <Link href={editHref} className="absolute bottom-3 right-3">
           <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/20 backdrop-blur-sm text-white text-xs font-semibold hover:bg-white/35 transition-all border border-white/30">
@@ -182,7 +184,7 @@ export default function ObraDetalhePage({ params }: { params: Promise<{ id: stri
       <Card className="overflow-hidden">
         {/* Foto */}
         <div className="p-4 pb-3">
-          <FotoDisplay fotoUrl={obra.foto_url || ''} nome={obra.nome} editHref={`/obras/${id}/editar`} />
+          <FotoDisplay fotoUrl={obra.foto_url || ''} obraId={id} nome={obra.nome} editHref={`/obras/${id}/editar`} />
         </div>
 
         {/* Info abaixo da foto */}

@@ -33,15 +33,17 @@ function FotoEditor({
   const inputRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
   const [dragOver, setDragOver] = useState(false);
-  const [preview, setPreview] = useState(fotoUrl);
+  // URL do proxy para exibição (evita problema de URL privada do Blob expirando)
+  const proxyUrl = fotoUrl ? `/api/obras/${obraId}/foto/imagem` : '';
+  const [preview, setPreview] = useState(proxyUrl);
 
-  useEffect(() => { setPreview(fotoUrl); }, [fotoUrl]);
+  useEffect(() => { setPreview(fotoUrl ? `/api/obras/${obraId}/foto/imagem` : ''); }, [fotoUrl, obraId]);
 
   async function upload(file: File) {
     if (!file.type.startsWith('image/')) { toast.error('Apenas imagens (JPG, PNG, WEBP)'); return; }
     if (file.size > 5 * 1024 * 1024) { toast.error('Imagem muito grande — máx 5 MB'); return; }
 
-    // Preview imediato (antes do upload)
+    // Preview imediato com object URL local (antes do upload terminar)
     const localUrl = URL.createObjectURL(file);
     setPreview(localUrl);
 
@@ -53,15 +55,16 @@ function FotoEditor({
       const data = await res.json();
       if (res.ok) {
         onFotoChange(data.url);
-        setPreview(data.url);
+        // Após upload, usar o proxy (adiciona timestamp para forçar reload do cache)
+        setPreview(`/api/obras/${obraId}/foto/imagem?t=${Date.now()}`);
         toast.success('Foto salva com sucesso!');
       } else {
         toast.error(data.error || 'Erro ao enviar foto');
-        setPreview(fotoUrl); // reverte
+        setPreview(fotoUrl ? `/api/obras/${obraId}/foto/imagem` : ''); // reverte
       }
     } catch {
       toast.error('Erro de conexão');
-      setPreview(fotoUrl);
+      setPreview(fotoUrl ? `/api/obras/${obraId}/foto/imagem` : '');
     } finally {
       setUploading(false);
     }
@@ -73,6 +76,9 @@ function FotoEditor({
     if (res.ok) { onFotoChange(''); setPreview(''); toast.success('Foto removida'); }
     else toast.error('Erro ao remover');
   }
+
+  // URL de exibição: proxy ou object URL local
+  const exibicaoUrl = preview;
 
   function onDrop(e: React.DragEvent) {
     e.preventDefault(); setDragOver(false);
@@ -89,7 +95,7 @@ function FotoEditor({
       {preview ? (
         /* Com foto: mostrar imagem + botões de troca/remoção */
         <div className="relative rounded-xl overflow-hidden border" style={{ height: '260px' }}>
-          <img src={preview} alt="Foto da obra" className="w-full h-full object-cover" />
+          <img src={exibicaoUrl} alt="Foto da obra" className="w-full h-full object-cover" />
 
           {/* Overlay com gradiente e botões */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
