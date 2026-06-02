@@ -27,5 +27,15 @@
     "data_atualizacao": "2026-06-02T19:02:54.263Z",
     "status": "em_andamento",
     "bdi_percentual": "0"
+  },
+  {
+    "id": "df8b899d-d338-473b-9dd1-407484ad25c9",
+    "titulo": "Cópia de Teste Final Casa de 43m²",
+    "descricao": "",
+    "area_construida": "43",
+    "data_criacao": "2026-06-02T19:33:49.370Z",
+    "data_atualizacao": "2026-06-02T19:33:49.370Z",
+    "status": "em_andamento",
+    "bdi_percentual": "0"
   }
 ]
