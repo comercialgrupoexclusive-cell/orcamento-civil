@@ -4009,5 +4009,47 @@
     "quantidade_tipo": "AUTO",
     "ordem": "2",
     "qtd_overrides": ""
+  },
+  {
+    "id": "59aedbc5-c849-45ea-a863-1682515e09c5",
+    "orcamento_id": "2dc39abb-71b5-4044-829b-c814fbd2776c",
+    "etapa_codigo": "04",
+    "sub_etapa": "Alvenaria",
+    "composicao_id": "cmp-4002",
+    "descricao_override": "",
+    "unidade_override": "",
+    "custo_unitario_override": "0",
+    "quantidade": "120.4",
+    "quantidade_tipo": "AUTO",
+    "ordem": "1",
+    "qtd_overrides": ""
+  },
+  {
+    "id": "b88e8f2c-b3c8-43b0-a7b3-ca17d3edb431",
+    "orcamento_id": "2dc39abb-71b5-4044-829b-c814fbd2776c",
+    "etapa_codigo": "04",
+    "sub_etapa": "Cinta de Coroamento",
+    "composicao_id": "cmp-4003",
+    "descricao_override": "",
+    "unidade_override": "",
+    "custo_unitario_override": "0",
+    "quantidade": "43",
+    "quantidade_tipo": "AUTO",
+    "ordem": "2",
+    "qtd_overrides": ""
+  },
+  {
+    "id": "a6f30246-7d3b-4cee-9b86-278fa2332aa4",
+    "orcamento_id": "2dc39abb-71b5-4044-829b-c814fbd2776c",
+    "etapa_codigo": "04",
+    "sub_etapa": "Alvenaria",
+    "composicao_id": "cmp-4001",
+    "descricao_override": "",
+    "unidade_override": "",
+    "custo_unitario_override": "0",
+    "quantidade": "1",
+    "quantidade_tipo": "MANUAL",
+    "ordem": "3",
+    "qtd_overrides": ""
   }
 ]

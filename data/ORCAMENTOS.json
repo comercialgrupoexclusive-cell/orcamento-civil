@@ -90,5 +90,14 @@
     "data_atualizacao": "2026-06-02T12:39:19.101Z",
     "status": "em_andamento",
     "bdi_percentual": "0"
+  },
+  {
+    "id": "2dc39abb-71b5-4044-829b-c814fbd2776c",
+    "titulo": "v8",
+    "descricao": "",
+    "data_criacao": "2026-06-02T13:10:44.909Z",
+    "data_atualizacao": "2026-06-02T13:10:44.909Z",
+    "status": "em_andamento",
+    "bdi_percentual": "0"
   }
 ]

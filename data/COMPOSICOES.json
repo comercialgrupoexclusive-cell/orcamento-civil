@@ -255,7 +255,7 @@
   {
     "id": "cmp-4001",
     "codigo": "4001",
-    "descricao": "Verga e Contraverga em Canela Cerâmica",
+    "descricao": "Verga e Contraverga em Canaleta Cerâmica",
     "unidade_producao": "m",
     "producao": 1,
     "descricao_tecnica": "",
@@ -1025,7 +1025,7 @@
   {
     "id": "cmp-4003",
     "codigo": "4003",
-    "descricao": "Cinta de Coroamento em Canela Cerâmica",
+    "descricao": "Cinta de Coroamento em Canaleta Cerâmica",
     "unidade_producao": "m",
     "producao": 1,
     "descricao_tecnica": "",

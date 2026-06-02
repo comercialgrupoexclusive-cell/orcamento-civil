@@ -475,7 +475,7 @@ function SecaoAlvenaria({ params, setParams, vaos, setVaos }: { params: Partial<
             onChange={e => setParams(p => ({ ...p, cinta_coroamento: e.target.checked ? 1 : 0 }))}
             className="h-4 w-4 accent-primary" />
           <span className="text-xs font-semibold">Incluir Cinta Superior de Coroamento</span>
-          <span className="text-[10px] text-muted-foreground">— Cinta de Coroamento em Canela Cerâmica</span>
+          <span className="text-[10px] text-muted-foreground">— Cinta de Coroamento em Canaleta Cerâmica</span>
         </label>
         {comCinta && (
           <div className="ml-6">
