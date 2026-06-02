@@ -971,9 +971,16 @@ function PainelResultados({ calcItems, composicoes, userStates, setUserStates, o
     setUserStates(prev => ({ ...prev, [tid]: { ...prev[tid], ...patch } }));
   }
 
-  const prontos = ativos.filter(i => { const s = userStates[i.template_id]; return s?.incluir && s?.composicao_id; });
-  const totalInclui = ativos.filter(i => userStates[i.template_id]?.incluir).length;
-  const totalSemComp = ativos.filter(i => userStates[i.template_id]?.incluir && !userStates[i.template_id]?.composicao_id).length;
+  const prontos = ativos.filter(i => {
+    const s = userStates[i.template_id];
+    if (!s?.incluir) return false;
+    return !!(s.composicao_id || i.composicao_id);
+  });
+  const totalInclui = ativos.filter(i => userStates[i.template_id]?.incluir !== false).length;
+  const totalSemComp = ativos.filter(i => {
+    const s = userStates[i.template_id];
+    return s?.incluir !== false && !s?.composicao_id && !i.composicao_id;
+  }).length;
 
   return (
     <Card className="border-2 border-primary/20">
@@ -1152,22 +1159,27 @@ function CalculadoraContent() {
     setUserStates(prev => {
       const next = { ...prev };
       for (const item of calcItems) {
-        if (!next[item.template_id]) {
+        const existing = next[item.template_id];
+        if (!existing) {
           // Primeira vez: inicializa com composicao_id do template
           next[item.template_id] = {
             composicao_id: item.composicao_id ?? '',
             qtd_override: '',
-            incluir: item.quantidade > 0 && item.incluir,
+            incluir: item.quantidade > 0,
           };
-        } else if (item.quantidade === 0) {
-          // Quantidade zerou: desativa
-          next[item.template_id] = { ...next[item.template_id], incluir: false };
-        } else if (item.quantidade > 0 && !next[item.template_id].incluir) {
-          // BUG FIX: item ganhou quantidade depois de ser inicializado com qty=0
-          // Reativa automaticamente (a menos que o usuário tenha desmarcado manualmente)
-          // Distinguimos: user_unchecked só é verdadeiro se o user explicitamente desmarcou
-          if (!next[item.template_id].user_unchecked) {
-            next[item.template_id] = { ...next[item.template_id], incluir: true };
+        } else {
+          // Já existe: mantém composicao_id do usuário (se preencheu manualmente)
+          // mas atualiza composicao_id padrão se ainda estiver vazio
+          const cid = existing.composicao_id || (item.composicao_id ?? '');
+          if (item.quantidade === 0) {
+            // Zerou: desativa mas preserva composicao_id e override
+            next[item.template_id] = { ...existing, composicao_id: cid, incluir: false };
+          } else if (!existing.user_unchecked) {
+            // Tem quantidade e usuário não desmarcou: garante incluir=true e cid preenchido
+            next[item.template_id] = { ...existing, composicao_id: cid, incluir: true };
+          } else {
+            // Usuário desmarcou manualmente: apenas atualiza cid se necessário
+            next[item.template_id] = { ...existing, composicao_id: cid };
           }
         }
       }
@@ -1192,9 +1204,26 @@ function CalculadoraContent() {
 
   const aplicar = useCallback(async () => {
     if (!orcamentoId) { toast.error('Selecione um orcamento'); return; }
-    const prontos = calcItems.filter(i => { const s = userStates[i.template_id]; return s?.incluir && s?.composicao_id && i.quantidade > 0; });
-    if (prontos.length === 0) { toast.error('Nenhum item pronto - selecione uma composicao'); return; }
-    const payload = prontos.map(i => { const s = userStates[i.template_id]; const qtd = s.qtd_override !== '' ? Number(s.qtd_override) : i.quantidade; return { ...i, composicao_id: s.composicao_id, quantidade: qtd }; });
+    // Itens prontos: têm quantidade > 0 e estão marcados
+    // composicao_id: usa o do userState (que pode ter sido selecionado manualmente)
+    // ou cai de volta no composicao_id do template (item.composicao_id)
+    const prontos = calcItems.filter(i => {
+      if (i.quantidade <= 0) return false;
+      const s = userStates[i.template_id];
+      if (!s) return false;  // não inicializado ainda
+      if (!s.incluir) return false;
+      // aceita se tem composicao_id no state OU no template
+      const cid = s.composicao_id || i.composicao_id || '';
+      return cid !== '';
+    });
+    if (prontos.length === 0) { toast.error('Nenhum item com quantidade — preencha os dados do projeto'); return; }
+    const payload = prontos.map(i => {
+      const s = userStates[i.template_id];
+      const qtd = s.qtd_override !== '' ? Number(s.qtd_override) : i.quantidade;
+      // Prioriza composicao_id do state (usuário selecionou), senão usa do template
+      const cid = s.composicao_id || i.composicao_id || '';
+      return { ...i, composicao_id: cid, quantidade: qtd };
+    });
     setAplicando(true);
     try {
       const res = await fetch('/api/calculadora', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ orcamento_id: orcamentoId, itens: payload }) });
