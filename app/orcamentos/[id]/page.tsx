@@ -660,10 +660,11 @@ function DashboardOrcamento({ orc }: { orc: OrcamentoDetalhe }) {
 
 function CurvaABC({ orc }: { orc: OrcamentoDetalhe }) {
   const [filtroTipo, setFiltroTipo] = useState('TODOS');
+  const [filtroCategoria, setFiltroCategoria] = useState('TODAS');
   const [busca, setBusca] = useState('');
   const [viewMode, setViewMode] = useState<'insumos' | 'categorias'>('insumos');
 
-  // Agrega insumos
+  // ── Agrega insumos ───────────────────────────────────────────────────────────
   const insumosMap = new Map<string, {
     insumo_id: string; descricao: string; unidade: string; tipo: string; categoria: string;
     custo_total: number; qtd_total: number; preco_unitario: number;
@@ -682,7 +683,7 @@ function CurvaABC({ orc }: { orc: OrcamentoDetalhe }) {
             descricao: ins.descricao,
             unidade: ins.unidade,
             tipo: ins.tipo,
-            categoria: ins.tipo === 'MO' ? 'Mão de Obra' : ins.tipo === 'E' ? 'Equipamento' : ins.tipo === 'S' ? 'Serviço' : 'Material',
+            categoria: (ins as { categoria?: string }).categoria || (ins.tipo === 'MO' ? 'Mão de Obra' : ins.tipo === 'E' ? 'Equipamento' : ins.tipo === 'S' ? 'Serviço' : 'Material'),
             custo_total: ins.custo_item,
             qtd_total: (ins.qtd_adotada ?? ins.qtd_calculada),
             preco_unitario: ins.preco_unitario ?? 0,
@@ -692,9 +693,10 @@ function CurvaABC({ orc }: { orc: OrcamentoDetalhe }) {
     }
   }
 
-  let lista = Array.from(insumosMap.values()).sort((a, b) => b.custo_total - a.custo_total);
+  const lista = Array.from(insumosMap.values()).sort((a, b) => b.custo_total - a.custo_total);
   const totalGeral = lista.reduce((acc, i) => acc + i.custo_total, 0);
 
+  // ── Classe ABC (calculada sobre lista completa, antes de filtros) ────────────
   let acumulado = 0;
   const listaComABC = lista.map(ins => {
     acumulado += ins.custo_total;
@@ -703,18 +705,22 @@ function CurvaABC({ orc }: { orc: OrcamentoDetalhe }) {
     return { ...ins, pctAcum, classe };
   });
 
-  // Agrupamento por categoria (tipo)
-  const porCategoria = new Map<string, { label: string; tipo: string; custo: number; qtdInsumos: number }>();
+  // ── Agrupamento por CATEGORIA REAL do insumo ─────────────────────────────────
+  const porCategoria = new Map<string, { nome: string; tipo: string; custo: number; qtdInsumos: number }>();
   for (const ins of listaComABC) {
-    const key = ins.tipo;
+    const key = ins.categoria;
     const ex = porCategoria.get(key);
     if (ex) { ex.custo += ins.custo_total; ex.qtdInsumos++; }
-    else porCategoria.set(key, { label: TIPO_LABEL[key] || key, tipo: key, custo: ins.custo_total, qtdInsumos: 1 });
+    else porCategoria.set(key, { nome: ins.categoria, tipo: ins.tipo, custo: ins.custo_total, qtdInsumos: 1 });
   }
-  const categoriasOrdenadas = Array.from(porCategoria.values()).sort((a, b) => b.custo - a.custo);
+  const categoriasOrdenadas = Array.from(porCategoria.entries())
+    .map(([key, v]) => ({ key, ...v }))
+    .sort((a, b) => b.custo - a.custo);
 
+  // ── Filtros ──────────────────────────────────────────────────────────────────
   let listaFiltrada = listaComABC;
   if (filtroTipo !== 'TODOS') listaFiltrada = listaFiltrada.filter(i => i.tipo === filtroTipo);
+  if (filtroCategoria !== 'TODAS') listaFiltrada = listaFiltrada.filter(i => i.categoria === filtroCategoria);
   if (busca.trim()) {
     const b = busca.toLowerCase();
     listaFiltrada = listaFiltrada.filter(i => i.descricao.toLowerCase().includes(b));
@@ -735,7 +741,8 @@ function CurvaABC({ orc }: { orc: OrcamentoDetalhe }) {
 
   return (
     <div className="space-y-4">
-      {/* Cards ABC */}
+
+      {/* ── Cards Classe A/B/C ──────────────────────────────────────────────── */}
       <div className="grid grid-cols-3 gap-3">
         {(['A', 'B', 'C'] as const).map(cls => {
           const cores = { A: 'bg-red-50 border-red-200 text-red-700', B: 'bg-amber-50 border-amber-200 text-amber-700', C: 'bg-green-50 border-green-200 text-green-700' };
@@ -754,24 +761,10 @@ function CurvaABC({ orc }: { orc: OrcamentoDetalhe }) {
         })}
       </div>
 
-      {/* Totais por categoria */}
-      <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-2">
-        {categoriasOrdenadas.map(cat => {
-          const pct = totalGeral > 0 ? (cat.custo / totalGeral * 100).toFixed(1) : '0';
-          const cor = TIPO_COR[cat.tipo] || 'bg-muted border-border text-foreground';
-          return (
-            <div key={cat.tipo} className={`rounded-lg border px-3 py-2 ${cor}`}>
-              <p className="text-[11px] font-semibold">{cat.label}</p>
-              <p className="text-base font-bold tabular-nums">{fmtBRL(cat.custo)}</p>
-              <p className="text-[10px] opacity-70">{pct}% · {cat.qtdInsumos} insumo{cat.qtdInsumos !== 1 ? 's' : ''}</p>
-            </div>
-          );
-        })}
-      </div>
-
-      {/* Toggle view + filtros */}
+      {/* ── Toggle view + filtros ──────────────────────────────────────────── */}
       <div className="flex gap-2 flex-wrap items-center">
-        <div className="flex rounded-lg border overflow-hidden">
+        {/* Toggle Por Insumo / Por Categoria */}
+        <div className="flex rounded-lg border overflow-hidden shrink-0">
           <button onClick={() => setViewMode('insumos')}
             className={`px-3 py-1.5 text-xs font-medium transition-colors ${viewMode === 'insumos' ? 'bg-primary text-primary-foreground' : 'bg-background text-muted-foreground hover:bg-muted'}`}>
             Por Insumo
@@ -781,19 +774,32 @@ function CurvaABC({ orc }: { orc: OrcamentoDetalhe }) {
             Por Categoria
           </button>
         </div>
-        {viewMode === 'insumos' && <>
-          <Input placeholder="Filtrar por descrição..." value={busca} onChange={e => setBusca(e.target.value)} className="h-8 text-xs max-w-52" />
-          {['TODOS', 'M', 'MO', 'E', 'S'].map(t => (
-            <button key={t}
-              className={`h-8 px-3 text-xs rounded-md border transition-colors font-medium ${filtroTipo === t ? 'bg-primary text-primary-foreground border-primary' : 'bg-background text-muted-foreground hover:text-foreground hover:border-foreground/40'}`}
-              onClick={() => setFiltroTipo(t)}>
-              {t === 'TODOS' ? 'Todos' : TIPO_LABEL[t] || t}
-            </button>
-          ))}
-        </>}
+
+        {viewMode === 'insumos' && (
+          <>
+            <Input placeholder="Buscar insumo..." value={busca} onChange={e => setBusca(e.target.value)} className="h-8 text-xs w-44" />
+            {/* Filtro por tipo M/MO/E */}
+            {['TODOS', 'M', 'MO', 'E', 'S'].map(t => (
+              <button key={t}
+                className={`h-8 px-3 text-xs rounded-md border transition-colors font-medium ${filtroTipo === t ? 'bg-primary text-primary-foreground border-primary' : 'bg-background text-muted-foreground hover:text-foreground hover:border-foreground/40'}`}
+                onClick={() => { setFiltroTipo(t); setFiltroCategoria('TODAS'); }}>
+                {t === 'TODOS' ? 'Todos' : TIPO_LABEL[t] || t}
+              </button>
+            ))}
+            {/* Filtro por categoria do insumo */}
+            <select value={filtroCategoria}
+              onChange={e => { setFiltroCategoria(e.target.value); setFiltroTipo('TODOS'); }}
+              className="h-8 px-2 text-xs rounded-md border bg-background text-muted-foreground cursor-pointer hover:border-foreground/40">
+              <option value="TODAS">Todas as categorias</option>
+              {categoriasOrdenadas.map(c => (
+                <option key={c.key} value={c.key}>{c.nome} ({c.qtdInsumos})</option>
+              ))}
+            </select>
+          </>
+        )}
       </div>
 
-      {/* Tabela de insumos */}
+      {/* ── Tabela por insumo ──────────────────────────────────────────────── */}
       {viewMode === 'insumos' && (
         <div className="border rounded-xl overflow-hidden shadow-sm">
           <div className="overflow-x-auto">
@@ -802,6 +808,7 @@ function CurvaABC({ orc }: { orc: OrcamentoDetalhe }) {
                 <tr className="border-b bg-muted/20">
                   <th className="text-left px-3 py-2 text-xs text-muted-foreground font-medium w-8">#</th>
                   <th className="text-left px-3 py-2 text-xs text-muted-foreground font-medium">Insumo</th>
+                  <th className="text-left px-3 py-2 text-xs text-muted-foreground font-medium">Categoria</th>
                   <th className="text-left px-3 py-2 text-xs text-muted-foreground font-medium w-20">Tipo</th>
                   <th className="text-right px-3 py-2 text-xs text-muted-foreground font-medium w-24">Qtd. Total</th>
                   <th className="text-right px-3 py-2 text-xs text-muted-foreground font-medium w-24">Preço Unit.</th>
@@ -817,7 +824,14 @@ function CurvaABC({ orc }: { orc: OrcamentoDetalhe }) {
                   return (
                     <tr key={ins.insumo_id} className="border-b last:border-0 hover:bg-muted/20 transition-colors">
                       <td className="px-3 py-2 text-xs text-muted-foreground tabular-nums">{idx + 1}</td>
-                      <td className="px-3 py-2 font-medium text-sm">{ins.descricao}</td>
+                      <td className="px-3 py-2 font-medium text-sm leading-tight">{ins.descricao}</td>
+                      <td className="px-3 py-2">
+                        <button onClick={() => { setFiltroCategoria(ins.categoria); setFiltroTipo('TODOS'); }}
+                          className="text-[10px] px-1.5 py-0.5 rounded border bg-muted/50 border-border text-muted-foreground hover:bg-primary/10 hover:border-primary/40 hover:text-primary transition-colors whitespace-nowrap"
+                          title="Filtrar por esta categoria">
+                          {ins.categoria}
+                        </button>
+                      </td>
                       <td className="px-3 py-2">
                         <span className={`inline-flex text-[10px] font-semibold px-1.5 py-0.5 rounded border ${TIPO_COR[ins.tipo] || ''}`}>
                           {TIPO_LABEL[ins.tipo] || ins.tipo}
@@ -836,7 +850,7 @@ function CurvaABC({ orc }: { orc: OrcamentoDetalhe }) {
                   );
                 })}
                 {listaFiltrada.length === 0 && (
-                  <tr><td colSpan={8} className="px-3 py-8 text-center text-muted-foreground text-sm">Nenhum insumo encontrado.</td></tr>
+                  <tr><td colSpan={9} className="px-3 py-8 text-center text-muted-foreground text-sm">Nenhum insumo encontrado.</td></tr>
                 )}
               </tbody>
             </table>
@@ -844,33 +858,40 @@ function CurvaABC({ orc }: { orc: OrcamentoDetalhe }) {
         </div>
       )}
 
-      {/* Tabela por categoria */}
+      {/* ── Tabela por categoria do insumo ────────────────────────────────── */}
       {viewMode === 'categorias' && (
         <div className="border rounded-xl overflow-hidden shadow-sm">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b bg-muted/20">
-                <th className="text-left px-3 py-2 text-xs text-muted-foreground font-medium">Categoria</th>
-                <th className="text-right px-3 py-2 text-xs text-muted-foreground font-medium w-24">Insumos</th>
+                <th className="text-left px-3 py-2 text-xs text-muted-foreground font-medium">Categoria do Insumo</th>
+                <th className="text-left px-3 py-2 text-xs text-muted-foreground font-medium w-20">Tipo</th>
+                <th className="text-right px-3 py-2 text-xs text-muted-foreground font-medium w-16">Qtd</th>
                 <th className="text-right px-3 py-2 text-xs text-muted-foreground font-medium w-28">Custo Total</th>
-                <th className="text-right px-3 py-2 text-xs text-muted-foreground font-medium w-20">% Total</th>
+                <th className="text-right px-3 py-2 text-xs text-muted-foreground font-medium w-32">% do Total</th>
               </tr>
             </thead>
             <tbody>
               {categoriasOrdenadas.map(cat => {
                 const pct = totalGeral > 0 ? (cat.custo / totalGeral * 100) : 0;
+                const ativo = filtroCategoria === cat.key;
                 return (
-                  <tr key={cat.tipo} className="border-b last:border-0 hover:bg-muted/20">
-                    <td className="px-3 py-3">
-                      <span className={`inline-flex text-[10px] font-semibold px-1.5 py-0.5 rounded border mr-2 ${TIPO_COR[cat.tipo] || ''}`}>{cat.tipo}</span>
-                      <span className="font-medium">{cat.label}</span>
+                  <tr key={cat.key}
+                    className={`border-b last:border-0 cursor-pointer transition-colors ${ativo ? 'bg-primary/5 border-l-2 border-l-primary' : 'hover:bg-muted/20'}`}
+                    title="Clique para filtrar por esta categoria"
+                    onClick={() => { setFiltroCategoria(ativo ? 'TODAS' : cat.key); setViewMode('insumos'); }}>
+                    <td className="px-3 py-2.5 font-medium">{cat.nome}</td>
+                    <td className="px-3 py-2.5">
+                      <span className={`inline-flex text-[10px] font-semibold px-1.5 py-0.5 rounded border ${TIPO_COR[cat.tipo] || ''}`}>
+                        {TIPO_LABEL[cat.tipo] || cat.tipo}
+                      </span>
                     </td>
-                    <td className="px-3 py-3 text-right text-muted-foreground">{cat.qtdInsumos}</td>
-                    <td className="px-3 py-3 text-right font-bold tabular-nums">{fmtBRL(cat.custo)}</td>
-                    <td className="px-3 py-3 text-right">
+                    <td className="px-3 py-2.5 text-right text-muted-foreground tabular-nums">{cat.qtdInsumos}</td>
+                    <td className="px-3 py-2.5 text-right font-bold tabular-nums">{fmtBRL(cat.custo)}</td>
+                    <td className="px-3 py-2.5 text-right">
                       <div className="flex items-center justify-end gap-2">
-                        <div className="h-1.5 w-16 bg-muted rounded-full overflow-hidden">
-                          <div className="h-full bg-primary rounded-full" style={{ width: `${pct}%` }} />
+                        <div className="h-1.5 w-20 bg-muted rounded-full overflow-hidden">
+                          <div className="h-full bg-primary rounded-full transition-all" style={{ width: `${Math.min(pct, 100)}%` }} />
                         </div>
                         <span className="text-xs tabular-nums text-muted-foreground w-10 text-right">{pct.toFixed(1)}%</span>
                       </div>

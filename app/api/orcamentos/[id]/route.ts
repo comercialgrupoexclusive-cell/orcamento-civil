@@ -55,6 +55,7 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
               insumo_id: ic.insumo_id,
               descricao: ins?.descricao || '',
               unidade: ic.unidade || ins?.unidade || '',
+              categoria: ins?.categoria || '',
               coeficiente: coef,
               qtd_calculada: coef * quantidade,
               qtd_adotada: qtdAdotada,

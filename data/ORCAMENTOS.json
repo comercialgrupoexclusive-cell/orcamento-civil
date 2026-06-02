@@ -76,8 +76,9 @@
     "titulo": "teste v5",
     "descricao": "",
     "data_criacao": "2026-06-02T12:03:06.735Z",
-    "data_atualizacao": "2026-06-02T12:03:06.735Z",
+    "data_atualizacao": "2026-06-02T12:14:04.948Z",
     "status": "em_andamento",
-    "bdi_percentual": "0"
+    "bdi_percentual": "0",
+    "area_construida": "43"
   }
 ]
