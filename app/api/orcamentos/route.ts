@@ -38,6 +38,7 @@ export async function GET(req: NextRequest) {
         id: row.id,
         titulo: row.titulo,
         descricao: row.descricao,
+        area_construida: Number(row.area_construida) || 0,
         data_criacao: row.data_criacao,
         status: row.status,
         bdi_percentual: bdi,
@@ -85,6 +86,7 @@ export async function POST(req: NextRequest) {
 
     const erros = coletarErros([
       validarCampoObrigatorio(body.titulo, 'Título'),
+      validarCampoObrigatorio(body.area_construida, 'Área construída'),
       validarBDI(body.bdi_percentual ?? 0),
     ]);
     if (erros.length > 0) return NextResponse.json({ erros }, { status: 400 });
@@ -93,6 +95,7 @@ export async function POST(req: NextRequest) {
       id: uuidv4(),
       titulo: String(body.titulo).trim(),
       descricao: String(body.descricao || '').trim(),
+      area_construida: Number(body.area_construida) || 0,
       data_criacao: new Date().toISOString(),
       data_atualizacao: new Date().toISOString(),
       status: 'em_andamento',

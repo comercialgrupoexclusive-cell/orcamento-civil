@@ -15,8 +15,12 @@ import Link from 'next/link';
 import {
   ArrowLeft, Plus, Trash2, RefreshCw, Check, X,
   Download, FileText, GripVertical, Pencil, Calendar,
-  ChevronRight, ChevronDown, BarChart3, List, LayoutTemplate, Layers, Zap, Search,
+  ChevronRight, ChevronDown, BarChart3, List, LayoutTemplate, Layers, Zap, Search, TrendingUp,
 } from 'lucide-react';
+import {
+  BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, Tooltip, Legend,
+  ResponsiveContainer, RadialBarChart, RadialBar,
+} from 'recharts';
 import type { Composicao } from '@/lib/types';
 import { ETAPAS, ORCAMENTO_STATUS_LABEL } from '@/lib/types';
 
@@ -86,6 +90,7 @@ interface OrcamentoDetalhe {
   titulo: string;
   descricao: string;
   bdi_percentual: number;
+  area_construida: number;
   status: string;
   data_atualizacao?: string;
   etapas: EtapaUI[];
@@ -176,13 +181,18 @@ function BDIInline({ valor, onSalvar }: { valor: number; onSalvar: (v: number) =
 }
 
 // ─── Célula Numérica Inline ───────────────────────────────────────────────────
+// Arredonda removendo ruído de ponto flutuante (282.460105000000006 -> 282.46)
+function limpaNum(n: number, decimais: number): number {
+  return Number.isFinite(n) ? Number(n.toFixed(decimais)) : 0;
+}
 // corStatus: 'auto' = amarelo pastel (calculado), 'manual' = verde pastel (confirmado pelo usuário), undefined = neutro
-function CelulaNum({ valor, onSalvar, corStatus }: { valor: number; onSalvar: (v: number) => Promise<void>; corStatus?: 'auto' | 'manual' }) {
+function CelulaNum({ valor, onSalvar, corStatus, decimais = 4 }: { valor: number; onSalvar: (v: number) => Promise<void>; corStatus?: 'auto' | 'manual'; decimais?: number }) {
+  const limpo = limpaNum(valor, decimais);
   const [editando, setEditando] = useState(false);
-  const [val, setVal] = useState(String(valor));
+  const [val, setVal] = useState(String(limpo));
   async function salvar() {
     const num = Number(val);
-    if (isNaN(num) || num === valor) { setEditando(false); return; }
+    if (isNaN(num) || num === limpo) { setEditando(false); return; }
     await onSalvar(num); setEditando(false);
   }
 
@@ -208,8 +218,8 @@ function CelulaNum({ valor, onSalvar, corStatus }: { valor: number; onSalvar: (v
     <span
       className={`cursor-pointer tabular-nums rounded px-1.5 py-0.5 -mx-1 transition-colors hover:opacity-80 ${bgCor || 'hover:bg-primary/10 hover:ring-1 hover:ring-primary/30'}`}
       title={corStatus === 'auto' ? 'Quantidade calculada — clique para confirmar sua quantidade' : corStatus === 'manual' ? 'Quantidade confirmada — clique para editar' : 'Clique para editar'}
-      onClick={() => { setVal(String(valor)); setEditando(true); }}>
-      {valor}
+      onClick={() => { setVal(String(limpo)); setEditando(true); }}>
+      {limpo.toLocaleString('pt-BR', { maximumFractionDigits: decimais })}
     </span>
   );
 }
@@ -420,14 +430,209 @@ const TIPO_COR: Record<string, string> = {
   S: 'bg-gray-100 text-gray-700 border-gray-200',
 };
 
+// ─── Dashboard ────────────────────────────────────────────────────────────────
+const CORES_TIPO: Record<string, string> = {
+  M: '#3b82f6', MO: '#f97316', E: '#a855f7', S: '#10b981',
+};
+const CORES_ETAPA = [
+  '#6366f1','#0ea5e9','#10b981','#f59e0b','#ef4444',
+  '#8b5cf6','#ec4899','#14b8a6','#f97316','#84cc16',
+  '#06b6d4','#d946ef','#e11d48','#0891b2','#65a30d',
+  '#7c3aed','#b45309','#047857',
+];
+
+function DashboardOrcamento({ orc }: { orc: OrcamentoDetalhe }) {
+  const area = Number(orc.area_construida) || 0;
+  const bd = orc.total_breakdown || { M: 0, MO: 0, E: 0, S: 0 };
+  const totalDireto = orc.total_direto;
+
+  // Pizza: M / MO / E
+  const dataTipo = Object.entries(bd)
+    .filter(([, v]) => v > 0)
+    .map(([k, v]) => ({ name: TIPO_LABEL[k] || k, value: Number(v), fill: CORES_TIPO[k] || '#888' }));
+
+  // Barras: por etapa
+  const dataEtapa = orc.etapas
+    .filter(e => e.subtotal > 0)
+    .map((e, i) => ({
+      name: e.descricao.length > 20 ? e.descricao.substring(0, 18) + '…' : e.descricao,
+      fullName: e.descricao,
+      total: Math.round(e.subtotal),
+      M: Math.round(e.breakdown.M || 0),
+      MO: Math.round(e.breakdown.MO || 0),
+      E: Math.round(e.breakdown.E || 0),
+      fill: CORES_ETAPA[i % CORES_ETAPA.length],
+    }));
+
+  // Radial: m² por tipo
+  const dataM2 = area > 0
+    ? Object.entries(bd).filter(([, v]) => v > 0).map(([k, v], i) => ({
+        name: TIPO_LABEL[k] || k, value: Math.round(Number(v) / area),
+        fill: CORES_TIPO[k] || CORES_ETAPA[i],
+      }))
+    : [];
+
+  const fmtK = (v: number) => v >= 1000 ? `R$${(v / 1000).toFixed(0)}k` : `R$${v.toFixed(0)}`;
+
+  const CustomTooltip = ({ active, payload, label }: { active?: boolean; payload?: { name: string; value: number; fill: string }[]; label?: string }) => {
+    if (!active || !payload?.length) return null;
+    return (
+      <div className="bg-popover border border-border rounded-lg shadow-xl px-3 py-2 text-xs space-y-1">
+        <p className="font-bold text-foreground mb-1">{label}</p>
+        {payload.map(p => (
+          <div key={p.name} className="flex items-center gap-2 justify-between">
+            <span className="flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full shrink-0" style={{ background: p.fill }} />
+              {p.name}
+            </span>
+            <span className="font-semibold tabular-nums">{fmtBRL(p.value)}</span>
+          </div>
+        ))}
+      </div>
+    );
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* KPIs rápidos */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        {[
+          { label: 'Total da Obra', val: fmtBRL(orc.total_com_bdi), sub: 'com BDI', color: 'text-primary' },
+          { label: 'Mão de Obra', val: fmtBRL(bd.MO || 0), sub: area > 0 ? `${fmtBRL((bd.MO||0)/area)}/m²` : `${totalDireto > 0 ? Math.round(((bd.MO||0)/totalDireto)*100) : 0}%`, color: 'text-orange-600' },
+          { label: 'Material', val: fmtBRL(bd.M || 0), sub: area > 0 ? `${fmtBRL((bd.M||0)/area)}/m²` : `${totalDireto > 0 ? Math.round(((bd.M||0)/totalDireto)*100) : 0}%`, color: 'text-blue-600' },
+          { label: 'Área Construída', val: area > 0 ? `${area} m²` : '—', sub: area > 0 ? `${fmtBRL(orc.total_com_bdi / area)}/m²` : 'sem área', color: 'text-teal-600' },
+        ].map(k => (
+          <div key={k.label} className="rounded-xl border bg-card p-4 space-y-1 shadow-sm">
+            <p className="text-[11px] text-muted-foreground font-medium">{k.label}</p>
+            <p className={`text-lg font-bold tabular-nums leading-tight ${k.color}`}>{k.val}</p>
+            <p className="text-[11px] text-muted-foreground">{k.sub}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Pizza + Radial */}
+      <div className="grid sm:grid-cols-2 gap-4">
+        <div className="rounded-xl border bg-card p-4 shadow-sm">
+          <p className="text-sm font-semibold mb-4 flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-primary" /> Composição do Custo Direto</p>
+          <ResponsiveContainer width="100%" height={220}>
+            <PieChart>
+              <Pie data={dataTipo} cx="50%" cy="50%" innerRadius={55} outerRadius={85}
+                dataKey="value" nameKey="name" paddingAngle={3} isAnimationActive animationBegin={0} animationDuration={900}>
+                {dataTipo.map((d, i) => <Cell key={i} fill={d.fill} />)}
+              </Pie>
+              <Tooltip content={<CustomTooltip />} />
+              <Legend iconType="circle" iconSize={8} wrapperStyle={{ fontSize: '11px' }} />
+            </PieChart>
+          </ResponsiveContainer>
+        </div>
+        <div className="rounded-xl border bg-card p-4 shadow-sm">
+          <p className="text-sm font-semibold mb-4 flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-orange-500" /> Custo por m² por Tipo</p>
+          {area > 0 ? (
+            <ResponsiveContainer width="100%" height={220}>
+              <RadialBarChart cx="50%" cy="50%" innerRadius={30} outerRadius={90}
+                data={dataM2} startAngle={90} endAngle={-270}>
+                <RadialBar dataKey="value" isAnimationActive />
+                <Legend iconType="circle" iconSize={8} wrapperStyle={{ fontSize: '11px' }} />
+                <Tooltip formatter={(v) => [`R$${v}/m²`, '']} />
+              </RadialBarChart>
+            </ResponsiveContainer>
+          ) : (
+            <div className="h-52 flex items-center justify-center text-sm text-muted-foreground">
+              Defina a área construída no orçamento para ver custo/m²
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Barras por etapa */}
+      <div className="rounded-xl border bg-card p-4 shadow-sm">
+        <p className="text-sm font-semibold mb-4 flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-indigo-500" /> Custo por Etapa</p>
+        <ResponsiveContainer width="100%" height={260}>
+          <BarChart data={dataEtapa} margin={{ top: 4, right: 16, left: 8, bottom: 60 }}
+            barSize={18}>
+            <XAxis dataKey="name" tick={{ fontSize: 9 }} angle={-40} textAnchor="end" interval={0} />
+            <YAxis tickFormatter={fmtK} tick={{ fontSize: 10 }} />
+            <Tooltip content={({ active, payload, label }) => {
+              if (!active || !payload?.length) return null;
+              const etapa = dataEtapa.find(d => d.name === label);
+              return (
+                <div className="bg-popover border border-border rounded-lg shadow-xl px-3 py-2 text-xs space-y-1 max-w-56">
+                  <p className="font-bold text-foreground mb-1 leading-tight">{etapa?.fullName || label}</p>
+                  {payload.map((p) => (
+                    <div key={p.name} className="flex items-center gap-2 justify-between">
+                      <span className="flex items-center gap-1.5">
+                        <span className="w-2 h-2 rounded-full shrink-0" style={{ background: p.fill }} />
+                        {p.name}
+                      </span>
+                      <span className="font-semibold tabular-nums">{fmtBRL(Number(p.value) || 0)}</span>
+                    </div>
+                  ))}
+                </div>
+              );
+            }} />
+            <Legend iconType="circle" iconSize={8} wrapperStyle={{ fontSize: '11px' }} />
+            <Bar dataKey="M" name="Material" stackId="a" fill={CORES_TIPO.M} isAnimationActive animationBegin={0} animationDuration={800} />
+            <Bar dataKey="MO" name="Mão de Obra" stackId="a" fill={CORES_TIPO.MO} isAnimationActive animationBegin={100} animationDuration={800} />
+            <Bar dataKey="E" name="Equipamento" stackId="a" fill={CORES_TIPO.E} isAnimationActive animationBegin={200} animationDuration={800} radius={[3, 3, 0, 0]} />
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
+
+      {/* Tabela resumo por etapa */}
+      <div className="rounded-xl border bg-card shadow-sm overflow-hidden">
+        <div className="px-4 py-3 border-b bg-muted/30">
+          <p className="text-sm font-semibold">Resumo por Etapa</p>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="border-b bg-muted/10 text-xs text-muted-foreground">
+                <th className="text-left px-4 py-2 font-medium">Etapa</th>
+                <th className="text-right px-3 py-2 font-medium w-20">Itens</th>
+                <th className="text-right px-3 py-2 font-medium w-28">Material</th>
+                <th className="text-right px-3 py-2 font-medium w-28">Mão de Obra</th>
+                <th className="text-right px-3 py-2 font-medium w-28">Total</th>
+                <th className="text-right px-3 py-2 font-medium w-16">%</th>
+              </tr>
+            </thead>
+            <tbody>
+              {orc.etapas.filter(e => e.subtotal > 0).map(e => {
+                const pct = totalDireto > 0 ? (e.subtotal / totalDireto * 100) : 0;
+                return (
+                  <tr key={e.codigo} className="border-b last:border-0 hover:bg-muted/20 transition-colors">
+                    <td className="px-4 py-2.5 font-medium text-sm">{e.descricao}</td>
+                    <td className="px-3 py-2.5 text-right text-muted-foreground text-xs">{e.itens.length}</td>
+                    <td className="px-3 py-2.5 text-right tabular-nums text-xs text-blue-700">{fmtBRL(e.breakdown.M || 0)}</td>
+                    <td className="px-3 py-2.5 text-right tabular-nums text-xs text-orange-700">{fmtBRL(e.breakdown.MO || 0)}</td>
+                    <td className="px-3 py-2.5 text-right tabular-nums font-semibold">{fmtBRL(e.subtotal)}</td>
+                    <td className="px-3 py-2.5 text-right">
+                      <div className="flex items-center justify-end gap-1.5">
+                        <div className="h-1.5 w-12 bg-muted rounded-full overflow-hidden">
+                          <div className="h-full bg-primary/70 rounded-full transition-all" style={{ width: `${pct}%` }} />
+                        </div>
+                        <span className="text-[10px] tabular-nums text-muted-foreground w-8 text-right">{pct.toFixed(1)}%</span>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function CurvaABC({ orc }: { orc: OrcamentoDetalhe }) {
   const [filtroTipo, setFiltroTipo] = useState('TODOS');
   const [busca, setBusca] = useState('');
+  const [viewMode, setViewMode] = useState<'insumos' | 'categorias'>('insumos');
 
-  // Agrega insumos de todos os itens do orçamento
+  // Agrega insumos
   const insumosMap = new Map<string, {
-    insumo_id: string; descricao: string; unidade: string; tipo: string;
-    custo_total: number; qtd_total: number;
+    insumo_id: string; descricao: string; unidade: string; tipo: string; categoria: string;
+    custo_total: number; qtd_total: number; preco_unitario: number;
   }>();
 
   for (const etapa of orc.etapas) {
@@ -443,8 +648,10 @@ function CurvaABC({ orc }: { orc: OrcamentoDetalhe }) {
             descricao: ins.descricao,
             unidade: ins.unidade,
             tipo: ins.tipo,
+            categoria: ins.tipo === 'MO' ? 'Mão de Obra' : ins.tipo === 'E' ? 'Equipamento' : ins.tipo === 'S' ? 'Serviço' : 'Material',
             custo_total: ins.custo_item,
             qtd_total: (ins.qtd_adotada ?? ins.qtd_calculada),
+            preco_unitario: ins.preco_unitario ?? 0,
           });
         }
       }
@@ -454,7 +661,6 @@ function CurvaABC({ orc }: { orc: OrcamentoDetalhe }) {
   let lista = Array.from(insumosMap.values()).sort((a, b) => b.custo_total - a.custo_total);
   const totalGeral = lista.reduce((acc, i) => acc + i.custo_total, 0);
 
-  // Calcular classe ABC antes de filtrar
   let acumulado = 0;
   const listaComABC = lista.map(ins => {
     acumulado += ins.custo_total;
@@ -463,7 +669,16 @@ function CurvaABC({ orc }: { orc: OrcamentoDetalhe }) {
     return { ...ins, pctAcum, classe };
   });
 
-  // Filtros
+  // Agrupamento por categoria (tipo)
+  const porCategoria = new Map<string, { label: string; tipo: string; custo: number; qtdInsumos: number }>();
+  for (const ins of listaComABC) {
+    const key = ins.tipo;
+    const ex = porCategoria.get(key);
+    if (ex) { ex.custo += ins.custo_total; ex.qtdInsumos++; }
+    else porCategoria.set(key, { label: TIPO_LABEL[key] || key, tipo: key, custo: ins.custo_total, qtdInsumos: 1 });
+  }
+  const categoriasOrdenadas = Array.from(porCategoria.values()).sort((a, b) => b.custo - a.custo);
+
   let listaFiltrada = listaComABC;
   if (filtroTipo !== 'TODOS') listaFiltrada = listaFiltrada.filter(i => i.tipo === filtroTipo);
   if (busca.trim()) {
@@ -486,95 +701,153 @@ function CurvaABC({ orc }: { orc: OrcamentoDetalhe }) {
 
   return (
     <div className="space-y-4">
-      {/* Resumo cards */}
+      {/* Cards ABC */}
       <div className="grid grid-cols-3 gap-3">
         {(['A', 'B', 'C'] as const).map(cls => {
-          const cores = {
-            A: 'bg-red-50 border-red-200 text-red-700',
-            B: 'bg-amber-50 border-amber-200 text-amber-700',
-            C: 'bg-green-50 border-green-200 text-green-700',
-          };
+          const cores = { A: 'bg-red-50 border-red-200 text-red-700', B: 'bg-amber-50 border-amber-200 text-amber-700', C: 'bg-green-50 border-green-200 text-green-700' };
           const pcts = { A: '0–50%', B: '50–80%', C: '80–100%' };
+          const totalCls = listaComABC.filter(i => i.classe === cls).reduce((a, i) => a + i.custo_total, 0);
           return (
             <div key={cls} className={`rounded-xl border p-3.5 ${cores[cls]}`}>
               <div className="flex items-center justify-between mb-1">
                 <span className="text-lg font-black">Classe {cls}</span>
                 <span className="text-xs font-medium opacity-70">{pcts[cls]}</span>
               </div>
-              <p className="text-2xl font-bold tabular-nums">{classeCount[cls]}</p>
-              <p className="text-xs opacity-70">insumo{classeCount[cls] !== 1 ? 's' : ''}</p>
+              <p className="text-xl font-bold tabular-nums">{fmtBRL(totalCls)}</p>
+              <p className="text-xs opacity-70 mt-0.5">{classeCount[cls]} insumo{classeCount[cls] !== 1 ? 's' : ''}</p>
             </div>
           );
         })}
       </div>
 
-      {/* Filtros */}
-      <div className="flex gap-2 flex-wrap">
-        <Input
-          placeholder="Filtrar por descrição..."
-          value={busca}
-          onChange={e => setBusca(e.target.value)}
-          className="h-8 text-xs max-w-60"
-        />
-        {['TODOS', 'M', 'MO', 'E', 'S'].map(t => (
-          <button key={t}
-            className={`h-8 px-3 text-xs rounded-md border transition-colors font-medium ${filtroTipo === t ? 'bg-primary text-primary-foreground border-primary' : 'bg-background text-muted-foreground hover:text-foreground hover:border-foreground/40'}`}
-            onClick={() => setFiltroTipo(t)}>
-            {t === 'TODOS' ? 'Todos' : TIPO_LABEL[t] || t}
-          </button>
-        ))}
+      {/* Totais por categoria */}
+      <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-2">
+        {categoriasOrdenadas.map(cat => {
+          const pct = totalGeral > 0 ? (cat.custo / totalGeral * 100).toFixed(1) : '0';
+          const cor = TIPO_COR[cat.tipo] || 'bg-muted border-border text-foreground';
+          return (
+            <div key={cat.tipo} className={`rounded-lg border px-3 py-2 ${cor}`}>
+              <p className="text-[11px] font-semibold">{cat.label}</p>
+              <p className="text-base font-bold tabular-nums">{fmtBRL(cat.custo)}</p>
+              <p className="text-[10px] opacity-70">{pct}% · {cat.qtdInsumos} insumo{cat.qtdInsumos !== 1 ? 's' : ''}</p>
+            </div>
+          );
+        })}
       </div>
 
-      {/* Tabela */}
-      <div className="border rounded-xl overflow-hidden shadow-sm">
-        <div className="overflow-x-auto">
+      {/* Toggle view + filtros */}
+      <div className="flex gap-2 flex-wrap items-center">
+        <div className="flex rounded-lg border overflow-hidden">
+          <button onClick={() => setViewMode('insumos')}
+            className={`px-3 py-1.5 text-xs font-medium transition-colors ${viewMode === 'insumos' ? 'bg-primary text-primary-foreground' : 'bg-background text-muted-foreground hover:bg-muted'}`}>
+            Por Insumo
+          </button>
+          <button onClick={() => setViewMode('categorias')}
+            className={`px-3 py-1.5 text-xs font-medium transition-colors ${viewMode === 'categorias' ? 'bg-primary text-primary-foreground' : 'bg-background text-muted-foreground hover:bg-muted'}`}>
+            Por Categoria
+          </button>
+        </div>
+        {viewMode === 'insumos' && <>
+          <Input placeholder="Filtrar por descrição..." value={busca} onChange={e => setBusca(e.target.value)} className="h-8 text-xs max-w-52" />
+          {['TODOS', 'M', 'MO', 'E', 'S'].map(t => (
+            <button key={t}
+              className={`h-8 px-3 text-xs rounded-md border transition-colors font-medium ${filtroTipo === t ? 'bg-primary text-primary-foreground border-primary' : 'bg-background text-muted-foreground hover:text-foreground hover:border-foreground/40'}`}
+              onClick={() => setFiltroTipo(t)}>
+              {t === 'TODOS' ? 'Todos' : TIPO_LABEL[t] || t}
+            </button>
+          ))}
+        </>}
+      </div>
+
+      {/* Tabela de insumos */}
+      {viewMode === 'insumos' && (
+        <div className="border rounded-xl overflow-hidden shadow-sm">
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b bg-muted/20">
+                  <th className="text-left px-3 py-2 text-xs text-muted-foreground font-medium w-8">#</th>
+                  <th className="text-left px-3 py-2 text-xs text-muted-foreground font-medium">Insumo</th>
+                  <th className="text-left px-3 py-2 text-xs text-muted-foreground font-medium w-20">Tipo</th>
+                  <th className="text-right px-3 py-2 text-xs text-muted-foreground font-medium w-24">Qtd. Total</th>
+                  <th className="text-right px-3 py-2 text-xs text-muted-foreground font-medium w-24">Preço Unit.</th>
+                  <th className="text-right px-3 py-2 text-xs text-muted-foreground font-medium w-28">Custo Total</th>
+                  <th className="text-right px-3 py-2 text-xs text-muted-foreground font-medium w-20">% Acum.</th>
+                  <th className="text-center px-3 py-2 text-xs text-muted-foreground font-medium w-16">Classe</th>
+                </tr>
+              </thead>
+              <tbody>
+                {listaFiltrada.map((ins, idx) => {
+                  const classeCor = { A: 'bg-red-100 text-red-700 border-red-200', B: 'bg-amber-100 text-amber-700 border-amber-200', C: 'bg-green-100 text-green-700 border-green-200' }[ins.classe] || '';
+                  const precoUnit = ins.qtd_total > 0 ? ins.custo_total / ins.qtd_total : ins.preco_unitario;
+                  return (
+                    <tr key={ins.insumo_id} className="border-b last:border-0 hover:bg-muted/20 transition-colors">
+                      <td className="px-3 py-2 text-xs text-muted-foreground tabular-nums">{idx + 1}</td>
+                      <td className="px-3 py-2 font-medium text-sm">{ins.descricao}</td>
+                      <td className="px-3 py-2">
+                        <span className={`inline-flex text-[10px] font-semibold px-1.5 py-0.5 rounded border ${TIPO_COR[ins.tipo] || ''}`}>
+                          {TIPO_LABEL[ins.tipo] || ins.tipo}
+                        </span>
+                      </td>
+                      <td className="px-3 py-2 text-right tabular-nums text-muted-foreground text-xs">
+                        {ins.qtd_total.toLocaleString('pt-BR', { maximumFractionDigits: 3 })} {ins.unidade}
+                      </td>
+                      <td className="px-3 py-2 text-right tabular-nums text-xs">{fmtBRL(precoUnit)}</td>
+                      <td className="px-3 py-2 text-right tabular-nums font-medium">{fmtBRL(ins.custo_total)}</td>
+                      <td className="px-3 py-2 text-right tabular-nums text-muted-foreground text-xs">{ins.pctAcum.toFixed(1)}%</td>
+                      <td className="px-3 py-2 text-center">
+                        <span className={`inline-flex items-center justify-center w-7 h-5 text-xs font-black rounded border ${classeCor}`}>{ins.classe}</span>
+                      </td>
+                    </tr>
+                  );
+                })}
+                {listaFiltrada.length === 0 && (
+                  <tr><td colSpan={8} className="px-3 py-8 text-center text-muted-foreground text-sm">Nenhum insumo encontrado.</td></tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {/* Tabela por categoria */}
+      {viewMode === 'categorias' && (
+        <div className="border rounded-xl overflow-hidden shadow-sm">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b bg-muted/20">
-                <th className="text-left px-3 py-2 text-xs text-muted-foreground font-medium w-8">#</th>
-                <th className="text-left px-3 py-2 text-xs text-muted-foreground font-medium">Insumo</th>
-                <th className="text-left px-3 py-2 text-xs text-muted-foreground font-medium w-20">Tipo</th>
+                <th className="text-left px-3 py-2 text-xs text-muted-foreground font-medium">Categoria</th>
+                <th className="text-right px-3 py-2 text-xs text-muted-foreground font-medium w-24">Insumos</th>
                 <th className="text-right px-3 py-2 text-xs text-muted-foreground font-medium w-28">Custo Total</th>
-                <th className="text-right px-3 py-2 text-xs text-muted-foreground font-medium w-24">% do Total</th>
-                <th className="text-right px-3 py-2 text-xs text-muted-foreground font-medium w-24">% Acum.</th>
-                <th className="text-center px-3 py-2 text-xs text-muted-foreground font-medium w-16">Classe</th>
+                <th className="text-right px-3 py-2 text-xs text-muted-foreground font-medium w-20">% Total</th>
               </tr>
             </thead>
             <tbody>
-              {listaFiltrada.map((ins, idx) => {
-                const pctItem = totalGeral > 0 ? (ins.custo_total / totalGeral) * 100 : 0;
-                const classeCor = {
-                  A: 'bg-red-100 text-red-700 border-red-200',
-                  B: 'bg-amber-100 text-amber-700 border-amber-200',
-                  C: 'bg-green-100 text-green-700 border-green-200',
-                }[ins.classe] || '';
+              {categoriasOrdenadas.map(cat => {
+                const pct = totalGeral > 0 ? (cat.custo / totalGeral * 100) : 0;
                 return (
-                  <tr key={ins.insumo_id} className="border-b last:border-0 hover:bg-muted/20 transition-colors">
-                    <td className="px-3 py-2 text-xs text-muted-foreground tabular-nums">{idx + 1}</td>
-                    <td className="px-3 py-2 font-medium">{ins.descricao}</td>
-                    <td className="px-3 py-2">
-                      <span className={`inline-flex text-[10px] font-semibold px-1.5 py-0.5 rounded border ${TIPO_COR[ins.tipo] || ''}`}>
-                        {TIPO_LABEL[ins.tipo] || ins.tipo}
-                      </span>
+                  <tr key={cat.tipo} className="border-b last:border-0 hover:bg-muted/20">
+                    <td className="px-3 py-3">
+                      <span className={`inline-flex text-[10px] font-semibold px-1.5 py-0.5 rounded border mr-2 ${TIPO_COR[cat.tipo] || ''}`}>{cat.tipo}</span>
+                      <span className="font-medium">{cat.label}</span>
                     </td>
-                    <td className="px-3 py-2 text-right tabular-nums font-medium">{fmtBRL(ins.custo_total)}</td>
-                    <td className="px-3 py-2 text-right tabular-nums text-muted-foreground">{pctItem.toFixed(1)}%</td>
-                    <td className="px-3 py-2 text-right tabular-nums text-muted-foreground">{ins.pctAcum.toFixed(1)}%</td>
-                    <td className="px-3 py-2 text-center">
-                      <span className={`inline-flex items-center justify-center w-7 h-5 text-xs font-black rounded border ${classeCor}`}>
-                        {ins.classe}
-                      </span>
+                    <td className="px-3 py-3 text-right text-muted-foreground">{cat.qtdInsumos}</td>
+                    <td className="px-3 py-3 text-right font-bold tabular-nums">{fmtBRL(cat.custo)}</td>
+                    <td className="px-3 py-3 text-right">
+                      <div className="flex items-center justify-end gap-2">
+                        <div className="h-1.5 w-16 bg-muted rounded-full overflow-hidden">
+                          <div className="h-full bg-primary rounded-full" style={{ width: `${pct}%` }} />
+                        </div>
+                        <span className="text-xs tabular-nums text-muted-foreground w-10 text-right">{pct.toFixed(1)}%</span>
+                      </div>
                     </td>
                   </tr>
                 );
               })}
-              {listaFiltrada.length === 0 && (
-                <tr><td colSpan={7} className="px-3 py-8 text-center text-muted-foreground text-sm">Nenhum insumo encontrado para o filtro selecionado.</td></tr>
-              )}
             </tbody>
           </table>
         </div>
-      </div>
+      )}
     </div>
   );
 }
@@ -584,7 +857,7 @@ export default function OrcamentoDetalhePage({ params }: { params: Promise<{ id:
   const { id } = use(params);
   const [orc, setOrc] = useState<OrcamentoDetalhe | null>(null);
   const [loading, setLoading] = useState(true);
-  const [aba, setAba] = useState<'planilha' | 'abc'>('planilha');
+  const [aba, setAba] = useState<'planilha' | 'abc' | 'dashboard'>('planilha');
 
   // Modal adicionar item
   const [modalAberto, setModalAberto] = useState(false);
@@ -1042,6 +1315,8 @@ export default function OrcamentoDetalhePage({ params }: { params: Promise<{ id:
         {BREAKDOWN_TIPOS.map(({ key, label, bg, text }) => {
           const val = bd[key as keyof Breakdown] || 0;
           const pct = totalDireto > 0 ? Math.round((val / totalDireto) * 100) : 0;
+          const area = Number(orc.area_construida) || 0;
+          const porM2 = area > 0 && val > 0 ? val / area : 0;
           return (
             <div key={key} className={`rounded-xl border p-3.5 ${bg}`}>
               <div className="flex items-start justify-between gap-1 mb-1.5">
@@ -1049,6 +1324,11 @@ export default function OrcamentoDetalhePage({ params }: { params: Promise<{ id:
                 <span className={`text-sm font-bold ${text} shrink-0 tabular-nums`}>{pct}%</span>
               </div>
               <p className={`text-base font-bold tabular-nums ${text} truncate`}>{fmtBRL(val)}</p>
+              {porM2 > 0 && (
+                <p className={`text-[11px] font-medium tabular-nums mt-0.5 opacity-80 ${text}`}>
+                  {fmtBRL(porM2)}/m²
+                </p>
+              )}
             </div>
           );
         })}
@@ -1066,10 +1346,18 @@ export default function OrcamentoDetalhePage({ params }: { params: Promise<{ id:
           className={`flex items-center gap-1.5 px-4 py-2 text-sm font-medium border-b-2 transition-colors ${aba === 'abc' ? 'border-primary text-primary' : 'border-transparent text-muted-foreground hover:text-foreground'}`}>
           <BarChart3 className="h-3.5 w-3.5" /> Curva ABC de Insumos
         </button>
+        <button
+          onClick={() => setAba('dashboard')}
+          className={`flex items-center gap-1.5 px-4 py-2 text-sm font-medium border-b-2 transition-colors ${aba === 'dashboard' ? 'border-primary text-primary' : 'border-transparent text-muted-foreground hover:text-foreground'}`}>
+          <TrendingUp className="h-3.5 w-3.5" /> Dashboard
+        </button>
       </div>
 
       {/* ═══ ABA: CURVA ABC ══════════════════════════════════════════════════ */}
       {aba === 'abc' && <CurvaABC orc={orc} />}
+
+      {/* ═══ ABA: DASHBOARD ══════════════════════════════════════════════════ */}
+      {aba === 'dashboard' && <DashboardOrcamento orc={orc} />}
 
       {/* ═══ ABA: PLANILHA ═══════════════════════════════════════════════════ */}
       {aba === 'planilha' && (
@@ -1221,7 +1509,7 @@ export default function OrcamentoDetalhePage({ params }: { params: Promise<{ id:
 
                                     {/* Custo unitário */}
                                     <td className="px-3 py-2 text-right">
-                                      <CelulaNum valor={item.custo_unitario_efetivo}
+                                      <CelulaNum valor={item.custo_unitario_efetivo} decimais={2}
                                         onSalvar={v => atualizarItem(item.id, { custo_unitario_override: v, quantidade: item.quantidade })} />
                                     </td>
 
@@ -1229,6 +1517,7 @@ export default function OrcamentoDetalhePage({ params }: { params: Promise<{ id:
                                     <td className="px-3 py-2 text-right">
                                       <CelulaNum
                                         valor={item.quantidade}
+                                        decimais={3}
                                         corStatus={item.quantidade_tipo === 'MANUAL' ? 'manual' : 'auto'}
                                         onSalvar={v => atualizarItem(item.id, { quantidade: v })} />
                                     </td>

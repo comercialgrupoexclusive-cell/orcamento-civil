@@ -119,6 +119,7 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
     return NextResponse.json({
       ...row,
       bdi_percentual: bdi,
+      area_construida: Number(row.area_construida) || 0,
       etapas,
       total_direto: totalDireto,
       total_com_bdi: totalComBDI,
@@ -143,6 +144,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
     const updates = {
       titulo: String(body.titulo).trim(),
       descricao: String(body.descricao || '').trim(),
+      area_construida: Number(body.area_construida) || 0,
       status: body.status || 'em_andamento',
       bdi_percentual: Number(body.bdi_percentual) || 0,
       data_atualizacao: new Date().toISOString(),

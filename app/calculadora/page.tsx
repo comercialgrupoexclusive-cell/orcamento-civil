@@ -640,11 +640,16 @@ function SecaoAcabamento({ params, setParams, derived }: { params: Partial<CalcP
   </div>);
 }
 // --- GrupoSection Accordion ---
-function GrupoSection({ grupo, expanded, onToggle, children, itensAtivos }: { grupo: (typeof CALC_GRUPOS)[0]; expanded: boolean; onToggle: () => void; children: React.ReactNode; itensAtivos: number }) {
+function GrupoSection({ grupo, expanded, onToggle, onProximo, isUltimo, children, itensAtivos }: {
+  grupo: (typeof CALC_GRUPOS)[0]; expanded: boolean; onToggle: () => void;
+  onProximo: () => void; isUltimo: boolean;
+  children: React.ReactNode; itensAtivos: number;
+}) {
   const cores: Record<string,string> = { amber:'border-amber-200 bg-amber-50/30', blue:'border-blue-200 bg-blue-50/30', orange:'border-orange-200 bg-orange-50/30', green:'border-green-200 bg-green-50/30', violet:'border-violet-200 bg-violet-50/30', teal:'border-teal-200 bg-teal-50/30' };
   const badge: Record<string,string> = { amber:'bg-amber-100 text-amber-700 border-amber-300', blue:'bg-blue-100 text-blue-700 border-blue-300', orange:'bg-orange-100 text-orange-700 border-orange-300', green:'bg-green-100 text-green-700 border-green-300', violet:'bg-violet-100 text-violet-700 border-violet-300', teal:'bg-teal-100 text-teal-700 border-teal-300' };
+  const btnNext: Record<string,string> = { amber:'bg-amber-500 hover:bg-amber-600', blue:'bg-blue-500 hover:bg-blue-600', orange:'bg-orange-500 hover:bg-orange-600', green:'bg-green-600 hover:bg-green-700', violet:'bg-violet-500 hover:bg-violet-600', teal:'bg-teal-500 hover:bg-teal-600' };
   return (
-    <Card className={`border-2 transition-all ${expanded ? (cores[grupo.cor] ?? 'border-border') : 'border-border'}`}>
+    <Card id={`grupo-${grupo.id}`} className={`border-2 transition-all ${expanded ? (cores[grupo.cor] ?? 'border-border') : 'border-border'}`}>
       <CardContent className="p-0">
         <button onClick={onToggle} className="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-muted/30 transition-colors rounded-xl">
           <span className="text-xl">{grupo.emoji}</span>
@@ -652,7 +657,21 @@ function GrupoSection({ grupo, expanded, onToggle, children, itensAtivos }: { gr
           {itensAtivos > 0 && <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border shrink-0 ${badge[grupo.cor] ?? ''}`}>{itensAtivos} item{itensAtivos > 1 ? 's' : ''}</span>}
           {expanded ? <ChevronDown className="h-4 w-4 text-muted-foreground shrink-0" /> : <ChevronRight className="h-4 w-4 text-muted-foreground shrink-0" />}
         </button>
-        {expanded && <div className="px-4 pb-4 border-t pt-4">{children}</div>}
+        {expanded && (
+          <div className="px-4 pb-4 border-t pt-4">
+            {children}
+            <div className="mt-4 flex justify-end">
+              {isUltimo ? (
+                <span className="text-xs text-muted-foreground italic">✓ Última etapa — confira o painel de quantitativos ao lado.</span>
+              ) : (
+                <button onClick={onProximo}
+                  className={`flex items-center gap-1.5 text-xs font-semibold text-white px-4 py-2 rounded-lg transition-colors ${btnNext[grupo.cor] ?? 'bg-primary hover:bg-primary/90'}`}>
+                  Próximo <ChevronRight className="h-3.5 w-3.5" />
+                </button>
+              )}
+            </div>
+          </div>
+        )}
       </CardContent>
     </Card>
   );
@@ -808,15 +827,30 @@ function CalculadoraContent() {
   const [estacas, setEstacas] = useState<CalcEstacaItem[]>([]);
   const [ambientes, setAmbientes] = useState<CalcAmbiente[]>([]);
 
-  const [expandidos, setExpandidos] = useState<Record<string, boolean>>({
-    preliminares: true, fundacoes: false, estacas: false, laje: false, pilares: false, vigas_ind: false,
-    alvenaria: false, cobertura: false, imperme: false, revest: false, forro: false,
-    pintura: false, pisos: false, acabamento: false, eletrica: false, hidraulica: false,
-    banheiro: false,
-  });
+  const [stepAtual, setStepAtual] = useState(0);
 
   const [userStates, setUserStates] = useState<Record<string, ItemUserState>>({});
   const [aplicando, setAplicando] = useState(false);
+  const [criandoNovo, setCriandoNovo] = useState(false);
+  const [novoTitulo, setNovoTitulo] = useState('');
+  const [salvandoNovo, setSalvandoNovo] = useState(false);
+
+  async function criarOrcamento() {
+    const titulo = novoTitulo.trim();
+    if (!titulo) { toast.error('Informe um título para o orçamento'); return; }
+    setSalvandoNovo(true);
+    try {
+      const res = await fetch('/api/orcamentos', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ titulo }) });
+      const data = await res.json();
+      if (!res.ok) { toast.error(data.error || (Array.isArray(data.erros) ? data.erros.join(', ') : 'Erro ao criar orçamento')); return; }
+      setOrcamentos(prev => [{ id: data.id, titulo: data.titulo }, ...prev]);
+      setOrcamentoId(data.id);
+      setOrcamentoTitulo(data.titulo);
+      setNovoTitulo('');
+      setCriandoNovo(false);
+      toast.success(`Orçamento "${data.titulo}" criado e selecionado!`);
+    } catch { toast.error('Erro ao conectar'); } finally { setSalvandoNovo(false); }
+  }
 
   const calcItems = useMemo(
     () => calcularQuantitativos(params, vaos, pilares, vigas, lajes, estacas, ambientes),
@@ -904,36 +938,130 @@ function CalculadoraContent() {
                 <SelectContent>{orcamentos.map(o => <SelectItem key={o.id} value={o.id}>{o.titulo}</SelectItem>)}</SelectContent>
               </Select>
             </div>
+            <Button size="sm" variant="outline" className="h-9 text-xs shrink-0 bg-background" onClick={() => { setCriandoNovo(v => !v); setNovoTitulo(''); }}>
+              <Plus className="h-3.5 w-3.5 mr-1" /> Novo orçamento
+            </Button>
             {orcamentoId && <Link href={`/orcamentos/${orcamentoId}`} className="text-xs text-primary hover:underline flex items-center gap-1"><Check className="h-3 w-3" /> Selecionado</Link>}
           </div>
+          {criandoNovo && (
+            <div className="flex items-center gap-2 mt-3 flex-wrap">
+              <Input autoFocus value={novoTitulo} onChange={e => setNovoTitulo(e.target.value)}
+                onKeyDown={e => { if (e.key === 'Enter') criarOrcamento(); if (e.key === 'Escape') { setCriandoNovo(false); setNovoTitulo(''); } }}
+                placeholder="Título do novo orçamento..." className="h-9 text-sm flex-1 min-w-48 max-w-sm bg-background" />
+              <Button size="sm" className="h-9" disabled={salvandoNovo || !novoTitulo.trim()} onClick={criarOrcamento}>
+                {salvandoNovo ? 'Criando...' : 'Criar e selecionar'}
+              </Button>
+              <Button size="sm" variant="ghost" className="h-9" onClick={() => { setCriandoNovo(false); setNovoTitulo(''); }}>Cancelar</Button>
+            </div>
+          )}
           <p className="text-[11px] text-muted-foreground mt-2 flex items-start gap-1"><Info className="h-3 w-3 mt-0.5 shrink-0" /> Items com composicao selecionada serao adicionados com custo automatico.</p>
         </CardContent>
       </Card>
 
       <div className="grid xl:grid-cols-[1fr_400px] gap-6 items-start">
-        <div className="space-y-3">
-          {CALC_GRUPOS.map(grupo => (
-            <GrupoSection key={grupo.id} grupo={grupo} expanded={expandidos[grupo.id]??false} onToggle={() => setExpandidos(prev => ({ ...prev, [grupo.id]: !prev[grupo.id] }))} itensAtivos={itensPorGrupo[grupo.id]||0}>
-              {grupo.id === 'preliminares' && <SecaoPreliminares params={params} setParams={setParams} ambientes={ambientes} setAmbientes={setAmbientes} />}
-              {grupo.id === 'fundacoes' && <SecaoFundacoes params={params} setParams={setParams} />}
-              {grupo.id === 'estacas' && <SecaoEstacas estacas={estacas} setEstacas={setEstacas} />}
-              {grupo.id === 'laje' && <SecaoLaje lajes={lajes} setLajes={setLajes} />}
-              {grupo.id === 'pilares' && <SecaoPilares pilares={pilares} setPilares={setPilares} />}
-              {grupo.id === 'vigas_ind' && <SecaoVigas vigas={vigas} setVigas={setVigas} />}
-              {grupo.id === 'alvenaria' && <SecaoAlvenaria params={params} setParams={setParams} vaos={vaos} setVaos={setVaos} />}
-              {grupo.id === 'cobertura' && <SecaoCobertura params={params} setParams={setParams} />}
-              {grupo.id === 'imperme' && <SecaoImperme params={params} setParams={setParams} derived={derived} />}
-              {grupo.id === 'revest' && <SecaoRevest params={params} setParams={setParams} derived={derived} />}
-              {grupo.id === 'forro' && <SecaoForro params={params} setParams={setParams} derived={derived} />}
-              {grupo.id === 'pintura' && <SecaoPintura params={params} setParams={setParams} derived={derived} />}
-              {grupo.id === 'pisos' && <SecaoPisos params={params} setParams={setParams} derived={derived} />}
-              {grupo.id === 'acabamento' && <SecaoAcabamento params={params} setParams={setParams} derived={derived} />}
-              {grupo.id === 'eletrica' && <AmbientesEditor ambientes={ambientes} setAmbientes={setAmbientes} modo="eletrica" />}
-              {grupo.id === 'hidraulica' && <AmbientesEditor ambientes={ambientes} setAmbientes={setAmbientes} modo="hidro" />}
-              {grupo.id === 'banheiro' && <SecaoLoucas ambientes={ambientes} setAmbientes={setAmbientes} />}
-            </GrupoSection>
-          ))}
+        {/* ── Stepper ── */}
+        <div className="space-y-4">
+
+          {/* Barra de progresso + dots */}
+          <div className="space-y-2">
+            <div className="flex items-center justify-between text-xs text-muted-foreground">
+              <span className="font-medium">{CALC_GRUPOS[stepAtual].emoji} {CALC_GRUPOS[stepAtual].nome}</span>
+              <span>{stepAtual + 1} / {CALC_GRUPOS.length}</span>
+            </div>
+            {/* Barra */}
+            <div className="h-1.5 rounded-full bg-muted overflow-hidden">
+              <div className="h-full rounded-full bg-primary transition-all duration-300"
+                style={{ width: `${((stepAtual + 1) / CALC_GRUPOS.length) * 100}%` }} />
+            </div>
+            {/* Dots clicáveis */}
+            <div className="flex items-center gap-1 flex-wrap">
+              {CALC_GRUPOS.map((g, i) => {
+                const temItens = (itensPorGrupo[g.id] || 0) > 0;
+                const atual = i === stepAtual;
+                const passado = i < stepAtual;
+                return (
+                  <button key={g.id} title={g.nome} onClick={() => setStepAtual(i)}
+                    className={`transition-all rounded-full flex items-center justify-center
+                      ${atual ? 'w-7 h-7 bg-primary text-white text-[10px] font-bold ring-2 ring-primary/30' :
+                        passado ? 'w-5 h-5 bg-primary/20 text-primary text-[9px] font-bold hover:bg-primary/40' :
+                        'w-5 h-5 bg-muted text-muted-foreground text-[9px] hover:bg-muted-foreground/20'}
+                      ${temItens && !atual ? 'ring-1 ring-green-400' : ''}`}>
+                    {atual ? i + 1 : temItens ? <Check className="h-2.5 w-2.5" /> : i + 1}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Card da etapa atual */}
+          {(() => {
+            const grupo = CALC_GRUPOS[stepAtual];
+            const corBorder: Record<string,string> = { amber:'border-amber-200 bg-amber-50/20', blue:'border-blue-200 bg-blue-50/20', orange:'border-orange-200 bg-orange-50/20', green:'border-green-200 bg-green-50/20', violet:'border-violet-200 bg-violet-50/20', teal:'border-teal-200 bg-teal-50/20' };
+            return (
+              <Card className={`border-2 ${corBorder[grupo.cor] ?? 'border-border'}`}>
+                <CardContent className="p-5 space-y-4">
+                  {/* Cabeçalho da etapa */}
+                  <div className="flex items-start gap-3">
+                    <span className="text-2xl">{grupo.emoji}</span>
+                    <div>
+                      <h2 className="font-bold text-base">{grupo.nome}</h2>
+                      <p className="text-xs text-muted-foreground">{grupo.descricao}</p>
+                    </div>
+                    {(itensPorGrupo[grupo.id] || 0) > 0 && (
+                      <span className="ml-auto text-[10px] font-bold px-2 py-0.5 rounded-full border bg-green-100 text-green-700 border-green-300 shrink-0">
+                        {itensPorGrupo[grupo.id]} item{itensPorGrupo[grupo.id] > 1 ? 's' : ''} calculado{itensPorGrupo[grupo.id] > 1 ? 's' : ''}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Conteúdo da etapa */}
+                  <div className="border-t pt-4">
+                    {grupo.id === 'preliminares' && <SecaoPreliminares params={params} setParams={setParams} ambientes={ambientes} setAmbientes={setAmbientes} />}
+                    {grupo.id === 'fundacoes'    && <SecaoFundacoes params={params} setParams={setParams} />}
+                    {grupo.id === 'estacas'      && <SecaoEstacas estacas={estacas} setEstacas={setEstacas} />}
+                    {grupo.id === 'laje'         && <SecaoLaje lajes={lajes} setLajes={setLajes} />}
+                    {grupo.id === 'pilares'      && <SecaoPilares pilares={pilares} setPilares={setPilares} />}
+                    {grupo.id === 'vigas_ind'    && <SecaoVigas vigas={vigas} setVigas={setVigas} />}
+                    {grupo.id === 'alvenaria'    && <SecaoAlvenaria params={params} setParams={setParams} vaos={vaos} setVaos={setVaos} />}
+                    {grupo.id === 'cobertura'    && <SecaoCobertura params={params} setParams={setParams} />}
+                    {grupo.id === 'imperme'      && <SecaoImperme params={params} setParams={setParams} derived={derived} />}
+                    {grupo.id === 'revest'       && <SecaoRevest params={params} setParams={setParams} derived={derived} />}
+                    {grupo.id === 'forro'        && <SecaoForro params={params} setParams={setParams} derived={derived} />}
+                    {grupo.id === 'pintura'      && <SecaoPintura params={params} setParams={setParams} derived={derived} />}
+                    {grupo.id === 'pisos'        && <SecaoPisos params={params} setParams={setParams} derived={derived} />}
+                    {grupo.id === 'acabamento'   && <SecaoAcabamento params={params} setParams={setParams} derived={derived} />}
+                    {grupo.id === 'eletrica'     && <AmbientesEditor ambientes={ambientes} setAmbientes={setAmbientes} modo="eletrica" />}
+                    {grupo.id === 'hidraulica'   && <AmbientesEditor ambientes={ambientes} setAmbientes={setAmbientes} modo="hidro" />}
+                    {grupo.id === 'banheiro'     && <SecaoLoucas ambientes={ambientes} setAmbientes={setAmbientes} />}
+                  </div>
+
+                  {/* Navegação Anterior / Próximo */}
+                  <div className="flex items-center justify-between pt-2 border-t">
+                    <Button variant="outline" size="sm" className="h-9"
+                      disabled={stepAtual === 0}
+                      onClick={() => { setStepAtual(s => s - 1); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
+                      <ChevronRight className="h-4 w-4 mr-1 rotate-180" /> Anterior
+                    </Button>
+                    <span className="text-xs text-muted-foreground">{stepAtual + 1} de {CALC_GRUPOS.length}</span>
+                    {stepAtual < CALC_GRUPOS.length - 1 ? (
+                      <Button size="sm" className="h-9"
+                        onClick={() => { setStepAtual(s => s + 1); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
+                        Próximo <ChevronRight className="h-4 w-4 ml-1" />
+                      </Button>
+                    ) : (
+                      <Button size="sm" variant="default" className="h-9 bg-green-600 hover:bg-green-700"
+                        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+                        <Check className="h-4 w-4 mr-1" /> Concluído
+                      </Button>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            );
+          })()}
         </div>
+
+        {/* ── Painel de resultados (sticky) ── */}
         <div className="xl:sticky xl:top-6">
           <PainelResultados calcItems={calcItems} composicoes={composicoes} userStates={userStates} setUserStates={setUserStates} onAplicar={aplicar} aplicando={aplicando} orcamentoId={orcamentoId} />
         </div>

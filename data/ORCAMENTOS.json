@@ -61,5 +61,14 @@
     "data_atualizacao": "2026-06-02T02:15:28.033Z",
     "status": "em_andamento",
     "bdi_percentual": "0"
+  },
+  {
+    "id": "f96d108e-3fd4-470c-8d53-dec7c3a5865b",
+    "titulo": "nova calculadora v4",
+    "descricao": "",
+    "data_criacao": "2026-06-02T11:32:30.864Z",
+    "data_atualizacao": "2026-06-02T11:32:30.864Z",
+    "status": "em_andamento",
+    "bdi_percentual": "0"
   }
 ]

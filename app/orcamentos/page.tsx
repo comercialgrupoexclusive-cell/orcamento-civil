@@ -39,6 +39,7 @@ const STATUS_COR: Record<string, string> = {
 
 interface OrcamentoResumo {
   id: string; titulo: string; descricao: string;
+  area_construida: number;
   data_criacao: string; status: string; bdi_percentual: number;
   total_direto: number; total_com_bdi: number; num_itens: number;
 }
@@ -50,7 +51,7 @@ export default function OrcamentosPage() {
   const [modalAberto, setModalAberto] = useState(false);
   const [modoTemplate, setModoTemplate] = useState(false); // criar de template
   const [templateSelecionado, setTemplateSelecionado] = useState('');
-  const [form, setForm] = useState({ titulo: '', descricao: '', bdi_percentual: '0' });
+  const [form, setForm] = useState({ titulo: '', descricao: '', area_construida: '', bdi_percentual: '0' });
   const [salvando, setSalvando] = useState(false);
 
   const carregar = useCallback(async () => {
@@ -75,7 +76,7 @@ export default function OrcamentosPage() {
   function abrirNovo() {
     setModoTemplate(false);
     setTemplateSelecionado('');
-    setForm({ titulo: '', descricao: '', bdi_percentual: '0' });
+    setForm({ titulo: '', descricao: '', area_construida: '', bdi_percentual: '0' });
     setModalAberto(true);
   }
 
@@ -94,7 +95,7 @@ export default function OrcamentosPage() {
       if (!res.ok) { toast.error(data.erros?.join(', ') || data.error); return; }
       toast.success('Orçamento criado');
       setModalAberto(false);
-      setForm({ titulo: '', descricao: '', bdi_percentual: '0' });
+      setForm({ titulo: '', descricao: '', area_construida: '', bdi_percentual: '0' });
       carregar();
     } finally { setSalvando(false); }
   }
@@ -154,11 +155,16 @@ export default function OrcamentosPage() {
               <span>{fmtData(orc.data_criacao)}</span>
             </div>
           </div>
-          <div className="text-right shrink-0">
+          <div className="text-right shrink-0 space-y-0.5">
             <p className="text-[10px] text-muted-foreground">Total com BDI</p>
             <p className="text-lg font-bold tabular-nums">{fmtBRL(orc.total_com_bdi)}</p>
             {orc.bdi_percentual > 0 && (
               <p className="text-[10px] text-muted-foreground">{fmtBRL(orc.total_direto)} direto</p>
+            )}
+            {orc.area_construida > 0 && orc.total_com_bdi > 0 && (
+              <p className="text-[10px] font-semibold text-primary">
+                {fmtBRL(orc.total_com_bdi / orc.area_construida)}/m²
+              </p>
             )}
           </div>
         </div>
@@ -175,7 +181,7 @@ export default function OrcamentosPage() {
               if (isTemplate) {
                 setModoTemplate(true);
                 setTemplateSelecionado(orc.id);
-                setForm({ titulo: orc.titulo.replace('[Template] ', ''), descricao: orc.descricao || '', bdi_percentual: String(orc.bdi_percentual) });
+                setForm({ titulo: orc.titulo.replace('[Template] ', ''), descricao: orc.descricao || '', area_construida: String(orc.area_construida || ''), bdi_percentual: String(orc.bdi_percentual) });
                 setModalAberto(true);
               } else {
                 duplicar(orc.id, orc.titulo);
@@ -302,6 +308,12 @@ export default function OrcamentosPage() {
                 placeholder="Ex: Residência Unifamiliar 120m²" className="h-10" />
             </div>
             <div className="grid gap-1.5">
+              <Label>Área Construída (m²) <span className="text-destructive">*</span></Label>
+              <Input type="number" min="1" step="0.5" value={form.area_construida}
+                onChange={e => setForm(f => ({ ...f, area_construida: e.target.value }))}
+                placeholder="Ex: 80" className="h-10" />
+            </div>
+            <div className="grid gap-1.5">
               <Label>Descrição</Label>
               <Input value={form.descricao} onChange={e => setForm(f => ({ ...f, descricao: e.target.value }))}
                 placeholder="Descrição opcional..." className="h-10" />
@@ -314,7 +326,7 @@ export default function OrcamentosPage() {
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setModalAberto(false)}>Cancelar</Button>
-            <Button onClick={criar} disabled={salvando || (modoTemplate && !templateSelecionado)}>
+            <Button onClick={criar} disabled={salvando || !form.titulo.trim() || !form.area_construida || (modoTemplate && !templateSelecionado)}>
               {salvando ? 'Criando...' : modoTemplate ? 'Criar do Template' : 'Criar'}
             </Button>
           </DialogFooter>
