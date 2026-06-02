@@ -19,6 +19,7 @@ import Link from 'next/link';
 import type {
   CalcVao, CalcParamsRaw, CalcItem, CalcPilarItem, CalcVigaIndItem,
   CalcLajeItem, CalcEstacaItem, CalcAmbiente, TipoAmbiente, Composicao,
+  CalcComposicaoLivre,
 } from '@/lib/types';
 import {
   CALC_GRUPOS, calcularQuantitativos, derivarParams,
@@ -708,6 +709,189 @@ function SecaoAcabamento({ params, setParams, derived }: { params: Partial<CalcP
     </div>
   </div>);
 }
+// --- SecaoOutros (Muro + Composições Avulsas) ---
+const OPCOES_SECAO_MURO = [
+  { label: '15×30 cm', b: 0.15, h: 0.30 }, { label: '20×40 cm', b: 0.20, h: 0.40 },
+  { label: '20×50 cm', b: 0.20, h: 0.50 }, { label: '25×50 cm', b: 0.25, h: 0.50 },
+  { label: 'Personalizada', b: 0, h: 0 },
+];
+function SecaoOutros({
+  params, setParams, derived, estacasMuro, setEstacasMuro,
+  composicoesLivres, setComposicoesLivres, composicoes,
+}: {
+  params: Partial<CalcParamsRaw>; setParams: (fn: (p: Partial<CalcParamsRaw>) => Partial<CalcParamsRaw>) => void;
+  derived: Partial<CalcParamsRaw>;
+  estacasMuro: CalcEstacaItem[]; setEstacasMuro: (v: CalcEstacaItem[]) => void;
+  composicoesLivres: CalcComposicaoLivre[]; setComposicoesLivres: (v: CalcComposicaoLivre[]) => void;
+  composicoes: Composicao[];
+}) {
+  const [showMuro, setShowMuro] = useState(true);
+  const [customSecao, setCustomSecao] = useState(false);
+  const secaoKey = useMemo(() => {
+    if (!params.secao_b_muro || !params.secao_h_muro) return '';
+    return OPCOES_SECAO_MURO.find(o => o.b === params.secao_b_muro && o.h === params.secao_h_muro)?.label ?? 'Personalizada';
+  }, [params.secao_b_muro, params.secao_h_muro]);
+
+  // Estacas do muro
+  function addEstaca() { setEstacasMuro([...estacasMuro, { id: Math.random().toString(36).slice(2), desc: '', qtd: 1, prof: 3, blocos: 1 }]); }
+  function removeEstaca(id: string) { setEstacasMuro(estacasMuro.filter(e => e.id !== id)); }
+  function updEstaca<K extends keyof CalcEstacaItem>(id: string, f: K, v: CalcEstacaItem[K]) { setEstacasMuro(estacasMuro.map(e => e.id === id ? { ...e, [f]: v } : e)); }
+
+  // Composições livres
+  function addLivre() { setComposicoesLivres([...composicoesLivres, { id: Math.random().toString(36).slice(2), composicao_id: '', quantidade: 1, descricao_override: '' }]); }
+  function removeLivre(id: string) { setComposicoesLivres(composicoesLivres.filter(c => c.id !== id)); }
+  function updLivre<K extends keyof CalcComposicaoLivre>(id: string, f: K, v: CalcComposicaoLivre[K]) { setComposicoesLivres(composicoesLivres.map(c => c.id === id ? { ...c, [f]: v } : c)); }
+
+  const areaAlv = (derived.comp_alv_muro || 0) * (params.alt_alv_muro || 0);
+
+  return (
+    <div className="space-y-5">
+
+      {/* ── Muro ── */}
+      <div className="rounded-lg border">
+        <button onClick={() => setShowMuro(s => !s)}
+          className="w-full flex items-center gap-2 px-4 py-3 text-left hover:bg-muted/30 rounded-lg">
+          <span className="text-lg">🧱</span>
+          <span className="font-semibold text-sm flex-1">Muro</span>
+          {showMuro ? <ChevronDown className="h-4 w-4 text-muted-foreground" /> : <ChevronRight className="h-4 w-4 text-muted-foreground" />}
+        </button>
+
+        {showMuro && (
+          <div className="px-4 pb-4 border-t pt-4 space-y-4">
+            {/* Perímetro base */}
+            <InputNum label="Perímetro do muro" campo="perimetro_muro" params={params} setParams={setParams} suffix="m" step={0.5} helper="Base para vigas, alvenaria e revestimento" />
+
+            {/* Fundações do muro */}
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-2">Fundações do muro</p>
+              <div className="space-y-2">
+                <div className="flex justify-end">
+                  <Button size="sm" variant="outline" className="h-7 text-xs" onClick={addEstaca}><Plus className="h-3 w-3 mr-1" /> Estaca</Button>
+                </div>
+                {estacasMuro.length === 0
+                  ? <div className="border border-dashed rounded-lg py-2 text-center text-xs text-muted-foreground">Nenhuma estaca — opcional</div>
+                  : <div className="border rounded-lg overflow-auto"><table className="w-full text-xs min-w-[480px]">
+                      <thead><tr className="bg-muted/50 border-b">
+                        <th className="text-left px-3 py-2">Ref.</th><th className="text-center px-2 py-2 w-14">Qtd</th>
+                        <th className="text-center px-2 py-2">Prof.(m)</th><th className="text-center px-2 py-2">Blocos</th>
+                        <th className="text-right px-2 py-2">Equiv.</th><th className="w-8"></th>
+                      </tr></thead>
+                      <tbody>{estacasMuro.map(e => (
+                        <tr key={e.id} className="border-b last:border-0 hover:bg-muted/20">
+                          <td className="px-2 py-1"><input type="text" value={e.desc} onChange={ev => updEstaca(e.id,'desc',ev.target.value)} placeholder="E1" className="h-7 text-xs border rounded px-2 w-full" /></td>
+                          <td className="px-2 py-1"><input type="number" min={1} step={1} value={e.qtd} onFocus={ev=>ev.target.select()} onChange={ev=>updEstaca(e.id,'qtd',Number(ev.target.value))} className="h-7 text-xs border rounded px-2 text-center w-full block" /></td>
+                          <td className="px-2 py-1"><input type="number" min={0.5} step={0.5} value={e.prof} onFocus={ev=>ev.target.select()} onChange={ev=>updEstaca(e.id,'prof',Number(ev.target.value))} className="h-7 text-xs border rounded px-2 text-center w-full block" /></td>
+                          <td className="px-2 py-1"><input type="number" min={0} step={1} value={e.blocos} onFocus={ev=>ev.target.select()} onChange={ev=>updEstaca(e.id,'blocos',Number(ev.target.value))} className="h-7 text-xs border rounded px-2 text-center w-full block" /></td>
+                          <td className="px-2 py-1 text-right font-semibold text-blue-700">{(e.qtd*(e.prof/3)).toFixed(2)}</td>
+                          <td className="px-1 py-1"><button onClick={()=>removeEstaca(e.id)} className="text-muted-foreground hover:text-destructive"><Trash2 className="h-3 w-3"/></button></td>
+                        </tr>
+                      ))}</tbody>
+                    </table></div>
+                }
+              </div>
+            </div>
+
+            {/* Viga do muro */}
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-2">Viga do muro</p>
+              <div className="grid sm:grid-cols-2 gap-3">
+                <SugEdit label="Comprimento das vigas" campo="comp_vigas_muro" params={params} setParams={setParams} derived={{ ...derived, comp_vigas_muro: derived.comp_vigas_muro ?? params.perimetro_muro }} unidade="m" obs="= perímetro do muro" />
+                <div className="grid gap-1"><Label className="text-xs font-medium">Seção da viga</Label>
+                  <Select value={secaoKey} onValueChange={v => {
+                    const o = OPCOES_SECAO_MURO.find(x => x.label === v);
+                    if (!o) return;
+                    if (o.label === 'Personalizada') setCustomSecao(true);
+                    else { setCustomSecao(false); setParams(p => ({ ...p, secao_b_muro: o.b, secao_h_muro: o.h })); }
+                  }}>
+                    <SelectTrigger className="h-9 text-sm"><SelectValue placeholder="Selecionar..." /></SelectTrigger>
+                    <SelectContent>{OPCOES_SECAO_MURO.map(o => <SelectItem key={o.label} value={o.label}>{o.label}</SelectItem>)}</SelectContent>
+                  </Select>
+                </div>
+              </div>
+              {(customSecao || secaoKey === 'Personalizada') && (
+                <div className="grid grid-cols-2 gap-3 mt-2 p-3 border rounded-lg bg-muted/30">
+                  <InputNum label="Largura b (m)" campo="secao_b_muro" params={params} setParams={setParams} suffix="m" step={0.01} />
+                  <InputNum label="Altura h (m)" campo="secao_h_muro" params={params} setParams={setParams} suffix="m" step={0.01} />
+                </div>
+              )}
+            </div>
+
+            {/* Alvenaria do muro */}
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-2">Alvenaria do muro</p>
+              <div className="grid sm:grid-cols-3 gap-3">
+                <SugEdit label="Comprimento de alvenaria" campo="comp_alv_muro" params={params} setParams={setParams} derived={{ ...derived, comp_alv_muro: derived.comp_alv_muro ?? params.perimetro_muro }} unidade="m" obs="= perímetro do muro" />
+                <InputNum label="Altura da alvenaria" campo="alt_alv_muro" params={params} setParams={setParams} suffix="m" step={0.05} placeholder="2.00" />
+                <div className="grid gap-1"><Label className="text-xs font-medium">Tipo de alvenaria</Label>
+                  <Select value={String(params.tipo_alv_muro ?? 1)} onValueChange={v => setParams(p => ({ ...p, tipo_alv_muro: Number(v) }))}>
+                    <SelectTrigger className="h-9 text-sm"><SelectValue /></SelectTrigger>
+                    <SelectContent><SelectItem value="1">Vedação</SelectItem><SelectItem value="2">Estrutural</SelectItem></SelectContent>
+                  </Select>
+                </div>
+              </div>
+              {/* Cinta opcional */}
+              <div className="mt-2">
+                <ChkOpt label="Incluir cinta de coroamento no muro" checked={(params.cinta_muro ?? 0) === 1} onChange={c => setParams(p => ({ ...p, cinta_muro: c ? 1 : 0 }))} />
+              </div>
+              {areaAlv > 0 && (
+                <div className="grid grid-cols-3 gap-2 mt-2 text-xs">
+                  <div className="rounded-lg border bg-muted/30 px-3 py-2"><p className="text-muted-foreground">Área alvenaria</p><p className="font-bold">{areaAlv.toFixed(2)} m²</p></div>
+                  <div className="rounded-lg border bg-muted/30 px-3 py-2"><p className="text-muted-foreground">Revestimento (2 faces)</p><p className="font-bold">{(areaAlv * 2).toFixed(2)} m²</p></div>
+                  <div className="rounded-lg border bg-muted/30 px-3 py-2"><p className="text-muted-foreground">Pintura (2 faces)</p><p className="font-bold">{(areaAlv * 2).toFixed(2)} m²</p></div>
+                </div>
+              )}
+            </div>
+
+            {/* Revestimento e pintura */}
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-2">Revestimento e pintura do muro</p>
+              <div className="grid sm:grid-cols-2 gap-3">
+                <SugEdit label="Área revestimento (chapisco + reboco)" campo="area_revest_muro" params={params} setParams={setParams} derived={derived} unidade="m²" obs="= perímetro × altura × 2 faces" />
+                <SugEdit label="Área pintura + massa fina" campo="area_pintura_muro" params={params} setParams={setParams} derived={derived} unidade="m²" obs="= perímetro × altura × 2 faces" />
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* ── Composições Avulsas ── */}
+      <div>
+        <div className="flex items-center justify-between mb-2">
+          <div>
+            <p className="text-sm font-semibold">Composições avulsas</p>
+            <p className="text-xs text-muted-foreground">Pesquise e adicione qualquer composição com a quantidade desejada</p>
+          </div>
+          <Button size="sm" variant="outline" className="h-8" onClick={addLivre}><Plus className="h-3.5 w-3.5 mr-1" /> Adicionar</Button>
+        </div>
+        {composicoesLivres.length === 0
+          ? <div className="border border-dashed rounded-lg py-3 text-center text-xs text-muted-foreground">Nenhuma composição avulsa</div>
+          : <div className="space-y-2">
+              {composicoesLivres.map(c => (
+                <div key={c.id} className="flex items-center gap-2 p-2 border rounded-lg bg-muted/20">
+                  <div className="flex-1 min-w-0">
+                    <CompositionSearch etapaCodigo="" composicoes={composicoes} value={c.composicao_id || null}
+                      onChange={cid => {
+                        const comp = composicoes.find(x => x.id === cid);
+                        updLivre(c.id, 'composicao_id', cid);
+                        if (comp && !c.descricao_override) updLivre(c.id, 'descricao_override', comp.descricao);
+                      }}
+                      placeholder="Pesquisar composição..." />
+                  </div>
+                  <div className="w-24 shrink-0">
+                    <input type="number" min={0} step={0.01} value={c.quantidade} onFocus={e=>e.target.select()}
+                      onChange={e => updLivre(c.id, 'quantidade', Number(e.target.value))}
+                      placeholder="Qtd" className="h-8 w-full text-xs border rounded px-2 text-right" />
+                  </div>
+                  <button onClick={() => removeLivre(c.id)} className="text-muted-foreground hover:text-destructive shrink-0"><Trash2 className="h-3.5 w-3.5" /></button>
+                </div>
+              ))}
+            </div>
+        }
+      </div>
+    </div>
+  );
+}
+
 // --- GrupoSection Accordion ---
 function GrupoSection({ grupo, expanded, onToggle, onProximo, isUltimo, children, itensAtivos }: {
   grupo: (typeof CALC_GRUPOS)[0]; expanded: boolean; onToggle: () => void;
@@ -888,6 +1072,7 @@ function CalculadoraContent() {
     esp_estribo: 0.15, n_barras_long: 4, tabua_larg: 0.20, bitola_baldrame: 8, tipo_alv: 2,
     tipo_telha: 1, forro_tipo: 1, piso_tipo: 1, rodape_tipo: 1, pe_direito: 2.8,
     massa_int: 1, contrapiso_armado: 0, cinta_coroamento: 0,
+    tipo_alv_muro: 1, cinta_muro: 0, secao_b_muro: 0.15, secao_h_muro: 0.30,
   });
   const [vaos, setVaos] = useState<CalcVao[]>([]);
   const [pilares, setPilares] = useState<CalcPilarItem[]>([]);
@@ -895,6 +1080,8 @@ function CalculadoraContent() {
   const [lajes, setLajes] = useState<CalcLajeItem[]>([]);
   const [estacas, setEstacas] = useState<CalcEstacaItem[]>([]);
   const [ambientes, setAmbientes] = useState<CalcAmbiente[]>([]);
+  const [estacasMuro, setEstacasMuro] = useState<CalcEstacaItem[]>([]);
+  const [composicoesLivres, setComposicoesLivres] = useState<CalcComposicaoLivre[]>([]);
 
   const [stepAtual, setStepAtual] = useState(0);
 
@@ -927,12 +1114,12 @@ function CalculadoraContent() {
   }
 
   const calcItems = useMemo(
-    () => calcularQuantitativos(params, vaos, pilares, vigas, lajes, estacas, ambientes),
-    [params, vaos, pilares, vigas, lajes, estacas, ambientes],
+    () => calcularQuantitativos(params, vaos, pilares, vigas, lajes, estacas, ambientes, estacasMuro, composicoesLivres),
+    [params, vaos, pilares, vigas, lajes, estacas, ambientes, estacasMuro, composicoesLivres],
   );
   const derived = useMemo(
-    () => derivarParams(params, vaos, pilares, vigas, lajes, estacas, ambientes),
-    [params, vaos, pilares, vigas, lajes, estacas, ambientes],
+    () => derivarParams(params, vaos, pilares, vigas, lajes, estacas, ambientes, estacasMuro),
+    [params, vaos, pilares, vigas, lajes, estacas, ambientes, estacasMuro],
   );
 
   useEffect(() => {
@@ -1164,6 +1351,7 @@ function CalculadoraContent() {
                     {grupo.id === 'eletrica'     && <AmbientesEditor ambientes={ambientes} setAmbientes={setAmbientes} modo="eletrica" />}
                     {grupo.id === 'hidraulica'   && <AmbientesEditor ambientes={ambientes} setAmbientes={setAmbientes} modo="hidro" />}
                     {grupo.id === 'banheiro'     && <SecaoLoucas ambientes={ambientes} setAmbientes={setAmbientes} />}
+                    {grupo.id === 'outros'       && <SecaoOutros params={params} setParams={setParams} derived={derived} estacasMuro={estacasMuro} setEstacasMuro={setEstacasMuro} composicoesLivres={composicoesLivres} setComposicoesLivres={setComposicoesLivres} composicoes={composicoes} />}
                   </div>
 
                   {/* Navegação */}

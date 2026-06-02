@@ -17,6 +17,7 @@
 import type {
   CalcGrupo, CalcTemplate, CalcItem, CalcParamsRaw, CalcVao,
   CalcPilarItem, CalcVigaIndItem, CalcLajeItem, CalcEstacaItem, CalcAmbiente,
+  CalcComposicaoLivre,
 } from '@/lib/types';
 
 // ─── Grupos de parâmetros (acordeões da UI) ───────────────────────────────────
@@ -39,6 +40,7 @@ export const CALC_GRUPOS: CalcGrupo[] = [
   { id: 'eletrica',     nome: 'Instalações Elétricas',          etapa_codigo: '15', cor: 'amber',  emoji: '💡', descricao: 'Pontos por ambiente (carrega os ambientes cadastrados)' },
   { id: 'hidraulica',   nome: 'Instalações Hidrossanitárias',   etapa_codigo: '16', cor: 'blue',   emoji: '🚿', descricao: 'Água, esgoto e pluviais por ambiente — pontos, caixas e reservatório' },
   { id: 'banheiro',     nome: 'Louças e Metais',                etapa_codigo: '18', cor: 'violet', emoji: '🛁', descricao: 'Kit por banheiro/cozinha — louças + metais (carrega os ambientes)' },
+  { id: 'outros',       nome: 'Outros',                        etapa_codigo: '20', cor: 'green',  emoji: '🔧', descricao: 'Muro (fundação, viga, alvenaria, revestimento) e composições avulsas' },
 ];
 
 // ─── Templates de cálculo (cada um vinculado a uma composição real) ────────────
@@ -130,6 +132,22 @@ export const CALC_TEMPLATES: CalcTemplate[] = [
   { id: 'acab_pingadeira', ativo: true, nome: 'Pingadeiras (janelas + 5cm)', grupo_id: 'acabamento', grupo_nome: 'Acabamentos', etapa_codigo: '14', sub_etapa: 'Pingadeiras', composicao_id: 'cmp-14000', descricao: 'Pingadeiras e Soleiras', unidade: 'm', formula: 'comp_pingadeiras', parametros: ['comp_pingadeiras'] },
   { id: 'acab_soleira', ativo: true, nome: 'Soleiras (portas + 5cm)', grupo_id: 'acabamento', grupo_nome: 'Acabamentos', etapa_codigo: '14', sub_etapa: 'Soleiras', composicao_id: 'cmp-14000', descricao: 'Pingadeiras e Soleiras', unidade: 'm', formula: 'comp_soleiras', parametros: ['comp_soleiras'] },
 
+  // ══ 20 · Muro ════════════════════════════════════════════════════════════════
+  { id: 'muro_est_perf',    ativo: true, nome: 'Muro — estaca perfuração + armadura', grupo_id: 'outros', grupo_nome: 'Outros', etapa_codigo: '02', sub_etapa: 'Fundação do Muro', composicao_id: 'cmp-2001.1', descricao: 'Estaca C25 — Perfuração e Armaduras (muro)', unidade: 'un', formula: 'estacas_muro_equiv', parametros: ['estacas_muro_equiv'] },
+  { id: 'muro_est_conc',    ativo: true, nome: 'Muro — estaca concreto (0,30×0,30)', grupo_id: 'outros', grupo_nome: 'Outros', etapa_codigo: '02', sub_etapa: 'Fundação do Muro', composicao_id: 'cmp-2002.3', descricao: 'Concreto — estacas muro', unidade: 'm³', formula: 'volume_concreto_estacas_muro', parametros: ['volume_concreto_estacas_muro'] },
+  { id: 'muro_est_bloco',   ativo: true, nome: 'Muro — bloco de coroamento estaca',  grupo_id: 'outros', grupo_nome: 'Outros', etapa_codigo: '02', sub_etapa: 'Fundação do Muro', composicao_id: 'cmp-2002',   descricao: 'Blocos sobre estaca (muro)', unidade: 'un', formula: 'n_blocos_estaca_muro', parametros: ['n_blocos_estaca_muro'] },
+  { id: 'muro_gabarito',    ativo: true, nome: 'Muro — locação/gabarito',           grupo_id: 'outros', grupo_nome: 'Outros', etapa_codigo: '02', sub_etapa: 'Viga do Muro', composicao_id: 'cmp-2000',   descricao: 'Locação — gabarito do muro', unidade: 'm', formula: 'comp_vigas_muro', parametros: ['comp_vigas_muro'] },
+  { id: 'muro_armadura',    ativo: true, nome: 'Muro — armadura da viga',           grupo_id: 'outros', grupo_nome: 'Outros', etapa_codigo: '02', sub_etapa: 'Viga do Muro', composicao_id: 'cmp-2003.1', descricao: 'Armadura Viga Baldrame — muro', unidade: 'm', formula: 'comp_vigas_muro', parametros: ['comp_vigas_muro'] },
+  { id: 'muro_forma',       ativo: true, nome: 'Muro — fôrma da viga',              grupo_id: 'outros', grupo_nome: 'Outros', etapa_codigo: '02', sub_etapa: 'Viga do Muro', composicao_id: 'cmp-2003.2', descricao: 'Fôrma Viga Baldrame — muro', unidade: 'm', formula: 'comp_vigas_muro', parametros: ['comp_vigas_muro'] },
+  { id: 'muro_concreto',    ativo: true, nome: 'Muro — concreto da viga',           grupo_id: 'outros', grupo_nome: 'Outros', etapa_codigo: '02', sub_etapa: 'Viga do Muro', composicao_id: 'cmp-2002.3', descricao: 'Concreto Manual — viga muro', unidade: 'm³', formula: 'comp_vigas_muro * secao_b_muro * secao_h_muro', parametros: ['comp_vigas_muro', 'secao_b_muro', 'secao_h_muro'] },
+  { id: 'muro_cinta',       ativo: true, nome: 'Muro — cinta de coroamento',        grupo_id: 'outros', grupo_nome: 'Outros', etapa_codigo: '04', sub_etapa: 'Alvenaria do Muro', composicao_id: 'cmp-4003', descricao: 'Cinta de Coroamento em Canaleta Cerâmica — muro', unidade: 'm', formula: 'cinta_muro == 1 ? comp_alv_muro : 0', parametros: ['cinta_muro', 'comp_alv_muro'] },
+  { id: 'muro_alv_est',     ativo: true, nome: 'Muro — alvenaria estrutural',       grupo_id: 'outros', grupo_nome: 'Outros', etapa_codigo: '04', sub_etapa: 'Alvenaria do Muro', composicao_id: 'cmp-4002', descricao: 'Alvenaria Estrutural — muro', unidade: 'm²', formula: 'tipo_alv_muro == 2 ? comp_alv_muro * alt_alv_muro : 0', parametros: ['tipo_alv_muro', 'comp_alv_muro', 'alt_alv_muro'] },
+  { id: 'muro_alv_ved',     ativo: true, nome: 'Muro — alvenaria de vedação',       grupo_id: 'outros', grupo_nome: 'Outros', etapa_codigo: '04', sub_etapa: 'Alvenaria do Muro', composicao_id: 'cmp-4000', descricao: 'Alvenaria de Vedação — muro', unidade: 'm²', formula: 'tipo_alv_muro == 1 ? comp_alv_muro * alt_alv_muro : 0', parametros: ['tipo_alv_muro', 'comp_alv_muro', 'alt_alv_muro'] },
+  { id: 'muro_chapisco',    ativo: true, nome: 'Muro — chapisco (2 faces)',          grupo_id: 'outros', grupo_nome: 'Outros', etapa_codigo: '09', sub_etapa: 'Revestimento do Muro', composicao_id: 'cmp-9000', descricao: 'Chapisco — muro (2 faces)', unidade: 'm²', formula: 'area_revest_muro', parametros: ['area_revest_muro'] },
+  { id: 'muro_reboco',      ativo: true, nome: 'Muro — reboco (2 faces)',            grupo_id: 'outros', grupo_nome: 'Outros', etapa_codigo: '09', sub_etapa: 'Revestimento do Muro', composicao_id: 'cmp-9001', descricao: 'Emboço/Reboco — muro (2 faces)', unidade: 'm²', formula: 'area_revest_muro', parametros: ['area_revest_muro'] },
+  { id: 'muro_pintura',     ativo: true, nome: 'Muro — pintura externa (2 faces)',   grupo_id: 'outros', grupo_nome: 'Outros', etapa_codigo: '12', sub_etapa: 'Pintura do Muro', composicao_id: 'cmp-12001', descricao: 'Pintura Emborrachada Acrílica — muro', unidade: 'm²', formula: 'area_pintura_muro', parametros: ['area_pintura_muro'] },
+  { id: 'muro_massa_ext',   ativo: true, nome: 'Muro — massa fina externa (2 faces)',grupo_id: 'outros', grupo_nome: 'Outros', etapa_codigo: '12', sub_etapa: 'Pintura do Muro', composicao_id: 'cmp-12003', descricao: 'Massa Fina Externa — muro', unidade: 'm²', formula: 'area_pintura_muro', parametros: ['area_pintura_muro'] },
+
   // ══ 15 · Instalações Elétricas (somatório dos ambientes) ═════════════════════
   { id: 'ele_qd',          ativo: true, nome: 'Quadro de distribuição (QD)',   grupo_id: 'eletrica', grupo_nome: 'Instalações Elétricas', etapa_codigo: '15', sub_etapa: 'Quadro', composicao_id: 'cmp-15005', descricao: 'QD - Quadro de Distribuição', unidade: 'un', formula: 'ele_tomada_simples > 0 ? 1 : 0', parametros: ['ele_tomada_simples'] },
   { id: 'ele_aterramento', ativo: true, nome: 'Aterramento (haste)',           grupo_id: 'eletrica', grupo_nome: 'Instalações Elétricas', etapa_codigo: '15', sub_etapa: 'Aterramento', composicao_id: 'cmp-15006', descricao: 'Balde e Haste Aterramento', unidade: 'un', formula: 'ele_tomada_simples > 0 ? 1 : 0', parametros: ['ele_tomada_simples'] },
@@ -187,6 +205,7 @@ export function derivarParams(
   lajes: CalcLajeItem[] = [],
   estacas: CalcEstacaItem[] = [],
   ambientes: CalcAmbiente[] = [],
+  estacasMuro: CalcEstacaItem[] = [],
 ): Partial<CalcParamsRaw> {
   // comp_paredes: se não preenchido manualmente, usa perimetro_paredes como fallback
   const comp_paredes_efetivo = raw.comp_paredes ?? raw.perimetro_paredes ?? 0;
@@ -219,6 +238,16 @@ export function derivarParams(
   const estacas_equiv = estacas.reduce((s, e) => s + (e.qtd || 0) * (e.prof || 0) / 3, 0);
   const volume_concreto_estacas = estacas.reduce((s, e) => s + (e.qtd || 0) * (e.prof || 0) * 0.30 * 0.30, 0);
   const n_blocos_estaca = estacas.reduce((s, e) => s + (e.blocos || 0), 0);
+
+  // Estacas do muro
+  const estacas_muro_equiv = estacasMuro.reduce((s, e) => s + (e.qtd || 0) * (e.prof || 0) / 3, 0);
+  const volume_concreto_estacas_muro = estacasMuro.reduce((s, e) => s + (e.qtd || 0) * (e.prof || 0) * 0.30 * 0.30, 0);
+  const n_blocos_estaca_muro = estacasMuro.reduce((s, e) => s + (e.blocos || 0), 0);
+
+  // Muro: sugestões derivadas do perimetro_muro
+  const pm = raw.perimetro_muro || 0;
+  const altMuro = raw.alt_alv_muro || 0;
+  const areaRevMuro = r2(pm * altMuro * 2);  // 2 faces
 
   // ── Ambientes (espelho) → Elétrica, Hidrossanitária, Louças, Imper, Cerâmica ──
   const qtd = (a: CalcAmbiente) => a.qtd || 1;
@@ -285,6 +314,14 @@ export function derivarParams(
     estacas_equiv: r2(estacas_equiv),
     volume_concreto_estacas: r3(volume_concreto_estacas),
     n_blocos_estaca,
+    // Muro
+    estacas_muro_equiv: r2(estacas_muro_equiv),
+    volume_concreto_estacas_muro: r3(volume_concreto_estacas_muro),
+    n_blocos_estaca_muro,
+    comp_vigas_muro: orDefault(raw.comp_vigas_muro, pm),
+    comp_alv_muro: orDefault(raw.comp_alv_muro, pm),
+    area_revest_muro: orDefault(raw.area_revest_muro, areaRevMuro),
+    area_pintura_muro: orDefault(raw.area_pintura_muro, areaRevMuro),
     // Elétrica
     ele_tomada_simples,
     ele_tomada_dupla,
@@ -343,8 +380,10 @@ export function calcularQuantitativos(
   lajes: CalcLajeItem[] = [],
   estacas: CalcEstacaItem[] = [],
   ambientes: CalcAmbiente[] = [],
+  estacasMuro: CalcEstacaItem[] = [],
+  composicoesLivres: CalcComposicaoLivre[] = [],
 ): CalcItem[] {
-  const params = derivarParams(rawParams, vaos, pilares, vigasInd, lajes, estacas, ambientes);
+  const params = derivarParams(rawParams, vaos, pilares, vigasInd, lajes, estacas, ambientes, estacasMuro);
 
   return CALC_TEMPLATES.filter(t => t.ativo).map(template => {
     const ctx: Record<string, number> = {};
@@ -378,7 +417,25 @@ export function calcularQuantitativos(
         : '—',
       incluir,
     } satisfies CalcItem;
-  });
+  }).concat(
+    // Composições livres inseridas pelo usuário
+    composicoesLivres
+      .filter(c => c.composicao_id && c.quantidade > 0)
+      .map(c => ({
+        template_id: `livre_${c.id}`,
+        nome: c.descricao_override || 'Composição avulsa',
+        grupo_id: 'outros',
+        grupo_nome: 'Outros',
+        etapa_codigo: '20',
+        sub_etapa: 'Composições Avulsas',
+        composicao_id: c.composicao_id,
+        descricao: c.descricao_override || '',
+        unidade: '',
+        quantidade: c.quantidade,
+        formula_legivel: `${c.quantidade} (digitado)`,
+        incluir: true,
+      } satisfies CalcItem))
+  );
 }
 
 /** Retorna um número formatado em pt-BR com casas decimais adequadas */

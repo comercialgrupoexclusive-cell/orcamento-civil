@@ -215,6 +215,29 @@ export interface CalcParamsRaw {
   estacas_equiv: number;            // Σ qtd × (prof / 3) — perfuração + armadura por 3 m
   volume_concreto_estacas: number;  // Σ qtd × prof × 0,30 × 0,30 (m³)
   n_blocos_estaca: number;
+  // ── Muro ───────────────────────────────────────────────────────────────────
+  perimetro_muro: number;           // perímetro do muro (entrada base)
+  comp_vigas_muro: number;          // comprimento das vigas = perimetro_muro
+  secao_b_muro: number;
+  secao_h_muro: number;
+  comp_alv_muro: number;            // comprimento de alvenaria = perimetro_muro
+  alt_alv_muro: number;             // altura da alvenaria do muro
+  tipo_alv_muro: number;            // 1=vedação, 2=estrutural
+  area_revest_muro: number;         // = perimetro_muro × alt_alv_muro × 2
+  area_pintura_muro: number;        // = perimetro_muro × alt_alv_muro × 2
+  cinta_muro: number;               // 1=incluir cinta de coroamento
+  // Estacas do muro (derivado de estacas_muro[])
+  estacas_muro_equiv: number;
+  volume_concreto_estacas_muro: number;
+  n_blocos_estaca_muro: number;
+}
+
+/** Composição inserida livremente pelo usuário na etapa Outros */
+export interface CalcComposicaoLivre {
+  id: string;
+  composicao_id: string;
+  quantidade: number;
+  descricao_override: string;   // opcional — sobrescreve o nome
 }
 
 export interface CalcItem {
