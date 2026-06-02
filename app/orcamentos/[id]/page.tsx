@@ -475,12 +475,55 @@ const CORES_ETAPA = [
   '#7c3aed','#b45309','#047857',
 ];
 
+const CORES_CAT: Record<string, string> = {
+  'Aço e Ferragem':       '#ef4444',
+  'Argamassa e Cimento':  '#f59e0b',
+  'Areia e Brita':        '#84cc16',
+  'Alvenaria e Bloco':    '#f97316',
+  'Madeira':              '#a16207',
+  'Cobertura e Telha':    '#0891b2',
+  'Impermeabilização':    '#0ea5e9',
+  'Revestimento e Piso':  '#8b5cf6',
+  'Esquadria':            '#ec4899',
+  'Tubulação e Hidráulica':'#06b6d4',
+  'Elétrico':             '#eab308',
+  'Mão de Obra':          '#f97316',
+  'Equipamento':          '#a855f7',
+  'Material Básico':      '#64748b',
+  'Pintura e Verniz':     '#d946ef',
+  'Pavimentação':         '#10b981',
+  'Fundação':             '#1d4ed8',
+  'Locação':              '#059669',
+  'Serviços Gerais':      '#6b7280',
+  'Ferramentas':          '#92400e',
+};
+function getCatColor(nome: string, idx: number): string {
+  return CORES_CAT[nome] || CORES_ETAPA[idx % CORES_ETAPA.length];
+}
+
 function DashboardOrcamento({ orc }: { orc: OrcamentoDetalhe }) {
   const area = Number(orc.area_construida) || 0;
   const bd = orc.total_breakdown || { M: 0, MO: 0, E: 0, S: 0 };
   const totalDireto = orc.total_direto;
 
-  // Pizza: M / MO / E
+  // ── Categorias de insumos ───────────────────────────────────────────────
+  const catMap = new Map<string, { nome: string; custo: number; tipo: string }>();
+  for (const etapa of orc.etapas) {
+    for (const item of etapa.itens) {
+      for (const ins of (item.insumos || [])) {
+        const catNome = (ins as { categoria?: string }).categoria
+          || (ins.tipo === 'MO' ? 'Mão de Obra' : ins.tipo === 'E' ? 'Equipamento' : 'Material Básico');
+        const ex = catMap.get(catNome);
+        if (ex) ex.custo += ins.custo_item;
+        else catMap.set(catNome, { nome: catNome, custo: ins.custo_item, tipo: ins.tipo });
+      }
+    }
+  }
+  const categorias = Array.from(catMap.values())
+    .sort((a, b) => b.custo - a.custo)
+    .map((c, i) => ({ ...c, fill: getCatColor(c.nome, i), pct: totalDireto > 0 ? c.custo / totalDireto * 100 : 0 }));
+
+  // ── Pizza: M / MO / E ───────────────────────────────────────────────────
   const dataTipo = Object.entries(bd)
     .filter(([, v]) => v > 0)
     .map(([k, v]) => ({ name: TIPO_LABEL[k] || k, value: Number(v), fill: CORES_TIPO[k] || '#888' }));
@@ -575,6 +618,37 @@ function DashboardOrcamento({ orc }: { orc: OrcamentoDetalhe }) {
               Defina a área construída no orçamento para ver custo/m²
             </div>
           )}
+        </div>
+      </div>
+
+      {/* ── Custo por Categoria de Insumo (destaque) ──────────────────────── */}
+      <div className="rounded-xl border bg-card p-4 shadow-sm space-y-3">
+        <p className="text-sm font-semibold flex items-center gap-2">
+          <span className="w-2 h-2 rounded-full bg-rose-500" /> Custo por Categoria de Insumo
+        </p>
+        {/* Cards das top 6 categorias */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+          {categorias.slice(0, 6).map(cat => (
+            <div key={cat.nome} className="rounded-lg border p-3 space-y-0.5" style={{ borderLeftWidth: 3, borderLeftColor: cat.fill }}>
+              <p className="text-[11px] text-muted-foreground font-medium leading-tight">{cat.nome}</p>
+              <p className="text-base font-bold tabular-nums leading-tight">{fmtBRL(cat.custo)}</p>
+              <p className="text-[10px] text-muted-foreground">{cat.pct.toFixed(1)}% do total{area > 0 ? ` · ${fmtBRL(cat.custo / area)}/m²` : ''}</p>
+            </div>
+          ))}
+        </div>
+        {/* Barra horizontal de todas as categorias */}
+        <div className="space-y-1.5 pt-1">
+          {categorias.map(cat => (
+            <div key={cat.nome} className="flex items-center gap-2 group">
+              <span className="text-[11px] text-muted-foreground w-40 shrink-0 truncate group-hover:text-foreground transition-colors">{cat.nome}</span>
+              <div className="flex-1 h-4 bg-muted rounded-full overflow-hidden relative">
+                <div className="h-full rounded-full transition-all duration-500"
+                  style={{ width: `${Math.max(cat.pct / (categorias[0]?.pct || 1) * 100, 1)}%`, backgroundColor: cat.fill }} />
+              </div>
+              <span className="text-[11px] font-semibold tabular-nums w-24 text-right shrink-0">{fmtBRL(cat.custo)}</span>
+              <span className="text-[10px] text-muted-foreground w-10 text-right shrink-0">{cat.pct.toFixed(1)}%</span>
+            </div>
+          ))}
         </div>
       </div>
 
@@ -799,64 +873,116 @@ function CurvaABC({ orc }: { orc: OrcamentoDetalhe }) {
         )}
       </div>
 
-      {/* ── Tabela por insumo ──────────────────────────────────────────────── */}
-      {viewMode === 'insumos' && (
-        <div className="border rounded-xl overflow-hidden shadow-sm">
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b bg-muted/20">
-                  <th className="text-left px-3 py-2 text-xs text-muted-foreground font-medium w-8">#</th>
-                  <th className="text-left px-3 py-2 text-xs text-muted-foreground font-medium">Insumo</th>
-                  <th className="text-left px-3 py-2 text-xs text-muted-foreground font-medium">Categoria</th>
-                  <th className="text-left px-3 py-2 text-xs text-muted-foreground font-medium w-20">Tipo</th>
-                  <th className="text-right px-3 py-2 text-xs text-muted-foreground font-medium w-24">Qtd. Total</th>
-                  <th className="text-right px-3 py-2 text-xs text-muted-foreground font-medium w-24">Preço Unit.</th>
-                  <th className="text-right px-3 py-2 text-xs text-muted-foreground font-medium w-28">Custo Total</th>
-                  <th className="text-right px-3 py-2 text-xs text-muted-foreground font-medium w-20">% Acum.</th>
-                  <th className="text-center px-3 py-2 text-xs text-muted-foreground font-medium w-16">Classe</th>
-                </tr>
-              </thead>
-              <tbody>
-                {listaFiltrada.map((ins, idx) => {
-                  const classeCor = { A: 'bg-red-100 text-red-700 border-red-200', B: 'bg-amber-100 text-amber-700 border-amber-200', C: 'bg-green-100 text-green-700 border-green-200' }[ins.classe] || '';
-                  const precoUnit = ins.qtd_total > 0 ? ins.custo_total / ins.qtd_total : ins.preco_unitario;
-                  return (
-                    <tr key={ins.insumo_id} className="border-b last:border-0 hover:bg-muted/20 transition-colors">
-                      <td className="px-3 py-2 text-xs text-muted-foreground tabular-nums">{idx + 1}</td>
-                      <td className="px-3 py-2 font-medium text-sm leading-tight">{ins.descricao}</td>
-                      <td className="px-3 py-2">
-                        <button onClick={() => { setFiltroCategoria(ins.categoria); setFiltroTipo('TODOS'); }}
-                          className="text-[10px] px-1.5 py-0.5 rounded border bg-muted/50 border-border text-muted-foreground hover:bg-primary/10 hover:border-primary/40 hover:text-primary transition-colors whitespace-nowrap"
-                          title="Filtrar por esta categoria">
-                          {ins.categoria}
-                        </button>
-                      </td>
-                      <td className="px-3 py-2">
-                        <span className={`inline-flex text-[10px] font-semibold px-1.5 py-0.5 rounded border ${TIPO_COR[ins.tipo] || ''}`}>
-                          {TIPO_LABEL[ins.tipo] || ins.tipo}
-                        </span>
-                      </td>
-                      <td className="px-3 py-2 text-right tabular-nums text-muted-foreground text-xs">
-                        {ins.qtd_total.toLocaleString('pt-BR', { maximumFractionDigits: 3 })} {ins.unidade}
-                      </td>
-                      <td className="px-3 py-2 text-right tabular-nums text-xs">{fmtBRL(precoUnit)}</td>
-                      <td className="px-3 py-2 text-right tabular-nums font-medium">{fmtBRL(ins.custo_total)}</td>
-                      <td className="px-3 py-2 text-right tabular-nums text-muted-foreground text-xs">{ins.pctAcum.toFixed(1)}%</td>
-                      <td className="px-3 py-2 text-center">
-                        <span className={`inline-flex items-center justify-center w-7 h-5 text-xs font-black rounded border ${classeCor}`}>{ins.classe}</span>
-                      </td>
-                    </tr>
-                  );
-                })}
-                {listaFiltrada.length === 0 && (
-                  <tr><td colSpan={9} className="px-3 py-8 text-center text-muted-foreground text-sm">Nenhum insumo encontrado.</td></tr>
-                )}
-              </tbody>
-            </table>
+      {/* ── Tabela por insumo (com subtotais por categoria) ─────────────────── */}
+      {viewMode === 'insumos' && (() => {
+        // Agrupar listaFiltrada por categoria, mantendo ordem de custo dentro de cada grupo
+        const agrupado: { cat: string; totalCat: number; pctCat: number; itens: typeof listaFiltrada }[] = [];
+        const catMap = new Map<string, typeof listaFiltrada>();
+        for (const ins of listaFiltrada) {
+          if (!catMap.has(ins.categoria)) catMap.set(ins.categoria, []);
+          catMap.get(ins.categoria)!.push(ins);
+        }
+        for (const [cat, itens] of catMap.entries()) {
+          const totalCat = itens.reduce((s, i) => s + i.custo_total, 0);
+          const pctCat = totalGeral > 0 ? totalCat / totalGeral * 100 : 0;
+          agrupado.push({ cat, totalCat, pctCat, itens });
+        }
+        agrupado.sort((a, b) => b.totalCat - a.totalCat);
+        let seq = 0;
+        const totalFiltrado = listaFiltrada.reduce((s, i) => s + i.custo_total, 0);
+
+        return (
+          <div className="border rounded-xl overflow-hidden shadow-sm">
+            {/* Banner de subtotal quando filtro ativo */}
+            {filtroCategoria !== 'TODAS' && (
+              <div className="flex items-center justify-between px-4 py-2 bg-primary/8 border-b">
+                <span className="text-xs font-semibold text-primary">
+                  {filtroCategoria} — {listaFiltrada.length} insumo{listaFiltrada.length !== 1 ? 's' : ''}
+                </span>
+                <div className="flex items-center gap-3">
+                  <span className="text-xs text-muted-foreground">{(totalFiltrado / totalGeral * 100).toFixed(1)}% do total</span>
+                  <span className="text-sm font-bold text-primary tabular-nums">{fmtBRL(totalFiltrado)}</span>
+                  <button onClick={() => setFiltroCategoria('TODAS')} className="text-xs text-muted-foreground hover:text-primary underline">limpar filtro</button>
+                </div>
+              </div>
+            )}
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b bg-muted/20">
+                    <th className="text-left px-3 py-2 text-xs text-muted-foreground font-medium w-8">#</th>
+                    <th className="text-left px-3 py-2 text-xs text-muted-foreground font-medium">Insumo</th>
+                    <th className="text-left px-3 py-2 text-xs text-muted-foreground font-medium w-20">Tipo</th>
+                    <th className="text-right px-3 py-2 text-xs text-muted-foreground font-medium w-24">Qtd. Total</th>
+                    <th className="text-right px-3 py-2 text-xs text-muted-foreground font-medium w-24">Preço Unit.</th>
+                    <th className="text-right px-3 py-2 text-xs text-muted-foreground font-medium w-28">Custo Total</th>
+                    <th className="text-right px-3 py-2 text-xs text-muted-foreground font-medium w-16">% Acum.</th>
+                    <th className="text-center px-3 py-2 text-xs text-muted-foreground font-medium w-14">Classe</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {agrupado.map(({ cat, totalCat, pctCat, itens: insGrupo }) => (
+                    <Fragment key={cat}>
+                      {/* Linha de cabeçalho da categoria */}
+                      <tr className="bg-muted/40 border-b border-t">
+                        <td colSpan={5} className="px-3 py-1.5">
+                          <div className="flex items-center gap-2">
+                            <button onClick={() => setFiltroCategoria(filtroCategoria === cat ? 'TODAS' : cat)}
+                              className={`text-[11px] font-bold px-2 py-0.5 rounded border transition-colors ${filtroCategoria === cat ? 'bg-primary text-primary-foreground border-primary' : 'bg-background border-border hover:bg-primary/10 hover:border-primary/40 hover:text-primary'}`}>
+                              {cat}
+                            </button>
+                            <span className="text-[10px] text-muted-foreground">{insGrupo.length} insumo{insGrupo.length !== 1 ? 's' : ''}</span>
+                          </div>
+                        </td>
+                        <td className="px-3 py-1.5 text-right">
+                          <span className="text-xs font-bold text-foreground tabular-nums">{fmtBRL(totalCat)}</span>
+                        </td>
+                        <td className="px-3 py-1.5 text-right">
+                          <span className="text-[10px] text-muted-foreground tabular-nums">{pctCat.toFixed(1)}%</span>
+                        </td>
+                        <td className="px-3 py-1.5">
+                          <div className="h-1 rounded-full bg-muted overflow-hidden w-10 ml-auto">
+                            <div className="h-full bg-primary/60 rounded-full" style={{ width: `${Math.min(pctCat * 3, 100)}%` }} />
+                          </div>
+                        </td>
+                      </tr>
+                      {/* Linhas dos insumos da categoria */}
+                      {insGrupo.map(ins => {
+                        seq++;
+                        const classeCor = { A: 'bg-red-100 text-red-700 border-red-200', B: 'bg-amber-100 text-amber-700 border-amber-200', C: 'bg-green-100 text-green-700 border-green-200' }[ins.classe] || '';
+                        const precoUnit = ins.qtd_total > 0 ? ins.custo_total / ins.qtd_total : ins.preco_unitario;
+                        return (
+                          <tr key={ins.insumo_id} className="border-b last:border-0 hover:bg-muted/20 transition-colors">
+                            <td className="px-3 py-2 text-xs text-muted-foreground tabular-nums pl-5">{seq}</td>
+                            <td className="px-3 py-2 font-medium text-sm leading-tight">{ins.descricao}</td>
+                            <td className="px-3 py-2">
+                              <span className={`inline-flex text-[10px] font-semibold px-1.5 py-0.5 rounded border ${TIPO_COR[ins.tipo] || ''}`}>
+                                {TIPO_LABEL[ins.tipo] || ins.tipo}
+                              </span>
+                            </td>
+                            <td className="px-3 py-2 text-right tabular-nums text-muted-foreground text-xs">
+                              {ins.qtd_total.toLocaleString('pt-BR', { maximumFractionDigits: 3 })} {ins.unidade}
+                            </td>
+                            <td className="px-3 py-2 text-right tabular-nums text-xs">{fmtBRL(precoUnit)}</td>
+                            <td className="px-3 py-2 text-right tabular-nums font-medium">{fmtBRL(ins.custo_total)}</td>
+                            <td className="px-3 py-2 text-right tabular-nums text-muted-foreground text-xs">{ins.pctAcum.toFixed(1)}%</td>
+                            <td className="px-3 py-2 text-center">
+                              <span className={`inline-flex items-center justify-center w-7 h-5 text-xs font-black rounded border ${classeCor}`}>{ins.classe}</span>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </Fragment>
+                  ))}
+                  {listaFiltrada.length === 0 && (
+                    <tr><td colSpan={8} className="px-3 py-8 text-center text-muted-foreground text-sm">Nenhum insumo encontrado.</td></tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
-      )}
+        );
+      })()}
 
       {/* ── Tabela por categoria do insumo ────────────────────────────────── */}
       {viewMode === 'categorias' && (
