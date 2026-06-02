@@ -1,9 +1,9 @@
 'use client';
 
-import { useState, useEffect, useCallback, use } from 'react';
+import { useState, useEffect, useCallback, use, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, Building2, Save, RefreshCw, Zap } from 'lucide-react';
+import { ArrowLeft, Building2, Save, RefreshCw, Zap, Camera, Upload, Trash2, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -12,13 +12,149 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { toast } from 'sonner';
 
 interface OrcamentoOpt { id: string; titulo: string; area_construida: number; }
-interface ObraData { id: string; nome: string; endereco: string; bairro: string; cidade: string; estado: string; cep: string; status: string; data_inicio: string; data_prev_termino: string; area_construida: string; foto_url: string; responsavel: string; telefone_responsavel: string; orcamento_id: string; observacoes: string; }
+interface ObraData {
+  id: string; nome: string; endereco: string; bairro: string; cidade: string;
+  estado: string; cep: string; status: string; data_inicio: string;
+  data_prev_termino: string; area_construida: string; foto_url: string;
+  responsavel: string; telefone_responsavel: string; orcamento_id: string; observacoes: string;
+}
 
 const STATUS_OPTS = [
   { v: 'nao_iniciado', l: 'Não Iniciado' }, { v: 'em_andamento', l: 'Em Andamento' },
   { v: 'concluido', l: 'Concluído' }, { v: 'paralisado', l: 'Paralisado' },
 ];
 
+// ── Upload de foto ────────────────────────────────────────────────────────────
+function FotoEditor({
+  obraId, fotoUrl, onFotoChange,
+}: {
+  obraId: string; fotoUrl: string; onFotoChange: (url: string) => void;
+}) {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [uploading, setUploading] = useState(false);
+  const [dragOver, setDragOver] = useState(false);
+  const [preview, setPreview] = useState(fotoUrl);
+
+  useEffect(() => { setPreview(fotoUrl); }, [fotoUrl]);
+
+  async function upload(file: File) {
+    if (!file.type.startsWith('image/')) { toast.error('Apenas imagens (JPG, PNG, WEBP)'); return; }
+    if (file.size > 5 * 1024 * 1024) { toast.error('Imagem muito grande — máx 5 MB'); return; }
+
+    // Preview imediato (antes do upload)
+    const localUrl = URL.createObjectURL(file);
+    setPreview(localUrl);
+
+    setUploading(true);
+    try {
+      const fd = new FormData();
+      fd.append('file', file);
+      const res = await fetch(`/api/obras/${obraId}/foto`, { method: 'POST', body: fd });
+      const data = await res.json();
+      if (res.ok) {
+        onFotoChange(data.url);
+        setPreview(data.url);
+        toast.success('Foto salva com sucesso!');
+      } else {
+        toast.error(data.error || 'Erro ao enviar foto');
+        setPreview(fotoUrl); // reverte
+      }
+    } catch {
+      toast.error('Erro de conexão');
+      setPreview(fotoUrl);
+    } finally {
+      setUploading(false);
+    }
+  }
+
+  async function remover() {
+    if (!confirm('Remover a foto da obra?')) return;
+    const res = await fetch(`/api/obras/${obraId}/foto`, { method: 'DELETE' });
+    if (res.ok) { onFotoChange(''); setPreview(''); toast.success('Foto removida'); }
+    else toast.error('Erro ao remover');
+  }
+
+  function onDrop(e: React.DragEvent) {
+    e.preventDefault(); setDragOver(false);
+    const file = e.dataTransfer.files[0];
+    if (file) upload(file);
+  }
+
+  return (
+    <div className="space-y-2">
+      <Label className="flex items-center gap-1.5">
+        <Camera className="h-3.5 w-3.5 text-muted-foreground" /> Foto da Obra
+      </Label>
+
+      {preview ? (
+        /* Com foto: mostrar imagem + botões de troca/remoção */
+        <div className="relative rounded-xl overflow-hidden border" style={{ height: '260px' }}>
+          <img src={preview} alt="Foto da obra" className="w-full h-full object-cover" />
+
+          {/* Overlay com gradiente e botões */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+
+          <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between">
+            <button
+              onClick={() => inputRef.current?.click()}
+              disabled={uploading}
+              className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-white/20 backdrop-blur-sm text-white text-xs font-semibold hover:bg-white/35 transition-all border border-white/30 disabled:opacity-60">
+              {uploading
+                ? <><RefreshCw className="h-3.5 w-3.5 animate-spin" /> Enviando...</>
+                : <><Camera className="h-3.5 w-3.5" /> Trocar foto</>}
+            </button>
+            <button
+              onClick={remover}
+              disabled={uploading}
+              className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-red-500/70 backdrop-blur-sm text-white text-xs font-semibold hover:bg-red-600/80 transition-all disabled:opacity-60">
+              <Trash2 className="h-3.5 w-3.5" /> Remover
+            </button>
+          </div>
+
+          {uploading && (
+            <div className="absolute inset-0 bg-black/40 flex items-center justify-center backdrop-blur-[2px]">
+              <div className="text-white text-center space-y-2">
+                <RefreshCw className="h-8 w-8 animate-spin mx-auto" />
+                <p className="text-sm font-medium">Enviando foto...</p>
+              </div>
+            </div>
+          )}
+        </div>
+      ) : (
+        /* Sem foto: área de upload */
+        <div
+          onDrop={onDrop}
+          onDragOver={e => { e.preventDefault(); setDragOver(true); }}
+          onDragLeave={() => setDragOver(false)}
+          onClick={() => !uploading && inputRef.current?.click()}
+          className={`rounded-xl border-2 border-dashed flex flex-col items-center justify-center cursor-pointer transition-all select-none
+            ${uploading ? 'pointer-events-none opacity-70' : ''}
+            ${dragOver ? 'border-primary bg-primary/8 scale-[1.01]' : 'border-border bg-muted/20 hover:border-primary/60 hover:bg-muted/40'}`}
+          style={{ height: '200px' }}>
+          <div className="text-center space-y-2 p-6">
+            <div className="h-14 w-14 rounded-2xl bg-muted flex items-center justify-center mx-auto">
+              {uploading
+                ? <RefreshCw className="h-6 w-6 text-primary animate-spin" />
+                : <Upload className="h-6 w-6 text-muted-foreground" />}
+            </div>
+            <p className="font-medium text-sm">
+              {uploading ? 'Enviando...' : dragOver ? 'Solte aqui!' : 'Adicionar foto da obra'}
+            </p>
+            <p className="text-xs text-muted-foreground">Arraste ou clique · JPG, PNG, WEBP · máx 5 MB</p>
+          </div>
+        </div>
+      )}
+
+      <input
+        ref={inputRef} type="file" accept="image/jpeg,image/png,image/webp"
+        className="hidden"
+        onChange={e => { const f = e.target.files?.[0]; if (f) upload(f); e.target.value = ''; }}
+      />
+    </div>
+  );
+}
+
+// ── Página de edição ──────────────────────────────────────────────────────────
 export default function EditarObraPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
   const router = useRouter();
@@ -46,7 +182,8 @@ export default function EditarObraPage({ params }: { params: Promise<{ id: strin
     }
     if (orcRes.ok) {
       const d = await orcRes.json();
-      if (Array.isArray(d)) setOrcamentos(d.map((o: OrcamentoOpt) => ({ id: o.id, titulo: o.titulo, area_construida: o.area_construida })));
+      if (Array.isArray(d))
+        setOrcamentos(d.map((o: OrcamentoOpt) => ({ id: o.id, titulo: o.titulo, area_construida: o.area_construida })));
     }
     setCarregando(false);
   }, [id]);
@@ -91,14 +228,26 @@ export default function EditarObraPage({ params }: { params: Promise<{ id: strin
         </h1>
       </div>
 
-      {/* Identificação */}
+      {/* ── FOTO ── */}
+      <Card>
+        <CardContent className="p-5">
+          <FotoEditor
+            obraId={id}
+            fotoUrl={form.foto_url}
+            onFotoChange={url => setForm(p => ({ ...p, foto_url: url }))}
+          />
+        </CardContent>
+      </Card>
+
+      {/* ── Identificação ── */}
       <Card>
         <CardContent className="p-5 space-y-4">
           <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">Identificação</p>
 
           <div className="grid gap-1.5">
             <Label>Nome da obra <span className="text-destructive">*</span></Label>
-            <Input value={form.nome} onChange={e => set('nome', e.target.value)} placeholder="Ex: Residência Família Silva" className="h-10" />
+            <Input value={form.nome} onChange={e => set('nome', e.target.value)}
+              placeholder="Ex: Residência Família Silva" className="h-10" />
           </div>
 
           <div className="grid sm:grid-cols-2 gap-3">
@@ -119,23 +268,26 @@ export default function EditarObraPage({ params }: { params: Promise<{ id: strin
           <div className="grid sm:grid-cols-2 gap-3">
             <div className="grid gap-1.5">
               <Label>Responsável</Label>
-              <Input value={form.responsavel} onChange={e => set('responsavel', e.target.value)} placeholder="Nome do responsável" className="h-10" />
+              <Input value={form.responsavel} onChange={e => set('responsavel', e.target.value)}
+                placeholder="Nome do responsável" className="h-10" />
             </div>
             <div className="grid gap-1.5">
               <Label>Telefone</Label>
-              <Input value={form.telefone_responsavel} onChange={e => set('telefone_responsavel', e.target.value)} placeholder="(51) 99999-9999" className="h-10" />
+              <Input value={form.telefone_responsavel} onChange={e => set('telefone_responsavel', e.target.value)}
+                placeholder="(51) 99999-9999" className="h-10" />
             </div>
           </div>
         </CardContent>
       </Card>
 
-      {/* Endereço */}
+      {/* ── Endereço ── */}
       <Card>
         <CardContent className="p-5 space-y-4">
           <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">Endereço</p>
           <div className="grid gap-1.5">
             <Label>Logradouro</Label>
-            <Input value={form.endereco} onChange={e => set('endereco', e.target.value)} placeholder="Rua, Av., número..." className="h-10" />
+            <Input value={form.endereco} onChange={e => set('endereco', e.target.value)}
+              placeholder="Rua, Av., número..." className="h-10" />
           </div>
           <div className="grid sm:grid-cols-3 gap-3">
             <div className="grid gap-1.5">
@@ -158,7 +310,7 @@ export default function EditarObraPage({ params }: { params: Promise<{ id: strin
         </CardContent>
       </Card>
 
-      {/* Datas + Orçamento */}
+      {/* ── Datas + Orçamento ── */}
       <Card>
         <CardContent className="p-5 space-y-4">
           <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">Datas e Orçamento</p>
@@ -174,7 +326,6 @@ export default function EditarObraPage({ params }: { params: Promise<{ id: strin
             </div>
           </div>
 
-          {/* Vínculo com orçamento */}
           <div className="grid gap-1.5">
             <Label className="flex items-center gap-1.5">
               <Zap className="h-3.5 w-3.5 text-amber-500" /> Orçamento vinculado
@@ -194,13 +345,13 @@ export default function EditarObraPage({ params }: { params: Promise<{ id: strin
             </Select>
             {orcSelecionado && (
               <p className="text-xs text-amber-700 flex items-center gap-1">
-                <Zap className="h-3 w-3" /> Vinculado: {orcSelecionado.titulo}
+                <Zap className="h-3 w-3" /> {orcSelecionado.titulo}
               </p>
             )}
             {mudouOrcamento && (
               <div className="rounded-lg border border-amber-300 bg-amber-50 px-3 py-2 text-xs text-amber-800">
-                <p className="font-semibold mb-0.5">Orçamento alterado</p>
-                <p>Após salvar, acesse <strong>Gerenciamento</strong> para atualizar as etapas desta obra com as etapas do novo orçamento.</p>
+                <p className="font-semibold">Orçamento alterado</p>
+                <p className="mt-0.5">Após salvar, acesse Gerenciamento para atualizar as etapas.</p>
               </div>
             )}
           </div>

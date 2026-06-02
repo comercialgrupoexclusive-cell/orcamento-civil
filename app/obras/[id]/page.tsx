@@ -1,12 +1,11 @@
 'use client';
 
-import { useEffect, useState, useCallback, use, useRef } from 'react';
+import { useEffect, useState, useCallback, use } from 'react';
 import Link from 'next/link';
 import {
   ArrowLeft, Building2, MapPin, User, Phone, Plus, Trash2,
   RefreshCw, MessageCircle, CheckCircle2, Clock, AlertCircle,
-  Pencil, Save, X, Camera, Upload, Calendar, FileText,
-  ChevronRight,
+  Pencil, Save, X, Camera, Calendar, FileText, ChevronRight,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -59,101 +58,28 @@ interface ObraDetalhe {
   orcamento: { titulo: string } | null;
 }
 
-// ── Upload de foto ────────────────────────────────────────────────────────────
-function FotoHero({
-  obraId, fotoUrl, nomObra, onFotoChange,
-}: {
-  obraId: string; fotoUrl: string; nomObra: string; onFotoChange: (url: string) => void;
-}) {
-  const inputRef = useRef<HTMLInputElement>(null);
-  const [uploading, setUploading] = useState(false);
-  const [dragOver, setDragOver] = useState(false);
-
-  async function upload(file: File) {
-    if (!file.type.startsWith('image/')) { toast.error('Apenas imagens'); return; }
-    if (file.size > 5 * 1024 * 1024) { toast.error('Máx 5 MB'); return; }
-    setUploading(true);
-    try {
-      const fd = new FormData();
-      fd.append('file', file);
-      const res = await fetch(`/api/obras/${obraId}/foto`, { method: 'POST', body: fd });
-      const data = await res.json();
-      if (res.ok) { onFotoChange(data.url); toast.success('Foto atualizada!'); }
-      else toast.error(data.error || 'Erro ao enviar');
-    } catch { toast.error('Erro de conexão'); } finally { setUploading(false); }
+// ── Exibição da foto (sem upload — upload fica em /editar) ───────────────────
+function FotoDisplay({ fotoUrl, nome, editHref }: { fotoUrl: string; nome: string; editHref: string }) {
+  if (fotoUrl) {
+    return (
+      <div className="relative w-full rounded-xl overflow-hidden" style={{ height: '360px' }}>
+        <img src={fotoUrl} alt={nome} className="w-full h-full object-cover" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+        <Link href={editHref} className="absolute bottom-3 right-3">
+          <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/20 backdrop-blur-sm text-white text-xs font-semibold hover:bg-white/35 transition-all border border-white/30">
+            <Camera className="h-3.5 w-3.5" /> Trocar foto
+          </button>
+        </Link>
+      </div>
+    );
   }
-
-  async function removerFoto() {
-    if (!confirm('Remover foto da obra?')) return;
-    const res = await fetch(`/api/obras/${obraId}/foto`, { method: 'DELETE' });
-    if (res.ok) { onFotoChange(''); toast.success('Foto removida'); }
-  }
-
-  function onDrop(e: React.DragEvent) {
-    e.preventDefault(); setDragOver(false);
-    const file = e.dataTransfer.files[0];
-    if (file) upload(file);
-  }
-
   return (
-    <div className="relative w-full" style={{ height: '360px' }}>
-      {fotoUrl ? (
-        <>
-          {/* Foto com overlay de ações */}
-          <img
-            src={fotoUrl}
-            alt={nomObra}
-            className="w-full h-full object-cover rounded-xl"
-          />
-          {/* Gradiente inferior para os botões */}
-          <div className="absolute inset-0 rounded-xl bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-          {/* Botões sobre a foto */}
-          <div className="absolute bottom-4 right-4 flex gap-2">
-            <button
-              onClick={() => inputRef.current?.click()}
-              disabled={uploading}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/20 backdrop-blur-sm text-white text-xs font-semibold hover:bg-white/30 transition-colors border border-white/30">
-              <Camera className="h-3.5 w-3.5" />
-              {uploading ? 'Enviando...' : 'Trocar foto'}
-            </button>
-            <button
-              onClick={removerFoto}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-500/70 backdrop-blur-sm text-white text-xs font-semibold hover:bg-red-600/80 transition-colors">
-              <Trash2 className="h-3.5 w-3.5" /> Remover
-            </button>
-          </div>
-        </>
-      ) : (
-        /* Área de upload (sem foto) */
-        <div
-          onDrop={onDrop}
-          onDragOver={e => { e.preventDefault(); setDragOver(true); }}
-          onDragLeave={() => setDragOver(false)}
-          onClick={() => inputRef.current?.click()}
-          className={`w-full h-full rounded-xl border-2 border-dashed flex flex-col items-center justify-center cursor-pointer transition-all
-            ${dragOver ? 'border-primary bg-primary/10 scale-[1.01]' : 'border-border bg-muted/30 hover:border-primary/60 hover:bg-muted/50'}`}>
-          <div className="text-center space-y-3 p-6">
-            <div className="h-16 w-16 rounded-2xl bg-muted flex items-center justify-center mx-auto">
-              {uploading
-                ? <RefreshCw className="h-7 w-7 text-primary animate-spin" />
-                : <Camera className="h-7 w-7 text-muted-foreground" />}
-            </div>
-            <div>
-              <p className="font-semibold text-sm">{uploading ? 'Enviando...' : 'Adicionar foto da obra'}</p>
-              <p className="text-xs text-muted-foreground mt-1">Arraste uma imagem ou clique para selecionar</p>
-              <p className="text-[10px] text-muted-foreground mt-0.5">JPG, PNG, WEBP — máx 5 MB</p>
-            </div>
-            {!uploading && (
-              <Button size="sm" variant="outline" className="h-8" onClick={e => { e.stopPropagation(); inputRef.current?.click(); }}>
-                <Upload className="h-3.5 w-3.5 mr-1.5" /> Selecionar foto
-              </Button>
-            )}
-          </div>
-        </div>
-      )}
-      <input ref={inputRef} type="file" accept="image/*" className="hidden"
-        onChange={e => { const f = e.target.files?.[0]; if (f) upload(f); e.target.value = ''; }} />
-    </div>
+    <Link href={editHref}>
+      <div className="w-full rounded-xl border-2 border-dashed flex flex-col items-center justify-center bg-muted/20 hover:bg-muted/40 hover:border-primary/50 transition-all cursor-pointer" style={{ height: '200px' }}>
+        <Camera className="h-10 w-10 text-muted-foreground/40 mb-2" />
+        <p className="text-sm text-muted-foreground font-medium">Clique em Editar para adicionar foto</p>
+      </div>
+    </Link>
   );
 }
 
@@ -162,7 +88,6 @@ export default function ObraDetalhePage({ params }: { params: Promise<{ id: stri
   const { id } = use(params);
   const [obra, setObra] = useState<ObraDetalhe | null>(null);
   const [loading, setLoading] = useState(true);
-  const [fotoUrl, setFotoUrl] = useState('');
   const [novoForn, setNovoForn] = useState({ nome: '', especialidade: '', telefone: '', whatsapp: '', email: '', observacoes: '' });
   const [showFornForm, setShowFornForm] = useState(false);
   const [editStatus, setEditStatus] = useState('');
@@ -173,7 +98,6 @@ export default function ObraDetalhePage({ params }: { params: Promise<{ id: stri
     if (res?.ok) {
       const d = await res.json();
       setObra(d);
-      setFotoUrl(d.foto_url || '');
       setEditStatus(d.status);
     }
     setLoading(false);
@@ -256,14 +180,9 @@ export default function ObraDetalhePage({ params }: { params: Promise<{ id: stri
 
       {/* ── Card principal: Foto + Info ── */}
       <Card className="overflow-hidden">
-        {/* Foto hero */}
+        {/* Foto */}
         <div className="p-4 pb-3">
-          <FotoHero
-            obraId={id}
-            fotoUrl={fotoUrl}
-            nomObra={obra.nome}
-            onFotoChange={setFotoUrl}
-          />
+          <FotoDisplay fotoUrl={obra.foto_url || ''} nome={obra.nome} editHref={`/obras/${id}/editar`} />
         </div>
 
         {/* Info abaixo da foto */}
