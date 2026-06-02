@@ -220,36 +220,57 @@ function AmbientesEditor({ ambientes, setAmbientes, modo }: {
 }
 
 // --- SecaoLoucas (louças e metais — resumo derivado dos ambientes) ---
-function SecaoLoucas({ ambientes, setAmbientes }: { ambientes: CalcAmbiente[]; setAmbientes: (v: CalcAmbiente[]) => void }) {
+function SecaoLoucas({
+  ambientes, setAmbientes, params, setParams, derived,
+}: {
+  ambientes: CalcAmbiente[]; setAmbientes: (v: CalcAmbiente[]) => void;
+  params: Partial<CalcParamsRaw>; setParams: (fn: (p: Partial<CalcParamsRaw>) => Partial<CalcParamsRaw>) => void;
+  derived: Partial<CalcParamsRaw>;
+}) {
   const nBanheiros = ambientes.filter(a => a.tipo === 'banheiro').reduce((s, a) => s + (a.qtd || 1), 0);
   const nCozinhas = ambientes.filter(a => a.tipo === 'cozinha').reduce((s, a) => s + (a.qtd || 1), 0);
   const nMolhadas = ambientes.filter(a => a.area_molhada).reduce((s, a) => s + (a.qtd || 1), 0);
-  const itens = [
-    { label: 'Vaso sanitário (bacia c/ caixa)', qtd: nBanheiros },
-    { label: 'Lavatório / pia com pedestal', qtd: nBanheiros },
-    { label: 'Pia / cuba de cozinha', qtd: nCozinhas },
-    { label: 'Chuveiro', qtd: nBanheiros },
-    { label: 'Torneiras e registros (metais)', qtd: nBanheiros + nCozinhas },
-    { label: 'Tanque (área de serviço)', qtd: Math.max(0, nMolhadas - nBanheiros - nCozinhas) },
-  ];
+  const nAreaServico = Math.max(0, nMolhadas - nBanheiros - nCozinhas);
+
+  // derived com sugestões das louças
+  const derivedLoucas: Partial<CalcParamsRaw> = {
+    ...derived,
+    n_banheiros: nBanheiros,
+    n_cozinhas: nCozinhas,
+  };
+
   return (
-    <div className="space-y-3">
+    <div className="space-y-4">
       <AmbientesEditor ambientes={ambientes} setAmbientes={setAmbientes} modo="loucas" />
+
       {(nBanheiros + nCozinhas) > 0 ? (
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-2">Quantidades sugeridas</p>
+        <div className="space-y-3">
+          <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Quantidades — edite se necessário</p>
+          <p className="text-[11px] text-muted-foreground -mt-2">Amarelo = sugerido pelos ambientes · Clique para digitar e fica verde.</p>
+
           <div className="grid sm:grid-cols-2 gap-2">
-            {itens.filter(i => i.qtd > 0).map(i => (
-              <div key={i.label} className="flex items-center justify-between rounded-lg border bg-amber-50 border-amber-300 px-3 py-1.5">
-                <span className="text-xs text-amber-900">{i.label}</span>
-                <span className="text-sm font-bold text-amber-800">{i.qtd}</span>
+            <SugEdit label="Vaso sanitário (bacia c/ caixa)" campo="n_banheiros"
+              params={params} setParams={setParams} derived={derivedLoucas} unidade="un" obs="= qtd de banheiros" />
+            <SugEdit label="Lavatório / pia com pedestal" campo="n_banheiros"
+              params={params} setParams={setParams} derived={derivedLoucas} unidade="un" obs="= qtd de banheiros" />
+            <SugEdit label="Pia / cuba de cozinha" campo="n_cozinhas"
+              params={params} setParams={setParams} derived={derivedLoucas} unidade="un" obs="= qtd de cozinhas" />
+            <SugEdit label="Chuveiro" campo="n_banheiros"
+              params={params} setParams={setParams} derived={derivedLoucas} unidade="un" obs="= qtd de banheiros" />
+            {nAreaServico > 0 && (
+              <div className="flex items-center justify-between rounded-lg border bg-amber-50 border-amber-300 px-3 py-2">
+                <span className="text-xs text-amber-900">Tanque (área de serviço)</span>
+                <span className="text-sm font-bold text-amber-800">{nAreaServico}</span>
               </div>
-            ))}
+            )}
           </div>
-          <p className="text-[11px] text-muted-foreground mt-2">No painel: <strong>Louças</strong> (kit por banheiro) e <strong>Metais</strong> entram com a quantidade sugerida — edite no orçamento se precisar.</p>
+
+          <p className="text-[11px] text-muted-foreground">No painel: <strong>Louças</strong> (kit) e <strong>Metais</strong> usam a qtd de banheiros + cozinhas.</p>
         </div>
       ) : (
-        <div className="text-[11px] text-muted-foreground">Cadastre ambientes do tipo <strong>banheiro</strong> ou <strong>cozinha</strong> (acima ou em Dados do Projeto) para sugerir louças e metais.</div>
+        <div className="text-[11px] text-muted-foreground py-2">
+          Cadastre ambientes do tipo <strong>banheiro</strong> ou <strong>cozinha</strong> para sugerir quantidades.
+        </div>
       )}
     </div>
   );
@@ -935,6 +956,7 @@ interface ItemUserState {
   composicao_id: string;
   qtd_override: string;
   incluir: boolean;
+  user_unchecked?: boolean;  // true quando o usuário desmarca manualmente
 }
 
 // --- PainelResultados (nova UX central) ---
@@ -996,7 +1018,11 @@ function PainelResultados({ calcItems, composicoes, userStates, setUserStates, o
                       return (
                         <div key={item.template_id} className={`rounded-lg border p-2 transition-colors ${s.incluir ? 'border-primary/20 bg-primary/5' : 'border-border bg-muted/20 opacity-60'}`}>
                           <div className="flex items-start gap-2 mb-2">
-                            <input type="checkbox" checked={s.incluir ?? true} onChange={e => updState(item.template_id, { incluir: e.target.checked })} className="mt-0.5 h-3.5 w-3.5 shrink-0 accent-primary" />
+                            <input type="checkbox" checked={s.incluir ?? true}
+                              onChange={e => updState(item.template_id, {
+                                incluir: e.target.checked,
+                                user_unchecked: !e.target.checked,  // marca que foi desmarcado manualmente
+                              })} className="mt-0.5 h-3.5 w-3.5 shrink-0 accent-primary" />
                             <div className="flex-1 min-w-0">
                               <p className="text-xs font-medium leading-tight">{item.nome}</p>
                               <p className="text-[10px] text-muted-foreground">Etapa {item.etapa_codigo} &middot; {item.sub_etapa}</p>
@@ -1127,13 +1153,22 @@ function CalculadoraContent() {
       const next = { ...prev };
       for (const item of calcItems) {
         if (!next[item.template_id]) {
+          // Primeira vez: inicializa com composicao_id do template
           next[item.template_id] = {
             composicao_id: item.composicao_id ?? '',
             qtd_override: '',
             incluir: item.quantidade > 0 && item.incluir,
           };
         } else if (item.quantidade === 0) {
+          // Quantidade zerou: desativa
           next[item.template_id] = { ...next[item.template_id], incluir: false };
+        } else if (item.quantidade > 0 && !next[item.template_id].incluir) {
+          // BUG FIX: item ganhou quantidade depois de ser inicializado com qty=0
+          // Reativa automaticamente (a menos que o usuário tenha desmarcado manualmente)
+          // Distinguimos: user_unchecked só é verdadeiro se o user explicitamente desmarcou
+          if (!next[item.template_id].user_unchecked) {
+            next[item.template_id] = { ...next[item.template_id], incluir: true };
+          }
         }
       }
       return next;
@@ -1350,7 +1385,7 @@ function CalculadoraContent() {
                     {grupo.id === 'acabamento'   && <SecaoAcabamento params={params} setParams={setParams} derived={derived} />}
                     {grupo.id === 'eletrica'     && <AmbientesEditor ambientes={ambientes} setAmbientes={setAmbientes} modo="eletrica" />}
                     {grupo.id === 'hidraulica'   && <AmbientesEditor ambientes={ambientes} setAmbientes={setAmbientes} modo="hidro" />}
-                    {grupo.id === 'banheiro'     && <SecaoLoucas ambientes={ambientes} setAmbientes={setAmbientes} />}
+                    {grupo.id === 'banheiro'     && <SecaoLoucas ambientes={ambientes} setAmbientes={setAmbientes} params={params} setParams={setParams} derived={derived} />}
                     {grupo.id === 'outros'       && <SecaoOutros params={params} setParams={setParams} derived={derived} estacasMuro={estacasMuro} setEstacasMuro={setEstacasMuro} composicoesLivres={composicoesLivres} setComposicoesLivres={setComposicoesLivres} composicoes={composicoes} />}
                   </div>
 
