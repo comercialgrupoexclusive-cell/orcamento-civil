@@ -128,18 +128,23 @@ export interface CalcVao {
 
 /** Parâmetros brutos digitados pelo usuário + derivados calculados automaticamente */
 export interface CalcParamsRaw {
-  // Serviços Preliminares
-  area_terreno: number;
-  perimetro_terreno: number;
-  area_construida: number;
-  // Vigas de Fundação
+  // Dados do projeto / Serviços Preliminares
+  area_construida: number;          // Área Construída Total (m²)
+  area_terreno: number;             // Área Terreno (m²)
+  perimetro_terreno: number;        // Perímetro Terreno (m)
+  perimetro_paredes: number;        // Perímetro de Paredes (m) — total de paredes
+  perimetro_externo: number;        // Perímetro Externo Edificação (m)
+  comp_paredes_internas: number;    // Comprimento Paredes Internas (m)
+  pe_direito: number;               // Pé Direito (m)
+  // Vigas de Fundação (baldrame)
   comp_vigas: number;
   secao_b: number;
   secao_h: number;
   n_barras_long: number;
   esp_estribo: number;
   tabua_larg: number;
-  // Alvenaria
+  bitola_baldrame: number;          // bitola do ferro longitudinal (mm)
+  // Alvenaria / Paredes e Painéis
   comp_paredes: number;
   alt_paredes: number;
   // Derivados de vaos[]
@@ -168,36 +173,46 @@ export interface CalcParamsRaw {
   comp_calhas: number;
   tipo_telha: number;               // 1 = barro colonial, 2 = aluzinco
   // Impermeabilização
-  area_imper_molhada: number;
-  // Revestimento interno
-  area_revest_interno: number;      // chapisco + reboco (2 faces internas)
-  area_ceramica_parede: number;     // áreas molhadas com cerâmica
+  area_imper_molhada: number;       // derivado dos ambientes área molhada (piso+paredes)
+  area_imper_paredes: number;       // = perímetro de paredes × 2 (argamassa polimérica H=1m)
+  // Revestimento interno/externo
+  area_revest_interno: number;      // chapisco + reboco internos
+  area_revest_externo: number;      // chapisco + reboco externos
+  area_ceramica_parede: number;     // áreas molhadas com cerâmica (derivado ambientes)
   // Forro
   area_forro: number;
+  forro_tipo: number;               // 1 = PVC, 2 = drywall
   // Pintura
   area_pintura_interna: number;
   area_pintura_externa: number;
+  massa_int: number;                // 1 = aplicar massa fina interna, 0 = não
   // Pisos
   area_piso: number;
+  piso_tipo: number;                // 1 = cerâmica classe A, 2 = porcelanato
+  contrapiso_armado: number;        // 1 = concreto armado 5cm, 0 = regularização
+  rodape_tipo: number;              // 1 = poliestireno 7cm, 2 = próprio piso
   // Acabamento
-  comp_rodape: number;
+  comp_rodape: number;              // perímetro interno − larguras das portas
+  comp_pingadeiras: number;         // Σ largura janelas + 0,05 cada
+  comp_soleiras: number;            // Σ largura portas + 0,05 cada
   // Elétrica (derivado da lista de ambientes)
   ele_tomada_simples: number;
   ele_tomada_dupla: number;
   ele_interruptor: number;
   ele_luminaria: number;
   ele_chuveiro: number;
-  // Hidráulica
+  // Hidrossanitária (derivado da lista de ambientes)
   n_pontos_agua: number;
   metros_rede_agua: number;
-  // Esgoto
   n_pontos_esgoto: number;
   n_caixa_sifonada: number;
   n_caixa_inspecao: number;
-  // Louças e metais / banheiro
+  // Louças e metais (derivado dos ambientes banheiro/cozinha)
   n_banheiros: number;
+  n_cozinhas: number;
   // Fundação profunda (derivado da lista de estacas)
-  estacas_equiv: number;            // Σ qtd × (prof / 3) — custo linear por metro
+  estacas_equiv: number;            // Σ qtd × (prof / 3) — perfuração + armadura por 3 m
+  volume_concreto_estacas: number;  // Σ qtd × prof × 0,30 × 0,30 (m³)
   n_blocos_estaca: number;
 }
 
@@ -257,7 +272,7 @@ export interface CalcVigaIndItem {
   b: number;           // largura (m)
   h: number;           // altura (m)
   comp: number;        // total de metros desse tipo de viga (perímetro)
-  tipo: 'baldrame' | 'aerea';
+  tipo: 'sob_parede' | 'aerea';
   esp_escoras: number; // espaçamento entre escoras em m (apenas para 'aerea')
 }
 
@@ -279,13 +294,31 @@ export interface CalcEstacaItem {
   blocos: number;  // nº de blocos de coroamento desse grupo
 }
 
-// Elétrica — pontos por ambiente (default 3 tomadas + 1 luz, editável)
-export interface CalcAmbienteEle {
+export type TipoAmbiente = 'quarto' | 'sala' | 'cozinha' | 'banheiro' | 'area_servico' | 'outro';
+
+/**
+ * Ambiente unificado (espelho) — uma única fonte de verdade compartilhada entre
+ * Elétrica, Hidrossanitária, Louças/Metais, Impermeabilização e Revestimento
+ * cerâmico. O usuário pode ou não cadastrar; se cadastrar, preenche o que puder.
+ */
+export interface CalcAmbiente {
   id: string;
   nome: string;
-  tomadas: number;        // tomadas simples
-  tomadas_duplas: number; // tomadas duplas
+  tipo: TipoAmbiente;
+  qtd: number;            // quantidade desse ambiente (multiplicador)
+  area: number;           // m²
+  comp_parede: number;    // comprimento/perímetro de parede do ambiente (m)
+  pe_direito: number;     // m
+  area_molhada: boolean;  // alimenta impermeabilização + cerâmica de parede
+  // Elétrica
+  tomadas: number;
+  tomadas_duplas: number;
   interruptores: number;
   luminarias: number;
-  chuveiro: boolean;      // ponto de chuveiro
+  // Hidrossanitária
+  pontos_agua: number;
+  pontos_esgoto: number;
 }
+
+/** @deprecated mantido por compatibilidade; use CalcAmbiente */
+export type CalcAmbienteEle = CalcAmbiente;

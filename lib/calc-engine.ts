@@ -9,36 +9,36 @@
  *
  * composicao_id segue o padrão `cmp-<codigo>` (ex.: código 4002 → cmp-4002,
  * código 2003.1 → cmp-2003.1).
+ *
+ * AMBIENTES (espelho): uma única lista de ambientes alimenta Elétrica,
+ * Hidrossanitária, Louças/Metais, Impermeabilização e Cerâmica de parede.
  */
 
 import type {
   CalcGrupo, CalcTemplate, CalcItem, CalcParamsRaw, CalcVao,
-  CalcPilarItem, CalcVigaIndItem, CalcLajeItem, CalcEstacaItem, CalcAmbienteEle,
+  CalcPilarItem, CalcVigaIndItem, CalcLajeItem, CalcEstacaItem, CalcAmbiente,
 } from '@/lib/types';
 
 // ─── Grupos de parâmetros (acordeões da UI) ───────────────────────────────────
 
 export const CALC_GRUPOS: CalcGrupo[] = [
-  { id: 'preliminares', nome: 'Serviços Preliminares e Gerais', etapa_codigo: '01', cor: 'amber',  emoji: '🏗️', descricao: 'Limpeza, placa, tapume, ligações provisórias, poste e hidrômetro' },
-  { id: 'fundacoes',    nome: 'Fundação — Viga Baldrame',       etapa_codigo: '02', cor: 'blue',   emoji: '🏠', descricao: 'Gabarito, armadura, fôrma, concreto e contrapiso (por metro de baldrame)' },
-  { id: 'estacas',      nome: 'Fundação Profunda — Estacas',    etapa_codigo: '02', cor: 'blue',   emoji: '⚓', descricao: 'Estacas por PROFUNDIDADE em metros (livre) + blocos de coroamento' },
+  { id: 'preliminares', nome: 'Dados do Projeto e Serviços Preliminares', etapa_codigo: '01', cor: 'amber',  emoji: '🏗️', descricao: 'Áreas, perímetros, pé-direito, ambientes e serviços preliminares' },
+  { id: 'estacas',      nome: 'Fundações',                      etapa_codigo: '02', cor: 'blue',   emoji: '⚓', descricao: 'Estacas (perfuração + armadura + concreto separado) e blocos' },
+  { id: 'fundacoes',    nome: 'Viga Baldrame',                  etapa_codigo: '02', cor: 'blue',   emoji: '🏠', descricao: 'Gabarito, armadura, fôrma, concreto e contrapiso (por metro de baldrame)' },
   { id: 'laje',         nome: 'Laje',                           etapa_codigo: '03', cor: 'teal',   emoji: '🟦', descricao: 'Laje pré-moldada, fôrma de fechamento e concreto' },
   { id: 'pilares',      nome: 'Pilares (concreto moldado)',     etapa_codigo: '03', cor: 'green',  emoji: '🏛️', descricao: 'Concreto de pilares — adicione cada tipo com suas dimensões' },
-  { id: 'vigas_ind',    nome: 'Vigas (concreto moldado)',       etapa_codigo: '03', cor: 'violet', emoji: '📐', descricao: 'Concreto de vigas estruturais — por metro' },
-  { id: 'alvenaria',    nome: 'Alvenaria e Vergas',             etapa_codigo: '04', cor: 'orange', emoji: '🧱', descricao: 'Alvenaria (descontando vãos), vergas e contravergas' },
-  { id: 'esquadrias',   nome: 'Esquadrias e Vidros',            etapa_codigo: '05', cor: 'amber',  emoji: '🚪', descricao: 'Portas e janelas — geradas automaticamente dos vãos' },
-  { id: 'cobertura',    nome: 'Cobertura',                      etapa_codigo: '07', cor: 'orange', emoji: '🏚️', descricao: 'Madeiramento, telha, rufos e calhas' },
-  { id: 'imperme',      nome: 'Impermeabilização',              etapa_codigo: '08', cor: 'blue',   emoji: '💧', descricao: 'Áreas molhadas' },
-  { id: 'revest',       nome: 'Revestimentos Internos',         etapa_codigo: '09', cor: 'teal',   emoji: '🧱', descricao: 'Chapisco, reboco e ceramica de parede' },
-  { id: 'forro',        nome: 'Forro',                          etapa_codigo: '10', cor: 'violet', emoji: '⬜', descricao: 'Forro de PVC / drywall' },
+  { id: 'vigas_ind',    nome: 'Vigas (concreto moldado)',       etapa_codigo: '03', cor: 'violet', emoji: '📐', descricao: 'Concreto de vigas — aérea ou sob parede, por metro' },
+  { id: 'alvenaria',    nome: 'Paredes e Painéis',              etapa_codigo: '04', cor: 'orange', emoji: '🧱', descricao: 'Alvenaria (descontando vãos), vergas e contravergas' },
+  { id: 'cobertura',    nome: 'Cobertura',                      etapa_codigo: '07', cor: 'orange', emoji: '🏚️', descricao: 'Tipo de telha, madeiramento, telhamento, rufos e calhas' },
+  { id: 'imperme',      nome: 'Impermeabilização',              etapa_codigo: '08', cor: 'blue',   emoji: '💧', descricao: 'Paredes (argamassa polimérica) e áreas molhadas dos ambientes' },
+  { id: 'revest',       nome: 'Revestimentos',                  etapa_codigo: '09', cor: 'teal',   emoji: '🧱', descricao: 'Chapisco/reboco interno e externo + cerâmica de parede (áreas molhadas)' },
+  { id: 'forro',        nome: 'Forro',                          etapa_codigo: '10', cor: 'violet', emoji: '⬜', descricao: 'Forro de PVC / drywall — sugerido pela área construída' },
   { id: 'pintura',      nome: 'Pintura',                        etapa_codigo: '12', cor: 'green',  emoji: '🎨', descricao: 'Massa e pintura interna/externa e teto' },
-  { id: 'pisos',        nome: 'Pisos e Contrapisos',            etapa_codigo: '13', cor: 'amber',  emoji: '🔲', descricao: 'Contrapiso de regularização e piso cerâmico' },
-  { id: 'acabamento',   nome: 'Acabamentos',                    etapa_codigo: '14', cor: 'orange', emoji: '✨', descricao: 'Rodapés e soleiras' },
-  { id: 'eletrica',     nome: 'Instalações Elétricas',          etapa_codigo: '15', cor: 'amber',  emoji: '💡', descricao: 'Pontos por ambiente — 3 tomadas + 1 luz por peça (editável)' },
-  { id: 'hidraulica',   nome: 'Instalações Hidráulicas',        etapa_codigo: '16', cor: 'blue',   emoji: '🚿', descricao: 'Pontos de água, rede e reservatório' },
-  { id: 'esgoto',       nome: 'Esgoto e Águas Pluviais',        etapa_codigo: '17', cor: 'teal',   emoji: '🕳️', descricao: 'Conexões, caixas de gordura, sifonada e inspeção' },
-  { id: 'banheiro',     nome: 'Louças e Metais (Banheiro)',     etapa_codigo: '18', cor: 'violet', emoji: '🛁', descricao: 'Kit por banheiro: louças + metais' },
-  { id: 'complementos', nome: 'Limpeza e Complementos',         etapa_codigo: '19', cor: 'green',  emoji: '🧹', descricao: 'Limpeza final da obra' },
+  { id: 'pisos',        nome: 'Pisos e Contrapisos',            etapa_codigo: '13', cor: 'amber',  emoji: '🔲', descricao: 'Contrapiso e piso cerâmico/porcelanato — sugerido pela área construída' },
+  { id: 'acabamento',   nome: 'Acabamentos',                    etapa_codigo: '14', cor: 'orange', emoji: '✨', descricao: 'Rodapés, pingadeiras e soleiras' },
+  { id: 'eletrica',     nome: 'Instalações Elétricas',          etapa_codigo: '15', cor: 'amber',  emoji: '💡', descricao: 'Pontos por ambiente (carrega os ambientes cadastrados)' },
+  { id: 'hidraulica',   nome: 'Instalações Hidrossanitárias',   etapa_codigo: '16', cor: 'blue',   emoji: '🚿', descricao: 'Água, esgoto e pluviais por ambiente — pontos, caixas e reservatório' },
+  { id: 'banheiro',     nome: 'Louças e Metais',                etapa_codigo: '18', cor: 'violet', emoji: '🛁', descricao: 'Kit por banheiro/cozinha — louças + metais (carrega os ambientes)' },
 ];
 
 // ─── Templates de cálculo (cada um vinculado a uma composição real) ────────────
@@ -52,20 +52,22 @@ export const CALC_TEMPLATES: CalcTemplate[] = [
   { id: 'prelim_inst_energ',ativo: true, nome: 'Instalação provisória de energia',     grupo_id: 'preliminares', grupo_nome: 'Serviços Preliminares e Gerais', etapa_codigo: '01', sub_etapa: 'Ligações Provisórias', composicao_id: 'cmp-1006', descricao: 'Instalação Provisória Energia', unidade: 'un', formula: '1', parametros: ['area_construida'] },
   { id: 'prelim_poste',     ativo: true, nome: 'Poste padrão de entrada (bifásico)',   grupo_id: 'preliminares', grupo_nome: 'Serviços Preliminares e Gerais', etapa_codigo: '01', sub_etapa: 'Ligações Provisórias', composicao_id: 'cmp-1010', descricao: 'Poste Padrão Entrada de Energia - 1 Medidor - Concreto - Bifásico', unidade: 'un', formula: '1', parametros: ['area_construida'] },
   { id: 'prelim_hidrometro',ativo: true, nome: 'Pedestal de hidrômetro',              grupo_id: 'preliminares', grupo_nome: 'Serviços Preliminares e Gerais', etapa_codigo: '01', sub_etapa: 'Ligações Provisórias', composicao_id: 'cmp-1011', descricao: 'Pedestal Hidrômetro Padrão Concessionária', unidade: 'un', formula: '1', parametros: ['area_construida'] },
+  { id: 'prelim_limpeza_final', ativo: true, nome: 'Limpeza final da obra', grupo_id: 'preliminares', grupo_nome: 'Serviços Preliminares e Gerais', etapa_codigo: '19', sub_etapa: 'Limpeza', composicao_id: 'cmp-19001', descricao: 'Produtos de Limpeza Final', unidade: 'un', formula: '1', parametros: ['area_construida'] },
+
+  // ══ 02 · Fundações — Estacas (perfuração+armadura + concreto separado) ════════
+  { id: 'estaca_perf_arm', ativo: true, nome: 'Estaca — perfuração + armadura', grupo_id: 'estacas', grupo_nome: 'Fundações', etapa_codigo: '02', sub_etapa: 'Estacas', composicao_id: 'cmp-2001.1', descricao: 'Estaca C25 3 metros - Perfuração e Armaduras (por 3 m equiv.)', unidade: 'un', formula: 'estacas_equiv', parametros: ['estacas_equiv'] },
+  { id: 'estaca_concreto', ativo: true, nome: 'Estaca — concreto (0,30 × 0,30)',  grupo_id: 'estacas', grupo_nome: 'Fundações', etapa_codigo: '02', sub_etapa: 'Estacas', composicao_id: 'cmp-2002.3', descricao: 'Concreto Manual em Obra Preparo em Betoneira — estacas', unidade: 'm³', formula: 'volume_concreto_estacas', parametros: ['volume_concreto_estacas'] },
+  { id: 'estaca_bloco',    ativo: true, nome: 'Bloco de coroamento sobre estaca',  grupo_id: 'estacas', grupo_nome: 'Fundações', etapa_codigo: '02', sub_etapa: 'Blocos', composicao_id: 'cmp-2002', descricao: 'Blocos Sobre 1 Estaca 55x55x40', unidade: 'un', formula: 'n_blocos_estaca', parametros: ['n_blocos_estaca'] },
 
   // ══ 02 · Fundação — Viga Baldrame (por metro de baldrame) ════════════════════
-  { id: 'fund_gabarito',   ativo: true, nome: 'Locação de obra (gabarito)',           grupo_id: 'fundacoes', grupo_nome: 'Fundação — Viga Baldrame', etapa_codigo: '02', sub_etapa: 'Locação', composicao_id: 'cmp-2000', descricao: 'Locação de Obra - Gabarito', unidade: 'm', formula: 'comp_vigas', parametros: ['comp_vigas'] },
-  { id: 'fund_armadura',   ativo: true, nome: 'Armadura da viga baldrame',            grupo_id: 'fundacoes', grupo_nome: 'Fundação — Viga Baldrame', etapa_codigo: '02', sub_etapa: 'Viga Baldrame', composicao_id: 'cmp-2003.1', descricao: 'Armadura Viga Baldrame 15x30 4 Barras 8mm', unidade: 'm', formula: 'comp_vigas', parametros: ['comp_vigas'] },
-  { id: 'fund_forma',      ativo: true, nome: 'Fôrma da viga baldrame',               grupo_id: 'fundacoes', grupo_nome: 'Fundação — Viga Baldrame', etapa_codigo: '02', sub_etapa: 'Viga Baldrame', composicao_id: 'cmp-2003.2', descricao: 'Forma Viga Baldrame 30cm Altura 1 Tábua 30cm', unidade: 'm', formula: 'comp_vigas', parametros: ['comp_vigas'] },
-  { id: 'fund_travamento', ativo: true, nome: 'Travamento/escoramento de fôrmas',     grupo_id: 'fundacoes', grupo_nome: 'Fundação — Viga Baldrame', etapa_codigo: '02', sub_etapa: 'Viga Baldrame', composicao_id: 'cmp-2003.3', descricao: 'Travamento e Escoramento de Formas de Baldrame', unidade: 'm', formula: 'comp_vigas', parametros: ['comp_vigas'] },
-  { id: 'fund_concreto',   ativo: true, nome: 'Concreto da viga baldrame',            grupo_id: 'fundacoes', grupo_nome: 'Fundação — Viga Baldrame', etapa_codigo: '02', sub_etapa: 'Viga Baldrame', composicao_id: 'cmp-2002.3', descricao: 'Concreto Manual em Obra Preparo em Betoneira', unidade: 'm³', formula: 'comp_vigas * secao_b * secao_h', parametros: ['comp_vigas', 'secao_b', 'secao_h'] },
-  { id: 'fund_reaterro',   ativo: true, nome: 'Reaterro e apiloamento',               grupo_id: 'fundacoes', grupo_nome: 'Fundação — Viga Baldrame', etapa_codigo: '02', sub_etapa: 'Movimento de Terra', composicao_id: 'cmp-2004', descricao: 'Reaterro e Apiloamento', unidade: 'm²', formula: 'area_construida', parametros: ['area_construida'] },
-  { id: 'fund_imperm',     ativo: true, nome: 'Impermeabilização de fundações',       grupo_id: 'fundacoes', grupo_nome: 'Fundação — Viga Baldrame', etapa_codigo: '02', sub_etapa: 'Impermeabilização', composicao_id: 'cmp-2005', descricao: 'Impermeabilização de Fundações', unidade: 'm²', formula: 'comp_vigas', parametros: ['comp_vigas'] },
-  { id: 'fund_contrapiso', ativo: true, nome: 'Contrapiso de concreto armado 5cm',    grupo_id: 'fundacoes', grupo_nome: 'Fundação — Viga Baldrame', etapa_codigo: '02', sub_etapa: 'Contrapiso', composicao_id: 'cmp-2006', descricao: 'Contrapiso Concreto Armado 5cm', unidade: 'm²', formula: 'area_construida', parametros: ['area_construida'] },
-
-  // ══ 02b · Fundação Profunda — Estacas (por profundidade) ═════════════════════
-  { id: 'estaca_exec',  ativo: true, nome: 'Estaca C25 (perfuração + armadura + concreto)', grupo_id: 'estacas', grupo_nome: 'Fundação Profunda — Estacas', etapa_codigo: '02', sub_etapa: 'Estacas', composicao_id: 'cmp-2001', descricao: 'Estaca C25 - Perfuração, Armaduras e Concretagem (por 3 m equiv.)', unidade: 'un', formula: 'estacas_equiv', parametros: ['estacas_equiv'] },
-  { id: 'estaca_bloco', ativo: true, nome: 'Bloco de coroamento sobre estaca',              grupo_id: 'estacas', grupo_nome: 'Fundação Profunda — Estacas', etapa_codigo: '02', sub_etapa: 'Blocos', composicao_id: 'cmp-2002', descricao: 'Blocos Sobre 1 Estaca 55x55x40', unidade: 'un', formula: 'n_blocos_estaca', parametros: ['n_blocos_estaca'] },
+  { id: 'fund_gabarito',   ativo: true, nome: 'Locação de obra (gabarito)',           grupo_id: 'fundacoes', grupo_nome: 'Viga Baldrame', etapa_codigo: '02', sub_etapa: 'Locação', composicao_id: 'cmp-2000', descricao: 'Locação de Obra - Gabarito', unidade: 'm', formula: 'comp_vigas', parametros: ['comp_vigas'] },
+  { id: 'fund_armadura',   ativo: true, nome: 'Armadura da viga baldrame',            grupo_id: 'fundacoes', grupo_nome: 'Viga Baldrame', etapa_codigo: '02', sub_etapa: 'Viga Baldrame', composicao_id: 'cmp-2003.1', descricao: 'Armadura Viga Baldrame 15x30 4 Barras 8mm', unidade: 'm', formula: 'comp_vigas', parametros: ['comp_vigas'] },
+  { id: 'fund_forma',      ativo: true, nome: 'Fôrma da viga baldrame',               grupo_id: 'fundacoes', grupo_nome: 'Viga Baldrame', etapa_codigo: '02', sub_etapa: 'Viga Baldrame', composicao_id: 'cmp-2003.2', descricao: 'Forma Viga Baldrame 30cm Altura 1 Tábua 30cm', unidade: 'm', formula: 'comp_vigas', parametros: ['comp_vigas'] },
+  { id: 'fund_travamento', ativo: true, nome: 'Travamento/escoramento de fôrmas',     grupo_id: 'fundacoes', grupo_nome: 'Viga Baldrame', etapa_codigo: '02', sub_etapa: 'Viga Baldrame', composicao_id: 'cmp-2003.3', descricao: 'Travamento e Escoramento de Formas de Baldrame', unidade: 'm', formula: 'comp_vigas', parametros: ['comp_vigas'] },
+  { id: 'fund_concreto',   ativo: true, nome: 'Concreto da viga baldrame',            grupo_id: 'fundacoes', grupo_nome: 'Viga Baldrame', etapa_codigo: '02', sub_etapa: 'Viga Baldrame', composicao_id: 'cmp-2002.3', descricao: 'Concreto Manual em Obra Preparo em Betoneira', unidade: 'm³', formula: 'comp_vigas * secao_b * secao_h', parametros: ['comp_vigas', 'secao_b', 'secao_h'] },
+  { id: 'fund_reaterro',   ativo: true, nome: 'Reaterro e apiloamento',               grupo_id: 'fundacoes', grupo_nome: 'Viga Baldrame', etapa_codigo: '02', sub_etapa: 'Movimento de Terra', composicao_id: 'cmp-2004', descricao: 'Reaterro e Apiloamento', unidade: 'm²', formula: 'area_construida', parametros: ['area_construida'] },
+  { id: 'fund_imperm',     ativo: true, nome: 'Impermeabilização de fundações',       grupo_id: 'fundacoes', grupo_nome: 'Viga Baldrame', etapa_codigo: '02', sub_etapa: 'Impermeabilização', composicao_id: 'cmp-2005', descricao: 'Impermeabilização de Fundações', unidade: 'm²', formula: 'comp_vigas', parametros: ['comp_vigas'] },
+  { id: 'fund_contrapiso', ativo: true, nome: 'Contrapiso de concreto armado 5cm',    grupo_id: 'fundacoes', grupo_nome: 'Viga Baldrame', etapa_codigo: '02', sub_etapa: 'Contrapiso', composicao_id: 'cmp-2006', descricao: 'Contrapiso Concreto Armado 5cm', unidade: 'm²', formula: 'area_construida', parametros: ['area_construida'] },
 
   // ══ 03 · Laje ════════════════════════════════════════════════════════════════
   { id: 'laje_montagem', ativo: true, nome: 'Laje pré-moldada (tela + escoramento)', grupo_id: 'laje', grupo_nome: 'Laje', etapa_codigo: '03', sub_etapa: 'Laje', composicao_id: 'cmp-3007', descricao: 'Laje Pré Moldada - Tela + Escoramento', unidade: 'm²', formula: 'area_lajes', parametros: ['area_lajes'] },
@@ -76,14 +78,14 @@ export const CALC_TEMPLATES: CalcTemplate[] = [
   { id: 'pilar_concreto', ativo: true, nome: 'Concreto de pilares (FCK 25)', grupo_id: 'pilares', grupo_nome: 'Pilares (concreto moldado)', etapa_codigo: '03', sub_etapa: 'Pilares', composicao_id: 'cmp-3009', descricao: 'Concreto Usinado FCK 25 — pilares', unidade: 'm³', formula: 'volume_concreto_pilares', parametros: ['volume_concreto_pilares'] },
   { id: 'viga_concreto',  ativo: true, nome: 'Concreto de vigas (FCK 25)',   grupo_id: 'vigas_ind', grupo_nome: 'Vigas (concreto moldado)', etapa_codigo: '03', sub_etapa: 'Vigas', composicao_id: 'cmp-3009', descricao: 'Concreto Usinado FCK 25 — vigas', unidade: 'm³', formula: 'volume_concreto_vigas_ind', parametros: ['volume_concreto_vigas_ind'] },
 
-  // ══ 04 · Alvenaria e Vergas ══════════════════════════════════════════════════
-  { id: 'alv_estrutural', ativo: true, nome: 'Alvenaria estrutural (bloco furo horizontal)', grupo_id: 'alvenaria', grupo_nome: 'Alvenaria e Vergas', etapa_codigo: '04', sub_etapa: 'Alvenaria', composicao_id: 'cmp-4002', descricao: 'Alvenaria Estrutural em Blocos Cerâmicos com Furos Horizontais', unidade: 'm²', formula: 'tipo_alv == 2 ? Math.max(0, comp_paredes * alt_paredes - area_vaos) : 0', parametros: ['tipo_alv', 'comp_paredes', 'alt_paredes', 'area_vaos'] },
-  { id: 'alv_vedacao',    ativo: true, nome: 'Alvenaria de vedação (bloco furo vertical)',    grupo_id: 'alvenaria', grupo_nome: 'Alvenaria e Vergas', etapa_codigo: '04', sub_etapa: 'Alvenaria', composicao_id: 'cmp-4000', descricao: 'Alvenaria de Vedação em Blocos Cerâmicos com Furos Verticais', unidade: 'm²', formula: 'tipo_alv == 1 ? Math.max(0, comp_paredes * alt_paredes - area_vaos) : 0', parametros: ['tipo_alv', 'comp_paredes', 'alt_paredes', 'area_vaos'] },
-  { id: 'alv_verga',      ativo: true, nome: 'Vergas e contravergas',                          grupo_id: 'alvenaria', grupo_nome: 'Alvenaria e Vergas', etapa_codigo: '04', sub_etapa: 'Vergas e Contravergas', composicao_id: 'cmp-4001', descricao: 'Verga e Contraverga em Canela Cerâmica', unidade: 'm', formula: 'comp_vergas + comp_contravergas', parametros: ['comp_vergas', 'comp_contravergas'] },
+  // ══ 04 · Paredes e Painéis ═══════════════════════════════════════════════════
+  { id: 'alv_estrutural', ativo: true, nome: 'Alvenaria estrutural (bloco furo horizontal)', grupo_id: 'alvenaria', grupo_nome: 'Paredes e Painéis', etapa_codigo: '04', sub_etapa: 'Alvenaria', composicao_id: 'cmp-4002', descricao: 'Alvenaria Estrutural em Blocos Cerâmicos com Furos Horizontais', unidade: 'm²', formula: 'tipo_alv == 2 ? Math.max(0, comp_paredes * alt_paredes - area_vaos) : 0', parametros: ['tipo_alv', 'comp_paredes', 'alt_paredes', 'area_vaos'] },
+  { id: 'alv_vedacao',    ativo: true, nome: 'Alvenaria de vedação (bloco furo vertical)',    grupo_id: 'alvenaria', grupo_nome: 'Paredes e Painéis', etapa_codigo: '04', sub_etapa: 'Alvenaria', composicao_id: 'cmp-4000', descricao: 'Alvenaria de Vedação em Blocos Cerâmicos com Furos Verticais', unidade: 'm²', formula: 'tipo_alv == 1 ? Math.max(0, comp_paredes * alt_paredes - area_vaos) : 0', parametros: ['tipo_alv', 'comp_paredes', 'alt_paredes', 'area_vaos'] },
+  { id: 'alv_verga',      ativo: true, nome: 'Vergas e contravergas',                          grupo_id: 'alvenaria', grupo_nome: 'Paredes e Painéis', etapa_codigo: '04', sub_etapa: 'Vergas e Contravergas', composicao_id: 'cmp-4001', descricao: 'Verga e Contraverga em Canela Cerâmica', unidade: 'm', formula: 'comp_vergas + comp_contravergas', parametros: ['comp_vergas', 'comp_contravergas'] },
 
-  // ══ 05 · Esquadrias (geradas dos vãos) ═══════════════════════════════════════
-  { id: 'esq_porta',  ativo: true, nome: 'Portas de madeira (kit completo)',      grupo_id: 'esquadrias', grupo_nome: 'Esquadrias e Vidros', etapa_codigo: '05', sub_etapa: 'Portas',  composicao_id: 'cmp-5006', descricao: 'Porta de Madeira Popular - Kit Completo (0.80x2.10m)', unidade: 'un', formula: 'n_portas', parametros: ['n_portas'] },
-  { id: 'esq_janela', ativo: true, nome: 'Janelas de alumínio c/ vidro',          grupo_id: 'esquadrias', grupo_nome: 'Esquadrias e Vidros', etapa_codigo: '05', sub_etapa: 'Janelas', composicao_id: 'cmp-5004', descricao: 'Esquadria de Alumínio Linha Popular c/ Vidro 4mm - Janela', unidade: 'm²', formula: 'area_vaos_janelas', parametros: ['area_vaos_janelas'] },
+  // ══ 05 · Esquadrias (geradas dos vãos — campo removido, cálculo mantido) ══════
+  { id: 'esq_porta',  ativo: true, nome: 'Portas de madeira (kit completo)',      grupo_id: 'alvenaria', grupo_nome: 'Paredes e Painéis', etapa_codigo: '05', sub_etapa: 'Portas',  composicao_id: 'cmp-5006', descricao: 'Porta de Madeira Popular - Kit Completo (0.80x2.10m)', unidade: 'un', formula: 'n_portas', parametros: ['n_portas'] },
+  { id: 'esq_janela', ativo: true, nome: 'Janelas de alumínio c/ vidro',          grupo_id: 'alvenaria', grupo_nome: 'Paredes e Painéis', etapa_codigo: '05', sub_etapa: 'Janelas', composicao_id: 'cmp-5004', descricao: 'Esquadria de Alumínio Linha Popular c/ Vidro 4mm - Janela', unidade: 'm²', formula: 'area_vaos_janelas', parametros: ['area_vaos_janelas'] },
 
   // ══ 07 · Cobertura ═══════════════════════════════════════════════════════════
   { id: 'cob_madeira_barro', ativo: true, nome: 'Madeiramento (telha de barro)', grupo_id: 'cobertura', grupo_nome: 'Cobertura', etapa_codigo: '07', sub_etapa: 'Madeiramento', composicao_id: 'cmp-7004', descricao: 'Telhado Colonial - Trama de Madeira para Telha de Barro Cerâmica', unidade: 'm²', formula: 'tipo_telha == 1 ? area_telhado : 0', parametros: ['tipo_telha', 'area_telhado'] },
@@ -94,56 +96,60 @@ export const CALC_TEMPLATES: CalcTemplate[] = [
   { id: 'cob_calha',         ativo: true, nome: 'Calhas',                         grupo_id: 'cobertura', grupo_nome: 'Cobertura', etapa_codigo: '07', sub_etapa: 'Funilaria',    composicao_id: 'cmp-7003', descricao: 'Funilaria - Calhas', unidade: 'm', formula: 'comp_calhas', parametros: ['comp_calhas'] },
 
   // ══ 08 · Impermeabilização ═══════════════════════════════════════════════════
-  { id: 'imp_molhada', ativo: true, nome: 'Impermeabilização de áreas molhadas', grupo_id: 'imperme', grupo_nome: 'Impermeabilização', etapa_codigo: '08', sub_etapa: 'Áreas Molhadas', composicao_id: 'cmp-8001', descricao: 'Impermeabilização de Piso e Paredes - Áreas Molhadas H=1,80m', unidade: 'm²', formula: 'area_imper_molhada', parametros: ['area_imper_molhada'] },
+  { id: 'imp_paredes', ativo: true, nome: 'Impermeabilização de paredes (argamassa polimérica H=1m)', grupo_id: 'imperme', grupo_nome: 'Impermeabilização', etapa_codigo: '08', sub_etapa: 'Paredes', composicao_id: 'cmp-8000', descricao: 'Impermeabilização de Paredes com Argamassa Polimérica H=1,00m', unidade: 'm²', formula: 'area_imper_paredes', parametros: ['area_imper_paredes'] },
+  { id: 'imp_molhada', ativo: true, nome: 'Impermeabilização de áreas molhadas (H=1,80m)', grupo_id: 'imperme', grupo_nome: 'Impermeabilização', etapa_codigo: '08', sub_etapa: 'Áreas Molhadas', composicao_id: 'cmp-8001', descricao: 'Impermeabilização de Piso e Paredes - Áreas Molhadas H=1,80m', unidade: 'm²', formula: 'area_imper_molhada', parametros: ['area_imper_molhada'] },
 
-  // ══ 09 · Revestimentos Internos ══════════════════════════════════════════════
-  { id: 'rev_chapisco', ativo: true, nome: 'Chapisco',                       grupo_id: 'revest', grupo_nome: 'Revestimentos Internos', etapa_codigo: '09', sub_etapa: 'Revestimento', composicao_id: 'cmp-9000', descricao: 'Chapisco', unidade: 'm2', formula: 'area_revest_interno', parametros: ['area_revest_interno'] },
-  { id: 'rev_reboco',   ativo: true, nome: 'Emboco / reboco',               grupo_id: 'revest', grupo_nome: 'Revestimentos Internos', etapa_codigo: '09', sub_etapa: 'Revestimento', composicao_id: 'cmp-9001', descricao: 'Emboco/Reboco', unidade: 'm2', formula: 'area_revest_interno', parametros: ['area_revest_interno'] },
-  { id: 'rev_ceramica', ativo: true, nome: 'Ceramica de parede (areas molhadas)', grupo_id: 'revest', grupo_nome: 'Revestimentos Internos', etapa_codigo: '09', sub_etapa: 'Ceramica', composicao_id: 'cmp-9004', descricao: 'Revestimento Ceramico em Paredes - Ceramica Classe A', unidade: 'm2', formula: 'area_ceramica_parede', parametros: ['area_ceramica_parede'] },
+  // ══ 09 · Revestimentos (interno + externo + cerâmica) ════════════════════════
+  { id: 'rev_chapisco', ativo: true, nome: 'Chapisco interno',          grupo_id: 'revest', grupo_nome: 'Revestimentos', etapa_codigo: '09', sub_etapa: 'Revestimento Interno', composicao_id: 'cmp-9000', descricao: 'Chapisco — interno', unidade: 'm²', formula: 'area_revest_interno', parametros: ['area_revest_interno'] },
+  { id: 'rev_reboco',   ativo: true, nome: 'Emboço / reboco interno',   grupo_id: 'revest', grupo_nome: 'Revestimentos', etapa_codigo: '09', sub_etapa: 'Revestimento Interno', composicao_id: 'cmp-9001', descricao: 'Emboço/Reboco — interno', unidade: 'm²', formula: 'area_revest_interno', parametros: ['area_revest_interno'] },
+  { id: 'rev_chapisco_ext', ativo: true, nome: 'Chapisco externo',      grupo_id: 'revest', grupo_nome: 'Revestimentos', etapa_codigo: '11', sub_etapa: 'Revestimento Externo', composicao_id: 'cmp-9000', descricao: 'Chapisco — externo', unidade: 'm²', formula: 'area_revest_externo', parametros: ['area_revest_externo'] },
+  { id: 'rev_reboco_ext',   ativo: true, nome: 'Emboço / reboco externo',grupo_id: 'revest', grupo_nome: 'Revestimentos', etapa_codigo: '11', sub_etapa: 'Revestimento Externo', composicao_id: 'cmp-9001', descricao: 'Emboço/Reboco — externo', unidade: 'm²', formula: 'area_revest_externo', parametros: ['area_revest_externo'] },
+  { id: 'rev_ceramica', ativo: true, nome: 'Cerâmica de parede (áreas molhadas)', grupo_id: 'revest', grupo_nome: 'Revestimentos', etapa_codigo: '09', sub_etapa: 'Cerâmica de Parede', composicao_id: 'cmp-9004', descricao: 'Revestimento Cerâmico em Paredes - Cerâmica Classe A', unidade: 'm²', formula: 'area_ceramica_parede', parametros: ['area_ceramica_parede'] },
 
   // ══ 10 · Forro ═══════════════════════════════════════════════════════════════
-  { id: 'forro_pvc', ativo: true, nome: 'Forro de PVC + trama de madeira', grupo_id: 'forro', grupo_nome: 'Forro', etapa_codigo: '10', sub_etapa: 'Forro', composicao_id: 'cmp-10002', descricao: 'Forro de PVC e Trama de Madeira', unidade: 'm²', formula: 'area_forro', parametros: ['area_forro'] },
+  { id: 'forro_pvc',     ativo: true, nome: 'Forro de PVC + trama de madeira', grupo_id: 'forro', grupo_nome: 'Forro', etapa_codigo: '10', sub_etapa: 'Forro', composicao_id: 'cmp-10002', descricao: 'Forro de PVC e Trama de Madeira', unidade: 'm²', formula: 'forro_tipo == 1 ? area_forro : 0', parametros: ['forro_tipo', 'area_forro'] },
+  { id: 'forro_drywall', ativo: true, nome: 'Forro de drywall',              grupo_id: 'forro', grupo_nome: 'Forro', etapa_codigo: '10', sub_etapa: 'Forro', composicao_id: 'cmp-10000', descricao: 'Forro Drywall', unidade: 'm²', formula: 'forro_tipo == 2 ? area_forro : 0', parametros: ['forro_tipo', 'area_forro'] },
 
   // ══ 12 · Pintura ═════════════════════════════════════════════════════════════
-  { id: 'pint_massa_int', ativo: true, nome: 'Massa fina interna',             grupo_id: 'pintura', grupo_nome: 'Pintura', etapa_codigo: '12', sub_etapa: 'Pintura Interna', composicao_id: 'cmp-12002', descricao: 'Massa Fina de Acabamento Interna', unidade: 'm²', formula: 'area_pintura_interna', parametros: ['area_pintura_interna'] },
+  { id: 'pint_massa_int', ativo: true, nome: 'Massa fina interna',             grupo_id: 'pintura', grupo_nome: 'Pintura', etapa_codigo: '12', sub_etapa: 'Pintura Interna', composicao_id: 'cmp-12002', descricao: 'Massa Fina de Acabamento Interna', unidade: 'm²', formula: 'massa_int == 1 ? area_pintura_interna : 0', parametros: ['massa_int', 'area_pintura_interna'] },
   { id: 'pint_int',       ativo: true, nome: 'Pintura acrílica interna',       grupo_id: 'pintura', grupo_nome: 'Pintura', etapa_codigo: '12', sub_etapa: 'Pintura Interna', composicao_id: 'cmp-12000', descricao: 'Pintura Acrílica Sobre Paredes - Interno', unidade: 'm²', formula: 'area_pintura_interna', parametros: ['area_pintura_interna'] },
   { id: 'pint_teto',      ativo: true, nome: 'Pintura de teto/forro',          grupo_id: 'pintura', grupo_nome: 'Pintura', etapa_codigo: '12', sub_etapa: 'Pintura Teto', composicao_id: 'cmp-12005', descricao: 'Pintura Acrílica em Teto - Forro', unidade: 'm²', formula: 'area_forro', parametros: ['area_forro'] },
   { id: 'pint_massa_ext', ativo: true, nome: 'Massa fina externa',             grupo_id: 'pintura', grupo_nome: 'Pintura', etapa_codigo: '12', sub_etapa: 'Pintura Externa', composicao_id: 'cmp-12003', descricao: 'Massa Fina de Acabamento Externa', unidade: 'm²', formula: 'area_pintura_externa', parametros: ['area_pintura_externa'] },
   { id: 'pint_ext',       ativo: true, nome: 'Pintura acrílica externa',       grupo_id: 'pintura', grupo_nome: 'Pintura', etapa_codigo: '12', sub_etapa: 'Pintura Externa', composicao_id: 'cmp-12001', descricao: 'Pintura Emborrachada Acrílica Sobre Paredes - Externo', unidade: 'm²', formula: 'area_pintura_externa', parametros: ['area_pintura_externa'] },
 
   // ══ 13 · Pisos e Contrapisos ═════════════════════════════════════════════════
-  { id: 'piso_contrapiso', ativo: true, nome: 'Contrapiso de regularização', grupo_id: 'pisos', grupo_nome: 'Pisos e Contrapisos', etapa_codigo: '13', sub_etapa: 'Contrapiso', composicao_id: 'cmp-13000', descricao: 'Contrapiso de Regularização (Cimento e Areia)', unidade: 'm²', formula: 'area_piso', parametros: ['area_piso'] },
-  { id: 'piso_ceramica',   ativo: true, nome: 'Piso cerâmico',                grupo_id: 'pisos', grupo_nome: 'Pisos e Contrapisos', etapa_codigo: '13', sub_etapa: 'Piso', composicao_id: 'cmp-13012', descricao: 'Revestimento Cerâmico em Pisos - Cerâmica Classe A', unidade: 'm²', formula: 'area_piso', parametros: ['area_piso'] },
+  { id: 'piso_contrapiso',  ativo: true, nome: 'Contrapiso de regularização', grupo_id: 'pisos', grupo_nome: 'Pisos e Contrapisos', etapa_codigo: '13', sub_etapa: 'Contrapiso', composicao_id: 'cmp-13000', descricao: 'Contrapiso de Regularização (Cimento e Areia)', unidade: 'm²', formula: 'contrapiso_armado == 1 ? 0 : area_piso', parametros: ['contrapiso_armado', 'area_piso'] },
+  { id: 'piso_contrapiso_arm', ativo: true, nome: 'Contrapiso de concreto armado 5cm', grupo_id: 'pisos', grupo_nome: 'Pisos e Contrapisos', etapa_codigo: '13', sub_etapa: 'Contrapiso', composicao_id: 'cmp-2006', descricao: 'Contrapiso Concreto Armado 5cm', unidade: 'm²', formula: 'contrapiso_armado == 1 ? area_piso : 0', parametros: ['contrapiso_armado', 'area_piso'] },
+  { id: 'piso_ceramica',    ativo: true, nome: 'Piso cerâmico classe A',      grupo_id: 'pisos', grupo_nome: 'Pisos e Contrapisos', etapa_codigo: '13', sub_etapa: 'Piso', composicao_id: 'cmp-13012', descricao: 'Revestimento Cerâmico em Pisos - Cerâmica Classe A', unidade: 'm²', formula: 'piso_tipo == 1 ? area_piso : 0', parametros: ['piso_tipo', 'area_piso'] },
+  { id: 'piso_porcelanato', ativo: true, nome: 'Piso porcelanato',           grupo_id: 'pisos', grupo_nome: 'Pisos e Contrapisos', etapa_codigo: '13', sub_etapa: 'Piso', composicao_id: 'cmp-13002', descricao: 'Revestimento Cerâmico em Pisos - Porcelanato', unidade: 'm²', formula: 'piso_tipo == 2 ? area_piso : 0', parametros: ['piso_tipo', 'area_piso'] },
 
-  // ══ 14 · Acabamentos ═════════════════════════════════════════════════════════
-  { id: 'acab_rodape', ativo: true, nome: 'Rodapé (poliestireno 7cm)', grupo_id: 'acabamento', grupo_nome: 'Acabamentos', etapa_codigo: '14', sub_etapa: 'Rodapés', composicao_id: 'cmp-14002', descricao: 'Rodapé - Poliestireno 7cm', unidade: 'm', formula: 'comp_rodape', parametros: ['comp_rodape'] },
+  // ══ 14 · Acabamentos (rodapé, pingadeiras, soleiras) ═════════════════════════
+  { id: 'acab_rodape_poli', ativo: true, nome: 'Rodapé poliestireno 7cm', grupo_id: 'acabamento', grupo_nome: 'Acabamentos', etapa_codigo: '14', sub_etapa: 'Rodapés', composicao_id: 'cmp-14002', descricao: 'Rodapé - Poliestireno 7cm', unidade: 'm', formula: 'rodape_tipo == 1 ? comp_rodape : 0', parametros: ['rodape_tipo', 'comp_rodape'] },
+  { id: 'acab_rodape_piso', ativo: true, nome: 'Rodapé do próprio piso (7cm)', grupo_id: 'acabamento', grupo_nome: 'Acabamentos', etapa_codigo: '14', sub_etapa: 'Rodapés', composicao_id: 'cmp-13012', descricao: 'Rodapé do Próprio Piso - Cerâmica Classe A (faixa 7cm)', unidade: 'm²', formula: 'rodape_tipo == 2 ? comp_rodape * 0.07 : 0', parametros: ['rodape_tipo', 'comp_rodape'] },
+  { id: 'acab_pingadeira', ativo: true, nome: 'Pingadeiras (janelas + 5cm)', grupo_id: 'acabamento', grupo_nome: 'Acabamentos', etapa_codigo: '14', sub_etapa: 'Pingadeiras', composicao_id: 'cmp-14000', descricao: 'Pingadeiras e Soleiras', unidade: 'm', formula: 'comp_pingadeiras', parametros: ['comp_pingadeiras'] },
+  { id: 'acab_soleira', ativo: true, nome: 'Soleiras (portas + 5cm)', grupo_id: 'acabamento', grupo_nome: 'Acabamentos', etapa_codigo: '14', sub_etapa: 'Soleiras', composicao_id: 'cmp-14000', descricao: 'Pingadeiras e Soleiras', unidade: 'm', formula: 'comp_soleiras', parametros: ['comp_soleiras'] },
 
   // ══ 15 · Instalações Elétricas (somatório dos ambientes) ═════════════════════
-  { id: 'ele_qd',          ativo: true, nome: 'Quadro de distribuição (QD)',   grupo_id: 'eletrica', grupo_nome: 'Instalações Elétricas', etapa_codigo: '15', sub_etapa: 'Quadro', composicao_id: 'cmp-15005', descricao: 'QD - Quadro de Distribuição', unidade: 'un', formula: '1', parametros: ['ele_tomada_simples'] },
-  { id: 'ele_aterramento', ativo: true, nome: 'Aterramento (haste)',           grupo_id: 'eletrica', grupo_nome: 'Instalações Elétricas', etapa_codigo: '15', sub_etapa: 'Aterramento', composicao_id: 'cmp-15006', descricao: 'Balde e Haste Aterramento', unidade: 'un', formula: '1', parametros: ['ele_tomada_simples'] },
+  { id: 'ele_qd',          ativo: true, nome: 'Quadro de distribuição (QD)',   grupo_id: 'eletrica', grupo_nome: 'Instalações Elétricas', etapa_codigo: '15', sub_etapa: 'Quadro', composicao_id: 'cmp-15005', descricao: 'QD - Quadro de Distribuição', unidade: 'un', formula: 'ele_tomada_simples > 0 ? 1 : 0', parametros: ['ele_tomada_simples'] },
+  { id: 'ele_aterramento', ativo: true, nome: 'Aterramento (haste)',           grupo_id: 'eletrica', grupo_nome: 'Instalações Elétricas', etapa_codigo: '15', sub_etapa: 'Aterramento', composicao_id: 'cmp-15006', descricao: 'Balde e Haste Aterramento', unidade: 'un', formula: 'ele_tomada_simples > 0 ? 1 : 0', parametros: ['ele_tomada_simples'] },
   { id: 'ele_tomada_simples', ativo: true, nome: 'Tomadas simples',            grupo_id: 'eletrica', grupo_nome: 'Instalações Elétricas', etapa_codigo: '15', sub_etapa: 'Tomadas', composicao_id: 'cmp-15009', descricao: 'Tomada Simples - CJt Montado e Enfiação', unidade: 'un', formula: 'ele_tomada_simples', parametros: ['ele_tomada_simples'] },
   { id: 'ele_tomada_dupla',   ativo: true, nome: 'Tomadas duplas (4mm)',       grupo_id: 'eletrica', grupo_nome: 'Instalações Elétricas', etapa_codigo: '15', sub_etapa: 'Tomadas', composicao_id: 'cmp-15011', descricao: 'Tomada Dupla - CJt Montado e Enfiação Cabo 4mm', unidade: 'un', formula: 'ele_tomada_dupla', parametros: ['ele_tomada_dupla'] },
   { id: 'ele_interruptor',    ativo: true, nome: 'Interruptores simples',      grupo_id: 'eletrica', grupo_nome: 'Instalações Elétricas', etapa_codigo: '15', sub_etapa: 'Interruptores', composicao_id: 'cmp-15002', descricao: 'Interruptor Simples - CJt Montado e Enfiação', unidade: 'un', formula: 'ele_interruptor', parametros: ['ele_interruptor'] },
   { id: 'ele_luminaria',      ativo: true, nome: 'Pontos de luz (luminária LED)', grupo_id: 'eletrica', grupo_nome: 'Instalações Elétricas', etapa_codigo: '15', sub_etapa: 'Iluminação', composicao_id: 'cmp-15004', descricao: 'Luminária LED 18W - Cjt e Enfiação', unidade: 'un', formula: 'ele_luminaria', parametros: ['ele_luminaria'] },
   { id: 'ele_chuveiro',       ativo: true, nome: 'Pontos de chuveiro (6mm)',   grupo_id: 'eletrica', grupo_nome: 'Instalações Elétricas', etapa_codigo: '15', sub_etapa: 'Chuveiro', composicao_id: 'cmp-15013', descricao: 'Ponto Chuveiro - CJt Tampa Cega e Enfiação Cabo 6mm', unidade: 'un', formula: 'ele_chuveiro', parametros: ['ele_chuveiro'] },
 
-  // ══ 16 · Instalações Hidráulicas ═════════════════════════════════════════════
-  { id: 'hid_ponto', ativo: true, nome: 'Pontos de água fria',     grupo_id: 'hidraulica', grupo_nome: 'Instalações Hidráulicas', etapa_codigo: '16', sub_etapa: 'Pontos', composicao_id: 'cmp-16000', descricao: 'Conexões para Água Fria - Ponto Hidráulico', unidade: 'un', formula: 'n_pontos_agua', parametros: ['n_pontos_agua'] },
-  { id: 'hid_rede',  ativo: true, nome: 'Rede de água fria (tubo 25mm)', grupo_id: 'hidraulica', grupo_nome: 'Instalações Hidráulicas', etapa_codigo: '16', sub_etapa: 'Rede', composicao_id: 'cmp-16006', descricao: 'Rede Hidráulica - Tubos PVC Água Fria 25mm por metro', unidade: 'm', formula: 'metros_rede_agua', parametros: ['metros_rede_agua'] },
-  { id: 'hid_reserv',ativo: true, nome: 'Reservatório de água 1000L', grupo_id: 'hidraulica', grupo_nome: 'Instalações Hidráulicas', etapa_codigo: '16', sub_etapa: 'Reservatório', composicao_id: 'cmp-16005', descricao: 'Reservatório Água 1000L', unidade: 'un', formula: '1', parametros: ['n_pontos_agua'] },
+  // ══ 16/17 · Instalações Hidrossanitárias (água + esgoto + pluviais) ══════════
+  { id: 'hid_ponto', ativo: true, nome: 'Pontos de água fria',     grupo_id: 'hidraulica', grupo_nome: 'Instalações Hidrossanitárias', etapa_codigo: '16', sub_etapa: 'Pontos de Água', composicao_id: 'cmp-16000', descricao: 'Conexões para Água Fria - Ponto Hidráulico', unidade: 'un', formula: 'n_pontos_agua', parametros: ['n_pontos_agua'] },
+  { id: 'hid_rede',  ativo: true, nome: 'Rede de água fria (tubo 25mm)', grupo_id: 'hidraulica', grupo_nome: 'Instalações Hidrossanitárias', etapa_codigo: '16', sub_etapa: 'Rede', composicao_id: 'cmp-16006', descricao: 'Rede Hidráulica - Tubos PVC Água Fria 25mm por metro', unidade: 'm', formula: 'metros_rede_agua', parametros: ['metros_rede_agua'] },
+  { id: 'hid_reserv',ativo: true, nome: 'Reservatório de água 1000L', grupo_id: 'hidraulica', grupo_nome: 'Instalações Hidrossanitárias', etapa_codigo: '16', sub_etapa: 'Reservatório', composicao_id: 'cmp-16005', descricao: 'Reservatório Água 1000L', unidade: 'un', formula: 'n_pontos_agua > 0 ? 1 : 0', parametros: ['n_pontos_agua'] },
+  { id: 'esg_conexoes', ativo: true, nome: 'Conexões de esgoto/pluvial', grupo_id: 'hidraulica', grupo_nome: 'Instalações Hidrossanitárias', etapa_codigo: '17', sub_etapa: 'Conexões', composicao_id: 'cmp-17001', descricao: 'Conexões para Esgoto/Pluvial', unidade: 'un', formula: 'n_pontos_esgoto', parametros: ['n_pontos_esgoto'] },
+  { id: 'esg_gordura',  ativo: true, nome: 'Caixa de gordura',         grupo_id: 'hidraulica', grupo_nome: 'Instalações Hidrossanitárias', etapa_codigo: '17', sub_etapa: 'Caixas', composicao_id: 'cmp-17003', descricao: 'Caixa de Gordura', unidade: 'un', formula: 'n_cozinhas > 0 ? 1 : 0', parametros: ['n_cozinhas'] },
+  { id: 'esg_sifonada', ativo: true, nome: 'Caixa sifonada',          grupo_id: 'hidraulica', grupo_nome: 'Instalações Hidrossanitárias', etapa_codigo: '17', sub_etapa: 'Caixas', composicao_id: 'cmp-17004', descricao: 'Caixa Sifonada Pvc 150X150X50Mm Com Grelha Branca', unidade: 'un', formula: 'n_caixa_sifonada', parametros: ['n_caixa_sifonada'] },
+  { id: 'esg_inspecao', ativo: true, nome: 'Caixa de inspeção',       grupo_id: 'hidraulica', grupo_nome: 'Instalações Hidrossanitárias', etapa_codigo: '17', sub_etapa: 'Caixas', composicao_id: 'cmp-17006', descricao: 'Caixa de inspeção com tampa - 50x50x50', unidade: 'un', formula: 'n_caixa_inspecao', parametros: ['n_caixa_inspecao'] },
 
-  // ══ 17 · Esgoto e Águas Pluviais ═════════════════════════════════════════════
-  { id: 'esg_conexoes', ativo: true, nome: 'Conexões de esgoto/pluvial', grupo_id: 'esgoto', grupo_nome: 'Esgoto e Águas Pluviais', etapa_codigo: '17', sub_etapa: 'Conexões', composicao_id: 'cmp-17001', descricao: 'Conexões para Esgoto/Pluvial', unidade: 'un', formula: 'n_pontos_esgoto', parametros: ['n_pontos_esgoto'] },
-  { id: 'esg_gordura',  ativo: true, nome: 'Caixa de gordura',         grupo_id: 'esgoto', grupo_nome: 'Esgoto e Águas Pluviais', etapa_codigo: '17', sub_etapa: 'Caixas', composicao_id: 'cmp-17003', descricao: 'Caixa de Gordura', unidade: 'un', formula: '1', parametros: ['n_pontos_esgoto'] },
-  { id: 'esg_sifonada', ativo: true, nome: 'Caixa sifonada',          grupo_id: 'esgoto', grupo_nome: 'Esgoto e Águas Pluviais', etapa_codigo: '17', sub_etapa: 'Caixas', composicao_id: 'cmp-17004', descricao: 'Caixa Sifonada Pvc 150X150X50Mm Com Grelha Branca', unidade: 'un', formula: 'n_caixa_sifonada', parametros: ['n_caixa_sifonada'] },
-  { id: 'esg_inspecao', ativo: true, nome: 'Caixa de inspeção',       grupo_id: 'esgoto', grupo_nome: 'Esgoto e Águas Pluviais', etapa_codigo: '17', sub_etapa: 'Caixas', composicao_id: 'cmp-17006', descricao: 'Caixa de inspeção com tampa - 50x50x50', unidade: 'un', formula: 'n_caixa_inspecao', parametros: ['n_caixa_inspecao'] },
-
-  // ══ 18 · Louças e Metais (kit por banheiro) ══════════════════════════════════
-  { id: 'ban_loucas', ativo: true, nome: 'Louças (bacia + lavatório + acessórios)', grupo_id: 'banheiro', grupo_nome: 'Louças e Metais (Banheiro)', etapa_codigo: '18', sub_etapa: 'Louças', composicao_id: 'cmp-18000', descricao: 'Louças - Bacia Sanitária Caixa Acoplada, Lavatório e Acessórios', unidade: 'un', formula: 'n_banheiros', parametros: ['n_banheiros'] },
-  { id: 'ban_metais', ativo: true, nome: 'Metais (torneiras, registros, chuveiro)',  grupo_id: 'banheiro', grupo_nome: 'Louças e Metais (Banheiro)', etapa_codigo: '18', sub_etapa: 'Metais', composicao_id: 'cmp-18001', descricao: 'Metais', unidade: 'un', formula: 'n_banheiros', parametros: ['n_banheiros'] },
-
-  // ══ 19 · Limpeza e Complementos ══════════════════════════════════════════════
-  { id: 'comp_limpeza', ativo: true, nome: 'Limpeza final da obra', grupo_id: 'complementos', grupo_nome: 'Limpeza e Complementos', etapa_codigo: '19', sub_etapa: 'Limpeza', composicao_id: 'cmp-19001', descricao: 'Produtos de Limpeza Final', unidade: 'un', formula: '1', parametros: ['area_construida'] },
+  // ══ 18 · Louças e Metais (kit por banheiro/cozinha) ══════════════════════════
+  { id: 'ban_loucas', ativo: true, nome: 'Louças (bacia + lavatório + acessórios)', grupo_id: 'banheiro', grupo_nome: 'Louças e Metais', etapa_codigo: '18', sub_etapa: 'Louças', composicao_id: 'cmp-18000', descricao: 'Louças - Bacia Sanitária Caixa Acoplada, Lavatório e Acessórios', unidade: 'un', formula: 'n_banheiros', parametros: ['n_banheiros'] },
+  { id: 'ban_metais', ativo: true, nome: 'Metais (torneiras, registros, chuveiro)',  grupo_id: 'banheiro', grupo_nome: 'Louças e Metais', etapa_codigo: '18', sub_etapa: 'Metais', composicao_id: 'cmp-18001', descricao: 'Metais', unidade: 'un', formula: 'n_banheiros + n_cozinhas', parametros: ['n_banheiros', 'n_cozinhas'] },
 ];
 
 // ─── Motor de cálculo ─────────────────────────────────────────────────────────
@@ -179,7 +185,7 @@ export function derivarParams(
   vigasInd: CalcVigaIndItem[] = [],
   lajes: CalcLajeItem[] = [],
   estacas: CalcEstacaItem[] = [],
-  ambientesEle: CalcAmbienteEle[] = [],
+  ambientes: CalcAmbiente[] = [],
 ): Partial<CalcParamsRaw> {
   // Vãos (qtd é multiplicador de cada vão)
   const area_vaos = vaos.reduce((s, v) => s + (v.qtd || 1) * (v.largura || 0) * (v.altura || 0), 0);
@@ -189,6 +195,10 @@ export function derivarParams(
   const comp_contravergas = vaos.filter(v => v.tipo === 'janela')
     .reduce((s, v) => s + (v.qtd || 1) * ((v.largura || 0) + 0.60), 0);
   const n_portas = vaos.filter(v => v.tipo === 'porta').reduce((s, v) => s + (v.qtd || 1), 0);
+  const larg_portas = vaos.filter(v => v.tipo === 'porta').reduce((s, v) => s + (v.qtd || 1) * (v.largura || 0), 0);
+  // Pingadeiras = Σ largura janelas + 5cm cada ; Soleiras = Σ largura portas + 5cm cada
+  const comp_pingadeiras = vaos.filter(v => v.tipo === 'janela').reduce((s, v) => s + (v.qtd || 1) * ((v.largura || 0) + 0.05), 0);
+  const comp_soleiras = vaos.filter(v => v.tipo === 'porta').reduce((s, v) => s + (v.qtd || 1) * ((v.largura || 0) + 0.05), 0);
 
   // Pilares / vigas / lajes
   const volume_concreto_pilares = pilares.reduce((s, p) => s + p.qtd * p.l1 * p.l2 * p.h, 0);
@@ -201,16 +211,52 @@ export function derivarParams(
   const volume_concreto_lajes = lajes.reduce((s, l) => s + l.qtd * l.comp * l.larg * l.esp, 0);
   const comp_forma_laje = lajes.reduce((s, l) => s + l.qtd * 2 * (l.comp + l.larg), 0);
 
-  // Estacas: custo linear por metro → equivalente em "estacas de 3 m"
+  // Estacas: perfuração+armadura → equivalente em "estacas de 3 m"; concreto 0,30×0,30
   const estacas_equiv = estacas.reduce((s, e) => s + (e.qtd || 0) * (e.prof || 0) / 3, 0);
+  const volume_concreto_estacas = estacas.reduce((s, e) => s + (e.qtd || 0) * (e.prof || 0) * 0.30 * 0.30, 0);
   const n_blocos_estaca = estacas.reduce((s, e) => s + (e.blocos || 0), 0);
 
-  // Elétrica: somatório dos ambientes
-  const ele_tomada_simples = ambientesEle.reduce((s, a) => s + (a.tomadas || 0), 0);
-  const ele_tomada_dupla = ambientesEle.reduce((s, a) => s + (a.tomadas_duplas || 0), 0);
-  const ele_interruptor = ambientesEle.reduce((s, a) => s + (a.interruptores || 0), 0);
-  const ele_luminaria = ambientesEle.reduce((s, a) => s + (a.luminarias || 0), 0);
-  const ele_chuveiro = ambientesEle.reduce((s, a) => s + (a.chuveiro ? 1 : 0), 0);
+  // ── Ambientes (espelho) → Elétrica, Hidrossanitária, Louças, Imper, Cerâmica ──
+  const qtd = (a: CalcAmbiente) => a.qtd || 1;
+  const ele_tomada_simples = ambientes.reduce((s, a) => s + qtd(a) * (a.tomadas || 0), 0);
+  const ele_tomada_dupla = ambientes.reduce((s, a) => s + qtd(a) * (a.tomadas_duplas || 0), 0);
+  const ele_interruptor = ambientes.reduce((s, a) => s + qtd(a) * (a.interruptores || 0), 0);
+  const ele_luminaria = ambientes.reduce((s, a) => s + qtd(a) * (a.luminarias || 0), 0);
+  // Chuveiro automático em banheiros (sem checkbox)
+  const ele_chuveiro = ambientes.filter(a => a.tipo === 'banheiro').reduce((s, a) => s + qtd(a), 0);
+
+  const n_pontos_agua = ambientes.reduce((s, a) => s + qtd(a) * (a.pontos_agua || 0), 0);
+  const n_pontos_esgoto = ambientes.reduce((s, a) => s + qtd(a) * (a.pontos_esgoto || 0), 0);
+  // Caixa sifonada: uma por ambiente molhado
+  const n_caixa_sifonada = ambientes.filter(a => a.area_molhada).reduce((s, a) => s + qtd(a), 0);
+  const n_banheiros = ambientes.filter(a => a.tipo === 'banheiro').reduce((s, a) => s + qtd(a), 0);
+  const n_cozinhas = ambientes.filter(a => a.tipo === 'cozinha').reduce((s, a) => s + qtd(a), 0);
+
+  // Áreas molhadas (ambientes) → impermeabilização e cerâmica de parede
+  const area_imper_molhada_amb = ambientes.filter(a => a.area_molhada).reduce((s, a) => s + qtd(a) * (a.area || 0), 0);
+  const area_ceramica_amb = ambientes.filter(a => a.area_molhada).reduce((s, a) => s + qtd(a) * (a.comp_parede || 0) * (a.pe_direito || raw.pe_direito || 0), 0);
+
+  // ── Sugestões derivadas dos campos do projeto ────────────────────────────────
+  const perimInt = raw.comp_paredes_internas || 0;
+  const perimExt = raw.perimetro_externo || 0;
+  const pd = raw.pe_direito || 0;
+  // Impermeabilização de paredes = perímetro de paredes (alvenaria) × 2
+  const area_imper_paredes_calc = (raw.comp_paredes || raw.perimetro_paredes || 0) * 2;
+  // Revestimento interno = perímetro interno × pé-direito − vãos
+  const area_revest_interno_calc = Math.max(0, perimInt * pd - area_vaos);
+  // Revestimento externo = perímetro externo × pé-direito − vãos
+  const area_revest_externo_calc = Math.max(0, perimExt * pd - area_vaos);
+  // Pintura interna = perímetro interno × pé-direito ; externa = externo × pé-direito − vãos
+  const area_pintura_interna_calc = perimInt * pd;
+  const area_pintura_externa_calc = Math.max(0, perimExt * pd - area_vaos);
+  // Forro e piso = área construída
+  const area_construida = raw.area_construida || 0;
+  // Rodapé = perímetro interno − larguras das portas
+  const comp_rodape_calc = Math.max(0, perimInt - larg_portas);
+
+  // Só preenche o derivado se o usuário não tiver digitado manualmente o campo
+  const orDefault = (manual: number | undefined, calc: number) =>
+    manual !== undefined ? manual : (calc > 0 ? r2(calc) : undefined);
 
   return {
     ...raw,
@@ -219,6 +265,8 @@ export function derivarParams(
     comp_vergas: r2(comp_vergas),
     comp_contravergas: r2(comp_contravergas),
     n_portas,
+    comp_pingadeiras: orDefault(raw.comp_pingadeiras, comp_pingadeiras),
+    comp_soleiras: orDefault(raw.comp_soleiras, comp_soleiras),
     volume_concreto_pilares: r3(volume_concreto_pilares),
     area_forma_pilares: r2(area_forma_pilares),
     volume_concreto_vigas_ind: r3(volume_concreto_vigas_ind),
@@ -229,12 +277,33 @@ export function derivarParams(
     volume_concreto_lajes: r3(volume_concreto_lajes),
     comp_forma_laje: r2(comp_forma_laje),
     estacas_equiv: r2(estacas_equiv),
+    volume_concreto_estacas: r3(volume_concreto_estacas),
     n_blocos_estaca,
+    // Elétrica
     ele_tomada_simples,
     ele_tomada_dupla,
     ele_interruptor,
     ele_luminaria,
     ele_chuveiro,
+    // Hidrossanitária
+    n_pontos_agua,
+    metros_rede_agua: orDefault(raw.metros_rede_agua, n_pontos_agua * 3),
+    n_pontos_esgoto,
+    n_caixa_sifonada: orDefault(raw.n_caixa_sifonada, n_caixa_sifonada),
+    n_caixa_inspecao: orDefault(raw.n_caixa_inspecao, n_pontos_esgoto > 0 ? 1 : 0),
+    n_banheiros,
+    n_cozinhas,
+    // Sugestões (não sobrescrevem digitação manual)
+    area_imper_paredes: orDefault(raw.area_imper_paredes, area_imper_paredes_calc),
+    area_imper_molhada: orDefault(raw.area_imper_molhada, area_imper_molhada_amb),
+    area_revest_interno: orDefault(raw.area_revest_interno, area_revest_interno_calc),
+    area_revest_externo: orDefault(raw.area_revest_externo, area_revest_externo_calc),
+    area_ceramica_parede: orDefault(raw.area_ceramica_parede, area_ceramica_amb),
+    area_pintura_interna: orDefault(raw.area_pintura_interna, area_pintura_interna_calc),
+    area_pintura_externa: orDefault(raw.area_pintura_externa, area_pintura_externa_calc),
+    area_forro: orDefault(raw.area_forro, area_construida),
+    area_piso: orDefault(raw.area_piso, area_construida),
+    comp_rodape: orDefault(raw.comp_rodape, comp_rodape_calc),
   };
 }
 
@@ -267,9 +336,9 @@ export function calcularQuantitativos(
   vigasInd: CalcVigaIndItem[] = [],
   lajes: CalcLajeItem[] = [],
   estacas: CalcEstacaItem[] = [],
-  ambientesEle: CalcAmbienteEle[] = [],
+  ambientes: CalcAmbiente[] = [],
 ): CalcItem[] {
-  const params = derivarParams(rawParams, vaos, pilares, vigasInd, lajes, estacas, ambientesEle);
+  const params = derivarParams(rawParams, vaos, pilares, vigasInd, lajes, estacas, ambientes);
 
   return CALC_TEMPLATES.filter(t => t.ativo).map(template => {
     const ctx: Record<string, number> = {};

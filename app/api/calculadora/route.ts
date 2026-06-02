@@ -73,7 +73,7 @@ export async function POST(req: NextRequest) {
         unidade_override: item.composicao_id ? '' : item.unidade,
         custo_unitario_override: 0,
         quantidade: item.quantidade,
-        quantidade_tipo: 'MANUAL',
+        quantidade_tipo: 'AUTO',
         ordem: ordemPorEtapa[etapa],
         qtd_overrides: '',
       };

@@ -17,10 +17,10 @@ import { toast } from 'sonner';
 import Link from 'next/link';
 import type {
   CalcVao, CalcParamsRaw, CalcItem, CalcPilarItem, CalcVigaIndItem,
-  CalcLajeItem, CalcEstacaItem, CalcAmbienteEle, Composicao,
+  CalcLajeItem, CalcEstacaItem, CalcAmbiente, TipoAmbiente, Composicao,
 } from '@/lib/types';
 import {
-  CALC_GRUPOS, calcularQuantitativos, fmtQtd, derivarParams,
+  CALC_GRUPOS, calcularQuantitativos, derivarParams,
 } from '@/lib/calc-engine';
 
 // --- Utilitarios ---
@@ -40,10 +40,12 @@ function CompositionSearch({
 
   const filtered = useMemo(() => {
     const norm = normalizeStr(search);
+    if (!norm) return [];
     return composicoes
-      .filter(c => c.etapa_codigo === etapaCodigo && c.status === 'ativo')
-      .filter(c => !norm || normalizeStr(c.descricao).includes(norm) || normalizeStr(c.codigo).includes(norm));
-  }, [composicoes, etapaCodigo, search]);
+      .filter(c => c.status === 'ativo')
+      .filter(c => normalizeStr(c.descricao).includes(norm) || normalizeStr(c.codigo).includes(norm))
+      .slice(0, 20);
+  }, [composicoes, search]);
 
   const selected = composicoes.find(c => c.id === value);
 
@@ -82,7 +84,7 @@ function CompositionSearch({
         <div className="absolute z-50 left-0 right-0 top-full mt-1 bg-background border border-border rounded-md shadow-lg max-h-52 overflow-y-auto">
           {filtered.length === 0 ? (
             <div className="px-3 py-4 text-xs text-muted-foreground text-center">
-              {search ? `Nenhum resultado para "${search}"` : 'Nenhuma composicao nesta etapa'}
+              {search ? `Nenhum resultado para "${search}"` : 'Digite para buscar composicoes...'}
             </div>
           ) : (
             filtered.map(c => (
@@ -121,13 +123,159 @@ function InputNum({ label, campo, params, setParams, placeholder, min = 0, step 
   );
 }
 
-// --- SecaoPreliminares ---
-function SecaoPreliminares({ params, setParams }: { params: Partial<CalcParamsRaw>; setParams: (fn: (p: Partial<CalcParamsRaw>) => Partial<CalcParamsRaw>) => void }) {
+// --- Ambientes (espelho) — defaults por tipo ---
+const AMBIENTES_DEFAULTS: Record<string, Omit<CalcAmbiente, 'id' | 'nome'>> = {
+  Quarto:           { tipo: 'quarto',       qtd: 1, area: 12, comp_parede: 14, pe_direito: 2.8, area_molhada: false, tomadas: 3, tomadas_duplas: 0, interruptores: 1, luminarias: 1, pontos_agua: 0, pontos_esgoto: 0 },
+  Sala:             { tipo: 'sala',         qtd: 1, area: 20, comp_parede: 18, pe_direito: 2.8, area_molhada: false, tomadas: 4, tomadas_duplas: 1, interruptores: 1, luminarias: 2, pontos_agua: 0, pontos_esgoto: 0 },
+  Cozinha:          { tipo: 'cozinha',      qtd: 1, area: 12, comp_parede: 14, pe_direito: 2.8, area_molhada: true,  tomadas: 2, tomadas_duplas: 2, interruptores: 1, luminarias: 1, pontos_agua: 2, pontos_esgoto: 2 },
+  Banheiro:         { tipo: 'banheiro',     qtd: 1, area: 4,  comp_parede: 8,  pe_direito: 2.8, area_molhada: true,  tomadas: 1, tomadas_duplas: 0, interruptores: 1, luminarias: 1, pontos_agua: 2, pontos_esgoto: 2 },
+  'Área de Serviço':{ tipo: 'area_servico', qtd: 1, area: 6,  comp_parede: 10, pe_direito: 2.8, area_molhada: true,  tomadas: 2, tomadas_duplas: 0, interruptores: 1, luminarias: 1, pontos_agua: 2, pontos_esgoto: 2 },
+  Outro:            { tipo: 'outro',        qtd: 1, area: 10, comp_parede: 12, pe_direito: 2.8, area_molhada: false, tomadas: 3, tomadas_duplas: 0, interruptores: 1, luminarias: 1, pontos_agua: 0, pontos_esgoto: 0 },
+};
+const TIPO_AMB_LABEL: Record<TipoAmbiente, string> = {
+  quarto: 'Quarto', sala: 'Sala', cozinha: 'Cozinha', banheiro: 'Banheiro', area_servico: 'Área de Serviço', outro: 'Outro',
+};
+
+function AmbientesEditor({ ambientes, setAmbientes, modo }: {
+  ambientes: CalcAmbiente[]; setAmbientes: (v: CalcAmbiente[]) => void;
+  modo: 'full' | 'eletrica' | 'hidro' | 'loucas';
+}) {
+  function add(nome: string) {
+    const def = AMBIENTES_DEFAULTS[nome] ?? AMBIENTES_DEFAULTS['Outro'];
+    setAmbientes([...ambientes, { id: Math.random().toString(36).slice(2), nome, ...def }]);
+  }
+  function remove(id: string) { setAmbientes(ambientes.filter(a => a.id !== id)); }
+  function upd<K extends keyof CalcAmbiente>(id: string, f: K, v: CalcAmbiente[K]) {
+    setAmbientes(ambientes.map(a => a.id === id ? { ...a, [f]: v } : a));
+  }
+  const numIn = (id: string, f: keyof CalcAmbiente, min = 0, step = 1) => (
+    <input type="number" min={min} step={step} value={ambientes.find(a => a.id === id)?.[f] as number ?? 0}
+      onFocus={e => e.target.select()} onChange={e => upd(id, f, Number(e.target.value) as never)}
+      className="h-7 text-xs border rounded px-2 text-center w-full block" />
+  );
+
   return (
-    <div className="grid sm:grid-cols-3 gap-3">
-      <InputNum label="Area do terreno" campo="area_terreno" params={params} setParams={setParams} suffix="m2" step={1} />
-      <InputNum label="Perimetro do terreno" campo="perimetro_terreno" params={params} setParams={setParams} suffix="m" step={0.5} helper="Para tapumes" />
-      <InputNum label="Area construida" campo="area_construida" params={params} setParams={setParams} suffix="m2" step={1} />
+    <div className="space-y-3">
+      <div className="flex flex-wrap gap-2">
+        {Object.keys(AMBIENTES_DEFAULTS).map(nome => (
+          <Button key={nome} size="sm" variant="outline" className="h-7 text-xs" onClick={() => add(nome)}>
+            <Plus className="h-3 w-3 mr-1" />{nome}
+          </Button>
+        ))}
+      </div>
+      {ambientes.length === 0
+        ? <div className="border border-dashed rounded-lg py-3 text-center text-xs text-muted-foreground">Nenhum ambiente — opcional. Se cadastrar, alimenta elétrica, hidro, louças, impermeabilização e cerâmica.</div>
+        : <div className="border rounded-lg overflow-auto"><table className="w-full text-xs min-w-[620px]">
+            <thead><tr className="bg-muted/50 border-b">
+              <th className="text-left px-3 py-2 w-28">Ambiente</th>
+              <th className="text-center px-2 py-2 w-12">Qtd</th>
+              {modo === 'full' && <><th className="text-center px-2 py-2">Tipo</th><th className="text-center px-2 py-2">Área m²</th><th className="text-center px-2 py-2">Parede m</th><th className="text-center px-2 py-2">Pé-dir.</th><th className="text-center px-2 py-2">Molh.</th></>}
+              {modo === 'eletrica' && <><th className="text-center px-2 py-2">Tom.S</th><th className="text-center px-2 py-2">Tom.D</th><th className="text-center px-2 py-2">Int.</th><th className="text-center px-2 py-2">Lum.</th></>}
+              {modo === 'hidro' && <><th className="text-center px-2 py-2">Pts Água</th><th className="text-center px-2 py-2">Pts Esgoto</th><th className="text-center px-2 py-2">Molh.</th></>}
+              {modo === 'loucas' && <><th className="text-center px-2 py-2">Tipo</th></>}
+              <th className="w-8"></th>
+            </tr></thead>
+            <tbody>{ambientes.map(a => (
+              <tr key={a.id} className="border-b last:border-0 hover:bg-muted/20">
+                <td className="px-2 py-1"><input type="text" value={a.nome} onChange={e => upd(a.id, 'nome', e.target.value)} className="h-7 text-xs border rounded px-2 w-full" /></td>
+                <td className="px-2 py-1">{numIn(a.id, 'qtd', 1)}</td>
+                {modo === 'full' && <>
+                  <td className="px-2 py-1">
+                    <Select value={a.tipo} onValueChange={v => upd(a.id, 'tipo', v as TipoAmbiente)}>
+                      <SelectTrigger className="h-7 text-xs"><SelectValue /></SelectTrigger>
+                      <SelectContent>{(Object.keys(TIPO_AMB_LABEL) as TipoAmbiente[]).map(t => <SelectItem key={t} value={t}>{TIPO_AMB_LABEL[t]}</SelectItem>)}</SelectContent>
+                    </Select>
+                  </td>
+                  <td className="px-2 py-1">{numIn(a.id, 'area', 0, 0.5)}</td>
+                  <td className="px-2 py-1">{numIn(a.id, 'comp_parede', 0, 0.5)}</td>
+                  <td className="px-2 py-1">{numIn(a.id, 'pe_direito', 0, 0.05)}</td>
+                  <td className="px-2 py-1 text-center"><input type="checkbox" checked={a.area_molhada} onChange={e => upd(a.id, 'area_molhada', e.target.checked)} className="h-4 w-4 accent-primary" /></td>
+                </>}
+                {modo === 'eletrica' && <>
+                  <td className="px-2 py-1">{numIn(a.id, 'tomadas')}</td>
+                  <td className="px-2 py-1">{numIn(a.id, 'tomadas_duplas')}</td>
+                  <td className="px-2 py-1">{numIn(a.id, 'interruptores')}</td>
+                  <td className="px-2 py-1">{numIn(a.id, 'luminarias')}</td>
+                </>}
+                {modo === 'hidro' && <>
+                  <td className="px-2 py-1">{numIn(a.id, 'pontos_agua')}</td>
+                  <td className="px-2 py-1">{numIn(a.id, 'pontos_esgoto')}</td>
+                  <td className="px-2 py-1 text-center"><input type="checkbox" checked={a.area_molhada} onChange={e => upd(a.id, 'area_molhada', e.target.checked)} className="h-4 w-4 accent-primary" /></td>
+                </>}
+                {modo === 'loucas' && <td className="px-2 py-1">
+                <Select value={a.tipo} onValueChange={v => upd(a.id, 'tipo', v as TipoAmbiente)}>
+                  <SelectTrigger className="h-7 text-xs"><SelectValue /></SelectTrigger>
+                  <SelectContent>{(Object.keys(TIPO_AMB_LABEL) as TipoAmbiente[]).map(t => <SelectItem key={t} value={t}>{TIPO_AMB_LABEL[t]}</SelectItem>)}</SelectContent>
+                </Select>
+              </td>}
+                <td className="px-1 py-1"><button onClick={() => remove(a.id)} className="text-muted-foreground hover:text-destructive"><Trash2 className="h-3 w-3" /></button></td>
+              </tr>
+            ))}</tbody>
+          </table></div>
+      }
+    </div>
+  );
+}
+
+// --- SecaoLoucas (louças e metais — resumo derivado dos ambientes) ---
+function SecaoLoucas({ ambientes, setAmbientes }: { ambientes: CalcAmbiente[]; setAmbientes: (v: CalcAmbiente[]) => void }) {
+  const nBanheiros = ambientes.filter(a => a.tipo === 'banheiro').reduce((s, a) => s + (a.qtd || 1), 0);
+  const nCozinhas = ambientes.filter(a => a.tipo === 'cozinha').reduce((s, a) => s + (a.qtd || 1), 0);
+  const nMolhadas = ambientes.filter(a => a.area_molhada).reduce((s, a) => s + (a.qtd || 1), 0);
+  const itens = [
+    { label: 'Vaso sanitário (bacia c/ caixa)', qtd: nBanheiros },
+    { label: 'Lavatório / pia com pedestal', qtd: nBanheiros },
+    { label: 'Pia / cuba de cozinha', qtd: nCozinhas },
+    { label: 'Chuveiro', qtd: nBanheiros },
+    { label: 'Torneiras e registros (metais)', qtd: nBanheiros + nCozinhas },
+    { label: 'Tanque (área de serviço)', qtd: Math.max(0, nMolhadas - nBanheiros - nCozinhas) },
+  ];
+  return (
+    <div className="space-y-3">
+      <AmbientesEditor ambientes={ambientes} setAmbientes={setAmbientes} modo="loucas" />
+      {(nBanheiros + nCozinhas) > 0 ? (
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-2">Quantidades sugeridas</p>
+          <div className="grid sm:grid-cols-2 gap-2">
+            {itens.filter(i => i.qtd > 0).map(i => (
+              <div key={i.label} className="flex items-center justify-between rounded-lg border bg-amber-50 border-amber-300 px-3 py-1.5">
+                <span className="text-xs text-amber-900">{i.label}</span>
+                <span className="text-sm font-bold text-amber-800">{i.qtd}</span>
+              </div>
+            ))}
+          </div>
+          <p className="text-[11px] text-muted-foreground mt-2">No painel: <strong>Louças</strong> (kit por banheiro) e <strong>Metais</strong> entram com a quantidade sugerida — edite no orçamento se precisar.</p>
+        </div>
+      ) : (
+        <div className="text-[11px] text-muted-foreground">Cadastre ambientes do tipo <strong>banheiro</strong> ou <strong>cozinha</strong> (acima ou em Dados do Projeto) para sugerir louças e metais.</div>
+      )}
+    </div>
+  );
+}
+
+// --- SecaoPreliminares (Dados do Projeto) ---
+function SecaoPreliminares({ params, setParams, ambientes, setAmbientes }: {
+  params: Partial<CalcParamsRaw>; setParams: (fn: (p: Partial<CalcParamsRaw>) => Partial<CalcParamsRaw>) => void;
+  ambientes: CalcAmbiente[]; setAmbientes: (v: CalcAmbiente[]) => void;
+}) {
+  return (
+    <div className="space-y-4">
+      <div className="grid sm:grid-cols-3 gap-3">
+        <InputNum label="Área Construída Total" campo="area_construida" params={params} setParams={setParams} suffix="m²" step={1} />
+        <InputNum label="Área Terreno" campo="area_terreno" params={params} setParams={setParams} suffix="m²" step={1} />
+        <InputNum label="Perímetro Terreno" campo="perimetro_terreno" params={params} setParams={setParams} suffix="m" step={0.5} helper="Para tapumes" />
+        <InputNum label="Perímetro de Paredes" campo="perimetro_paredes" params={params} setParams={setParams} suffix="m" step={0.5} helper="Total de paredes" />
+        <InputNum label="Perímetro Externo Edificação" campo="perimetro_externo" params={params} setParams={setParams} suffix="m" step={0.5} />
+        <InputNum label="Comprimento Paredes Internas" campo="comp_paredes_internas" params={params} setParams={setParams} suffix="m" step={0.5} />
+        <InputNum label="Pé Direito" campo="pe_direito" params={params} setParams={setParams} suffix="m" step={0.05} placeholder="2.80" />
+      </div>
+      <div className="border-t pt-4">
+        <div className="flex items-center gap-2 mb-2">
+          <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Ambientes (opcional)</p>
+          <span className="text-[10px] text-muted-foreground">— espelho: alimenta elétrica, hidro, louças, impermeabilização e cerâmica</span>
+        </div>
+        <AmbientesEditor ambientes={ambientes} setAmbientes={setAmbientes} modo="full" />
+      </div>
     </div>
   );
 }
@@ -162,8 +310,21 @@ function SecaoFundacoes({ params, setParams }: { params: Partial<CalcParamsRaw>;
           <InputNum label="Altura h (m)" campo="secao_h" params={params} setParams={setParams} suffix="m" step={0.01} />
         </div>
       )}
-      <div className="grid sm:grid-cols-3 gap-3">
+      <div className="grid sm:grid-cols-2 gap-3">
         <InputNum label="No. barras longitudinais" campo="n_barras_long" params={params} setParams={setParams} min={2} step={1} placeholder="4" />
+        <div className="grid gap-1"><Label className="text-xs font-medium">Bitola do ferro longitudinal</Label>
+          <Select value={params.bitola_baldrame ? String(params.bitola_baldrame) : '8'} onValueChange={v => setParams(p => ({ ...p, bitola_baldrame: Number(v) }))}>
+            <SelectTrigger className="h-9 text-sm"><SelectValue /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="6.3">6,3 mm</SelectItem>
+              <SelectItem value="8">8,0 mm</SelectItem>
+              <SelectItem value="10">10,0 mm</SelectItem>
+              <SelectItem value="12.5">12,5 mm</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+      <div className="grid sm:grid-cols-2 gap-3">
         <InputNum label="Espacamento estribos" campo="esp_estribo" params={params} setParams={setParams} suffix="m" placeholder="0.15" step={0.05} />
         <div className="grid gap-1"><Label className="text-xs font-medium">Largura da tabua (forma)</Label>
           <Select value={params.tabua_larg ? String(params.tabua_larg) : ''} onValueChange={v => setParams(p => ({ ...p, tabua_larg: Number(v) }))}>
@@ -294,7 +455,7 @@ function SecaoPilares({ pilares, setPilares }: { pilares: CalcPilarItem[]; setPi
   );
 }
 function SecaoVigas({ vigas, setVigas }: { vigas: CalcVigaIndItem[]; setVigas: (v: CalcVigaIndItem[]) => void }) {
-  function add() { setVigas([...vigas, { id: Math.random().toString(36).slice(2), desc: '', b: 0.15, h: 0.30, comp: 10, tipo: 'baldrame', esp_escoras: 1.0 }]); }
+  function add() { setVigas([...vigas, { id: Math.random().toString(36).slice(2), desc: '', b: 0.15, h: 0.30, comp: 10, tipo: 'sob_parede', esp_escoras: 1.0 }]); }
   function remove(id: string) { setVigas(vigas.filter(v => v.id !== id)); }
   function upd<K extends keyof CalcVigaIndItem>(id: string, f: K, v: CalcVigaIndItem[K]) { setVigas(vigas.map(x => x.id === id ? { ...x, [f]: v } : x)); }
   const totalConc = vigas.reduce((s, v) => s + v.b * v.h * v.comp, 0);
@@ -311,9 +472,9 @@ function SecaoVigas({ vigas, setVigas }: { vigas: CalcVigaIndItem[]; setVigas: (
                 <td className="px-2 py-1"><input type="number" min={0} step={0.05} value={v.h} onFocus={e=>e.target.select()} onChange={e=>upd(v.id,'h',Number(e.target.value))} className="h-7 text-xs border rounded px-2 text-center w-full block"/></td>
                 <td className="px-2 py-1"><input type="number" min={0} step={0.5} value={v.comp} onFocus={e=>e.target.select()} onChange={e=>upd(v.id,'comp',Number(e.target.value))} className="h-7 text-xs border rounded px-2 text-center w-full block"/></td>
                 <td className="px-2 py-1">
-                  <Select value={v.tipo} onValueChange={val=>upd(v.id,'tipo',val as 'baldrame'|'aerea')}>
+                  <Select value={v.tipo} onValueChange={val=>upd(v.id,'tipo',val as 'sob_parede'|'aerea')}>
                     <SelectTrigger className="h-7 text-xs"><SelectValue/></SelectTrigger>
-                    <SelectContent><SelectItem value="baldrame">Baldrame</SelectItem><SelectItem value="aerea">Aerea</SelectItem></SelectContent>
+                    <SelectContent><SelectItem value="sob_parede">Sob parede</SelectItem><SelectItem value="aerea">Aérea</SelectItem></SelectContent>
                   </Select>
                 </td>
                 <td className="px-2 py-1 text-right font-semibold text-violet-700">{(v.b*v.h*v.comp).toFixed(3)} m3</td>
@@ -354,17 +515,66 @@ function SecaoLaje({ lajes, setLajes }: { lajes: CalcLajeItem[]; setLajes: (v: C
     </div>
   );
 }
-// --- Secoes simples de InputNum ---
+// Caixa de sugestão EDITÁVEL: amarelo = sugerido pelo sistema, verde = alterado pelo usuário
+function SugEdit({ label, campo, params, setParams, derived, unidade, obs }: {
+  label: string; campo: keyof CalcParamsRaw;
+  params: Partial<CalcParamsRaw>; setParams: (fn: (p: Partial<CalcParamsRaw>) => Partial<CalcParamsRaw>) => void;
+  derived: Partial<CalcParamsRaw>; unidade: string; obs?: string;
+}) {
+  const isManual = params[campo] !== undefined;
+  const display = isManual ? (params[campo] as number) : (derived[campo] as number | undefined);
+  const tem = display !== undefined && display > 0;
+  const restaurar = () => setParams(p => { const n = { ...p }; delete n[campo]; return n; });
+  return (
+    <div className={`rounded-lg border px-3 py-2 ${isManual ? 'bg-green-50 border-green-400' : tem ? 'bg-amber-50 border-amber-300' : 'bg-muted/30 border-border'}`}>
+      <div className="flex items-center justify-between gap-1">
+        <p className="text-[11px] text-muted-foreground">{label}</p>
+        {isManual && <button onClick={restaurar} className="text-muted-foreground hover:text-amber-600" title="Restaurar sugerido"><X className="h-3 w-3" /></button>}
+      </div>
+      <div className="flex items-center gap-1 mt-0.5">
+        <input type="number" min={0} step={0.01} value={display ?? ''} onFocus={e => e.target.select()}
+          onChange={e => { const v = e.target.value; setParams(p => ({ ...p, [campo]: v === '' ? undefined : Number(v) })); }}
+          className={`h-8 w-28 text-sm font-bold text-right border rounded px-2 tabular-nums ${isManual ? 'bg-green-50 border-green-400 text-green-800' : 'bg-amber-50 border-amber-300 text-amber-800'}`} />
+        <span className="text-xs text-muted-foreground">{unidade}</span>
+      </div>
+      {obs && <p className="text-[10px] text-muted-foreground mt-0.5">{obs}</p>}
+    </div>
+  );
+}
+function ChkOpt({ label, checked, onChange }: { label: string; checked: boolean; onChange: (v: boolean) => void }) {
+  return (
+    <label className="flex items-center gap-2 h-9 px-3 border rounded-md bg-background cursor-pointer text-sm hover:border-muted-foreground/50">
+      <input type="checkbox" checked={checked} onChange={e => onChange(e.target.checked)} className="h-4 w-4 accent-primary" />
+      <span className="text-xs font-medium">{label}</span>
+    </label>
+  );
+}
+function VaosInfo({ derived }: { derived: Partial<CalcParamsRaw> }) {
+  const v = derived.area_vaos ?? 0;
+  if (v <= 0) return null;
+  return (
+    <div className="flex items-center gap-1.5 text-[11px] text-red-700 bg-red-50 border border-red-200 rounded-lg px-3 py-1.5">
+      <X className="h-3 w-3 shrink-0" /> Vãos descontados: <span className="font-bold">{v.toLocaleString('pt-BR', { maximumFractionDigits: 2 })} m²</span>
+      <span className="text-muted-foreground">(portas + janelas)</span>
+    </div>
+  );
+}
+function TipoSelect({ label, value, onChange, opcoes }: { label: string; value: number; onChange: (v: number) => void; opcoes: { v: number; t: string }[] }) {
+  return (
+    <div className="grid gap-1"><Label className="text-xs font-medium">{label}</Label>
+      <Select value={String(value)} onValueChange={v => onChange(Number(v))}>
+        <SelectTrigger className="h-9 text-sm"><SelectValue /></SelectTrigger>
+        <SelectContent>{opcoes.map(o => <SelectItem key={o.v} value={String(o.v)}>{o.t}</SelectItem>)}</SelectContent>
+      </Select>
+    </div>
+  );
+}
+// --- Secoes ---
 function SecaoCobertura({ params, setParams }: { params: Partial<CalcParamsRaw>; setParams: (fn: (p: Partial<CalcParamsRaw>) => Partial<CalcParamsRaw>) => void }) {
   return (<div className="space-y-3">
     <div className="grid sm:grid-cols-2 gap-3">
-      <InputNum label="Area do telhado" campo="area_telhado" params={params} setParams={setParams} suffix="m2" step={1} />
-      <div className="grid gap-1"><Label className="text-xs font-medium">Tipo de telha</Label>
-        <Select value={String(params.tipo_telha ?? 1)} onValueChange={v => setParams(p => ({ ...p, tipo_telha: Number(v) }))}>
-          <SelectTrigger className="h-9 text-sm"><SelectValue /></SelectTrigger>
-          <SelectContent><SelectItem value="1">Barro colonial</SelectItem><SelectItem value="2">Aluzinco</SelectItem></SelectContent>
-        </Select>
-      </div>
+      <TipoSelect label="Tipo de telha" value={params.tipo_telha ?? 1} onChange={v => setParams(p => ({ ...p, tipo_telha: v }))} opcoes={[{ v: 1, t: 'Barro colonial' }, { v: 2, t: 'Aluzinco' }]} />
+      <InputNum label="Área do telhado" campo="area_telhado" params={params} setParams={setParams} suffix="m²" step={1} />
     </div>
     <div className="grid sm:grid-cols-2 gap-3">
       <InputNum label="Rufos" campo="comp_rufos" params={params} setParams={setParams} suffix="m" step={0.5} />
@@ -372,80 +582,62 @@ function SecaoCobertura({ params, setParams }: { params: Partial<CalcParamsRaw>;
     </div>
   </div>);
 }
-function SecaoImperme({ params, setParams }: { params: Partial<CalcParamsRaw>; setParams: (fn: (p: Partial<CalcParamsRaw>) => Partial<CalcParamsRaw>) => void }) {
-  return <div className="grid sm:grid-cols-2 gap-3"><InputNum label="Area molhada" campo="area_imper_molhada" params={params} setParams={setParams} suffix="m2" step={0.5} helper="Banheiros, cozinha, lavanderia" /></div>;
-}
-function SecaoRevest({ params, setParams }: { params: Partial<CalcParamsRaw>; setParams: (fn: (p: Partial<CalcParamsRaw>) => Partial<CalcParamsRaw>) => void }) {
-  return (<div className="grid sm:grid-cols-2 gap-3">
-    <InputNum label="Area chapisco + reboco" campo="area_revest_interno" params={params} setParams={setParams} suffix="m2" step={1} helper="Paredes internas (2 faces)" />
-    <InputNum label="Ceramica de parede" campo="area_ceramica_parede" params={params} setParams={setParams} suffix="m2" step={0.5} helper="Areas molhadas" />
-  </div>);
-}
-function SecaoForro({ params, setParams }: { params: Partial<CalcParamsRaw>; setParams: (fn: (p: Partial<CalcParamsRaw>) => Partial<CalcParamsRaw>) => void }) {
-  return <div className="grid sm:grid-cols-2 gap-3"><InputNum label="Area de forro" campo="area_forro" params={params} setParams={setParams} suffix="m2" step={1} /></div>;
-}
-function SecaoPintura({ params, setParams }: { params: Partial<CalcParamsRaw>; setParams: (fn: (p: Partial<CalcParamsRaw>) => Partial<CalcParamsRaw>) => void }) {
-  return (<div className="grid sm:grid-cols-2 gap-3">
-    <InputNum label="Pintura interna" campo="area_pintura_interna" params={params} setParams={setParams} suffix="m2" step={1} />
-    <InputNum label="Pintura externa" campo="area_pintura_externa" params={params} setParams={setParams} suffix="m2" step={1} />
-  </div>);
-}
-function SecaoPisos({ params, setParams }: { params: Partial<CalcParamsRaw>; setParams: (fn: (p: Partial<CalcParamsRaw>) => Partial<CalcParamsRaw>) => void }) {
-  return <div className="grid sm:grid-cols-2 gap-3"><InputNum label="Area de piso" campo="area_piso" params={params} setParams={setParams} suffix="m2" step={1} /></div>;
-}
-function SecaoAcabamento({ params, setParams }: { params: Partial<CalcParamsRaw>; setParams: (fn: (p: Partial<CalcParamsRaw>) => Partial<CalcParamsRaw>) => void }) {
-  return <div className="grid sm:grid-cols-2 gap-3"><InputNum label="Comprimento de rodape" campo="comp_rodape" params={params} setParams={setParams} suffix="m" step={0.5} /></div>;
-}
-function SecaoHidraulica({ params, setParams }: { params: Partial<CalcParamsRaw>; setParams: (fn: (p: Partial<CalcParamsRaw>) => Partial<CalcParamsRaw>) => void }) {
-  return (<div className="grid sm:grid-cols-2 gap-3">
-    <InputNum label="Pontos de agua fria" campo="n_pontos_agua" params={params} setParams={setParams} step={1} />
-    <InputNum label="Metros de rede" campo="metros_rede_agua" params={params} setParams={setParams} suffix="m" step={1} />
-  </div>);
-}
-function SecaoEsgoto({ params, setParams }: { params: Partial<CalcParamsRaw>; setParams: (fn: (p: Partial<CalcParamsRaw>) => Partial<CalcParamsRaw>) => void }) {
-  return (<div className="grid sm:grid-cols-2 gap-3">
-    <InputNum label="Pontos de esgoto" campo="n_pontos_esgoto" params={params} setParams={setParams} step={1} />
-    <InputNum label="Caixas sifonadas" campo="n_caixa_sifonada" params={params} setParams={setParams} step={1} />
-    <InputNum label="Caixas de inspecao" campo="n_caixa_inspecao" params={params} setParams={setParams} step={1} />
-  </div>);
-}
-function SecaoBanheiro({ params, setParams }: { params: Partial<CalcParamsRaw>; setParams: (fn: (p: Partial<CalcParamsRaw>) => Partial<CalcParamsRaw>) => void }) {
-  return <div className="grid sm:grid-cols-2 gap-3"><InputNum label="Numero de banheiros" campo="n_banheiros" params={params} setParams={setParams} step={1} min={0} /></div>;
-}
-const AMBIENTES_ELE = [
-  { label: 'Quarto', defaults: { tomadas: 3, tomadas_duplas: 0, interruptores: 1, luminarias: 1, chuveiro: false } },
-  { label: 'Sala', defaults: { tomadas: 4, tomadas_duplas: 1, interruptores: 1, luminarias: 2, chuveiro: false } },
-  { label: 'Cozinha', defaults: { tomadas: 4, tomadas_duplas: 1, interruptores: 1, luminarias: 1, chuveiro: false } },
-  { label: 'Banheiro', defaults: { tomadas: 1, tomadas_duplas: 0, interruptores: 1, luminarias: 1, chuveiro: true } },
-];
-function SecaoEletrica({ ambientes, setAmbientes }: { ambientes: CalcAmbienteEle[]; setAmbientes: (v: CalcAmbienteEle[]) => void }) {
-  function addAmb(nome: string, def: Omit<CalcAmbienteEle,'id'|'nome'>) { setAmbientes([...ambientes, { id: Math.random().toString(36).slice(2), nome, ...def }]); }
-  function remove(id: string) { setAmbientes(ambientes.filter(a => a.id !== id)); }
-  function upd<K extends keyof CalcAmbienteEle>(id: string, f: K, v: CalcAmbienteEle[K]) { setAmbientes(ambientes.map(a => a.id === id ? { ...a, [f]: v } : a)); }
-  return (
-    <div className="space-y-3">
-      <div className="flex flex-wrap gap-2">
-        {AMBIENTES_ELE.map(a => <Button key={a.label} size="sm" variant="outline" className="h-7 text-xs" onClick={() => addAmb(a.label, a.defaults)}><Plus className="h-3 w-3 mr-1" />{a.label}</Button>)}
-        <Button size="sm" variant="outline" className="h-7 text-xs" onClick={() => addAmb('Ambiente', { tomadas:3, tomadas_duplas:0, interruptores:1, luminarias:1, chuveiro:false })}><Plus className="h-3 w-3 mr-1" />Outro</Button>
-      </div>
-      {ambientes.length === 0 ? <div className="border border-dashed rounded-lg py-3 text-center text-xs text-muted-foreground">Nenhum ambiente</div>
-        : <div className="border rounded-lg overflow-auto"><table className="w-full text-xs min-w-[600px]">
-            <thead><tr className="bg-muted/50 border-b"><th className="text-left px-3 py-2 w-28">Ambiente</th><th className="text-center px-2 py-2">Tom.S</th><th className="text-center px-2 py-2">Tom.D</th><th className="text-center px-2 py-2">Int.</th><th className="text-center px-2 py-2">Lum.</th><th className="text-center px-2 py-2">Chuveiro</th><th className="w-8"></th></tr></thead>
-            <tbody>{ambientes.map(a => (
-              <tr key={a.id} className="border-b last:border-0 hover:bg-muted/20">
-                <td className="px-2 py-1"><input type="text" value={a.nome} onChange={e=>upd(a.id,'nome',e.target.value)} className="h-7 text-xs border rounded px-2 w-full"/></td>
-                <td className="px-2 py-1"><input type="number" min={0} step={1} value={a.tomadas} onFocus={e=>e.target.select()} onChange={e=>upd(a.id,'tomadas',Number(e.target.value))} className="h-7 text-xs border rounded px-2 text-center w-full block"/></td>
-                <td className="px-2 py-1"><input type="number" min={0} step={1} value={a.tomadas_duplas} onFocus={e=>e.target.select()} onChange={e=>upd(a.id,'tomadas_duplas',Number(e.target.value))} className="h-7 text-xs border rounded px-2 text-center w-full block"/></td>
-                <td className="px-2 py-1"><input type="number" min={0} step={1} value={a.interruptores} onFocus={e=>e.target.select()} onChange={e=>upd(a.id,'interruptores',Number(e.target.value))} className="h-7 text-xs border rounded px-2 text-center w-full block"/></td>
-                <td className="px-2 py-1"><input type="number" min={0} step={1} value={a.luminarias} onFocus={e=>e.target.select()} onChange={e=>upd(a.id,'luminarias',Number(e.target.value))} className="h-7 text-xs border rounded px-2 text-center w-full block"/></td>
-                <td className="px-2 py-1 text-center"><input type="checkbox" checked={a.chuveiro} onChange={e=>upd(a.id,'chuveiro',e.target.checked)} className="h-4 w-4 accent-primary"/></td>
-                <td className="px-1 py-1"><button onClick={()=>remove(a.id)} className="text-muted-foreground hover:text-destructive"><Trash2 className="h-3 w-3"/></button></td>
-              </tr>
-            ))}</tbody>
-          </table></div>
-      }
+function SecaoImperme({ params, setParams, derived }: { params: Partial<CalcParamsRaw>; setParams: (fn: (p: Partial<CalcParamsRaw>) => Partial<CalcParamsRaw>) => void; derived: Partial<CalcParamsRaw> }) {
+  return (<div className="space-y-2">
+    <div className="grid sm:grid-cols-2 gap-3">
+      <SugEdit label="Paredes — argamassa polimérica H=1,00m" campo="area_imper_paredes" params={params} setParams={setParams} derived={derived} unidade="m²" obs="= perímetro de paredes × 2" />
+      <SugEdit label="Áreas molhadas H=1,80m (ambientes)" campo="area_imper_molhada" params={params} setParams={setParams} derived={derived} unidade="m²" obs="área dos ambientes marcados como molhados" />
     </div>
-  );
+    <p className="text-[11px] text-muted-foreground">Amarelo = sugerido pelo sistema · digite para alterar (fica verde). Restaure no ✕.</p>
+  </div>);
+}
+function SecaoRevest({ params, setParams, derived }: { params: Partial<CalcParamsRaw>; setParams: (fn: (p: Partial<CalcParamsRaw>) => Partial<CalcParamsRaw>) => void; derived: Partial<CalcParamsRaw> }) {
+  return (<div className="space-y-2">
+    <div className="grid sm:grid-cols-3 gap-3">
+      <SugEdit label="Chapisco + reboco interno" campo="area_revest_interno" params={params} setParams={setParams} derived={derived} unidade="m²" obs="perím. interno × pé-direito − vãos" />
+      <SugEdit label="Chapisco + reboco externo" campo="area_revest_externo" params={params} setParams={setParams} derived={derived} unidade="m²" obs="perím. externo × pé-direito − vãos" />
+      <SugEdit label="Cerâmica de parede (molhadas)" campo="area_ceramica_parede" params={params} setParams={setParams} derived={derived} unidade="m²" obs="perímetro × pé-direito (digite a altura ajustando aqui)" />
+    </div>
+    <VaosInfo derived={derived} />
+    <p className="text-[11px] text-muted-foreground">Amarelo = sugerido · digite para alterar (fica verde).</p>
+  </div>);
+}
+function SecaoForro({ params, setParams, derived }: { params: Partial<CalcParamsRaw>; setParams: (fn: (p: Partial<CalcParamsRaw>) => Partial<CalcParamsRaw>) => void; derived: Partial<CalcParamsRaw> }) {
+  return (<div className="grid sm:grid-cols-2 gap-3">
+    <TipoSelect label="Tipo de forro" value={params.forro_tipo ?? 1} onChange={v => setParams(p => ({ ...p, forro_tipo: v }))} opcoes={[{ v: 1, t: 'PVC + trama de madeira' }, { v: 2, t: 'Drywall' }]} />
+    <SugEdit label="Área de forro" campo="area_forro" params={params} setParams={setParams} derived={derived} unidade="m²" obs="= área construída" />
+  </div>);
+}
+function SecaoPintura({ params, setParams, derived }: { params: Partial<CalcParamsRaw>; setParams: (fn: (p: Partial<CalcParamsRaw>) => Partial<CalcParamsRaw>) => void; derived: Partial<CalcParamsRaw> }) {
+  return (<div className="space-y-2">
+    <div className="grid sm:grid-cols-2 gap-3">
+      <SugEdit label="Pintura interna" campo="area_pintura_interna" params={params} setParams={setParams} derived={derived} unidade="m²" obs="perím. interno × pé-direito" />
+      <SugEdit label="Pintura externa" campo="area_pintura_externa" params={params} setParams={setParams} derived={derived} unidade="m²" obs="perím. externo × pé-direito − vãos" />
+    </div>
+    <ChkOpt label="Aplicar massa fina de acabamento interna" checked={(params.massa_int ?? 1) === 1} onChange={c => setParams(p => ({ ...p, massa_int: c ? 1 : 0 }))} />
+    <VaosInfo derived={derived} />
+  </div>);
+}
+function SecaoPisos({ params, setParams, derived }: { params: Partial<CalcParamsRaw>; setParams: (fn: (p: Partial<CalcParamsRaw>) => Partial<CalcParamsRaw>) => void; derived: Partial<CalcParamsRaw> }) {
+  return (<div className="space-y-3">
+    <div className="grid sm:grid-cols-2 gap-3">
+      <TipoSelect label="Revestimento de piso" value={params.piso_tipo ?? 1} onChange={v => setParams(p => ({ ...p, piso_tipo: v }))} opcoes={[{ v: 1, t: 'Cerâmica classe A' }, { v: 2, t: 'Porcelanato' }]} />
+      <SugEdit label="Área de piso/contrapiso" campo="area_piso" params={params} setParams={setParams} derived={derived} unidade="m²" obs="= área construída" />
+    </div>
+    <ChkOpt label="Contrapiso de concreto armado (em vez de regularização)" checked={(params.contrapiso_armado ?? 0) === 1} onChange={c => setParams(p => ({ ...p, contrapiso_armado: c ? 1 : 0 }))} />
+  </div>);
+}
+function SecaoAcabamento({ params, setParams, derived }: { params: Partial<CalcParamsRaw>; setParams: (fn: (p: Partial<CalcParamsRaw>) => Partial<CalcParamsRaw>) => void; derived: Partial<CalcParamsRaw> }) {
+  return (<div className="space-y-3">
+    <div className="grid sm:grid-cols-2 gap-3">
+      <TipoSelect label="Tipo de rodapé" value={params.rodape_tipo ?? 1} onChange={v => setParams(p => ({ ...p, rodape_tipo: v }))} opcoes={[{ v: 1, t: 'Poliestireno 7cm' }, { v: 2, t: 'Próprio piso (7cm)' }]} />
+      <SugEdit label="Comprimento de rodapé" campo="comp_rodape" params={params} setParams={setParams} derived={derived} unidade="m" obs="perímetro interno − larguras das portas" />
+    </div>
+    <div className="grid sm:grid-cols-2 gap-3">
+      <SugEdit label="Pingadeiras" campo="comp_pingadeiras" params={params} setParams={setParams} derived={derived} unidade="m" obs="Σ largura das janelas + 5cm" />
+      <SugEdit label="Soleiras" campo="comp_soleiras" params={params} setParams={setParams} derived={derived} unidade="m" obs="Σ largura das portas + 5cm" />
+    </div>
+  </div>);
 }
 // --- GrupoSection Accordion ---
 function GrupoSection({ grupo, expanded, onToggle, children, itensAtivos }: { grupo: (typeof CALC_GRUPOS)[0]; expanded: boolean; onToggle: () => void; children: React.ReactNode; itensAtivos: number }) {
@@ -605,28 +797,34 @@ function CalculadoraContent() {
   const [composicoes, setComposicoes] = useState<Composicao[]>([]);
 
   const [params, setParams] = useState<Partial<CalcParamsRaw>>({
-    esp_estribo: 0.15, n_barras_long: 4, tabua_larg: 0.20, tipo_alv: 2, tipo_telha: 1,
+    esp_estribo: 0.15, n_barras_long: 4, tabua_larg: 0.20, bitola_baldrame: 8, tipo_alv: 2,
+    tipo_telha: 1, forro_tipo: 1, piso_tipo: 1, rodape_tipo: 1, pe_direito: 2.8,
+    massa_int: 1, contrapiso_armado: 0,
   });
   const [vaos, setVaos] = useState<CalcVao[]>([]);
   const [pilares, setPilares] = useState<CalcPilarItem[]>([]);
   const [vigas, setVigas] = useState<CalcVigaIndItem[]>([]);
   const [lajes, setLajes] = useState<CalcLajeItem[]>([]);
   const [estacas, setEstacas] = useState<CalcEstacaItem[]>([]);
-  const [ambientesEle, setAmbientesEle] = useState<CalcAmbienteEle[]>([]);
+  const [ambientes, setAmbientes] = useState<CalcAmbiente[]>([]);
 
   const [expandidos, setExpandidos] = useState<Record<string, boolean>>({
     preliminares: true, fundacoes: false, estacas: false, laje: false, pilares: false, vigas_ind: false,
-    alvenaria: false, esquadrias: false, cobertura: false, imperme: false, revest: false, forro: false,
-    pintura: false, pisos: false, acabamento: false, eletrica: false, hidraulica: false, esgoto: false,
-    banheiro: false, complementos: false,
+    alvenaria: false, cobertura: false, imperme: false, revest: false, forro: false,
+    pintura: false, pisos: false, acabamento: false, eletrica: false, hidraulica: false,
+    banheiro: false,
   });
 
   const [userStates, setUserStates] = useState<Record<string, ItemUserState>>({});
   const [aplicando, setAplicando] = useState(false);
 
   const calcItems = useMemo(
-    () => calcularQuantitativos(params, vaos, pilares, vigas, lajes, estacas, ambientesEle),
-    [params, vaos, pilares, vigas, lajes, estacas, ambientesEle],
+    () => calcularQuantitativos(params, vaos, pilares, vigas, lajes, estacas, ambientes),
+    [params, vaos, pilares, vigas, lajes, estacas, ambientes],
+  );
+  const derived = useMemo(
+    () => derivarParams(params, vaos, pilares, vigas, lajes, estacas, ambientes),
+    [params, vaos, pilares, vigas, lajes, estacas, ambientes],
   );
 
   useEffect(() => {
@@ -673,8 +871,10 @@ function CalculadoraContent() {
       const data = await res.json();
       if (!res.ok) { toast.error(data.error || 'Erro ao adicionar itens'); return; }
       const titulo = orcamentoTitulo || orcamentos.find(o => o.id === orcamentoId)?.titulo || 'orcamento';
-      toast.success(`${data.adicionados} item(s) adicionado(s) a "${titulo}"!`);
-      router.push(`/orcamentos/${orcamentoId}`);
+      toast.success(`${data.adicionados} item(s) adicionado(s) a "${titulo}"!`, {
+        action: { label: 'Ver orcamento', onClick: () => router.push(`/orcamentos/${orcamentoId}`) },
+        duration: 6000,
+      });
     } catch { toast.error('Erro ao conectar'); } finally { setAplicando(false); }
   }, [orcamentoId, calcItems, userStates, orcamentos, orcamentoTitulo, router]);
 
@@ -696,7 +896,11 @@ function CalculadoraContent() {
             <span className="text-sm font-medium shrink-0">Orcamento de destino</span>
             <div className="flex-1 min-w-48 max-w-sm">
               <Select value={orcamentoId} onValueChange={v => { if (!v) return; setOrcamentoId(v); setOrcamentoTitulo(orcamentos.find(o=>o.id===v)?.titulo||''); }}>
-                <SelectTrigger className="h-9 text-sm bg-background"><SelectValue placeholder="Selecionar orcamento..." /></SelectTrigger>
+                <SelectTrigger className="h-9 text-sm bg-background">
+                  <span className={`flex-1 text-sm text-left truncate ${!orcamentoId ? 'text-muted-foreground' : ''}`}>
+                    {orcamentoId ? (orcamentoTitulo || orcamentos.find(o=>o.id===orcamentoId)?.titulo || orcamentoId) : 'Selecionar orcamento...'}
+                  </span>
+                </SelectTrigger>
                 <SelectContent>{orcamentos.map(o => <SelectItem key={o.id} value={o.id}>{o.titulo}</SelectItem>)}</SelectContent>
               </Select>
             </div>
@@ -710,26 +914,23 @@ function CalculadoraContent() {
         <div className="space-y-3">
           {CALC_GRUPOS.map(grupo => (
             <GrupoSection key={grupo.id} grupo={grupo} expanded={expandidos[grupo.id]??false} onToggle={() => setExpandidos(prev => ({ ...prev, [grupo.id]: !prev[grupo.id] }))} itensAtivos={itensPorGrupo[grupo.id]||0}>
-              {grupo.id === 'preliminares' && <SecaoPreliminares params={params} setParams={setParams} />}
+              {grupo.id === 'preliminares' && <SecaoPreliminares params={params} setParams={setParams} ambientes={ambientes} setAmbientes={setAmbientes} />}
               {grupo.id === 'fundacoes' && <SecaoFundacoes params={params} setParams={setParams} />}
               {grupo.id === 'estacas' && <SecaoEstacas estacas={estacas} setEstacas={setEstacas} />}
               {grupo.id === 'laje' && <SecaoLaje lajes={lajes} setLajes={setLajes} />}
               {grupo.id === 'pilares' && <SecaoPilares pilares={pilares} setPilares={setPilares} />}
               {grupo.id === 'vigas_ind' && <SecaoVigas vigas={vigas} setVigas={setVigas} />}
               {grupo.id === 'alvenaria' && <SecaoAlvenaria params={params} setParams={setParams} vaos={vaos} setVaos={setVaos} />}
-              {grupo.id === 'esquadrias' && <div className="p-3 rounded-lg border bg-amber-50/40 border-amber-200 text-xs text-amber-800">Derivado automaticamente dos vaos em <strong>Alvenaria</strong>.</div>}
               {grupo.id === 'cobertura' && <SecaoCobertura params={params} setParams={setParams} />}
-              {grupo.id === 'imperme' && <SecaoImperme params={params} setParams={setParams} />}
-              {grupo.id === 'revest' && <SecaoRevest params={params} setParams={setParams} />}
-              {grupo.id === 'forro' && <SecaoForro params={params} setParams={setParams} />}
-              {grupo.id === 'pintura' && <SecaoPintura params={params} setParams={setParams} />}
-              {grupo.id === 'pisos' && <SecaoPisos params={params} setParams={setParams} />}
-              {grupo.id === 'acabamento' && <SecaoAcabamento params={params} setParams={setParams} />}
-              {grupo.id === 'eletrica' && <SecaoEletrica ambientes={ambientesEle} setAmbientes={setAmbientesEle} />}
-              {grupo.id === 'hidraulica' && <SecaoHidraulica params={params} setParams={setParams} />}
-              {grupo.id === 'esgoto' && <SecaoEsgoto params={params} setParams={setParams} />}
-              {grupo.id === 'banheiro' && <SecaoBanheiro params={params} setParams={setParams} />}
-              {grupo.id === 'complementos' && <div className="p-3 rounded-lg border bg-green-50/40 border-green-200 text-xs text-green-800">Limpeza final incluida automaticamente.</div>}
+              {grupo.id === 'imperme' && <SecaoImperme params={params} setParams={setParams} derived={derived} />}
+              {grupo.id === 'revest' && <SecaoRevest params={params} setParams={setParams} derived={derived} />}
+              {grupo.id === 'forro' && <SecaoForro params={params} setParams={setParams} derived={derived} />}
+              {grupo.id === 'pintura' && <SecaoPintura params={params} setParams={setParams} derived={derived} />}
+              {grupo.id === 'pisos' && <SecaoPisos params={params} setParams={setParams} derived={derived} />}
+              {grupo.id === 'acabamento' && <SecaoAcabamento params={params} setParams={setParams} derived={derived} />}
+              {grupo.id === 'eletrica' && <AmbientesEditor ambientes={ambientes} setAmbientes={setAmbientes} modo="eletrica" />}
+              {grupo.id === 'hidraulica' && <AmbientesEditor ambientes={ambientes} setAmbientes={setAmbientes} modo="hidro" />}
+              {grupo.id === 'banheiro' && <SecaoLoucas ambientes={ambientes} setAmbientes={setAmbientes} />}
             </GrupoSection>
           ))}
         </div>

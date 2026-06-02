@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useCallback, use, Fragment } from 'react';
+import { useEffect, useState, useCallback, use, Fragment, useRef } from 'react';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -15,7 +15,7 @@ import Link from 'next/link';
 import {
   ArrowLeft, Plus, Trash2, RefreshCw, Check, X,
   Download, FileText, GripVertical, Pencil, Calendar,
-  ChevronRight, ChevronDown, BarChart3, List, LayoutTemplate, Layers, Zap,
+  ChevronRight, ChevronDown, BarChart3, List, LayoutTemplate, Layers, Zap, Search,
 } from 'lucide-react';
 import type { Composicao } from '@/lib/types';
 import { ETAPAS, ORCAMENTO_STATUS_LABEL } from '@/lib/types';
@@ -100,17 +100,14 @@ interface SubEtapaGroup {
 }
 
 function agruparPorSubEtapa(itens: ItemOrcamentoUI[]): SubEtapaGroup[] {
-  const grupos: SubEtapaGroup[] = [];
+  const mapa = new Map<string, SubEtapaGroup>();
+  const ordem: string[] = [];
   for (const item of itens) {
     const nome = item.sub_etapa || '';
-    const last = grupos[grupos.length - 1];
-    if (!last || last.nome !== nome) {
-      grupos.push({ nome, itens: [item] });
-    } else {
-      last.itens.push(item);
-    }
+    if (!mapa.has(nome)) { mapa.set(nome, { nome, itens: [] }); ordem.push(nome); }
+    mapa.get(nome)!.itens.push(item);
   }
-  return grupos;
+  return ordem.map(n => mapa.get(n)!);
 }
 
 // ─── Status Badge Inline ──────────────────────────────────────────────────────
@@ -244,10 +241,141 @@ function CelulaTexto({ valor, onSalvar }: { valor: string; onSalvar: (v: string)
   );
 }
 
+// ─── Célula Descrição + Troca de Composição Inline ───────────────────────────
+function CelulaDescricaoComposicao({
+  descricao,
+  composicao,
+  onTrocarComposicao,
+  onSalvarDescricao,
+}: {
+  descricao: string;
+  composicao?: ItemOrcamentoUI['composicao'];
+  onTrocarComposicao: (comp: Composicao) => Promise<void>;
+  onSalvarDescricao: (v: string) => Promise<void>;
+}) {
+  const [modo, setModo] = useState<'idle' | 'busca' | 'texto'>('idle');
+  const [busca, setBusca] = useState('');
+  const [resultados, setResultados] = useState<Composicao[]>([]);
+  const [buscando, setBuscando] = useState(false);
+  const [textoEdit, setTextoEdit] = useState(descricao);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (modo === 'idle') return;
+    function handler(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        setModo('idle'); setBusca(''); setResultados([]);
+      }
+    }
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, [modo]);
+
+  useEffect(() => {
+    if (modo !== 'busca' || busca.length < 2) { setResultados([]); return; }
+    setBuscando(true);
+    const timer = setTimeout(() => {
+      fetch(`/api/composicoes?q=${encodeURIComponent(busca)}&status=ativo&custo=1`)
+        .then(r => r.json())
+        .then(d => setResultados(Array.isArray(d) ? d.slice(0, 15) : []))
+        .finally(() => setBuscando(false));
+    }, 250);
+    return () => clearTimeout(timer);
+  }, [busca, modo]);
+
+  async function selecionarComp(comp: Composicao) {
+    await onTrocarComposicao(comp);
+    setModo('idle'); setBusca(''); setResultados([]);
+  }
+
+  async function salvarTexto() {
+    if (textoEdit !== descricao) await onSalvarDescricao(textoEdit);
+    setModo('idle');
+  }
+
+  if (modo === 'idle') {
+    return (
+      <div className="flex flex-col gap-0.5 group/desc">
+        <button
+          className="text-sm text-left hover:bg-primary/5 rounded px-1 -mx-1 py-0.5 transition-colors leading-snug w-full"
+          onClick={() => { setBusca(''); setModo('busca'); }}
+          title="Clique para trocar a composição">
+          {descricao || <span className="text-muted-foreground/40 italic text-xs">—</span>}
+        </button>
+        <div className="flex items-center gap-1.5">
+          {composicao && (
+            <span className="text-[10px] text-muted-foreground/40 font-mono">{composicao.codigo}</span>
+          )}
+          <button
+            className="opacity-0 group-hover/desc:opacity-60 hover:!opacity-100 transition-opacity"
+            onClick={() => { setTextoEdit(descricao); setModo('texto'); }}
+            title="Editar descrição manualmente (override)">
+            <Pencil className="h-2.5 w-2.5 text-muted-foreground" />
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (modo === 'texto') {
+    return (
+      <div className="flex items-center gap-0.5" ref={ref}>
+        <Input autoFocus value={textoEdit} onChange={e => setTextoEdit(e.target.value)}
+          onKeyDown={e => { if (e.key === 'Enter') salvarTexto(); if (e.key === 'Escape') setModo('idle'); }}
+          className="h-6 min-w-[150px] w-full px-2 py-0 text-xs border-2 border-primary" />
+        <button className="text-green-600 p-0.5 shrink-0" onClick={salvarTexto}><Check className="h-3 w-3" /></button>
+        <button className="text-muted-foreground p-0.5 shrink-0" onClick={() => setModo('idle')}><X className="h-3 w-3" /></button>
+      </div>
+    );
+  }
+
+  // modo === 'busca'
+  return (
+    <div ref={ref} className="relative">
+      <div className="flex items-center gap-1.5 border-2 border-primary rounded px-2 h-8 bg-background">
+        <Search className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
+        <input
+          autoFocus
+          type="text"
+          value={busca}
+          onChange={e => setBusca(e.target.value)}
+          placeholder="Buscar composição..."
+          className="flex-1 min-w-[140px] text-sm bg-transparent outline-none"
+          onKeyDown={e => { if (e.key === 'Escape') { setModo('idle'); setBusca(''); setResultados([]); } }}
+        />
+        {buscando && <RefreshCw className="h-3 w-3 text-muted-foreground animate-spin shrink-0" />}
+      </div>
+      <div className="absolute top-full left-0 z-50 mt-1 border rounded-lg bg-background shadow-lg max-h-64 overflow-auto min-w-[380px]">
+        {!busca && (
+          <div className="px-3 py-3 text-xs text-muted-foreground text-center">
+            Digite para buscar composições...
+          </div>
+        )}
+        {busca.length >= 2 && !buscando && resultados.length === 0 && (
+          <div className="px-3 py-3 text-xs text-muted-foreground text-center">Nenhuma composição encontrada</div>
+        )}
+        {resultados.map(comp => (
+          <button key={comp.id} type="button"
+            className="w-full text-left px-3 py-2.5 hover:bg-accent transition-colors flex justify-between items-start gap-3 border-b last:border-0"
+            onMouseDown={e => { e.preventDefault(); selecionarComp(comp); }}>
+            <div className="min-w-0 flex-1">
+              <p className="truncate font-medium leading-tight text-sm">{comp.descricao}</p>
+              <p className="font-mono text-muted-foreground text-[10px] mt-0.5">{comp.codigo} · {comp.unidade_producao}</p>
+            </div>
+            <span className="text-muted-foreground shrink-0 tabular-nums text-xs font-medium">
+              {fmtBRL(comp.custo_unitario || 0)}
+            </span>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 // ─── Serviço Header (antigo Sub-etapa) ───────────────────────────────────────
 function ServicoHeader({
-  nome, itens, onEditar, onExcluir,
-}: { nome: string; itens: ItemOrcamentoUI[]; onEditar: () => void; onExcluir: () => Promise<void> }) {
+  nome, itens, onEditar, onExcluir, onAdicionar,
+}: { nome: string; itens: ItemOrcamentoUI[]; onEditar: () => void; onExcluir: () => Promise<void>; onAdicionar: () => void }) {
   return (
     <div className="flex items-center gap-2 py-1">
       <Layers className="h-3 w-3 text-blue-500 shrink-0" />
@@ -264,6 +392,12 @@ function ServicoHeader({
       <span className="ml-auto text-xs font-semibold tabular-nums text-blue-700 shrink-0">
         {itens.reduce((a, i) => a + i.custo_total, 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
       </span>
+      <button
+        className="p-0.5 rounded text-green-600/60 hover:text-green-700 hover:bg-green-50 transition-colors shrink-0"
+        title={`Adicionar composição ao serviço "${nome}"`}
+        onClick={onAdicionar}>
+        <Plus className="h-3.5 w-3.5" />
+      </button>
       <button
         className="p-0.5 rounded text-muted-foreground/30 hover:text-destructive transition-colors shrink-0"
         title="Excluir serviço e todos os seus itens"
@@ -481,11 +615,16 @@ export default function OrcamentoDetalhePage({ params }: { params: Promise<{ id:
   const [draggingId, setDraggingId] = useState<string | null>(null);
   const [dragOverId, setDragOverId] = useState<string | null>(null);
 
-  // Modal "Editar Serviço"
-  const [editServico, setEditServico] = useState<{ etapaCodigo: string; nome: string; itens: ItemOrcamentoUI[] } | null>(null);
-  const [editServicoNome, setEditServicoNome] = useState('');
-  const [editServicoEtapa, setEditServicoEtapa] = useState('');
-  const [salvandoServico, setSalvandoServico] = useState(false);
+  // Modal unificado Editar/Adicionar Serviço
+  const [editorServico, setEditorServico] = useState<{ etapaCodigo: string; nome: string } | null>(null);
+  const [editorNome, setEditorNome] = useState('');
+  const [editorEtapa, setEditorEtapa] = useState('');
+  const [editorBusca, setEditorBusca] = useState('');
+  const [editorResultados, setEditorResultados] = useState<Composicao[]>([]);
+  const [editorCompSel, setEditorCompSel] = useState<Composicao | null>(null);
+  const [editorQtd, setEditorQtd] = useState('1');
+  const [salvandoNomeServico, setSalvandoNomeServico] = useState(false);
+  const [adicionandoNaEdicao, setAdicionandoNaEdicao] = useState(false);
 
   // Modal "Adicionar Serviço" (múltiplas composições agrupadas)
   interface ServicoComp { uid: string; comp: Composicao | null; busca: string; quantidade: string; resultados: Composicao[]; }
@@ -513,7 +652,7 @@ export default function OrcamentoDetalhePage({ params }: { params: Promise<{ id:
 
   useEffect(() => { carregar(); }, [carregar]);
 
-  // ── Busca de composições ────────────────────────────────────────────────────
+  // ── Busca de composições (modal Adicionar) ───────────────────────────────────
   useEffect(() => {
     if (buscaComp.length >= 2) {
       fetch(`/api/composicoes?q=${encodeURIComponent(buscaComp)}&status=ativo&custo=1`)
@@ -523,6 +662,17 @@ export default function OrcamentoDetalhePage({ params }: { params: Promise<{ id:
       setComposicoes([]);
     }
   }, [buscaComp]);
+
+  // ── Busca de composições (modal Editor de Serviço) ──────────────────────────
+  useEffect(() => {
+    if (editorBusca.length < 2) { setEditorResultados([]); return; }
+    const timer = setTimeout(() => {
+      fetch(`/api/composicoes?q=${encodeURIComponent(editorBusca)}&status=ativo&custo=1`)
+        .then(r => r.json())
+        .then(d => setEditorResultados(Array.isArray(d) ? d.slice(0, 20) : []));
+    }, 250);
+    return () => clearTimeout(timer);
+  }, [editorBusca]);
 
   // ── Toggle expand ───────────────────────────────────────────────────────────
   function toggleExpand(itemId: string) {
@@ -545,6 +695,16 @@ export default function OrcamentoDetalhePage({ params }: { params: Promise<{ id:
     setUnidadeLivre('');
     setCustoLivre('0');
     setModalAberto(true);
+  }
+
+  function abrirEditorServico(etapaCodigo: string, nome: string) {
+    setEditorServico({ etapaCodigo, nome });
+    setEditorNome(nome);
+    setEditorEtapa(etapaCodigo);
+    setEditorBusca('');
+    setEditorResultados([]);
+    setEditorCompSel(null);
+    setEditorQtd('1');
   }
 
   function abrirModalServico(codigoEtapa: string) {
@@ -697,46 +857,42 @@ export default function OrcamentoDetalhePage({ params }: { params: Promise<{ id:
     } finally { setSalvandoEdit(false); }
   }
 
-  async function renomearSubEtapa(etapaCodigo: string, nomeAntigo: string, nomeNovo: string) {
-    if (!orc) return;
-    const etapa = orc.etapas.find(e => e.codigo === etapaCodigo);
-    if (!etapa) return;
-    const itensGrupo = etapa.itens.filter(i => (i.sub_etapa || '') === nomeAntigo);
-    await Promise.all(itensGrupo.map(item =>
-      fetch(`/api/orcamentos/${id}/itens/${item.id}`, {
-        method: 'PUT', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sub_etapa: nomeNovo, quantidade: item.quantidade }),
-      })
-    ));
-    carregar(); toast.success('Serviço renomeado');
-  }
-
-  function abrirEditServico(etapaCodigo: string, nome: string, itens: ItemOrcamentoUI[]) {
-    setEditServico({ etapaCodigo, nome, itens });
-    setEditServicoNome(nome);
-    setEditServicoEtapa(etapaCodigo);
-  }
-
-  async function salvarEdicaoServico() {
-    if (!editServico || !editServicoNome.trim()) return;
-    setSalvandoServico(true);
+  async function salvarEditorServico() {
+    if (!editorServico || !editorNome.trim()) return;
+    setSalvandoNomeServico(true);
     try {
-      const novoNome = editServicoNome.trim();
-      const novaEtapa = editServicoEtapa;
-      await Promise.all(editServico.itens.map(item =>
+      const novoNome = editorNome.trim();
+      const novaEtapa = editorEtapa;
+      const etapa = orc?.etapas.find(e => e.codigo === editorServico.etapaCodigo);
+      const itensGrupo = etapa?.itens.filter(i => (i.sub_etapa || '') === editorServico.nome) ?? [];
+      await Promise.all(itensGrupo.map(item =>
         fetch(`/api/orcamentos/${id}/itens/${item.id}`, {
           method: 'PUT', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            sub_etapa: novoNome,
-            etapa_codigo: novaEtapa,
-            quantidade: item.quantidade,
-          }),
+          body: JSON.stringify({ sub_etapa: novoNome, etapa_codigo: novaEtapa, quantidade: item.quantidade }),
         })
       ));
+      setEditorServico({ etapaCodigo: novaEtapa, nome: novoNome });
       toast.success('Serviço atualizado');
-      setEditServico(null);
       carregar();
-    } finally { setSalvandoServico(false); }
+    } finally { setSalvandoNomeServico(false); }
+  }
+
+  async function adicionarNaEdicaoServico() {
+    if (!editorServico || !editorCompSel) return;
+    setAdicionandoNaEdicao(true);
+    try {
+      await fetch(`/api/orcamentos/${id}/itens`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          etapa_codigo: editorServico.etapaCodigo,
+          sub_etapa: editorServico.nome,
+          composicao_id: editorCompSel.id,
+          quantidade: Number(editorQtd) || 1,
+        }),
+      });
+      setEditorCompSel(null); setEditorBusca(''); setEditorQtd('1');
+      carregar();
+    } finally { setAdicionandoNaEdicao(false); }
   }
 
   async function handleDrop(etapaCodigo: string, targetId: string) {
@@ -985,8 +1141,9 @@ export default function OrcamentoDetalhePage({ params }: { params: Promise<{ id:
                                   <ServicoHeader
                                     nome={grupo.nome}
                                     itens={grupo.itens}
-                                    onEditar={() => abrirEditServico(etapa.codigo, grupo.nome, grupo.itens)}
+                                    onEditar={() => abrirEditorServico(etapa.codigo, grupo.nome)}
                                     onExcluir={() => removerSubEtapa(etapa.codigo, grupo.nome, grupo.itens)}
+                                    onAdicionar={() => abrirEditorServico(etapa.codigo, grupo.nome)}
                                   />
                                 </td>
                               </tr>
@@ -1039,13 +1196,21 @@ export default function OrcamentoDetalhePage({ params }: { params: Promise<{ id:
 
                                     {/* Descrição */}
                                     <td className="px-3 py-2 max-w-xs">
-                                      <div className="flex flex-col gap-0.5">
-                                        <CelulaTexto valor={descricao}
-                                          onSalvar={v => atualizarItem(item.id, { descricao_override: v, quantidade: item.quantidade })} />
-                                        {item.composicao && (
-                                          <span className="text-[10px] text-muted-foreground/50 font-mono">{item.composicao.codigo}</span>
-                                        )}
-                                      </div>
+                                      <CelulaDescricaoComposicao
+                                        descricao={descricao}
+                                        composicao={item.composicao}
+                                        onTrocarComposicao={async comp => {
+                                          await atualizarItem(item.id, {
+                                            composicao_id: comp.id,
+                                            descricao_override: '',
+                                            unidade_override: '',
+                                            quantidade: item.quantidade,
+                                          });
+                                        }}
+                                        onSalvarDescricao={async v => {
+                                          await atualizarItem(item.id, { descricao_override: v, quantidade: item.quantidade });
+                                        }}
+                                      />
                                     </td>
 
                                     {/* Unidade */}
@@ -1444,62 +1609,143 @@ export default function OrcamentoDetalhePage({ params }: { params: Promise<{ id:
         </DialogContent>
       </Dialog>
 
-      {/* ═══ MODAL — EDITAR SERVIÇO ══════════════════════════════════════════ */}
-      <Dialog open={!!editServico} onOpenChange={v => { if (!v) setEditServico(null); }}>
-        <DialogContent className="max-w-md">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2 text-base">
-              <Layers className="h-4 w-4 text-blue-600" /> Editar Serviço
-            </DialogTitle>
-          </DialogHeader>
-          {editServico && (
-            <div className="grid gap-4 py-1">
-              <div className="rounded-lg bg-blue-50 border border-blue-200 px-3 py-2 text-xs text-blue-700">
-                {editServico.itens.length} composição(ões) · Subtotal: <strong>
-                  {editServico.itens.reduce((a, i) => a + i.custo_total, 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                </strong>
-              </div>
-              <div className="grid gap-1.5">
-                <Label className="text-xs font-semibold">Nome do Serviço <span className="text-destructive">*</span></Label>
-                <Input
-                  autoFocus
-                  value={editServicoNome}
-                  onChange={e => setEditServicoNome(e.target.value)}
-                  placeholder="Nome do serviço..."
-                  className="h-9"
-                  onKeyDown={e => { if (e.key === 'Enter') salvarEdicaoServico(); }}
-                />
-              </div>
-              <div className="grid gap-1.5">
-                <Label className="text-xs font-semibold">Mover para Etapa</Label>
-                <Select value={editServicoEtapa} onValueChange={v => { if (v) setEditServicoEtapa(v); }}>
-                  <SelectTrigger className="h-9"><SelectValue /></SelectTrigger>
-                  <SelectContent className="w-[480px] max-w-[95vw]">
-                    {ETAPAS.map(e => (
-                      <SelectItem key={e.codigo} value={e.codigo}>
-                        {e.descricao} <span className="text-muted-foreground ml-1">({e.codigo})</span>
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                {editServicoEtapa !== editServico.etapaCodigo && (
-                  <p className="text-xs text-amber-600">
-                    ⚠ Todas as {editServico.itens.length} composições serão movidas para a nova etapa.
-                  </p>
+      {/* ═══ MODAL UNIFICADO — EDITAR SERVIÇO + ADICIONAR COMPOSIÇÕES ═════════ */}
+      {editorServico && (() => {
+        const itensGrupo = orc?.etapas.find(e => e.codigo === editorServico.etapaCodigo)?.itens.filter(i => (i.sub_etapa || '') === editorServico.nome) ?? [];
+        const subtotal = itensGrupo.reduce((a, i) => a + i.custo_total, 0);
+        const nomeAlterado = editorNome.trim() !== editorServico.nome || editorEtapa !== editorServico.etapaCodigo;
+        return (
+          <Dialog open onOpenChange={v => { if (!v) setEditorServico(null); }}>
+            <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+              <DialogHeader>
+                <DialogTitle className="flex items-center gap-2 text-base">
+                  <Layers className="h-4 w-4 text-blue-600" /> Editar Serviço
+                </DialogTitle>
+              </DialogHeader>
+              <div className="grid gap-5 py-1">
+
+                {/* Nome + Etapa */}
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="grid gap-1.5">
+                    <Label className="text-xs font-semibold">Nome do Serviço</Label>
+                    <Input value={editorNome} onChange={e => setEditorNome(e.target.value)}
+                      placeholder="Nome do serviço..." className="h-9" />
+                  </div>
+                  <div className="grid gap-1.5">
+                    <Label className="text-xs font-semibold">Etapa</Label>
+                    <Select value={editorEtapa} onValueChange={v => { if (v) setEditorEtapa(v); }}>
+                      <SelectTrigger className="h-9">
+                        <span className={`flex-1 text-sm text-left truncate ${!editorEtapa ? 'text-muted-foreground' : ''}`}>
+                          {editorEtapa ? ETAPAS.find(e => e.codigo === editorEtapa)?.descricao ?? editorEtapa : 'Selecionar...'}
+                        </span>
+                      </SelectTrigger>
+                      <SelectContent className="w-[480px] max-w-[95vw]">
+                        {ETAPAS.map(e => <SelectItem key={e.codigo} value={e.codigo}>{e.descricao} ({e.codigo})</SelectItem>)}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+                {nomeAlterado && (
+                  <Button size="sm" variant="outline" className="self-start h-8" onClick={salvarEditorServico} disabled={salvandoNomeServico || !editorNome.trim()}>
+                    {salvandoNomeServico ? <><RefreshCw className="h-3.5 w-3.5 animate-spin mr-1.5" />Salvando...</> : <><Check className="h-3.5 w-3.5 mr-1.5" />Salvar nome/etapa</>}
+                  </Button>
                 )}
+
+                {/* Composições atuais */}
+                <div className="grid gap-2">
+                  <div className="flex items-center justify-between">
+                    <Label className="text-xs font-semibold">Composições do serviço ({itensGrupo.length})</Label>
+                    <span className="text-xs text-muted-foreground tabular-nums">{fmtBRL(subtotal)}</span>
+                  </div>
+                  {itensGrupo.length === 0 ? (
+                    <div className="border border-dashed rounded-lg py-4 text-center text-xs text-muted-foreground">Nenhuma composição neste serviço</div>
+                  ) : (
+                    <div className="border rounded-lg overflow-hidden">
+                      <table className="w-full text-xs">
+                        <thead><tr className="bg-muted/30 border-b"><th className="text-left px-3 py-2 text-muted-foreground font-medium">Composição</th><th className="text-center px-2 py-2 w-16 text-muted-foreground font-medium">Un.</th><th className="text-right px-2 py-2 w-20 text-muted-foreground font-medium">Custo U.</th><th className="text-right px-2 py-2 w-16 text-muted-foreground font-medium">Qtd.</th><th className="text-right px-2 py-2 w-24 text-muted-foreground font-medium">Total</th><th className="w-8"></th></tr></thead>
+                        <tbody>
+                          {itensGrupo.map(item => (
+                            <tr key={item.id} className="border-b last:border-0 hover:bg-muted/20">
+                              <td className="px-3 py-2">
+                                <p className="font-medium leading-tight">{item.descricao_override || item.composicao?.descricao || '—'}</p>
+                                {item.composicao && <p className="text-muted-foreground/50 font-mono text-[10px]">{item.composicao.codigo}</p>}
+                              </td>
+                              <td className="px-2 py-2 text-center text-muted-foreground">{item.unidade_override || item.composicao?.unidade_producao || ''}</td>
+                              <td className="px-2 py-2 text-right tabular-nums text-muted-foreground">{fmtBRL(item.custo_unitario_efetivo)}</td>
+                              <td className="px-2 py-2 text-right tabular-nums font-semibold">{item.quantidade}</td>
+                              <td className="px-2 py-2 text-right tabular-nums font-semibold">{fmtBRL(item.custo_total)}</td>
+                              <td className="px-1 py-2">
+                                <button className="p-0.5 rounded text-muted-foreground/30 hover:text-destructive transition-colors" onClick={() => removerItem(item.id)} title="Remover">
+                                  <Trash2 className="h-3 w-3" />
+                                </button>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+                </div>
+
+                {/* Adicionar nova composição */}
+                <div className="grid gap-2 border-t pt-4">
+                  <Label className="text-xs font-semibold">Adicionar composição</Label>
+                  <div className="flex gap-2 items-start">
+                    <div className="flex-1 grid gap-1.5">
+                      <div className="relative">
+                        <Input placeholder="Digite 2+ letras para buscar..."
+                          value={editorCompSel ? editorCompSel.descricao : editorBusca}
+                          onChange={e => { setEditorBusca(e.target.value); setEditorCompSel(null); }}
+                          className={`h-9 pr-8 ${editorCompSel ? 'border-green-500' : ''}`} />
+                        {editorCompSel && (
+                          <button className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                            onClick={() => { setEditorCompSel(null); setEditorBusca(''); }}>
+                            <X className="h-3.5 w-3.5" />
+                          </button>
+                        )}
+                        {!editorCompSel && editorResultados.length > 0 && (
+                          <div className="absolute top-full left-0 right-0 z-50 mt-1 border rounded-lg bg-background shadow-lg max-h-52 overflow-auto">
+                            {editorResultados.map(comp => (
+                              <button key={comp.id} type="button"
+                                className="w-full text-left px-3 py-2.5 text-sm hover:bg-accent transition-colors flex justify-between items-center gap-3 border-b last:border-0"
+                                onMouseDown={e => { e.preventDefault(); setEditorCompSel(comp); setEditorBusca(''); setEditorResultados([]); }}>
+                                <div className="min-w-0 flex-1">
+                                  <p className="truncate font-medium">{comp.descricao}</p>
+                                  <p className="text-[11px] text-muted-foreground font-mono">{comp.codigo}</p>
+                                </div>
+                                <span className="text-muted-foreground text-xs shrink-0 tabular-nums">{fmtBRL(comp.custo_unitario || 0)}/{comp.unidade_producao}</span>
+                              </button>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                      {editorCompSel && (
+                        <div className="flex items-center justify-between text-xs bg-green-50 border border-green-200 rounded px-2.5 py-1.5">
+                          <span className="font-mono text-muted-foreground">{editorCompSel.codigo}</span>
+                          <span>{fmtBRL(editorCompSel.custo_unitario || 0)}/{editorCompSel.unidade_producao}</span>
+                        </div>
+                      )}
+                    </div>
+                    <div className="grid gap-1 w-20 shrink-0">
+                      <Label className="text-[10px] text-muted-foreground">Qtd.</Label>
+                      <Input type="number" min="0" step="0.01" value={editorQtd} onFocus={e => e.target.select()}
+                        onChange={e => setEditorQtd(e.target.value)} className="h-9 text-sm px-2" />
+                    </div>
+                    <Button className="mt-5 shrink-0 h-9" onClick={adicionarNaEdicaoServico}
+                      disabled={adicionandoNaEdicao || !editorCompSel}>
+                      {adicionandoNaEdicao ? <RefreshCw className="h-3.5 w-3.5 animate-spin" /> : <><Plus className="h-3.5 w-3.5 mr-1" />Add</>}
+                    </Button>
+                  </div>
+                </div>
+
               </div>
-            </div>
-          )}
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setEditServico(null)}>Cancelar</Button>
-            <Button onClick={salvarEdicaoServico} disabled={salvandoServico || !editServicoNome.trim()}>
-              {salvandoServico
-                ? <><RefreshCw className="h-3.5 w-3.5 animate-spin mr-1.5" /> Salvando...</>
-                : <><Check className="h-3.5 w-3.5 mr-1.5" /> Salvar</>}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+              <DialogFooter>
+                <Button variant="outline" onClick={() => setEditorServico(null)}>Fechar</Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+        );
+      })()}
     </div>
   );
 }

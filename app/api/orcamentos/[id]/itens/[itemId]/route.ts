@@ -32,6 +32,8 @@ export async function PUT(
       updates.etapa_codigo = String(body.etapa_codigo).trim();
     if (body.ordem !== undefined)
       updates.ordem = Number(body.ordem);
+    if (body.composicao_id !== undefined)
+      updates.composicao_id = String(body.composicao_id).trim();
     if (body.qtd_overrides !== undefined) {
       updates.qtd_overrides = typeof body.qtd_overrides === 'object'
         ? JSON.stringify(body.qtd_overrides)
