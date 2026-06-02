@@ -1,0 +1,46 @@
+[
+  {
+    "id": "forn-001",
+    "obra_id": "obra-001",
+    "nome": "Materiais Eldorado Ltda",
+    "especialidade": "Material de Construcao",
+    "telefone": "(51) 3482-1100",
+    "whatsapp": "555134821100",
+    "email": "vendas@materiaiseldorado.com.br",
+    "observacoes": "Fornecedor principal. Entrega no local.",
+    "status": "ativo"
+  },
+  {
+    "id": "forn-002",
+    "obra_id": "obra-001",
+    "nome": "Ferragens Central RS",
+    "especialidade": "Aco e Ferragem",
+    "telefone": "(51) 98765-4321",
+    "whatsapp": "5551987654321",
+    "email": "",
+    "observacoes": "Melhor preco em vergalhao CA-50.",
+    "status": "ativo"
+  },
+  {
+    "id": "forn-003",
+    "obra_id": "obra-001",
+    "nome": "Eletrica Gaucha Servicos",
+    "especialidade": "Instalacoes Eletricas",
+    "telefone": "(51) 99234-5678",
+    "whatsapp": "5551992345678",
+    "email": "eletricagaucha@gmail.com",
+    "observacoes": "Empreiteiro eletrico. Contrato por servico completo.",
+    "status": "ativo"
+  },
+  {
+    "id": "forn-004",
+    "obra_id": "obra-001",
+    "nome": "Ceramica Sul Revestimentos",
+    "especialidade": "Revestimentos e Pisos",
+    "telefone": "(51) 3481-9900",
+    "whatsapp": "555134819900",
+    "email": "vendas@ceramicasul.com.br",
+    "observacoes": "Perguntar por Marcos.",
+    "status": "ativo"
+  }
+]

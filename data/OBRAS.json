@@ -1,0 +1,22 @@
+[
+  {
+    "id": "obra-001",
+    "nome": "Residencia Familia Silva",
+    "endereco": "Rua das Acacias, 142",
+    "bairro": "Centro",
+    "cidade": "Eldorado do Sul",
+    "estado": "RS",
+    "cep": "92990-000",
+    "status": "em_andamento",
+    "data_inicio": "2026-04-01",
+    "data_prev_termino": "2026-10-30",
+    "area_construida": "80",
+    "foto_url": "",
+    "responsavel": "Joao da Silva",
+    "telefone_responsavel": "(51) 99123-4567",
+    "orcamento_id": "orc-geminada-42m2-2026",
+    "observacoes": "Casa geminada terrea. Terreno plano. Acesso pela rua principal.",
+    "data_criacao": "2026-06-02T16:53:58.432Z",
+    "data_atualizacao": "2026-06-02T16:53:58.453Z"
+  }
+]

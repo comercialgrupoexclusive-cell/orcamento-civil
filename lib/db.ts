@@ -15,6 +15,10 @@ export const SHEET_HEADERS: Record<string, string[]> = {
     'quantidade', 'quantidade_tipo', 'ordem', 'qtd_overrides',
   ],
   CONFIG: ['chave', 'valor'],
+  OBRAS: ['id','nome','endereco','bairro','cidade','estado','cep','status','data_inicio','data_prev_termino','area_construida','foto_url','responsavel','telefone_responsavel','orcamento_id','observacoes','data_criacao','data_atualizacao'],
+  FORNECEDORES: ['id','obra_id','nome','especialidade','telefone','whatsapp','email','observacoes','status'],
+  ETAPAS_OBRA: ['id','obra_id','orcamento_id','etapa_codigo','etapa_nome','status_execucao','data_inicio','data_fim_prevista','data_fim_real','ordem'],
+  SERVICOS_ETAPA: ['id','etapa_obra_id','obra_id','etapa_codigo','composicao_codigo','servico_nome','unidade','quantidade','status_compra','fornecedor_id','observacao'],
 };
 
 // ─── Detecção de ambiente ─────────────────────────────────────────────────────

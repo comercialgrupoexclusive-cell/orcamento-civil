@@ -1,0 +1,122 @@
+[
+  {
+    "id": "etob-001",
+    "obra_id": "obra-001",
+    "orcamento_id": "orc-geminada-42m2-2026",
+    "etapa_codigo": "01",
+    "etapa_nome": "Servicos Preliminares",
+    "status_execucao": "concluido",
+    "data_inicio": "2026-04-01",
+    "data_fim_prevista": "2026-04-07",
+    "data_fim_real": "2026-04-05",
+    "ordem": "1"
+  },
+  {
+    "id": "etob-002",
+    "obra_id": "obra-001",
+    "orcamento_id": "orc-geminada-42m2-2026",
+    "etapa_codigo": "02",
+    "etapa_nome": "Infraestrutura",
+    "status_execucao": "concluido",
+    "data_inicio": "2026-04-07",
+    "data_fim_prevista": "2026-04-21",
+    "data_fim_real": "2026-04-22",
+    "ordem": "2"
+  },
+  {
+    "id": "etob-003",
+    "obra_id": "obra-001",
+    "orcamento_id": "orc-geminada-42m2-2026",
+    "etapa_codigo": "03",
+    "etapa_nome": "Supraestrutura",
+    "status_execucao": "em_andamento",
+    "data_inicio": "2026-04-23",
+    "data_fim_prevista": "2026-05-15",
+    "data_fim_real": "",
+    "ordem": "3"
+  },
+  {
+    "id": "etob-004",
+    "obra_id": "obra-001",
+    "orcamento_id": "orc-geminada-42m2-2026",
+    "etapa_codigo": "04",
+    "etapa_nome": "Paredes e Paineis",
+    "status_execucao": "nao_iniciado",
+    "data_inicio": "",
+    "data_fim_prevista": "2026-05-30",
+    "data_fim_real": "",
+    "ordem": "4"
+  },
+  {
+    "id": "etob-005",
+    "obra_id": "obra-001",
+    "orcamento_id": "orc-geminada-42m2-2026",
+    "etapa_codigo": "07",
+    "etapa_nome": "Coberturas",
+    "status_execucao": "nao_iniciado",
+    "data_inicio": "",
+    "data_fim_prevista": "2026-06-15",
+    "data_fim_real": "",
+    "ordem": "5"
+  },
+  {
+    "id": "etob-006",
+    "obra_id": "obra-001",
+    "orcamento_id": "orc-geminada-42m2-2026",
+    "etapa_codigo": "09",
+    "etapa_nome": "Revestimentos Internos",
+    "status_execucao": "nao_iniciado",
+    "data_inicio": "",
+    "data_fim_prevista": "2026-07-15",
+    "data_fim_real": "",
+    "ordem": "6"
+  },
+  {
+    "id": "etob-007",
+    "obra_id": "obra-001",
+    "orcamento_id": "orc-geminada-42m2-2026",
+    "etapa_codigo": "12",
+    "etapa_nome": "Pintura",
+    "status_execucao": "nao_iniciado",
+    "data_inicio": "",
+    "data_fim_prevista": "2026-08-15",
+    "data_fim_real": "",
+    "ordem": "7"
+  },
+  {
+    "id": "etob-008",
+    "obra_id": "obra-001",
+    "orcamento_id": "orc-geminada-42m2-2026",
+    "etapa_codigo": "13",
+    "etapa_nome": "Pisos e Contrapisos",
+    "status_execucao": "nao_iniciado",
+    "data_inicio": "",
+    "data_fim_prevista": "2026-08-30",
+    "data_fim_real": "",
+    "ordem": "8"
+  },
+  {
+    "id": "etob-009",
+    "obra_id": "obra-001",
+    "orcamento_id": "orc-geminada-42m2-2026",
+    "etapa_codigo": "15",
+    "etapa_nome": "Instalacoes Eletricas",
+    "status_execucao": "nao_iniciado",
+    "data_inicio": "",
+    "data_fim_prevista": "2026-09-15",
+    "data_fim_real": "",
+    "ordem": "9"
+  },
+  {
+    "id": "etob-010",
+    "obra_id": "obra-001",
+    "orcamento_id": "orc-geminada-42m2-2026",
+    "etapa_codigo": "16",
+    "etapa_nome": "Instalacoes Hidraulicas",
+    "status_execucao": "nao_iniciado",
+    "data_inicio": "",
+    "data_fim_prevista": "2026-09-30",
+    "data_fim_real": "",
+    "ordem": "10"
+  }
+]
