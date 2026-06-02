@@ -739,7 +739,7 @@ function CurvaABC({ orc }: { orc: OrcamentoDetalhe }) {
   const [filtroTipo, setFiltroTipo] = useState('TODOS');
   const [filtroCategoria, setFiltroCategoria] = useState('TODAS');
   const [busca, setBusca] = useState('');
-  const [viewMode, setViewMode] = useState<'insumos' | 'categorias'>('insumos');
+  const [viewMode, setViewMode] = useState<'insumos' | 'categorias' | 'etapas'>('insumos');
 
   // ── Agrega insumos ───────────────────────────────────────────────────────────
   const insumosMap = new Map<string, {
@@ -849,6 +849,10 @@ function CurvaABC({ orc }: { orc: OrcamentoDetalhe }) {
           <button onClick={() => setViewMode('categorias')}
             className={`px-3 py-1.5 text-xs font-medium transition-colors ${viewMode === 'categorias' ? 'bg-primary text-primary-foreground' : 'bg-background text-muted-foreground hover:bg-muted'}`}>
             Por Categoria
+          </button>
+          <button onClick={() => setViewMode('etapas')}
+            className={`px-3 py-1.5 text-xs font-medium transition-colors ${viewMode === 'etapas' ? 'bg-primary text-primary-foreground' : 'bg-background text-muted-foreground hover:bg-muted'}`}>
+            Por Etapa
           </button>
         </div>
 
@@ -1032,6 +1036,114 @@ function CurvaABC({ orc }: { orc: OrcamentoDetalhe }) {
           </table>
         </div>
       )}
+
+      {/* ── Por Etapa ─────────────────────────────────────────────────────── */}
+      {viewMode === 'etapas' && (() => {
+        // Agrupa custo por etapa direto dos itens do orçamento
+        const etapaMap = new Map<string, {
+          codigo: string; nome: string;
+          custo: number; custo_m: number; custo_mo: number; custo_e: number;
+          qtdItens: number; qtdInsumos: number;
+        }>();
+
+        for (const etapa of orc.etapas) {
+          let custoEt=0, moEt=0, mEt=0, eEt=0, qtdIns=0;
+          for (const item of etapa.itens) {
+            custoEt += item.custo_total;
+            mEt  += item.breakdown?.M  || 0;
+            moEt += item.breakdown?.MO || 0;
+            eEt  += item.breakdown?.E  || 0;
+            qtdIns += (item.insumos || []).length;
+          }
+          if (custoEt > 0 || etapa.itens.length > 0) {
+            etapaMap.set(etapa.codigo, {
+              codigo: etapa.codigo, nome: etapa.descricao,
+              custo: custoEt, custo_m: mEt, custo_mo: moEt, custo_e: eEt,
+              qtdItens: etapa.itens.length, qtdInsumos: qtdIns,
+            });
+          }
+        }
+
+        const etapasOrdenadas = Array.from(etapaMap.values()).sort((a,b) => b.custo - a.custo);
+        const totalEt = etapasOrdenadas.reduce((s,e) => s+e.custo, 0);
+
+        // Classe ABC por etapa
+        let acumEt = 0;
+        const etapasABC = etapasOrdenadas.map(e => {
+          acumEt += e.custo;
+          const pctAcum = totalEt > 0 ? acumEt/totalEt*100 : 0;
+          const classe = pctAcum <= 50 ? 'A' : pctAcum <= 80 ? 'B' : 'C';
+          return { ...e, pctAcum, classe };
+        });
+
+        const classeCor: Record<string,string> = {
+          A: 'bg-red-100 text-red-700 border-red-200',
+          B: 'bg-amber-100 text-amber-700 border-amber-200',
+          C: 'bg-green-100 text-green-700 border-green-200',
+        };
+
+        return (
+          <div className="border rounded-xl overflow-hidden shadow-sm">
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b bg-muted/20">
+                    <th className="text-left px-3 py-2 text-xs text-muted-foreground font-medium w-8">#</th>
+                    <th className="text-left px-3 py-2 text-xs text-muted-foreground font-medium">Etapa</th>
+                    <th className="text-right px-3 py-2 text-xs text-muted-foreground font-medium w-16">Itens</th>
+                    <th className="text-right px-3 py-2 text-xs text-muted-foreground font-medium w-28">Material</th>
+                    <th className="text-right px-3 py-2 text-xs text-muted-foreground font-medium w-28">Mão de Obra</th>
+                    <th className="text-right px-3 py-2 text-xs text-muted-foreground font-medium w-28">Total</th>
+                    <th className="text-right px-3 py-2 text-xs text-muted-foreground font-medium w-16">% Acum.</th>
+                    <th className="text-center px-3 py-2 text-xs text-muted-foreground font-medium w-14">Classe</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {etapasABC.map((et, idx) => {
+                    const pctItem = totalEt > 0 ? et.custo/totalEt*100 : 0;
+                    return (
+                      <tr key={et.codigo} className="border-b last:border-0 hover:bg-muted/20 transition-colors">
+                        <td className="px-3 py-2.5 text-xs text-muted-foreground tabular-nums">{idx+1}</td>
+                        <td className="px-3 py-2.5">
+                          <p className="font-medium text-sm leading-tight">{et.nome}</p>
+                          <p className="text-[10px] text-muted-foreground">{et.qtdItens} composição{et.qtdItens!==1?'es':''}</p>
+                        </td>
+                        <td className="px-3 py-2.5 text-right text-muted-foreground text-xs tabular-nums">{et.qtdItens}</td>
+                        <td className="px-3 py-2.5 text-right tabular-nums text-xs text-blue-700">{fmtBRL(et.custo_m)}</td>
+                        <td className="px-3 py-2.5 text-right tabular-nums text-xs text-orange-700">{fmtBRL(et.custo_mo)}</td>
+                        <td className="px-3 py-2.5 text-right tabular-nums font-semibold">{fmtBRL(et.custo)}</td>
+                        <td className="px-3 py-2.5 text-right">
+                          <div className="flex items-center justify-end gap-1.5">
+                            <div className="h-1.5 w-12 bg-muted rounded-full overflow-hidden">
+                              <div className="h-full bg-primary/60 rounded-full" style={{width:`${Math.min(et.pctAcum,100)}%`}}/>
+                            </div>
+                            <span className="text-[10px] tabular-nums text-muted-foreground w-8 text-right">{et.pctAcum.toFixed(0)}%</span>
+                          </div>
+                        </td>
+                        <td className="px-3 py-2.5 text-center">
+                          <span className={`inline-flex items-center justify-center w-7 h-5 text-xs font-black rounded border ${classeCor[et.classe]}`}>{et.classe}</span>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                  {etapasABC.length === 0 && (
+                    <tr><td colSpan={8} className="px-3 py-8 text-center text-muted-foreground text-sm">Sem dados de etapa.</td></tr>
+                  )}
+                </tbody>
+                {etapasABC.length > 0 && (
+                  <tfoot>
+                    <tr className="border-t bg-muted/20 font-semibold">
+                      <td colSpan={5} className="px-3 py-2.5 text-sm">Total</td>
+                      <td className="px-3 py-2.5 text-right tabular-nums">{fmtBRL(totalEt)}</td>
+                      <td colSpan={2}></td>
+                    </tr>
+                  </tfoot>
+                )}
+              </table>
+            </div>
+          </div>
+        );
+      })()}
     </div>
   );
 }

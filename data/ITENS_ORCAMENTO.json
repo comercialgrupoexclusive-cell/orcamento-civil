@@ -5868,7 +5868,7 @@
     "unidade_override": "",
     "custo_unitario_override": "0",
     "quantidade": "1",
-    "quantidade_tipo": "AUTO",
+    "quantidade_tipo": "MANUAL",
     "ordem": "6",
     "qtd_overrides": ""
   },
@@ -5882,7 +5882,7 @@
     "unidade_override": "",
     "custo_unitario_override": "0",
     "quantidade": "1",
-    "quantidade_tipo": "AUTO",
+    "quantidade_tipo": "MANUAL",
     "ordem": "7",
     "qtd_overrides": ""
   },
@@ -5923,7 +5923,7 @@
     "descricao_override": "",
     "unidade_override": "",
     "custo_unitario_override": "0",
-    "quantidade": "4.59",
+    "quantidade": "4",
     "quantidade_tipo": "MANUAL",
     "ordem": "2",
     "qtd_overrides": "{\"ins-P33\":3,\"ins-P32\":20,\"ins-P34\":3}"
@@ -5938,9 +5938,9 @@
     "unidade_override": "",
     "custo_unitario_override": "0",
     "quantidade": "48",
-    "quantidade_tipo": "AUTO",
+    "quantidade_tipo": "MANUAL",
     "ordem": "3",
-    "qtd_overrides": ""
+    "qtd_overrides": "{\"ins-P6\":8,\"ins-P66\":2,\"ins-P20\":1,\"ins-P3\":1,\"ins-P4\":0.5}"
   },
   {
     "id": "98786d63-fcf8-4ba0-ad27-b52457473de3",
@@ -5968,7 +5968,7 @@
     "quantidade": "48",
     "quantidade_tipo": "MANUAL",
     "ordem": "5",
-    "qtd_overrides": "{\"ins-P6\":8,\"ins-P36\":40,\"ins-P3\":1,\"ins-P4\":0.5}"
+    "qtd_overrides": "{\"ins-P6\":8,\"ins-P36\":38,\"ins-P3\":1,\"ins-P4\":0.5}"
   },
   {
     "id": "7a69dd06-bbf3-45ae-90ab-de928f370a9e",
@@ -5982,7 +5982,7 @@
     "quantidade": "48",
     "quantidade_tipo": "MANUAL",
     "ordem": "6",
-    "qtd_overrides": "{\"ins-P6\":15,\"ins-P66\":3,\"ins-P3\":1,\"ins-P4\":0}"
+    "qtd_overrides": "{\"ins-P6\":5,\"ins-P66\":3,\"ins-P3\":1,\"ins-P4\":0}"
   },
   {
     "id": "2826fc07-a840-4d8a-bab5-e5d12b5770bf",
@@ -5993,7 +5993,7 @@
     "descricao_override": "",
     "unidade_override": "",
     "custo_unitario_override": "0",
-    "quantidade": "2.16",
+    "quantidade": "2",
     "quantidade_tipo": "MANUAL",
     "ordem": "7",
     "qtd_overrides": "{\"ins-P33\":1.5,\"ins-P34\":1.5,\"ins-P32\":12}"
@@ -6021,10 +6021,10 @@
     "descricao_override": "",
     "unidade_override": "",
     "custo_unitario_override": "0",
-    "quantidade": "48",
+    "quantidade": "35",
     "quantidade_tipo": "MANUAL",
     "ordem": "9",
-    "qtd_overrides": "{\"ins-P41\":1,\"ins-P42\":0,\"ins-P43\":1}"
+    "qtd_overrides": "{\"ins-P41\":0.5,\"ins-P42\":0,\"ins-P43\":1}"
   },
   {
     "id": "f3903cca-0f93-4502-a499-1a4d3bfed2e3",
@@ -6400,7 +6400,7 @@
     "unidade_override": "",
     "custo_unitario_override": "0",
     "quantidade": "6",
-    "quantidade_tipo": "AUTO",
+    "quantidade_tipo": "MANUAL",
     "ordem": "11",
     "qtd_overrides": ""
   },
@@ -6413,24 +6413,10 @@
     "descricao_override": "",
     "unidade_override": "",
     "custo_unitario_override": "0",
-    "quantidade": "1.62",
+    "quantidade": "1.5",
     "quantidade_tipo": "MANUAL",
     "ordem": "12",
-    "qtd_overrides": "{\"ins-P33\":1,\"ins-P34\":1,\"ins-P32\":8}"
-  },
-  {
-    "id": "644d0059-cc93-427f-a673-0ceee45fb523",
-    "orcamento_id": "779114f9-87e7-4b9e-b6f1-77b32105bd1b",
-    "etapa_codigo": "02",
-    "sub_etapa": "Viga do Muro",
-    "composicao_id": "cmp-2000",
-    "descricao_override": "",
-    "unidade_override": "",
-    "custo_unitario_override": "0",
-    "quantidade": "17",
-    "quantidade_tipo": "AUTO",
-    "ordem": "13",
-    "qtd_overrides": ""
+    "qtd_overrides": "{\"ins-P33\":0.75,\"ins-P34\":0.75,\"ins-P32\":6}"
   },
   {
     "id": "71395c7c-7bc9-485d-aee6-20f15a08a926",
@@ -6444,7 +6430,7 @@
     "quantidade": "17",
     "quantidade_tipo": "MANUAL",
     "ordem": "14",
-    "qtd_overrides": "{\"ins-P52\":7,\"ins-P54\":0,\"ins-P50\":0,\"ins-P51\":7}"
+    "qtd_overrides": "{\"ins-P52\":6,\"ins-P54\":0,\"ins-P51\":6,\"ins-P50\":0,\"ins-P610\":0.5,\"ins-P48\":0.2}"
   },
   {
     "id": "1a3220b4-9b8f-4e22-9372-2cd5b31645bc",
@@ -6456,9 +6442,9 @@
     "unidade_override": "",
     "custo_unitario_override": "0",
     "quantidade": "17",
-    "quantidade_tipo": "AUTO",
+    "quantidade_tipo": "MANUAL",
     "ordem": "15",
-    "qtd_overrides": ""
+    "qtd_overrides": "{\"ins-P6\":3,\"ins-P36\":8,\"ins-P3\":0.4,\"ins-P4\":0.2}"
   },
   {
     "id": "2e76e245-12d3-410f-b803-ab60161cef28",
@@ -6469,10 +6455,10 @@
     "descricao_override": "",
     "unidade_override": "",
     "custo_unitario_override": "0",
-    "quantidade": "0.765",
-    "quantidade_tipo": "AUTO",
+    "quantidade": "0.5",
+    "quantidade_tipo": "MANUAL",
     "ordem": "16",
-    "qtd_overrides": ""
+    "qtd_overrides": "{\"ins-P33\":0.25,\"ins-P34\":0.25,\"ins-P32\":2}"
   },
   {
     "id": "ae2693d5-8181-4bfd-aab5-7c148d94ab9d",
