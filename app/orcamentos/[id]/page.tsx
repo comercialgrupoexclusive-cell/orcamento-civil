@@ -180,6 +180,40 @@ function BDIInline({ valor, onSalvar }: { valor: number; onSalvar: (v: number) =
   );
 }
 
+function AreaInline({ valor, onSalvar }: { valor: number; onSalvar: (v: number) => Promise<void> }) {
+  const [editando, setEditando] = useState(false);
+  const [val, setVal] = useState(String(valor || ''));
+  async function salvar() {
+    const num = Number(val);
+    if (isNaN(num) || num < 0) { setEditando(false); return; }
+    await onSalvar(num); setEditando(false);
+  }
+  if (editando) {
+    return (
+      <div className="flex items-center gap-1">
+        <span className="text-xs text-muted-foreground">Área</span>
+        <Input autoFocus type="number" min="0" step="0.5" value={val}
+          onFocus={e => e.target.select()} onChange={e => setVal(e.target.value)}
+          onKeyDown={e => { if (e.key === 'Enter') salvar(); if (e.key === 'Escape') { setVal(String(valor || '')); setEditando(false); } }}
+          className="h-6 w-20 px-2 py-0 text-xs border-2 border-primary" />
+        <span className="text-xs text-muted-foreground">m²</span>
+        <button className="text-green-600 hover:text-green-700 p-0.5" onClick={salvar}><Check className="h-3 w-3" /></button>
+        <button className="text-muted-foreground p-0.5" onClick={() => { setVal(String(valor || '')); setEditando(false); }}><X className="h-3 w-3" /></button>
+      </div>
+    );
+  }
+  return (
+    <button className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground hover:bg-muted/60 rounded px-1.5 py-0.5 transition-colors"
+      title="Clique para editar a área construída" onClick={() => { setVal(String(valor || '')); setEditando(true); }}>
+      <span>Área:</span>
+      <strong className={valor > 0 ? 'text-foreground' : 'text-amber-500'}>
+        {valor > 0 ? `${valor} m²` : 'definir ▸'}
+      </strong>
+      <Pencil className="h-3 w-3 opacity-50" />
+    </button>
+  );
+}
+
 // ─── Célula Numérica Inline ───────────────────────────────────────────────────
 // Arredonda removendo ruído de ponto flutuante (282.460105000000006 -> 282.46)
 function limpaNum(n: number, decimais: number): number {
@@ -1240,6 +1274,7 @@ export default function OrcamentoDetalhePage({ params }: { params: Promise<{ id:
             </p>
             <div className="flex items-center gap-3 flex-wrap">
               <BDIInline valor={orc.bdi_percentual} onSalvar={v => salvarOrcamento({ bdi_percentual: v })} />
+              <AreaInline valor={Number(orc.area_construida) || 0} onSalvar={v => salvarOrcamento({ area_construida: v })} />
               {orc.data_atualizacao && (
                 <span className="flex items-center gap-1 text-xs text-muted-foreground">
                   <Calendar className="h-3 w-3 shrink-0" />

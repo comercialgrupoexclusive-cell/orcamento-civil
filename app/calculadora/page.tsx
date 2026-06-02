@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent } from '@/components/ui/card';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from '@/components/ui/select';
@@ -831,23 +832,28 @@ function CalculadoraContent() {
 
   const [userStates, setUserStates] = useState<Record<string, ItemUserState>>({});
   const [aplicando, setAplicando] = useState(false);
-  const [criandoNovo, setCriandoNovo] = useState(false);
-  const [novoTitulo, setNovoTitulo] = useState('');
+  const [modalNovo, setModalNovo] = useState(false);
+  const [novoForm, setNovoForm] = useState({ titulo: '', area_construida: '', descricao: '', bdi_percentual: '0' });
   const [salvandoNovo, setSalvandoNovo] = useState(false);
 
   async function criarOrcamento() {
-    const titulo = novoTitulo.trim();
-    if (!titulo) { toast.error('Informe um título para o orçamento'); return; }
+    const titulo = novoForm.titulo.trim();
+    const area = novoForm.area_construida;
+    if (!titulo) { toast.error('Informe um título'); return; }
+    if (!area) { toast.error('Informe a área construída'); return; }
     setSalvandoNovo(true);
     try {
-      const res = await fetch('/api/orcamentos', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ titulo }) });
+      const res = await fetch('/api/orcamentos', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ titulo, area_construida: Number(area), descricao: novoForm.descricao, bdi_percentual: Number(novoForm.bdi_percentual) }),
+      });
       const data = await res.json();
       if (!res.ok) { toast.error(data.error || (Array.isArray(data.erros) ? data.erros.join(', ') : 'Erro ao criar orçamento')); return; }
       setOrcamentos(prev => [{ id: data.id, titulo: data.titulo }, ...prev]);
       setOrcamentoId(data.id);
       setOrcamentoTitulo(data.titulo);
-      setNovoTitulo('');
-      setCriandoNovo(false);
+      setNovoForm({ titulo: '', area_construida: '', descricao: '', bdi_percentual: '0' });
+      setModalNovo(false);
       toast.success(`Orçamento "${data.titulo}" criado e selecionado!`);
     } catch { toast.error('Erro ao conectar'); } finally { setSalvandoNovo(false); }
   }
@@ -938,22 +944,49 @@ function CalculadoraContent() {
                 <SelectContent>{orcamentos.map(o => <SelectItem key={o.id} value={o.id}>{o.titulo}</SelectItem>)}</SelectContent>
               </Select>
             </div>
-            <Button size="sm" variant="outline" className="h-9 text-xs shrink-0 bg-background" onClick={() => { setCriandoNovo(v => !v); setNovoTitulo(''); }}>
+            <Button size="sm" variant="outline" className="h-9 text-xs shrink-0 bg-background"
+              onClick={() => { setNovoForm({ titulo: '', area_construida: '', descricao: '', bdi_percentual: '0' }); setModalNovo(true); }}>
               <Plus className="h-3.5 w-3.5 mr-1" /> Novo orçamento
             </Button>
             {orcamentoId && <Link href={`/orcamentos/${orcamentoId}`} className="text-xs text-primary hover:underline flex items-center gap-1"><Check className="h-3 w-3" /> Selecionado</Link>}
           </div>
-          {criandoNovo && (
-            <div className="flex items-center gap-2 mt-3 flex-wrap">
-              <Input autoFocus value={novoTitulo} onChange={e => setNovoTitulo(e.target.value)}
-                onKeyDown={e => { if (e.key === 'Enter') criarOrcamento(); if (e.key === 'Escape') { setCriandoNovo(false); setNovoTitulo(''); } }}
-                placeholder="Título do novo orçamento..." className="h-9 text-sm flex-1 min-w-48 max-w-sm bg-background" />
-              <Button size="sm" className="h-9" disabled={salvandoNovo || !novoTitulo.trim()} onClick={criarOrcamento}>
-                {salvandoNovo ? 'Criando...' : 'Criar e selecionar'}
-              </Button>
-              <Button size="sm" variant="ghost" className="h-9" onClick={() => { setCriandoNovo(false); setNovoTitulo(''); }}>Cancelar</Button>
-            </div>
-          )}
+
+          {/* Dialog novo orçamento (mesmo formulário da lista) */}
+          <Dialog open={modalNovo} onOpenChange={setModalNovo}>
+            <DialogContent className="max-w-md">
+              <DialogHeader><DialogTitle>Novo Orçamento</DialogTitle></DialogHeader>
+              <div className="space-y-3 py-2">
+                <div className="grid gap-1.5">
+                  <Label>Título <span className="text-destructive">*</span></Label>
+                  <Input autoFocus value={novoForm.titulo} onChange={e => setNovoForm(f => ({ ...f, titulo: e.target.value }))}
+                    onKeyDown={e => { if (e.key === 'Enter') criarOrcamento(); }}
+                    placeholder="Ex: Residência Unifamiliar 120m²" className="h-10" />
+                </div>
+                <div className="grid gap-1.5">
+                  <Label>Área Construída (m²) <span className="text-destructive">*</span></Label>
+                  <Input type="number" min="1" step="0.5" value={novoForm.area_construida}
+                    onChange={e => setNovoForm(f => ({ ...f, area_construida: e.target.value }))}
+                    placeholder="Ex: 80" className="h-10" />
+                </div>
+                <div className="grid gap-1.5">
+                  <Label>Descrição</Label>
+                  <Input value={novoForm.descricao} onChange={e => setNovoForm(f => ({ ...f, descricao: e.target.value }))}
+                    placeholder="Descrição opcional..." className="h-10" />
+                </div>
+                <div className="grid gap-1.5">
+                  <Label>BDI (%)</Label>
+                  <Input type="number" min="0" max="100" step="0.1" value={novoForm.bdi_percentual}
+                    onChange={e => setNovoForm(f => ({ ...f, bdi_percentual: e.target.value }))} className="h-10" />
+                </div>
+              </div>
+              <DialogFooter>
+                <Button variant="outline" onClick={() => setModalNovo(false)}>Cancelar</Button>
+                <Button onClick={criarOrcamento} disabled={salvandoNovo || !novoForm.titulo.trim() || !novoForm.area_construida}>
+                  {salvandoNovo ? 'Criando...' : 'Criar e selecionar'}
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
           <p className="text-[11px] text-muted-foreground mt-2 flex items-start gap-1"><Info className="h-3 w-3 mt-0.5 shrink-0" /> Items com composicao selecionada serao adicionados com custo automatico.</p>
         </CardContent>
       </Card>

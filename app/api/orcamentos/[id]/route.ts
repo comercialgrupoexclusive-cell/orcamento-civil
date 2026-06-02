@@ -74,7 +74,7 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
         } else {
           custoTotal = 0;
         }
-        const custoUnitarioEfetivo = quantidade > 0 ? custoTotal / quantidade : 0;
+        const custoUnitarioEfetivo = quantidade > 0 ? Math.round((custoTotal / quantidade) * 10000) / 10000 : 0;
 
         // Breakdown computed directly from insumo costs
         const breakdown: Breakdown = zeroBreakdown();

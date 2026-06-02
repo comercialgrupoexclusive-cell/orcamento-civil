@@ -72,7 +72,7 @@ export async function POST(req: NextRequest) {
         descricao_override: item.composicao_id ? '' : item.descricao,
         unidade_override: item.composicao_id ? '' : item.unidade,
         custo_unitario_override: 0,
-        quantidade: item.quantidade,
+        quantidade: Math.round(item.quantidade * 1000) / 1000,   // elimina ruído floating-point
         quantidade_tipo: 'AUTO',
         ordem: ordemPorEtapa[etapa],
         qtd_overrides: '',
