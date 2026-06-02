@@ -316,14 +316,17 @@ function CelulaDescricaoComposicao({
   }, [modo]);
 
   useEffect(() => {
-    if (modo !== 'busca' || busca.length < 2) { setResultados([]); return; }
+    if (modo !== 'busca') { setResultados([]); return; }
     setBuscando(true);
+    const url = busca.length >= 1
+      ? `/api/composicoes?q=${encodeURIComponent(busca)}&status=ativo&custo=1`
+      : `/api/composicoes?status=ativo&custo=1`;
     const timer = setTimeout(() => {
-      fetch(`/api/composicoes?q=${encodeURIComponent(busca)}&status=ativo&custo=1`)
+      fetch(url)
         .then(r => r.json())
-        .then(d => setResultados(Array.isArray(d) ? d.slice(0, 15) : []))
+        .then(d => setResultados(Array.isArray(d) ? d.slice(0, 20) : []))
         .finally(() => setBuscando(false));
-    }, 250);
+    }, 150);
     return () => clearTimeout(timer);
   }, [busca, modo]);
 
@@ -390,10 +393,8 @@ function CelulaDescricaoComposicao({
         {buscando && <RefreshCw className="h-3 w-3 text-muted-foreground animate-spin shrink-0" />}
       </div>
       <div className="absolute top-full left-0 z-50 mt-1 border rounded-lg bg-background shadow-lg max-h-64 overflow-auto min-w-[380px]">
-        {!busca && (
-          <div className="px-3 py-3 text-xs text-muted-foreground text-center">
-            Digite para buscar composições...
-          </div>
+        {!busca && buscando && (
+          <div className="px-3 py-3 text-xs text-muted-foreground text-center">Carregando...</div>
         )}
         {busca.length >= 2 && !buscando && resultados.length === 0 && (
           <div className="px-3 py-3 text-xs text-muted-foreground text-center">Nenhuma composição encontrada</div>

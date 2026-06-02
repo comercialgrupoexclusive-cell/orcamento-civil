@@ -23,8 +23,8 @@ export const SHEET_HEADERS: Record<string, string[]> = {
 
 // ─── Detecção de ambiente ─────────────────────────────────────────────────────
 
-/** Vercel Blob configurado — persistência real entre deploys e instâncias */
-const USE_BLOB = !!(process.env.BLOB_READ_WRITE_TOKEN);
+/** Vercel Blob — só usa em produção (VERCEL=1). Localmente usa arquivos diretos. */
+const USE_BLOB = !!(process.env.BLOB_READ_WRITE_TOKEN && process.env.VERCEL === '1');
 
 /** Vercel KV legacy */
 const USE_KV = !!(process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN);

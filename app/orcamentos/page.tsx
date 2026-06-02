@@ -326,7 +326,7 @@ export default function OrcamentosPage() {
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setModalAberto(false)}>Cancelar</Button>
-            <Button onClick={criar} disabled={salvando || !form.titulo.trim() || !form.area_construida || (modoTemplate && !templateSelecionado)}>
+            <Button onClick={criar} disabled={salvando || !form.titulo.trim() || (modoTemplate && !templateSelecionado)}>
               {salvando ? 'Criando...' : modoTemplate ? 'Criar do Template' : 'Criar'}
             </Button>
           </DialogFooter>

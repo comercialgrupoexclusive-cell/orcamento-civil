@@ -42,11 +42,11 @@ function CompositionSearch({
 
   const filtered = useMemo(() => {
     const norm = normalizeStr(search);
-    if (!norm) return [];
-    return composicoes
-      .filter(c => c.status === 'ativo')
+    const ativas = composicoes.filter(c => c.status === 'ativo');
+    if (!norm) return ativas.slice(0, 30); // mostra até 30 ao abrir sem digitar
+    return ativas
       .filter(c => normalizeStr(c.descricao).includes(norm) || normalizeStr(c.codigo).includes(norm))
-      .slice(0, 20);
+      .slice(0, 30);
   }, [composicoes, search]);
 
   const selected = composicoes.find(c => c.id === value);
@@ -86,7 +86,7 @@ function CompositionSearch({
         <div className="absolute z-50 left-0 right-0 top-full mt-1 bg-background border border-border rounded-md shadow-lg max-h-52 overflow-y-auto">
           {filtered.length === 0 ? (
             <div className="px-3 py-4 text-xs text-muted-foreground text-center">
-              {search ? `Nenhum resultado para "${search}"` : 'Digite para buscar composicoes...'}
+              {search ? `Nenhum resultado para "${search}"` : 'Nenhuma composição carregada'}
             </div>
           ) : (
             filtered.map(c => (
@@ -1127,8 +1127,7 @@ function CalculadoraContent() {
   async function criarOrcamento() {
     const titulo = novoForm.titulo.trim();
     const area = novoForm.area_construida;
-    if (!titulo) { toast.error('Informe um título'); return; }
-    if (!area) { toast.error('Informe a área construída'); return; }
+    if (!titulo) { toast.error('Informe um título para o orçamento'); return; }
     setSalvandoNovo(true);
     try {
       const res = await fetch('/api/orcamentos', {
@@ -1300,7 +1299,7 @@ function CalculadoraContent() {
               </div>
               <DialogFooter>
                 <Button variant="outline" onClick={() => setModalNovo(false)}>Cancelar</Button>
-                <Button onClick={criarOrcamento} disabled={salvandoNovo || !novoForm.titulo.trim() || !novoForm.area_construida}>
+                <Button onClick={criarOrcamento} disabled={salvandoNovo || !novoForm.titulo.trim()}>
                   {salvandoNovo ? 'Criando...' : 'Criar e selecionar'}
                 </Button>
               </DialogFooter>
