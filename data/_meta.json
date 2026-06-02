@@ -1,0 +1,13 @@
+[
+  {
+    "versao": "1.0",
+    "data": "2026-06-02T14:13:55.895Z",
+    "totais": {
+      "INSUMOS": 241,
+      "COMPOSICOES": 94,
+      "ITENS_COMPOSICAO": 429,
+      "ORCAMENTOS": 11,
+      "ITENS_ORCAMENTO": 294
+    }
+  }
+]
