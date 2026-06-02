@@ -188,6 +188,9 @@ export function derivarParams(
   estacas: CalcEstacaItem[] = [],
   ambientes: CalcAmbiente[] = [],
 ): Partial<CalcParamsRaw> {
+  // comp_paredes: se não preenchido manualmente, usa perimetro_paredes como fallback
+  const comp_paredes_efetivo = raw.comp_paredes ?? raw.perimetro_paredes ?? 0;
+
   // Vãos (qtd é multiplicador de cada vão)
   const area_vaos = vaos.reduce((s, v) => s + (v.qtd || 1) * (v.largura || 0) * (v.altura || 0), 0);
   const area_vaos_janelas = vaos.filter(v => v.tipo === 'janela')
@@ -261,6 +264,8 @@ export function derivarParams(
 
   return {
     ...raw,
+    // comp_paredes efetivo: se usuário não digitou, usa perimetro_paredes
+    comp_paredes: comp_paredes_efetivo > 0 ? r2(comp_paredes_efetivo) : raw.comp_paredes,
     area_vaos: r2(area_vaos),
     area_vaos_janelas: r2(area_vaos_janelas),
     comp_vergas: r2(comp_vergas),

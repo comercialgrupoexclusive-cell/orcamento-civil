@@ -415,19 +415,19 @@ function SecaoAlvenaria({ params, setParams, vaos, setVaos }: { params: Partial<
   function addVao(tipo: 'porta' | 'janela') { const d = tipo === 'porta' ? { largura: 0.90, altura: 2.10 } : { largura: 1.20, altura: 1.20 }; setVaos([...vaos, { id: Math.random().toString(36).slice(2), tipo, qtd: 1, ...d }]); }
   function updVao<K extends keyof CalcVao>(id: string, f: K, v: CalcVao[K]) { setVaos(vaos.map(x => x.id === id ? { ...x, [f]: v } : x)); }
   const derived = derivarParams(params, vaos);
-  const bruta = (params.comp_paredes || 0) * (params.alt_paredes || 0);
+  // comp_paredes efetivo = manual ou fallback do perimetro_paredes
+  const compParedesEfetivo = params.comp_paredes ?? params.perimetro_paredes;
+  const bruta = (compParedesEfetivo || 0) * (params.alt_paredes || 0);
   const liquida = Math.max(0, bruta - (derived.area_vaos || 0));
   const comCinta = (params.cinta_coroamento ?? 0) === 1;
 
-  // Valor sugerido da cinta = perímetro de paredes dos Dados do Projeto
-  const cintaSugerida = params.perimetro_paredes || params.comp_paredes || undefined;
-  // Derived com cinta para o SugEdit
-  const derivedComCinta: Partial<CalcParamsRaw> = { ...derived, comp_paredes: cintaSugerida };
+  // derived para SugEdit de comp_paredes: sugestão = perimetro_paredes
+  const derivedAlv: Partial<CalcParamsRaw> = { ...derived, comp_paredes: params.perimetro_paredes };
 
   return (
     <div className="space-y-4">
       <div className="grid sm:grid-cols-3 gap-3">
-        <InputNum label="Comprimento total de paredes" campo="comp_paredes" params={params} setParams={setParams} suffix="m" step={0.5} />
+        <SugEdit label="Comprimento total de paredes" campo="comp_paredes" params={params} setParams={setParams} derived={derivedAlv} unidade="m" obs="Sugerido = Perímetro de Paredes (Dados do Projeto)" />
         <InputNum label="Altura das paredes" campo="alt_paredes" params={params} setParams={setParams} suffix="m" step={0.05} placeholder="2.80" />
         <div className="grid gap-1"><Label className="text-xs font-medium">Tipo de alvenaria</Label>
           <Select value={String(params.tipo_alv ?? 2)} onValueChange={v => setParams(p => ({ ...p, tipo_alv: Number(v) }))}>
@@ -484,9 +484,9 @@ function SecaoAlvenaria({ params, setParams, vaos, setVaos }: { params: Partial<
               campo="comp_paredes"
               params={params}
               setParams={setParams}
-              derived={derivedComCinta}
+              derived={derivedAlv}
               unidade="m"
-              obs="Sugerido = perímetro de paredes dos Dados do Projeto"
+              obs="Sugerido = Perímetro de Paredes (Dados do Projeto)"
             />
           </div>
         )}
