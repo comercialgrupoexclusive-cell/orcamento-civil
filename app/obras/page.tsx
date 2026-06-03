@@ -2,9 +2,10 @@
 
 import { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
-import { Building2, Plus, MapPin, User, TrendingUp, CheckCircle2, Clock, ChevronRight, RefreshCw, Pencil } from 'lucide-react';
+import { Building2, Plus, MapPin, User, TrendingUp, CheckCircle2, Clock, ChevronRight, RefreshCw, Pencil, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { toast } from 'sonner';
 
 const STATUS_OBRA_COR: Record<string, string> = {
   nao_iniciado: 'bg-slate-100 text-slate-600 border-slate-200',
@@ -36,6 +37,13 @@ export default function ObrasPage() {
     if (res?.ok) setObras(await res.json());
     setLoading(false);
   }, []);
+
+  async function excluirObra(id: string, nome: string) {
+    if (!confirm(`Excluir a obra "${nome}"?\n\nIsso vai remover a obra, suas etapas e serviços permanentemente.`)) return;
+    const res = await fetch(`/api/obras/${id}`, { method: 'DELETE' });
+    if (res.ok) { toast.success('Obra excluída'); carregar(); }
+    else { const d = await res.json().catch(() => ({})); toast.error(d.error || 'Erro ao excluir'); }
+  }
 
   useEffect(() => { carregar(); }, [carregar]);
 
@@ -133,6 +141,10 @@ export default function ObrasPage() {
                       Compras
                     </Button>
                   </Link>
+                  <Button size="sm" variant="outline" className="h-8 text-xs w-full border-red-200 text-red-600 hover:bg-red-50"
+                    onClick={() => excluirObra(obra.id, obra.nome)}>
+                    <Trash2 className="h-3.5 w-3.5 mr-1" /> Excluir
+                  </Button>
                   <Link href={`/gerenciamento?obra_id=${obra.id}`}>
                     <Button size="sm" className="h-8 text-xs w-full">Gerenciar</Button>
                   </Link>

@@ -1320,7 +1320,21 @@ export default function OrcamentoDetalhePage({ params }: { params: Promise<{ id:
         body: JSON.stringify(campos),
       });
       if (!res.ok) { const d = await res.json(); toast.error(d.error || 'Erro'); return; }
-      carregar();
+      // Atualiza estado local imediatamente (evita flicker por cache stale no Blob)
+      setOrc(prev => {
+        if (!prev) return prev;
+        return {
+          ...prev,
+          etapas: prev.etapas.map(et => ({
+            ...et,
+            itens: et.itens.map(it =>
+              it.id === itemId ? { ...it, ...(campos as Partial<ItemOrcamentoUI>) } : it
+            ),
+          })),
+        };
+      });
+      // Re-fetch com delay para buscar valores calculados (custo_total etc.)
+      setTimeout(() => carregar(), 2000);
     } catch { toast.error('Erro ao atualizar item'); }
   }
 

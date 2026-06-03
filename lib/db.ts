@@ -160,17 +160,18 @@ async function blobRead(sheetName: string): Promise<Record<string, string>[]> {
 }
 
 async function blobWrite(sheetName: string, rows: Record<string, string>[]): Promise<void> {
+  const content = JSON.stringify(rows, null, 2);
   try {
     const { put } = await import('@vercel/blob');
-    const content = JSON.stringify(rows, null, 2);
     await put(`${BLOB_BASE}/${sheetName}.json`, content, {
       access: 'private',
       contentType: 'application/json',
       addRandomSuffix: false,
       allowOverwrite: true,
     });
-    // Invalida cache /tmp
-    try { const tmp = tmpPath(sheetName); if (fs.existsSync(tmp)) fs.unlinkSync(tmp); } catch { /**/ }
+    // Atualiza cache /tmp com os dados recém-gravados (em vez de deletar)
+    // Assim leituras subsequentes NESTA instância já veem os dados corretos
+    try { ensureTmpDir(); fs.writeFileSync(tmpPath(sheetName), content); } catch { /**/ }
   } catch (err) {
     console.error('[blob] write error', sheetName, err);
     writeTmpFile(sheetName, rows);

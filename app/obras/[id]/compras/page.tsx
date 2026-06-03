@@ -73,6 +73,7 @@ export default function ListaComprasPage({ params }: { params: Promise<{ id: str
   const [filtroStatus, setFiltroStatus] = useState<string>('todos');
   const [etapasAbertas, setEtapasAbertas] = useState<Set<string>>(new Set());
   const [atualizando, setAtualizando] = useState<Set<string>>(new Set());
+  const [gerando, setGerando] = useState(false);
 
   const carregar = useCallback(async () => {
     setLoading(true);
@@ -87,6 +88,20 @@ export default function ListaComprasPage({ params }: { params: Promise<{ id: str
   }, [id]);
 
   useEffect(() => { carregar(); }, [carregar]);
+
+  async function gerarListaInsumos() {
+    if (!confirm('Gerar lista de compras a partir dos insumos do orçamento?\nIsso vai substituir a lista atual.')) return;
+    setGerando(true);
+    try {
+      const res = await fetch(`/api/obras/${id}/gerar-lista-insumos`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ modo: 'replace' }),
+      });
+      const d = await res.json();
+      if (res.ok) { toast.success(d.message); await carregar(); }
+      else toast.error(d.error || 'Erro ao gerar lista');
+    } finally { setGerando(false); }
+  }
 
   // Atualiza status de um serviço
   async function atualizarStatus(svcId: string, novoStatus: string) {
@@ -165,9 +180,19 @@ export default function ListaComprasPage({ params }: { params: Promise<{ id: str
         <Link href={`/obras/${id}`} className="text-sm hover:underline truncate max-w-[160px]">{obra.nome}</Link>
         <ChevronRight className="h-3.5 w-3.5 text-muted-foreground" />
         <span className="text-sm font-medium">Lista de Compras</span>
-        <div className="ml-auto flex gap-2">
+        <div className="ml-auto flex gap-2 flex-wrap">
           <Button variant="outline" size="sm" onClick={carregar} disabled={loading}>
             <RefreshCw className={`h-3.5 w-3.5 ${loading ? 'animate-spin' : ''}`} />
+          </Button>
+          <Button
+            size="sm"
+            className="bg-amber-500 hover:bg-amber-600 text-white"
+            onClick={gerarListaInsumos}
+            disabled={gerando}
+            title="Gera lista de todos os insumos do orçamento vinculado">
+            {gerando
+              ? <><RefreshCw className="h-3.5 w-3.5 animate-spin mr-1" /> Gerando...</>
+              : <><ShoppingCart className="h-3.5 w-3.5 mr-1" /> Gerar lista do orçamento</>}
           </Button>
           <Button variant="outline" size="sm" onClick={() => window.print()}>
             <Printer className="h-3.5 w-3.5 mr-1" /> Imprimir
@@ -245,9 +270,14 @@ export default function ListaComprasPage({ params }: { params: Promise<{ id: str
             {totalSvcs === 0 ? 'Nenhum item na lista de compras' : 'Nenhum item com esse status'}
           </p>
           {totalSvcs === 0 && (
-            <p className="text-xs mt-2">
-              Vincule um orçamento e use o botão <strong>"Importar do Orçamento"</strong> na obra
-            </p>
+            <div className="mt-4 space-y-2">
+              <p className="text-xs">Para gerar a lista:</p>
+              <ol className="text-xs text-left inline-block space-y-1 text-muted-foreground">
+                <li>1. Certifique-se que a obra tem um orçamento vinculado</li>
+                <li>2. Clique em <strong className="text-amber-600">"Gerar lista do orçamento"</strong> acima</li>
+                <li>3. Todos os insumos serão listados automaticamente</li>
+              </ol>
+            </div>
           )}
         </div>
       )}

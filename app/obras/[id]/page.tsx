@@ -149,6 +149,13 @@ export default function ObraDetalhePage({ params }: { params: Promise<{ id: stri
     carregar();
   }
 
+  async function excluirObra() {
+    if (!confirm(`Excluir a obra "${obra?.nome}"?\n\nIsso vai remover a obra, suas etapas e serviços permanentemente.`)) return;
+    const res = await fetch(`/api/obras/${id}`, { method: 'DELETE' });
+    if (res.ok) { toast.success('Obra excluída'); window.location.href = '/obras'; }
+    else { const d = await res.json().catch(() => ({})); toast.error(d.error || 'Erro ao excluir'); }
+  }
+
   async function vincularOrcamento(orcId: string) {
     if (!obra) return;
     setSalvandoOrc(true);
@@ -225,6 +232,10 @@ export default function ObraDetalhePage({ params }: { params: Promise<{ id: stri
         <div className="ml-auto flex gap-2">
           <Button variant="outline" size="sm" onClick={carregar} disabled={loading}>
             <RefreshCw className={`h-3.5 w-3.5 ${loading ? 'animate-spin' : ''}`} />
+          </Button>
+          <Button variant="outline" size="sm" className="border-red-200 text-red-600 hover:bg-red-50"
+            onClick={excluirObra} title="Excluir obra">
+            <Trash2 className="h-3.5 w-3.5" />
           </Button>
           <Link href={`/obras/${id}/compras`}>
             <Button variant="outline" size="sm" className="border-green-300 text-green-700 hover:bg-green-50">

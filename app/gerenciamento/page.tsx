@@ -84,21 +84,28 @@ function GerenciamentoContent() {
 
   async function atualizarEtapa(etapaId: string, patch: Record<string, string>) {
     setSaving(p => ({ ...p, [etapaId]: true }));
+    // Atualiza local imediatamente (evita flicker por cache stale no Blob)
+    setEtapas(prev => prev.map(et => et.id === etapaId ? { ...et, ...patch } : et));
     const res = await fetch(`/api/etapas-obra/${etapaId}`, {
       method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(patch),
     });
-    if (res.ok) { toast.success('Etapa atualizada'); carregarEtapas(); }
-    else toast.error('Erro ao salvar');
+    if (res.ok) { toast.success('Salvo'); setTimeout(() => carregarEtapas(), 2000); }
+    else { toast.error('Erro ao salvar'); carregarEtapas(); }
     setSaving(p => ({ ...p, [etapaId]: false }));
   }
 
   async function atualizarServico(svcId: string, patch: Record<string, string>) {
     setSaving(p => ({ ...p, [svcId]: true }));
+    // Atualiza local imediatamente
+    setEtapas(prev => prev.map(et => ({
+      ...et,
+      servicos: et.servicos.map(s => s.id === svcId ? { ...s, ...patch } : s),
+    })));
     const res = await fetch(`/api/servicos-etapa/${svcId}`, {
       method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(patch),
     });
-    if (res.ok) { carregarEtapas(); }
-    else toast.error('Erro ao salvar');
+    if (!res.ok) { toast.error('Erro ao salvar'); carregarEtapas(); }
+    else setTimeout(() => carregarEtapas(), 2000);
     setSaving(p => ({ ...p, [svcId]: false }));
   }
 
@@ -218,8 +225,12 @@ function GerenciamentoContent() {
                         <div className="grid sm:grid-cols-3 gap-3">
                           <div className="grid gap-1">
                             <span className="text-[11px] font-semibold text-muted-foreground uppercase">Status execução</span>
-                            <Select value={etapa.status_execucao} onValueChange={v => atualizarEtapa(etapa.id, { status_execucao: v ?? '' })}>
-                              <SelectTrigger className="h-8 text-xs"><SelectValue /></SelectTrigger>
+                            <Select value={etapa.status_execucao} onValueChange={v => { if (v) atualizarEtapa(etapa.id, { status_execucao: v }); }}>
+                              <SelectTrigger className="h-8 text-xs">
+                                <span className="flex-1 text-left truncate text-xs">
+                                  {EXEC_LABEL[etapa.status_execucao] || etapa.status_execucao}
+                                </span>
+                              </SelectTrigger>
                               <SelectContent>
                                 {Object.entries(EXEC_LABEL).map(([v, l]) => <SelectItem key={v} value={v}>{l}</SelectItem>)}
                               </SelectContent>
@@ -227,13 +238,15 @@ function GerenciamentoContent() {
                           </div>
                           <div className="grid gap-1">
                             <span className="text-[11px] font-semibold text-muted-foreground uppercase">Data início</span>
-                            <Input type="date" defaultValue={etapa.data_inicio} className="h-8 text-xs"
-                              onBlur={e => { if (e.target.value !== etapa.data_inicio) atualizarEtapa(etapa.id, { data_inicio: e.target.value }); }} />
+                            <Input type="date" value={etapa.data_inicio || ''} className="h-8 text-xs"
+                              onChange={e => setEtapas(prev => prev.map(et => et.id === etapa.id ? { ...et, data_inicio: e.target.value } : et))}
+                              onBlur={e => atualizarEtapa(etapa.id, { data_inicio: e.target.value })} />
                           </div>
                           <div className="grid gap-1">
                             <span className="text-[11px] font-semibold text-muted-foreground uppercase">Previsão término</span>
-                            <Input type="date" defaultValue={etapa.data_fim_prevista} className="h-8 text-xs"
-                              onBlur={e => { if (e.target.value !== etapa.data_fim_prevista) atualizarEtapa(etapa.id, { data_fim_prevista: e.target.value }); }} />
+                            <Input type="date" value={etapa.data_fim_prevista || ''} className="h-8 text-xs"
+                              onChange={e => setEtapas(prev => prev.map(et => et.id === etapa.id ? { ...et, data_fim_prevista: e.target.value } : et))}
+                              onBlur={e => atualizarEtapa(etapa.id, { data_fim_prevista: e.target.value })} />
                           </div>
                         </div>
 
@@ -253,11 +266,10 @@ function GerenciamentoContent() {
                               <table className="w-full text-xs min-w-[520px]">
                                 <thead>
                                   <tr className="bg-muted/30 border-b">
-                                    <th className="text-left px-3 py-2 font-medium">Serviço</th>
-                                    <th className="text-center px-2 py-2 w-16 font-medium">Qtd</th>
-                                    <th className="text-center px-2 py-2 w-8 font-medium">Und</th>
-                                    <th className="text-center px-2 py-2 w-32 font-medium">Status Compra</th>
-                                    <th className="text-left px-2 py-2 font-medium">Obs.</th>
+                                    <th className="text-left px-3 py-2 font-medium">Serviço / Material</th>
+                                    <th className="text-center px-2 py-2 w-20 font-medium">Qtd</th>
+                                    <th className="text-center px-2 py-2 w-12 font-medium">Und</th>
+                                    <th className="text-center px-2 py-2 w-36 font-medium">Status</th>
                                     <th className="w-8"></th>
                                   </tr>
                                 </thead>
@@ -274,19 +286,16 @@ function GerenciamentoContent() {
                                       </td>
                                       <td className="px-2 py-1.5 text-center text-muted-foreground">{svc.unidade}</td>
                                       <td className="px-2 py-1.5">
-                                        <Select value={svc.status_compra} onValueChange={v => atualizarServico(svc.id, { status_compra: v ?? '' })}>
+                                        <Select value={svc.status_compra} onValueChange={v => { if (v) atualizarServico(svc.id, { status_compra: v }); }}>
                                           <SelectTrigger className={`h-7 text-[10px] font-semibold border ${COMPRA_COR[svc.status_compra] || ''}`}>
-                                            <SelectValue />
+                                            <span className="flex-1 text-left truncate">
+                                              {COMPRA_LABEL[svc.status_compra] || svc.status_compra}
+                                            </span>
                                           </SelectTrigger>
                                           <SelectContent>
                                             {Object.entries(COMPRA_LABEL).map(([v, l]) => <SelectItem key={v} value={v}>{l}</SelectItem>)}
                                           </SelectContent>
                                         </Select>
-                                      </td>
-                                      <td className="px-2 py-1.5">
-                                        <input type="text" defaultValue={svc.observacao} placeholder="Observação..."
-                                          className="h-7 text-xs border-0 bg-transparent w-full focus:outline-none focus:ring-1 focus:ring-primary/30 rounded px-1"
-                                          onBlur={e => { if (e.target.value !== svc.observacao) atualizarServico(svc.id, { observacao: e.target.value }); }} />
                                       </td>
                                       <td className="px-1 py-1.5">
                                         <button onClick={() => removerServico(svc.id)} className="text-muted-foreground hover:text-destructive">
