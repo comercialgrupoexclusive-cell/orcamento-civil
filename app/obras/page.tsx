@@ -128,6 +128,11 @@ export default function ObrasPage() {
                       <Pencil className="h-3.5 w-3.5 mr-1" /> Editar
                     </Button>
                   </Link>
+                  <Link href={`/obras/${obra.id}/compras`}>
+                    <Button size="sm" variant="outline" className="h-8 text-xs w-full border-green-300 text-green-700 hover:bg-green-50">
+                      Compras
+                    </Button>
+                  </Link>
                   <Link href={`/gerenciamento?obra_id=${obra.id}`}>
                     <Button size="sm" className="h-8 text-xs w-full">Gerenciar</Button>
                   </Link>

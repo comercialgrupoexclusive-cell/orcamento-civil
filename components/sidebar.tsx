@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import {
   Package, Layers, FileText, Upload, Download,
-  Settings, HardHat, Menu, X, Zap,
+  Settings, HardHat, Menu, X, Zap, ShoppingCart,
   LayoutDashboard, Building2, ClipboardList, CalendarDays,
 } from 'lucide-react';
 import { useState } from 'react';
@@ -18,6 +18,7 @@ const navGroups = [
       { href: '/',              label: 'Dashboard',      icon: LayoutDashboard },
       { href: '/obras',         label: 'Obras',          icon: Building2 },
       { href: '/gerenciamento', label: 'Gerenciamento',  icon: ClipboardList },
+      { href: '/compras',       label: 'Lista de Compras', icon: ShoppingCart },
       { href: '/planejamento',  label: 'Cronograma',     icon: CalendarDays },
     ],
   },
