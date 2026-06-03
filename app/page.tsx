@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import {
   Building2, TrendingUp, CheckCircle2, Clock,
-  AlertCircle, ShoppingCart, ChevronRight, Plus, RefreshCw,
+  AlertCircle, ShoppingCart, ChevronRight, Plus, RefreshCw, Calendar,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -69,9 +69,16 @@ interface ObraDash {
   svcs_total: number; svcs_comprados: number; svcs_pendentes: number;
   total_orcamento: number; orcamento_titulo: string;
 }
+interface Etapa30d {
+  id: string; etapa_nome: string; etapa_codigo: string;
+  obra_id: string; obra_nome: string;
+  data_inicio: string; data_fim_prevista: string; status_execucao: string;
+  status_compra_geral: string; svcs_total: number; svcs_comprados: number;
+}
 interface DashData {
   resumo: { total_obras: number; obras_ativas: number; total_investimento: number };
   obras: ObraDash[];
+  etapas_30dias: Etapa30d[];
 }
 
 export default function DashboardPage() {
@@ -208,6 +215,54 @@ export default function DashboardPage() {
               </CardContent>
             </Card>
           </div>
+
+          {/* ── Próximas etapas (30 dias) ── */}
+          {data.etapas_30dias && data.etapas_30dias.length > 0 && (
+            <div className="space-y-2">
+              <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground flex items-center gap-2">
+                <Calendar className="h-3.5 w-3.5" /> Próximas Etapas — 30 dias
+              </h2>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-2">
+                {data.etapas_30dias.map(et => {
+                  const dataRef = et.data_inicio || et.data_fim_prevista;
+                  const dataFmt = dataRef ? new Date(dataRef + 'T00:00:00').toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }) : '';
+                  const diasAte = dataRef ? Math.ceil((new Date(dataRef + 'T00:00:00').getTime() - Date.now()) / 86400000) : null;
+                  const urgente = diasAte !== null && diasAte <= 7;
+                  return (
+                    <Link key={et.id} href={`/gerenciamento?obra_id=${et.obra_id}`}>
+                      <div className={`rounded-xl border p-3 hover:shadow-sm transition-shadow cursor-pointer ${urgente ? 'border-red-200 bg-red-50/50' : 'bg-card'}`}>
+                        <div className="flex items-start justify-between gap-2 mb-1.5">
+                          <div className="min-w-0">
+                            <p className="text-xs font-semibold leading-tight truncate">{et.etapa_nome}</p>
+                            <p className="text-[10px] text-muted-foreground truncate">{et.obra_nome}</p>
+                          </div>
+                          <div className="shrink-0 text-right">
+                            <p className={`text-xs font-bold tabular-nums ${urgente ? 'text-red-600' : 'text-muted-foreground'}`}>{dataFmt}</p>
+                            {diasAte !== null && (
+                              <p className={`text-[10px] ${urgente ? 'text-red-500' : 'text-muted-foreground'}`}>
+                                {diasAte === 0 ? 'hoje' : diasAte === 1 ? 'amanhã' : `${diasAte}d`}
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded border ${STATUS_EXEC_COR[et.status_execucao] || ''}`}>
+                            {STATUS_EXEC_LABEL[et.status_execucao] || et.status_execucao}
+                          </span>
+                          <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded border ${STATUS_COMPRA_COR[et.status_compra_geral] || ''}`}>
+                            🛒 {STATUS_COMPRA_LABEL[et.status_compra_geral] || et.status_compra_geral}
+                          </span>
+                          {et.svcs_total > 0 && (
+                            <span className="text-[10px] text-muted-foreground ml-auto">{et.svcs_comprados}/{et.svcs_total}</span>
+                          )}
+                        </div>
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+          )}
 
           {/* Obras */}
           <div className="space-y-3">

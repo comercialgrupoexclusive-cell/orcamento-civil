@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useMemo, useCallback, Suspense, useRef } from 'react';
+import { useEffect, useState, useMemo, useCallback, Suspense, useRef, useLayoutEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -1385,17 +1385,43 @@ function CalculadoraContent() {
     } catch { toast.error('Erro ao conectar'); } finally { setSalvandoNovo(false); }
   }
 
-  // Pre-fill: quando perimetro muda e listas ainda estão vazias, cria primeiro item
+  // Pre-fill: sincroniza comp da primeira entrada com o perímetro de paredes
+  // Usa ref para rastrear o valor anterior e só atualiza se o usuário não tiver mudado manualmente
+  const prevPerimRef = useRef(0);
+  const prevPdRef    = useRef(2.8);
   useEffect(() => {
     const perim = params.perimetro_paredes || params.perimetro_terreno || 0;
     const pd    = params.pe_direito || 2.8;
-    if (perim > 0 && vigasBaldrame.length === 0) {
+    const prevPerim = prevPerimRef.current;
+    const prevPd    = prevPdRef.current;
+    prevPerimRef.current = perim;
+    prevPdRef.current    = pd;
+
+    if (perim <= 0) return;
+
+    // Vigas Baldrame
+    if (vigasBaldrame.length === 0) {
       setVigasBaldrame([{ id: Math.random().toString(36).slice(2), desc: 'Baldrame principal',
         comp: perim, secao_b: 0.15, secao_h: 0.30, n_barras: 4, esp_estribo: 0.15, tabua_larg: 0.20 }]);
+    } else {
+      // Atualiza comp da 1ª entrada apenas se ainda igual ao perímetro anterior (não foi alterado manualmente)
+      setVigasBaldrame(prev => prev.map((v, i) =>
+        i === 0 && (v.comp === prevPerim || v.comp === 0) ? { ...v, comp: perim } : v
+      ));
     }
-    if (perim > 0 && paredes.length === 0) {
+
+    // Paredes
+    if (paredes.length === 0) {
       setParedes([{ id: Math.random().toString(36).slice(2), desc: 'Parede principal',
         comp: perim, alt: pd, tipo_alv: params.tipo_alv ?? 2, tem_cinta: true, vaos: [] }]);
+    } else {
+      setParedes(prev => prev.map((p, i) =>
+        i === 0 && (p.comp === prevPerim || p.comp === 0) ? { ...p, comp: perim } : p
+      ));
+      // Atualiza altura se ainda igual ao pé-direito anterior
+      setParedes(prev => prev.map((p, i) =>
+        i === 0 && (p.alt === prevPd || p.alt === 0) ? { ...p, alt: pd } : p
+      ));
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.perimetro_paredes, params.perimetro_terreno, params.pe_direito]);

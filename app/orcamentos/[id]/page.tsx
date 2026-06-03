@@ -1651,25 +1651,36 @@ export default function OrcamentoDetalhePage({ params }: { params: Promise<{ id:
       </div>
 
       {/* ═══ CARDS DE TOTAIS ═════════════════════════════════════════════════ */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        <div className="rounded-xl border bg-card p-4 shadow-sm">
-          <p className="text-xs text-muted-foreground font-medium mb-1.5">Total Direto</p>
-          <p className="text-2xl font-bold tabular-nums leading-none truncate">{fmtBRL(totalDireto)}</p>
-          <p className="text-xs text-muted-foreground mt-1">
-            {orc.etapas.reduce((acc, e) => acc + e.itens.length, 0)} item(s) em {orc.etapas.length} etapa(s)
-          </p>
-        </div>
-        <div className="rounded-xl border bg-card p-4 shadow-sm">
-          <p className="text-xs text-muted-foreground font-medium mb-1.5">BDI ({orc.bdi_percentual}%)</p>
-          <p className="text-2xl font-bold tabular-nums leading-none truncate">{fmtBRL(bdiValor)}</p>
-          <p className="text-xs text-muted-foreground mt-1">Benefícios e despesas indiretas</p>
-        </div>
-        <div className="rounded-xl border border-primary/40 bg-primary/5 p-4 shadow-sm">
-          <p className="text-xs text-primary/70 font-semibold mb-1.5">Total com BDI</p>
-          <p className="text-2xl font-bold tabular-nums text-primary leading-none truncate">{fmtBRL(orc.total_com_bdi)}</p>
-          <p className="text-xs text-primary/60 mt-1">Valor total do orçamento</p>
-        </div>
-      </div>
+      {(() => {
+        const area = Number(orc.area_construida) || 0;
+        const m2 = (v: number) => area > 0 ? ` · ${(v/area).toLocaleString('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:0})}/m²` : '';
+        return (
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div className="rounded-xl border bg-card p-4 shadow-sm">
+              <p className="text-xs text-muted-foreground font-medium mb-1.5">Total Direto</p>
+              <p className="text-2xl font-bold tabular-nums leading-none truncate">{fmtBRL(totalDireto)}</p>
+              <p className="text-xs text-muted-foreground mt-1">
+                {orc.etapas.reduce((acc, e) => acc + e.itens.length, 0)} item(s) em {orc.etapas.length} etapa(s)
+                {m2(totalDireto)}
+              </p>
+            </div>
+            <div className="rounded-xl border bg-card p-4 shadow-sm">
+              <p className="text-xs text-muted-foreground font-medium mb-1.5">BDI ({orc.bdi_percentual}%)</p>
+              <p className="text-2xl font-bold tabular-nums leading-none truncate">{fmtBRL(bdiValor)}</p>
+              <p className="text-xs text-muted-foreground mt-1">
+                Benefícios e despesas indiretas{m2(bdiValor)}
+              </p>
+            </div>
+            <div className="rounded-xl border border-primary/40 bg-primary/5 p-4 shadow-sm">
+              <p className="text-xs text-primary/70 font-semibold mb-1.5">Total com BDI</p>
+              <p className="text-2xl font-bold tabular-nums text-primary leading-none truncate">{fmtBRL(orc.total_com_bdi)}</p>
+              <p className="text-xs text-primary/60 mt-1">
+                Valor total do orçamento{m2(orc.total_com_bdi)}
+              </p>
+            </div>
+          </div>
+        );
+      })()}
 
       {/* Breakdown por tipo */}
       <div className="grid grid-cols-3 gap-3">
