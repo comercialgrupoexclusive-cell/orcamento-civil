@@ -111,24 +111,45 @@ async function blobRead(sheetName: string): Promise<Record<string, string>[]> {
   const token = process.env.BLOB_READ_WRITE_TOKEN || '';
   const blobPath = `${BLOB_BASE}/${sheetName}.json`;
 
+  const cacheTmp = (data: Record<string, string>[]) => {
+    try { ensureTmpDir(); fs.writeFileSync(tmp, JSON.stringify(data, null, 2)); } catch { /**/ }
+  };
+
   try {
-    // URL direta — sem list() que pode retornar downloadUrl expirada
+    // 1ª tentativa (rápida): URL direta montada a partir do token
     const baseUrl = blobStoreUrl();
     if (baseUrl) {
-      const res = await fetch(`${baseUrl}/${blobPath}`, {
+      try {
+        const res = await fetch(`${baseUrl}/${blobPath}`, {
+          headers: { Authorization: `Bearer ${token}` },
+          cache: 'no-store',
+        });
+        if (res.ok) {
+          const data = await res.json() as Record<string, string>[];
+          cacheTmp(data);
+          return data;
+        }
+      } catch { /* cai pro list() */ }
+    }
+
+    // 2ª tentativa (garantida): resolve a URL real via SDK list()
+    const { list } = await import('@vercel/blob');
+    const { blobs } = await list({ prefix: blobPath, limit: 1, token });
+    const found = blobs.find(b => b.pathname === blobPath);
+    if (found) {
+      const res = await fetch(found.url, {
         headers: { Authorization: `Bearer ${token}` },
+        cache: 'no-store',
       });
       if (res.ok) {
         const data = await res.json() as Record<string, string>[];
-        try { ensureTmpDir(); fs.writeFileSync(tmp, JSON.stringify(data, null, 2)); } catch { /**/ }
+        cacheTmp(data);
         return data;
       }
-      if (res.status !== 404) {
-        console.error('[blob] read HTTP', res.status, sheetName);
-      }
+      console.error('[blob] read HTTP', res.status, sheetName);
     }
 
-    // Blob não existe (404) → seed dos arquivos bundled e salva no Blob
+    // Blob não existe → seed dos arquivos bundled e grava no Blob
     const seed = readLocalFile(sheetName);
     if (seed.length > 0) await blobWrite(sheetName, seed);
     return seed;
