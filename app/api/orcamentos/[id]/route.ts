@@ -101,6 +101,7 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
           breakdown,
           composicao: comp ? { ...comp, producao: Number(comp.producao), custo_unitario: custoBase(comp.id) } : null,
           insumos: insumosItem,
+          status_execucao: i.status_execucao || 'nao_iniciado',
         };
       });
 

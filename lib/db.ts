@@ -12,8 +12,10 @@ export const SHEET_HEADERS: Record<string, string[]> = {
   ITENS_ORCAMENTO: [
     'id', 'orcamento_id', 'etapa_codigo', 'sub_etapa', 'composicao_id',
     'descricao_override', 'unidade_override', 'custo_unitario_override',
-    'quantidade', 'quantidade_tipo', 'ordem', 'qtd_overrides',
+    'quantidade', 'quantidade_tipo', 'ordem', 'qtd_overrides', 'status_execucao',
   ],
+  LISTAS_COMPRAS: ['id', 'obra_id', 'orcamento_id', 'nome', 'data_criacao', 'data_prevista', 'status', 'observacao', 'fornecedor_id'],
+  ITENS_LISTA: ['id', 'lista_id', 'obra_id', 'insumo_id', 'descricao', 'unidade', 'qtd_necessaria', 'status_item', 'composicao_id', 'item_orcamento_id'],
   CONFIG: ['chave', 'valor'],
   OBRAS: ['id','nome','endereco','bairro','cidade','estado','cep','status','data_inicio','data_prev_termino','area_construida','foto_url','responsavel','telefone_responsavel','orcamento_id','observacoes','data_criacao','data_atualizacao'],
   FORNECEDORES: ['id','obra_id','nome','especialidade','telefone','whatsapp','email','observacoes','status'],

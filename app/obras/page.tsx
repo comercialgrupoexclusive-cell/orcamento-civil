@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
-import { Building2, Plus, MapPin, User, TrendingUp, CheckCircle2, Clock, ChevronRight, RefreshCw, Pencil, Trash2 } from 'lucide-react';
+import { Building2, Plus, MapPin, User, TrendingUp, CheckCircle2, Clock, ChevronRight, RefreshCw, Pencil, Trash2, Copy } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { toast } from 'sonner';
@@ -29,6 +29,7 @@ interface ObraResumo {
 
 export default function ObrasPage() {
   const [obras, setObras] = useState<ObraResumo[]>([]);
+  const [filtroStatus, setFiltroStatus] = useState('em_andamento');
   const [loading, setLoading] = useState(true);
 
   const carregar = useCallback(async () => {
@@ -37,6 +38,12 @@ export default function ObrasPage() {
     if (res?.ok) setObras(await res.json());
     setLoading(false);
   }, []);
+
+  async function duplicarObra(id: string, nome: string) {
+    const res = await fetch(`/api/obras/${id}/duplicar`, { method: 'POST' });
+    if (res.ok) { const d = await res.json(); toast.success(`Duplicado: ${d.nome}`); carregar(); }
+    else { const d = await res.json().catch(() => ({})); toast.error(d.error || 'Erro ao duplicar'); }
+  }
 
   async function excluirObra(id: string, nome: string) {
     if (!confirm(`Excluir a obra "${nome}"?\n\nIsso vai remover a obra, suas etapas e serviços permanentemente.`)) return;
@@ -52,7 +59,21 @@ export default function ObrasPage() {
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
           <h1 className="text-xl font-bold flex items-center gap-2"><Building2 className="h-5 w-5 text-primary" /> Obras</h1>
-          <p className="text-sm text-muted-foreground">{obras.length} obra{obras.length !== 1 ? 's' : ''} cadastrada{obras.length !== 1 ? 's' : ''}</p>
+          <div className="flex gap-1 flex-wrap mt-1">
+            {[
+              { k:'todas',       l:'Todas' },
+              { k:'nao_iniciado',l:'Não Iniciado' },
+              { k:'em_andamento',l:'Em Andamento' },
+              { k:'concluido',   l:'Concluído' },
+              { k:'paralisado',  l:'Paralisado' },
+            ].map(s => (
+              <button key={s.k} onClick={() => setFiltroStatus(s.k)}
+                className={`text-xs px-2.5 py-1 rounded-full border transition-colors font-medium
+                  ${filtroStatus === s.k ? 'bg-primary text-primary-foreground border-primary' : 'bg-background hover:bg-muted border-border text-muted-foreground'}`}>
+                {s.l}
+              </button>
+            ))}
+          </div>
         </div>
         <div className="flex gap-2">
           <Button variant="outline" size="sm" onClick={carregar} disabled={loading}>
@@ -75,7 +96,7 @@ export default function ObrasPage() {
       )}
 
       <div className="space-y-3">
-        {obras.map(obra => (
+        {(filtroStatus === 'todas' ? obras : obras.filter(o => o.status === filtroStatus)).map(obra => (
           <Card key={obra.id} className="hover:shadow-md transition-shadow">
             <CardContent className="p-4">
               <div className="flex items-start gap-4">
@@ -141,6 +162,10 @@ export default function ObrasPage() {
                       Compras
                     </Button>
                   </Link>
+                  <Button size="sm" variant="outline" className="h-8 text-xs w-full"
+                    onClick={() => duplicarObra(obra.id, obra.nome)}>
+                    <Copy className="h-3.5 w-3.5 mr-1" /> Duplicar
+                  </Button>
                   <Button size="sm" variant="outline" className="h-8 text-xs w-full border-red-200 text-red-600 hover:bg-red-50"
                     onClick={() => excluirObra(obra.id, obra.nome)}>
                     <Trash2 className="h-3.5 w-3.5 mr-1" /> Excluir

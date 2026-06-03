@@ -19,7 +19,7 @@ import Link from 'next/link';
 import type {
   CalcVao, CalcParamsRaw, CalcItem, CalcPilarItem, CalcVigaIndItem,
   CalcLajeItem, CalcEstacaItem, CalcAmbiente, TipoAmbiente, Composicao,
-  CalcComposicaoLivre,
+  CalcComposicaoLivre, CalcVigaBaldrame, CalcParedeItem, CalcMuroItem,
 } from '@/lib/types';
 import {
   CALC_GRUPOS, calcularQuantitativos, derivarParams,
@@ -694,10 +694,280 @@ function SecaoRevest({ params, setParams, derived }: { params: Partial<CalcParam
   </div>);
 }
 function SecaoForro({ params, setParams, derived }: { params: Partial<CalcParamsRaw>; setParams: (fn: (p: Partial<CalcParamsRaw>) => Partial<CalcParamsRaw>) => void; derived: Partial<CalcParamsRaw> }) {
-  return (<div className="grid sm:grid-cols-2 gap-3">
-    <TipoSelect label="Tipo de forro" value={params.forro_tipo ?? 1} onChange={v => setParams(p => ({ ...p, forro_tipo: v }))} opcoes={[{ v: 1, t: 'PVC + trama de madeira' }, { v: 2, t: 'Drywall' }]} />
-    <SugEdit label="Área de forro" campo="area_forro" params={params} setParams={setParams} derived={derived} unidade="m²" obs="= área construída" />
+  return (<div className="space-y-3">
+    <div className="grid sm:grid-cols-2 gap-3">
+      <TipoSelect label="Tipo de forro" value={params.forro_tipo ?? 1} onChange={v => setParams(p => ({ ...p, forro_tipo: v }))} opcoes={[{ v: 1, t: 'PVC + trama de madeira' }, { v: 2, t: 'Drywall' }]} />
+      <SugEdit label="Área de forro" campo="area_forro" params={params} setParams={setParams} derived={derived} unidade="m²" obs="= área construída" />
+    </div>
+    <ChkOpt label="Incluir chapisco + reboco no teto" checked={(params.reboco_teto ?? 0) === 1} onChange={c => setParams(p => ({ ...p, reboco_teto: c ? 1 : 0 }))} />
+    {(params.reboco_teto ?? 0) === 1 && (
+      <p className="text-xs text-blue-700 bg-blue-50 border border-blue-200 rounded-lg px-3 py-2">
+        Serão adicionados: <strong>Chapisco</strong> + <strong>Emboço/Reboco</strong> sobre a área de forro informada.
+      </p>
+    )}
   </div>);
+}
+
+// ── Vigas Baldrame (múltiplas, com +) ──────────────────────────────────────────
+const OPCOES_SECAO_BALDRAME = [
+  { label: '15×30 cm', b: 0.15, h: 0.30 }, { label: '20×40 cm', b: 0.20, h: 0.40 },
+  { label: '20×50 cm', b: 0.20, h: 0.50 }, { label: '25×50 cm', b: 0.25, h: 0.50 },
+  { label: 'Personalizada', b: 0, h: 0 },
+];
+function SecaoVigasBaldrame({ itens, setItens, perimetro }: {
+  itens: CalcVigaBaldrame[]; setItens: (v: CalcVigaBaldrame[]) => void; perimetro: number;
+}) {
+  function add() {
+    setItens([...itens, { id: Math.random().toString(36).slice(2), desc: `Baldrame ${itens.length + 1}`,
+      comp: perimetro, secao_b: 0.15, secao_h: 0.30, n_barras: 4, esp_estribo: 0.15, tabua_larg: 0.20 }]);
+  }
+  function remove(id: string) { setItens(itens.filter(i => i.id !== id)); }
+  function upd<K extends keyof CalcVigaBaldrame>(id: string, f: K, v: CalcVigaBaldrame[K]) {
+    setItens(itens.map(i => i.id === id ? { ...i, [f]: v } : i));
+  }
+  const totalConc = itens.reduce((s, v) => s + v.comp * v.secao_b * v.secao_h, 0);
+  const totalComp = itens.reduce((s, v) => s + v.comp, 0);
+  return (
+    <div className="space-y-3">
+      <div className="flex justify-end">
+        <Button size="sm" variant="outline" className="h-7 text-xs" onClick={add}><Plus className="h-3 w-3 mr-1" /> Baldrame</Button>
+      </div>
+      {itens.length === 0
+        ? <div className="border border-dashed rounded-lg py-3 text-center text-xs text-muted-foreground">Nenhum baldrame</div>
+        : <div className="space-y-3">
+            {itens.map(v => {
+              const secaoKey = OPCOES_SECAO_BALDRAME.find(o => o.b === v.secao_b && o.h === v.secao_h)?.label ?? 'Personalizada';
+              return (
+                <div key={v.id} className="border rounded-lg p-3 space-y-2 bg-muted/10">
+                  <div className="flex items-center gap-2">
+                    <input type="text" value={v.desc} onChange={e => upd(v.id,'desc',e.target.value)}
+                      className="h-7 text-xs border rounded px-2 flex-1 font-medium" placeholder="Descrição" />
+                    <button onClick={() => remove(v.id)} className="text-muted-foreground hover:text-destructive shrink-0"><Trash2 className="h-3.5 w-3.5"/></button>
+                  </div>
+                  <div className="grid sm:grid-cols-2 gap-3">
+                    <div className="grid gap-1">
+                      <Label className="text-xs font-medium">Comprimento total (m)
+                        {perimetro > 0 && <span className="text-muted-foreground font-normal ml-1">· perímetro: {perimetro.toFixed(1)} m</span>}
+                      </Label>
+                      <input type="number" min={0} step={0.5} value={v.comp} onFocus={e=>e.target.select()}
+                        onChange={e => upd(v.id,'comp',Number(e.target.value))}
+                        className="h-9 text-sm border rounded px-3 w-full" />
+                    </div>
+                    <div className="grid gap-1">
+                      <Label className="text-xs font-medium">Seção (b × h)</Label>
+                      <Select value={secaoKey} onValueChange={val => {
+                        const o = OPCOES_SECAO_BALDRAME.find(x => x.label === val);
+                        if (o) { upd(v.id,'secao_b',o.b); upd(v.id,'secao_h',o.h); }
+                      }}>
+                        <SelectTrigger className="h-9 text-sm"><span className="flex-1 text-left">{secaoKey || 'Selecionar...'}</span></SelectTrigger>
+                        <SelectContent>{OPCOES_SECAO_BALDRAME.map(o => <SelectItem key={o.label} value={o.label}>{o.label}</SelectItem>)}</SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+                  {(secaoKey === 'Personalizada' || (v.secao_b === 0 && v.secao_h === 0)) && (
+                    <div className="grid grid-cols-2 gap-2 p-2 bg-muted/20 rounded">
+                      <div className="grid gap-1"><Label className="text-xs">b (m)</Label>
+                        <input type="number" min={0} step={0.01} value={v.secao_b} onFocus={e=>e.target.select()} onChange={e=>upd(v.id,'secao_b',Number(e.target.value))} className="h-7 text-xs border rounded px-2" /></div>
+                      <div className="grid gap-1"><Label className="text-xs">h (m)</Label>
+                        <input type="number" min={0} step={0.01} value={v.secao_h} onFocus={e=>e.target.select()} onChange={e=>upd(v.id,'secao_h',Number(e.target.value))} className="h-7 text-xs border rounded px-2" /></div>
+                    </div>
+                  )}
+                  <div className="grid grid-cols-3 gap-2 text-xs text-center">
+                    <div className="rounded border px-2 py-1 bg-blue-50 border-blue-200 text-blue-700">
+                      <p className="text-muted-foreground text-[10px]">Comprimento</p><p className="font-bold">{v.comp.toFixed(1)} m</p>
+                    </div>
+                    <div className="rounded border px-2 py-1 bg-orange-50 border-orange-200 text-orange-700">
+                      <p className="text-muted-foreground text-[10px]">Seção</p><p className="font-bold">{v.secao_b}×{v.secao_h} m</p>
+                    </div>
+                    <div className="rounded border px-2 py-1 bg-green-50 border-green-200 text-green-700">
+                      <p className="text-muted-foreground text-[10px]">Concreto</p><p className="font-bold">{(v.comp*v.secao_b*v.secao_h).toFixed(3)} m³</p>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+            <div className="flex gap-3 text-xs font-semibold text-blue-700 bg-blue-50 border border-blue-200 rounded-lg px-3 py-2">
+              <span>Total: {totalComp.toFixed(1)} m lineares</span>
+              <span>·</span>
+              <span>{totalConc.toFixed(3)} m³ concreto</span>
+            </div>
+          </div>
+      }
+    </div>
+  );
+}
+
+// ── Paredes e Painéis (múltiplas, com vãos por trecho) ───────────────────────
+function SecaoParedes({ itens, setItens, peDir }: {
+  itens: CalcParedeItem[]; setItens: (v: CalcParedeItem[]) => void; peDir: number;
+}) {
+  function add() {
+    setItens([...itens, { id: Math.random().toString(36).slice(2), desc: `Parede ${itens.length + 1}`,
+      comp: 0, alt: peDir || 2.8, tipo_alv: 2, tem_cinta: true, vaos: [] }]);
+  }
+  function remove(id: string) { setItens(itens.filter(i => i.id !== id)); }
+  function upd<K extends keyof CalcParedeItem>(id: string, f: K, v: CalcParedeItem[K]) {
+    setItens(itens.map(i => i.id === id ? { ...i, [f]: v } : i));
+  }
+  function addVao(id: string, tipo: 'porta'|'janela') {
+    const def = tipo === 'porta' ? { largura: 0.90, altura: 2.10 } : { largura: 1.20, altura: 1.20 };
+    setItens(itens.map(i => i.id === id ? { ...i, vaos: [...i.vaos, { id: Math.random().toString(36).slice(2), tipo, qtd: 1, ...def }] } : i));
+  }
+  function removeVao(pid: string, vid: string) {
+    setItens(itens.map(i => i.id === pid ? { ...i, vaos: i.vaos.filter(v => v.id !== vid) } : i));
+  }
+  function updVao<K extends keyof CalcVao>(pid: string, vid: string, f: K, v: CalcVao[K]) {
+    setItens(itens.map(i => i.id === pid ? { ...i, vaos: i.vaos.map(vao => vao.id === vid ? { ...vao, [f]: v } : vao) } : i));
+  }
+
+  const totalArea = itens.reduce((s, p) => {
+    const bruta = p.comp * p.alt;
+    const vaosArea = p.vaos.reduce((sv, v) => sv + (v.qtd||1)*v.largura*v.altura, 0);
+    return s + Math.max(0, bruta - vaosArea);
+  }, 0);
+
+  return (
+    <div className="space-y-3">
+      <div className="flex justify-end">
+        <Button size="sm" variant="outline" className="h-7 text-xs" onClick={add}><Plus className="h-3 w-3 mr-1" /> Parede</Button>
+      </div>
+      {itens.length === 0
+        ? <div className="border border-dashed rounded-lg py-3 text-center text-xs text-muted-foreground">Nenhuma parede</div>
+        : <div className="space-y-4">
+            {itens.map(p => {
+              const bruta = p.comp * p.alt;
+              const vaosArea = p.vaos.reduce((sv, v) => sv + (v.qtd||1)*v.largura*v.altura, 0);
+              const liquida = Math.max(0, bruta - vaosArea);
+              return (
+                <div key={p.id} className="border rounded-lg p-3 space-y-3 bg-muted/10">
+                  {/* Header */}
+                  <div className="flex items-center gap-2">
+                    <input type="text" value={p.desc} onChange={e => upd(p.id,'desc',e.target.value)}
+                      className="h-7 text-xs border rounded px-2 flex-1 font-medium" placeholder="Ex: Parede Norte, Parede Interna..." />
+                    <button onClick={() => remove(p.id)} className="text-muted-foreground hover:text-destructive shrink-0"><Trash2 className="h-3.5 w-3.5"/></button>
+                  </div>
+                  {/* Dimensões */}
+                  <div className="grid grid-cols-3 gap-2">
+                    <div className="grid gap-1">
+                      <Label className="text-xs font-medium">Comprimento (m)</Label>
+                      <input type="number" min={0} step={0.5} value={p.comp} onFocus={e=>e.target.select()}
+                        onChange={e=>upd(p.id,'comp',Number(e.target.value))} className="h-8 text-xs border rounded px-2 w-full" />
+                    </div>
+                    <div className="grid gap-1">
+                      <Label className="text-xs font-medium">Altura (m) <span className="text-muted-foreground text-[10px]">= pé-direito</span></Label>
+                      <input type="number" min={0} step={0.05} value={p.alt} onFocus={e=>e.target.select()}
+                        onChange={e=>upd(p.id,'alt',Number(e.target.value))} className="h-8 text-xs border rounded px-2 w-full" />
+                    </div>
+                    <div className="grid gap-1">
+                      <Label className="text-xs font-medium">Tipo</Label>
+                      <Select value={String(p.tipo_alv)} onValueChange={v => upd(p.id,'tipo_alv',Number(v))}>
+                        <SelectTrigger className="h-8 text-xs"><span className="flex-1 text-left">{p.tipo_alv===2?'Estrutural':'Vedação'}</span></SelectTrigger>
+                        <SelectContent><SelectItem value="2">Estrutural</SelectItem><SelectItem value="1">Vedação</SelectItem></SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+                  {/* Cinta */}
+                  <ChkOpt label="Incluir cinta de coroamento neste trecho" checked={p.tem_cinta} onChange={c => upd(p.id,'tem_cinta',c)} />
+                  {/* Resumo */}
+                  {p.comp > 0 && p.alt > 0 && (
+                    <div className="grid grid-cols-3 gap-2 text-xs">
+                      <div className="rounded border bg-muted/30 px-2 py-1 text-center"><p className="text-muted-foreground">Bruta</p><p className="font-bold">{bruta.toFixed(2)} m²</p></div>
+                      <div className="rounded border bg-red-50 border-red-200 px-2 py-1 text-center text-red-700"><p>Vãos (−)</p><p className="font-bold">{vaosArea.toFixed(2)} m²</p></div>
+                      <div className="rounded border bg-green-50 border-green-200 px-2 py-1 text-center text-green-700"><p>Líquida</p><p className="font-bold">{liquida.toFixed(2)} m²</p></div>
+                    </div>
+                  )}
+                  {/* Vãos */}
+                  <div>
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="text-[11px] font-semibold text-muted-foreground uppercase">Vãos</span>
+                      <div className="flex gap-1">
+                        <Button size="sm" variant="outline" className="h-6 text-[10px]" onClick={()=>addVao(p.id,'porta')}><Plus className="h-2.5 w-2.5 mr-0.5"/>Porta</Button>
+                        <Button size="sm" variant="outline" className="h-6 text-[10px]" onClick={()=>addVao(p.id,'janela')}><Plus className="h-2.5 w-2.5 mr-0.5"/>Janela</Button>
+                      </div>
+                    </div>
+                    {p.vaos.length > 0 && (
+                      <div className="border rounded overflow-auto">
+                        <table className="w-full text-xs min-w-[400px]">
+                          <thead><tr className="bg-muted/30 border-b"><th className="px-2 py-1 text-left w-16">Tipo</th><th className="px-2 py-1 text-center w-10">Qtd</th><th className="px-2 py-1 text-center">Larg(m)</th><th className="px-2 py-1 text-center">Alt(m)</th><th className="px-2 py-1 text-right">Área</th><th className="w-6"></th></tr></thead>
+                          <tbody>{p.vaos.map(v=>(
+                            <tr key={v.id} className="border-b last:border-0">
+                              <td className="px-2 py-1"><span className={`text-[10px] font-bold px-1 py-0.5 rounded ${v.tipo==='porta'?'bg-blue-50 text-blue-700':'bg-violet-50 text-violet-700'}`}>{v.tipo}</span></td>
+                              <td className="px-1 py-1"><input type="number" min={1} step={1} value={v.qtd} onFocus={e=>e.target.select()} onChange={e=>updVao(p.id,v.id,'qtd',Number(e.target.value))} className="h-6 text-xs border rounded px-1 text-center w-full"/></td>
+                              <td className="px-1 py-1"><input type="number" min={0} step={0.05} value={v.largura} onFocus={e=>e.target.select()} onChange={e=>updVao(p.id,v.id,'largura',Number(e.target.value))} className="h-6 text-xs border rounded px-1 text-center w-full"/></td>
+                              <td className="px-1 py-1"><input type="number" min={0} step={0.05} value={v.altura} onFocus={e=>e.target.select()} onChange={e=>updVao(p.id,v.id,'altura',Number(e.target.value))} className="h-6 text-xs border rounded px-1 text-center w-full"/></td>
+                              <td className="px-2 py-1 text-right tabular-nums text-muted-foreground">{((v.qtd||1)*v.largura*v.altura).toFixed(2)} m²</td>
+                              <td className="px-1 py-1"><button onClick={()=>removeVao(p.id,v.id)} className="text-muted-foreground hover:text-destructive"><Trash2 className="h-3 w-3"/></button></td>
+                            </tr>
+                          ))}</tbody>
+                        </table>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+            <p className="text-xs font-semibold text-orange-700 bg-orange-50 border border-orange-200 rounded-lg px-3 py-2">
+              Área total líquida: <strong>{totalArea.toFixed(2)} m²</strong>
+            </p>
+          </div>
+      }
+    </div>
+  );
+}
+
+// ── Muro (múltiplos trechos, dentro de SecaoOutros) ────────────────────────────
+function SecaoMuros({ muros, setMuros, peDir }: {
+  muros: CalcMuroItem[]; setMuros: (v: CalcMuroItem[]) => void; peDir: number;
+}) {
+  function add() {
+    setMuros([...muros, { id: Math.random().toString(36).slice(2), desc: `Muro ${muros.length + 1}`,
+      comp_viga: 0, secao_b: 0.15, secao_h: 0.30, comp_alv: 0, alt_alv: peDir || 2.0, tipo_alv: 1, tem_cinta: true }]);
+  }
+  function remove(id: string) { setMuros(muros.filter(m => m.id !== id)); }
+  function upd<K extends keyof CalcMuroItem>(id: string, f: K, v: CalcMuroItem[K]) {
+    setMuros(muros.map(m => m.id === id ? { ...m, [f]: v } : m));
+  }
+  return (
+    <div className="space-y-3">
+      <div className="flex items-center justify-between">
+        <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Trechos de muro</p>
+        <Button size="sm" variant="outline" className="h-7 text-xs" onClick={add}><Plus className="h-3 w-3 mr-1" /> Trecho</Button>
+      </div>
+      {muros.length === 0
+        ? <div className="border border-dashed rounded-lg py-3 text-center text-xs text-muted-foreground">Nenhum trecho de muro</div>
+        : muros.map(m => (
+            <div key={m.id} className="border rounded-lg p-3 space-y-2 bg-muted/10">
+              <div className="flex items-center gap-2">
+                <input type="text" value={m.desc} onChange={e=>upd(m.id,'desc',e.target.value)} className="h-7 text-xs border rounded px-2 flex-1 font-medium" />
+                <button onClick={()=>remove(m.id)} className="text-muted-foreground hover:text-destructive"><Trash2 className="h-3.5 w-3.5"/></button>
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                <div className="grid gap-1"><Label className="text-xs">Comp. viga (m)</Label>
+                  <input type="number" min={0} step={0.5} value={m.comp_viga} onFocus={e=>e.target.select()} onChange={e=>upd(m.id,'comp_viga',Number(e.target.value))} className="h-7 text-xs border rounded px-2 w-full"/></div>
+                <div className="grid gap-1"><Label className="text-xs">Seção b×h</Label>
+                  <Select value={OPCOES_SECAO_MURO.find(o=>o.b===m.secao_b&&o.h===m.secao_h)?.label??'Personalizada'} onValueChange={v=>{const o=OPCOES_SECAO_MURO.find(x=>x.label===v);if(o&&o.b>0){upd(m.id,'secao_b',o.b);upd(m.id,'secao_h',o.h);}}}>
+                    <SelectTrigger className="h-7 text-xs"><span className="flex-1 text-left">{m.secao_b}×{m.secao_h}</span></SelectTrigger>
+                    <SelectContent>{OPCOES_SECAO_MURO.map(o=><SelectItem key={o.label} value={o.label}>{o.label}</SelectItem>)}</SelectContent>
+                  </Select></div>
+                <div className="grid gap-1"><Label className="text-xs">Comp. alvenaria (m)</Label>
+                  <input type="number" min={0} step={0.5} value={m.comp_alv} onFocus={e=>e.target.select()} onChange={e=>upd(m.id,'comp_alv',Number(e.target.value))} className="h-7 text-xs border rounded px-2 w-full"/></div>
+                <div className="grid gap-1"><Label className="text-xs">Altura alv. (m) <span className="text-[10px] text-muted-foreground">= pé-direito</span></Label>
+                  <input type="number" min={0} step={0.05} value={m.alt_alv} onFocus={e=>e.target.select()} onChange={e=>upd(m.id,'alt_alv',Number(e.target.value))} className="h-7 text-xs border rounded px-2 w-full"/></div>
+                <div className="grid gap-1"><Label className="text-xs">Tipo alvenaria</Label>
+                  <Select value={String(m.tipo_alv)} onValueChange={v=>upd(m.id,'tipo_alv',Number(v))}>
+                    <SelectTrigger className="h-7 text-xs"><span className="flex-1 text-left">{m.tipo_alv===2?'Estrutural':'Vedação'}</span></SelectTrigger>
+                    <SelectContent><SelectItem value="1">Vedação</SelectItem><SelectItem value="2">Estrutural</SelectItem></SelectContent>
+                  </Select></div>
+              </div>
+              <ChkOpt label="Cinta de coroamento neste trecho" checked={m.tem_cinta} onChange={c=>upd(m.id,'tem_cinta',c)} />
+              {m.comp_alv > 0 && m.alt_alv > 0 && (
+                <p className="text-xs text-blue-700">Alvenaria: {(m.comp_alv*m.alt_alv).toFixed(2)} m² · Revestimento: {(m.comp_alv*m.alt_alv*2).toFixed(2)} m² (2 faces)</p>
+              )}
+            </div>
+          ))
+      }
+    </div>
+  );
 }
 function SecaoPintura({ params, setParams, derived }: { params: Partial<CalcParamsRaw>; setParams: (fn: (p: Partial<CalcParamsRaw>) => Partial<CalcParamsRaw>) => void; derived: Partial<CalcParamsRaw> }) {
   return (<div className="space-y-2">
@@ -739,12 +1009,15 @@ const OPCOES_SECAO_MURO = [
 function SecaoOutros({
   params, setParams, derived, estacasMuro, setEstacasMuro,
   composicoesLivres, setComposicoesLivres, composicoes,
+  muros, setMuros, peDir,
 }: {
   params: Partial<CalcParamsRaw>; setParams: (fn: (p: Partial<CalcParamsRaw>) => Partial<CalcParamsRaw>) => void;
   derived: Partial<CalcParamsRaw>;
   estacasMuro: CalcEstacaItem[]; setEstacasMuro: (v: CalcEstacaItem[]) => void;
   composicoesLivres: CalcComposicaoLivre[]; setComposicoesLivres: (v: CalcComposicaoLivre[]) => void;
   composicoes: Composicao[];
+  muros: CalcMuroItem[]; setMuros: (v: CalcMuroItem[]) => void;
+  peDir: number;
 }) {
   const [showMuro, setShowMuro] = useState(true);
   const [customSecao, setCustomSecao] = useState(false);
@@ -768,7 +1041,7 @@ function SecaoOutros({
   return (
     <div className="space-y-5">
 
-      {/* ── Muro ── */}
+      {/* ── Muro (múltiplos trechos) ── */}
       <div className="rounded-lg border">
         <button onClick={() => setShowMuro(s => !s)}
           className="w-full flex items-center gap-2 px-4 py-3 text-left hover:bg-muted/30 rounded-lg">
@@ -779,10 +1052,9 @@ function SecaoOutros({
 
         {showMuro && (
           <div className="px-4 pb-4 border-t pt-4 space-y-4">
-            {/* Perímetro base */}
-            <InputNum label="Perímetro do muro" campo="perimetro_muro" params={params} setParams={setParams} suffix="m" step={0.5} helper="Base para vigas, alvenaria e revestimento" />
+            <SecaoMuros muros={muros} setMuros={setMuros} peDir={peDir} />
 
-            {/* Fundações do muro */}
+            {/* Estacas do muro (opcional) */}
             <div>
               <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-2">Fundações do muro</p>
               <div className="space-y-2">
@@ -812,8 +1084,8 @@ function SecaoOutros({
               </div>
             </div>
 
-            {/* Viga do muro */}
-            <div>
+            {/* (Viga, Alvenaria e Revestimento do muro agora gerenciados por SecaoMuros acima) */}
+            {false && <div>
               <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-2">Viga do muro</p>
               <div className="grid sm:grid-cols-2 gap-3">
                 <SugEdit label="Comprimento das vigas" campo="comp_vigas_muro" params={params} setParams={setParams} derived={{ ...derived, comp_vigas_muro: derived.comp_vigas_muro ?? params.perimetro_muro }} unidade="m" obs="= perímetro do muro" />
@@ -835,42 +1107,7 @@ function SecaoOutros({
                   <InputNum label="Altura h (m)" campo="secao_h_muro" params={params} setParams={setParams} suffix="m" step={0.01} />
                 </div>
               )}
-            </div>
-
-            {/* Alvenaria do muro */}
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-2">Alvenaria do muro</p>
-              <div className="grid sm:grid-cols-3 gap-3">
-                <SugEdit label="Comprimento de alvenaria" campo="comp_alv_muro" params={params} setParams={setParams} derived={{ ...derived, comp_alv_muro: derived.comp_alv_muro ?? params.perimetro_muro }} unidade="m" obs="= perímetro do muro" />
-                <InputNum label="Altura da alvenaria" campo="alt_alv_muro" params={params} setParams={setParams} suffix="m" step={0.05} placeholder="2.00" />
-                <div className="grid gap-1"><Label className="text-xs font-medium">Tipo de alvenaria</Label>
-                  <Select value={String(params.tipo_alv_muro ?? 1)} onValueChange={v => setParams(p => ({ ...p, tipo_alv_muro: Number(v) }))}>
-                    <SelectTrigger className="h-9 text-sm"><SelectValue /></SelectTrigger>
-                    <SelectContent><SelectItem value="1">Vedação</SelectItem><SelectItem value="2">Estrutural</SelectItem></SelectContent>
-                  </Select>
-                </div>
-              </div>
-              {/* Cinta opcional */}
-              <div className="mt-2">
-                <ChkOpt label="Incluir cinta de coroamento no muro" checked={(params.cinta_muro ?? 0) === 1} onChange={c => setParams(p => ({ ...p, cinta_muro: c ? 1 : 0 }))} />
-              </div>
-              {areaAlv > 0 && (
-                <div className="grid grid-cols-3 gap-2 mt-2 text-xs">
-                  <div className="rounded-lg border bg-muted/30 px-3 py-2"><p className="text-muted-foreground">Área alvenaria</p><p className="font-bold">{areaAlv.toFixed(2)} m²</p></div>
-                  <div className="rounded-lg border bg-muted/30 px-3 py-2"><p className="text-muted-foreground">Revestimento (2 faces)</p><p className="font-bold">{(areaAlv * 2).toFixed(2)} m²</p></div>
-                  <div className="rounded-lg border bg-muted/30 px-3 py-2"><p className="text-muted-foreground">Pintura (2 faces)</p><p className="font-bold">{(areaAlv * 2).toFixed(2)} m²</p></div>
-                </div>
-              )}
-            </div>
-
-            {/* Revestimento e pintura */}
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-2">Revestimento e pintura do muro</p>
-              <div className="grid sm:grid-cols-2 gap-3">
-                <SugEdit label="Área revestimento (chapisco + reboco)" campo="area_revest_muro" params={params} setParams={setParams} derived={derived} unidade="m²" obs="= perímetro × altura × 2 faces" />
-                <SugEdit label="Área pintura + massa fina" campo="area_pintura_muro" params={params} setParams={setParams} derived={derived} unidade="m²" obs="= perímetro × altura × 2 faces" />
-              </div>
-            </div>
+            </div>}
           </div>
         )}
       </div>
@@ -1115,6 +1352,9 @@ function CalculadoraContent() {
   const [ambientes, setAmbientes] = useState<CalcAmbiente[]>([]);
   const [estacasMuro, setEstacasMuro] = useState<CalcEstacaItem[]>([]);
   const [composicoesLivres, setComposicoesLivres] = useState<CalcComposicaoLivre[]>([]);
+  const [vigasBaldrame, setVigasBaldrame] = useState<CalcVigaBaldrame[]>([]);
+  const [paredes, setParedes] = useState<CalcParedeItem[]>([]);
+  const [muros, setMuros] = useState<CalcMuroItem[]>([]);
 
   const [stepAtual, setStepAtual] = useState(0);
 
@@ -1145,13 +1385,28 @@ function CalculadoraContent() {
     } catch { toast.error('Erro ao conectar'); } finally { setSalvandoNovo(false); }
   }
 
+  // Pre-fill: quando perimetro muda e listas ainda estão vazias, cria primeiro item
+  useEffect(() => {
+    const perim = params.perimetro_paredes || params.perimetro_terreno || 0;
+    const pd    = params.pe_direito || 2.8;
+    if (perim > 0 && vigasBaldrame.length === 0) {
+      setVigasBaldrame([{ id: Math.random().toString(36).slice(2), desc: 'Baldrame principal',
+        comp: perim, secao_b: 0.15, secao_h: 0.30, n_barras: 4, esp_estribo: 0.15, tabua_larg: 0.20 }]);
+    }
+    if (perim > 0 && paredes.length === 0) {
+      setParedes([{ id: Math.random().toString(36).slice(2), desc: 'Parede principal',
+        comp: perim, alt: pd, tipo_alv: params.tipo_alv ?? 2, tem_cinta: true, vaos: [] }]);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [params.perimetro_paredes, params.perimetro_terreno, params.pe_direito]);
+
   const calcItems = useMemo(
-    () => calcularQuantitativos(params, vaos, pilares, vigas, lajes, estacas, ambientes, estacasMuro, composicoesLivres),
-    [params, vaos, pilares, vigas, lajes, estacas, ambientes, estacasMuro, composicoesLivres],
+    () => calcularQuantitativos(params, vaos, pilares, vigas, lajes, estacas, ambientes, estacasMuro, composicoesLivres, vigasBaldrame, paredes, muros),
+    [params, vaos, pilares, vigas, lajes, estacas, ambientes, estacasMuro, composicoesLivres, vigasBaldrame, paredes, muros],
   );
   const derived = useMemo(
-    () => derivarParams(params, vaos, pilares, vigas, lajes, estacas, ambientes, estacasMuro),
-    [params, vaos, pilares, vigas, lajes, estacas, ambientes, estacasMuro],
+    () => derivarParams(params, vaos, pilares, vigas, lajes, estacas, ambientes, estacasMuro, vigasBaldrame, paredes, muros),
+    [params, vaos, pilares, vigas, lajes, estacas, ambientes, estacasMuro, vigasBaldrame, paredes, muros],
   );
 
   useEffect(() => {
@@ -1398,12 +1653,12 @@ function CalculadoraContent() {
                   {/* Conteúdo */}
                   <div className="border-t pt-4">
                     {grupo.id === 'preliminares' && <SecaoPreliminares params={params} setParams={setParams} ambientes={ambientes} setAmbientes={setAmbientes} />}
-                    {grupo.id === 'fundacoes'    && <SecaoFundacoes params={params} setParams={setParams} />}
+                    {grupo.id === 'fundacoes'    && <SecaoVigasBaldrame itens={vigasBaldrame} setItens={setVigasBaldrame} perimetro={params.perimetro_paredes || params.perimetro_terreno || 0} />}
                     {grupo.id === 'estacas'      && <SecaoEstacas estacas={estacas} setEstacas={setEstacas} />}
                     {grupo.id === 'laje'         && <SecaoLaje lajes={lajes} setLajes={setLajes} />}
                     {grupo.id === 'pilares'      && <SecaoPilares pilares={pilares} setPilares={setPilares} />}
                     {grupo.id === 'vigas_ind'    && <SecaoVigas vigas={vigas} setVigas={setVigas} />}
-                    {grupo.id === 'alvenaria'    && <SecaoAlvenaria params={params} setParams={setParams} vaos={vaos} setVaos={setVaos} />}
+                    {grupo.id === 'alvenaria'    && <SecaoParedes itens={paredes} setItens={setParedes} peDir={params.pe_direito || 2.8} />}
                     {grupo.id === 'cobertura'    && <SecaoCobertura params={params} setParams={setParams} />}
                     {grupo.id === 'imperme'      && <SecaoImperme params={params} setParams={setParams} derived={derived} />}
                     {grupo.id === 'revest'       && <SecaoRevest params={params} setParams={setParams} derived={derived} />}
@@ -1414,7 +1669,7 @@ function CalculadoraContent() {
                     {grupo.id === 'eletrica'     && <AmbientesEditor ambientes={ambientes} setAmbientes={setAmbientes} modo="eletrica" />}
                     {grupo.id === 'hidraulica'   && <AmbientesEditor ambientes={ambientes} setAmbientes={setAmbientes} modo="hidro" />}
                     {grupo.id === 'banheiro'     && <SecaoLoucas ambientes={ambientes} setAmbientes={setAmbientes} params={params} setParams={setParams} derived={derived} />}
-                    {grupo.id === 'outros'       && <SecaoOutros params={params} setParams={setParams} derived={derived} estacasMuro={estacasMuro} setEstacasMuro={setEstacasMuro} composicoesLivres={composicoesLivres} setComposicoesLivres={setComposicoesLivres} composicoes={composicoes} />}
+                    {grupo.id === 'outros'       && <SecaoOutros params={params} setParams={setParams} derived={derived} estacasMuro={estacasMuro} setEstacasMuro={setEstacasMuro} composicoesLivres={composicoesLivres} setComposicoesLivres={setComposicoesLivres} composicoes={composicoes} muros={muros} setMuros={setMuros} peDir={params.pe_direito || 2.0} />}
                   </div>
 
                   {/* Navegação */}

@@ -1,0 +1,44 @@
+[
+  {
+    "id": "a55a42b3-0a02-4f80-80b2-edc3bcee56e4",
+    "obra_id": "obra-001",
+    "orcamento_id": "orc-geminada-42m2-2026",
+    "nome": "material da fundação",
+    "data_criacao": "2026-06-03T16:52:24.682Z",
+    "data_prevista": "",
+    "status": "aberta",
+    "observacao": ""
+  },
+  {
+    "id": "d0d56a4b-a70a-44f3-ba63-b3ce2ffe32a5",
+    "obra_id": "8c225c97-e4bb-4f67-a081-4d579f11c125",
+    "orcamento_id": "779114f9-87e7-4b9e-b6f1-77b32105bd1b",
+    "nome": "9",
+    "data_criacao": "2026-06-03T16:58:40.981Z",
+    "data_prevista": "",
+    "status": "concluida",
+    "observacao": "",
+    "fornecedor_id": "f39cb326-5742-45a8-8fbe-776eca21b817"
+  },
+  {
+    "id": "b3ae21aa-65c5-43d1-86e2-d0b3a6258e09",
+    "obra_id": "obra-001",
+    "orcamento_id": "orc-geminada-42m2-2026",
+    "nome": "3",
+    "data_criacao": "2026-06-03T16:59:05.006Z",
+    "data_prevista": "",
+    "status": "aberta",
+    "observacao": ""
+  },
+  {
+    "id": "25dd59fd-e8fb-4264-80a6-a3903b69aa09",
+    "obra_id": "8c225c97-e4bb-4f67-a081-4d579f11c125",
+    "orcamento_id": "779114f9-87e7-4b9e-b6f1-77b32105bd1b",
+    "nome": "fund",
+    "data_criacao": "2026-06-03T17:05:34.528Z",
+    "data_prevista": "",
+    "status": "aberta",
+    "observacao": "",
+    "fornecedor_id": ""
+  }
+]

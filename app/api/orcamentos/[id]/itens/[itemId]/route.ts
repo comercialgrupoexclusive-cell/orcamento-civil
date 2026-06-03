@@ -12,13 +12,18 @@ export async function PUT(
     const { itemId } = await params;
     const body = await req.json();
 
-    const erros = coletarErros([validarQuantidade(body.quantidade ?? 0)]);
-    if (erros.length > 0) return NextResponse.json({ erros }, { status: 400 });
+    const updates: Record<string, unknown> = {};
 
-    const updates: Record<string, unknown> = {
-      quantidade: Number(body.quantidade) || 0,
-      quantidade_tipo: 'MANUAL',
-    };
+    // Só valida/atualiza quantidade se vier no body
+    if (body.quantidade !== undefined) {
+      const erros = coletarErros([validarQuantidade(body.quantidade ?? 0)]);
+      if (erros.length > 0) return NextResponse.json({ erros }, { status: 400 });
+      updates.quantidade = Number(body.quantidade) || 0;
+      updates.quantidade_tipo = 'MANUAL';
+    }
+
+    if (body.status_execucao !== undefined)
+      updates.status_execucao = String(body.status_execucao);
 
     if (body.descricao_override !== undefined)
       updates.descricao_override = String(body.descricao_override).trim();

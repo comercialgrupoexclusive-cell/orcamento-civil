@@ -15,7 +15,7 @@ import Link from 'next/link';
 import {
   ArrowLeft, Plus, Trash2, RefreshCw, Check, X,
   Download, FileText, GripVertical, Pencil, Calendar,
-  ChevronRight, ChevronDown, BarChart3, List, LayoutTemplate, Layers, Zap, Search, TrendingUp, Printer,
+  ChevronRight, ChevronDown, BarChart3, List, LayoutTemplate, Layers, Zap, Search, TrendingUp, Printer, Filter,
 } from 'lucide-react';
 import {
   BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, Tooltip, Legend,
@@ -1155,6 +1155,8 @@ export default function OrcamentoDetalhePage({ params }: { params: Promise<{ id:
   const [loading, setLoading] = useState(true);
   const [aba, setAba] = useState<'planilha' | 'abc' | 'dashboard'>('planilha');
   const [modalPrint, setModalPrint] = useState(false);
+  // Filtro por etapa
+  const [filtroEtapa, setFiltroEtapa] = useState('todas');
   // Vincular a obra
   const [obras, setObras] = useState<{ id: string; nome: string; orcamento_id: string }[]>([]);
   const [modalVincularObra, setModalVincularObra] = useState(false);
@@ -1771,6 +1773,33 @@ export default function OrcamentoDetalhePage({ params }: { params: Promise<{ id:
       {/* ═══ ABA: PLANILHA ═══════════════════════════════════════════════════ */}
       {aba === 'planilha' && (
         <>
+          {/* Filtro por etapa */}
+          {orc.etapas.length > 0 && (
+            <div className="flex items-center gap-2 flex-wrap">
+              <Filter className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
+              <span className="text-xs text-muted-foreground shrink-0">Etapa:</span>
+              <div className="flex gap-1 flex-wrap">
+                <button
+                  onClick={() => setFiltroEtapa('todas')}
+                  className={`text-xs px-2.5 py-1 rounded-full border transition-colors font-medium ${filtroEtapa === 'todas' ? 'bg-primary text-primary-foreground border-primary' : 'bg-background hover:bg-muted border-border text-muted-foreground'}`}>
+                  Todas
+                </button>
+                {orc.etapas.map(et => (
+                  <button key={et.codigo}
+                    onClick={() => setFiltroEtapa(et.codigo)}
+                    className={`text-xs px-2.5 py-1 rounded-full border transition-colors font-medium ${filtroEtapa === et.codigo ? 'bg-primary text-primary-foreground border-primary' : 'bg-background hover:bg-muted border-border text-muted-foreground'}`}>
+                    <span className="font-mono mr-1 opacity-60">{et.codigo}</span>{et.descricao}
+                  </button>
+                ))}
+              </div>
+              {filtroEtapa !== 'todas' && (
+                <button onClick={() => setFiltroEtapa('todas')} className="text-xs text-muted-foreground hover:text-foreground underline ml-1">
+                  limpar
+                </button>
+              )}
+            </div>
+          )}
+
           {/* Estado vazio */}
           {orc.etapas.length === 0 && (
             <div className="text-center py-20 text-muted-foreground border-2 border-dashed rounded-xl">
@@ -1790,7 +1819,7 @@ export default function OrcamentoDetalhePage({ params }: { params: Promise<{ id:
 
           {/* Etapas */}
           <div className="space-y-4">
-            {orc.etapas.map(etapa => {
+            {(filtroEtapa === 'todas' ? orc.etapas : orc.etapas.filter(e => e.codigo === filtroEtapa)).map(etapa => {
               const grupos = agruparPorSubEtapa(etapa.itens);
               return (
                 <div key={etapa.codigo} className="border rounded-xl overflow-hidden shadow-sm">

@@ -180,11 +180,11 @@
     "codigo": "P32",
     "descricao": "Cimento Cp-Iv 50Kg",
     "unidade": "un",
-    "preco": 51.5,
+    "preco": "54",
     "tipo": "M",
     "categoria": "Argamassa e Cimento",
     "status": "ativo",
-    "data_alteracao": "2026-05-29"
+    "data_alteracao": "2026-06-03T11:18:27.116Z"
   },
   {
     "id": "ins-MO-A002",

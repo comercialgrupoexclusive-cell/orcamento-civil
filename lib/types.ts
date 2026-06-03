@@ -183,6 +183,7 @@ export interface CalcParamsRaw {
   // Forro
   area_forro: number;
   forro_tipo: number;               // 1 = PVC, 2 = drywall
+  reboco_teto: number;              // 1 = incluir chapisco + reboco no teto
   // Pintura
   area_pintura_interna: number;
   area_pintura_externa: number;
@@ -211,6 +212,9 @@ export interface CalcParamsRaw {
   // Louças e metais (derivado dos ambientes banheiro/cozinha)
   n_banheiros: number;
   n_cozinhas: number;
+  // Vigas Baldrame (derivado da lista vigasBaldrame[])
+  vol_concreto_baldrame: number;    // Σ comp_i × b_i × h_i
+  comp_cinta_paredes: number;       // Σ comp paredes com tem_cinta=true
   // Fundação profunda (derivado da lista de estacas)
   estacas_equiv: number;            // Σ qtd × (prof / 3) — perfuração + armadura por 3 m
   volume_concreto_estacas: number;  // Σ qtd × prof × 0,30 × 0,30 (m³)
@@ -226,10 +230,50 @@ export interface CalcParamsRaw {
   area_revest_muro: number;         // = perimetro_muro × alt_alv_muro × 2
   area_pintura_muro: number;        // = perimetro_muro × alt_alv_muro × 2
   cinta_muro: number;               // 1=incluir cinta de coroamento
+  vol_concreto_muro: number;        // derivado da lista muros[]
+  comp_cinta_muro: number;          // Σ comp_alv de muros com tem_cinta=true
   // Estacas do muro (derivado de estacas_muro[])
   estacas_muro_equiv: number;
   volume_concreto_estacas_muro: number;
   n_blocos_estaca_muro: number;
+}
+
+// ─── Vigas Baldrame (lista múltipla) ─────────────────────────────────────────
+export interface CalcVigaBaldrame {
+  id: string;
+  desc: string;
+  comp: number;        // comprimento (m) — pré-preenchido com perímetro de paredes
+  secao_b: number;     // largura (m)
+  secao_h: number;     // altura (m)
+  n_barras: number;    // barras longitudinais
+  esp_estribo: number; // espaçamento estribos (m)
+  tabua_larg: number;  // largura da tábua de fôrma (m)
+}
+
+// ─── Paredes e Painéis (lista múltipla por trecho/altura) ─────────────────────
+export interface CalcParedeItem {
+  id: string;
+  desc: string;
+  comp: number;       // comprimento total deste trecho (m)
+  alt: number;        // altura — pré-preenchida com pé-direito do projeto
+  tipo_alv: number;   // 1=vedação 2=estrutural
+  tem_cinta: boolean; // incluir cinta de coroamento neste trecho
+  vaos: CalcVao[];    // vãos (portas/janelas) deste trecho
+}
+
+// ─── Muro (lista múltipla por trecho/altura) ──────────────────────────────────
+export interface CalcMuroItem {
+  id: string;
+  desc: string;
+  // Fundação do muro (viga baldrame)
+  comp_viga: number;   // comprimento da viga de fundação (m)
+  secao_b: number;
+  secao_h: number;
+  // Alvenaria acima
+  comp_alv: number;    // comprimento de alvenaria
+  alt_alv: number;     // altura da alvenaria — pré-preenchida com pé-direito
+  tipo_alv: number;    // 1=vedação 2=estrutural
+  tem_cinta: boolean;  // incluir cinta de coroamento
 }
 
 /** Composição inserida livremente pelo usuário na etapa Outros */

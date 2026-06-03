@@ -42,5 +42,16 @@
     "email": "vendas@ceramicasul.com.br",
     "observacoes": "Perguntar por Marcos.",
     "status": "ativo"
+  },
+  {
+    "id": "f39cb326-5742-45a8-8fbe-776eca21b817",
+    "obra_id": "8c225c97-e4bb-4f67-a081-4d579f11c125",
+    "nome": "forncedor 1",
+    "especialidade": "",
+    "telefone": "",
+    "whatsapp": "",
+    "email": "",
+    "observacoes": "",
+    "status": "ativo"
   }
 ]

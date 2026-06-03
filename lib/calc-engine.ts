@@ -17,7 +17,7 @@
 import type {
   CalcGrupo, CalcTemplate, CalcItem, CalcParamsRaw, CalcVao,
   CalcPilarItem, CalcVigaIndItem, CalcLajeItem, CalcEstacaItem, CalcAmbiente,
-  CalcComposicaoLivre,
+  CalcComposicaoLivre, CalcVigaBaldrame, CalcParedeItem, CalcMuroItem,
 } from '@/lib/types';
 
 // ─── Grupos de parâmetros (acordeões da UI) ───────────────────────────────────
@@ -66,7 +66,7 @@ export const CALC_TEMPLATES: CalcTemplate[] = [
   { id: 'fund_armadura',   ativo: true, nome: 'Armadura da viga baldrame',            grupo_id: 'fundacoes', grupo_nome: 'Viga Baldrame', etapa_codigo: '02', sub_etapa: 'Viga Baldrame', composicao_id: 'cmp-2003.1', descricao: 'Armadura Viga Baldrame 15x30 4 Barras 8mm', unidade: 'm', formula: 'comp_vigas', parametros: ['comp_vigas'] },
   { id: 'fund_forma',      ativo: true, nome: 'Fôrma da viga baldrame',               grupo_id: 'fundacoes', grupo_nome: 'Viga Baldrame', etapa_codigo: '02', sub_etapa: 'Viga Baldrame', composicao_id: 'cmp-2003.2', descricao: 'Forma Viga Baldrame 30cm Altura 1 Tábua 30cm', unidade: 'm', formula: 'comp_vigas', parametros: ['comp_vigas'] },
   { id: 'fund_travamento', ativo: true, nome: 'Travamento/escoramento de fôrmas',     grupo_id: 'fundacoes', grupo_nome: 'Viga Baldrame', etapa_codigo: '02', sub_etapa: 'Viga Baldrame', composicao_id: 'cmp-2003.3', descricao: 'Travamento e Escoramento de Formas de Baldrame', unidade: 'm', formula: 'comp_vigas', parametros: ['comp_vigas'] },
-  { id: 'fund_concreto',   ativo: true, nome: 'Concreto da viga baldrame',            grupo_id: 'fundacoes', grupo_nome: 'Viga Baldrame', etapa_codigo: '02', sub_etapa: 'Viga Baldrame', composicao_id: 'cmp-2002.3', descricao: 'Concreto Manual em Obra Preparo em Betoneira', unidade: 'm³', formula: 'comp_vigas * secao_b * secao_h', parametros: ['comp_vigas', 'secao_b', 'secao_h'] },
+  { id: 'fund_concreto',   ativo: true, nome: 'Concreto da viga baldrame',            grupo_id: 'fundacoes', grupo_nome: 'Viga Baldrame', etapa_codigo: '02', sub_etapa: 'Viga Baldrame', composicao_id: 'cmp-2002.3', descricao: 'Concreto Manual em Obra Preparo em Betoneira', unidade: 'm³', formula: 'vol_concreto_baldrame', parametros: ['vol_concreto_baldrame'] },
   { id: 'fund_reaterro',   ativo: true, nome: 'Reaterro e apiloamento',               grupo_id: 'fundacoes', grupo_nome: 'Viga Baldrame', etapa_codigo: '02', sub_etapa: 'Movimento de Terra', composicao_id: 'cmp-2004', descricao: 'Reaterro e Apiloamento', unidade: 'm²', formula: 'area_construida', parametros: ['area_construida'] },
   { id: 'fund_imperm',     ativo: true, nome: 'Impermeabilização de fundações',       grupo_id: 'fundacoes', grupo_nome: 'Viga Baldrame', etapa_codigo: '02', sub_etapa: 'Impermeabilização', composicao_id: 'cmp-2005', descricao: 'Impermeabilização de Fundações', unidade: 'm²', formula: 'comp_vigas', parametros: ['comp_vigas'] },
   { id: 'fund_contrapiso', ativo: true, nome: 'Contrapiso de concreto armado 5cm',    grupo_id: 'fundacoes', grupo_nome: 'Viga Baldrame', etapa_codigo: '02', sub_etapa: 'Contrapiso', composicao_id: 'cmp-2006', descricao: 'Contrapiso Concreto Armado 5cm', unidade: 'm²', formula: 'area_construida', parametros: ['area_construida'] },
@@ -84,7 +84,7 @@ export const CALC_TEMPLATES: CalcTemplate[] = [
   { id: 'alv_estrutural', ativo: true, nome: 'Alvenaria estrutural (bloco furo horizontal)', grupo_id: 'alvenaria', grupo_nome: 'Paredes e Painéis', etapa_codigo: '04', sub_etapa: 'Alvenaria', composicao_id: 'cmp-4002', descricao: 'Alvenaria Estrutural em Blocos Cerâmicos com Furos Horizontais', unidade: 'm²', formula: 'tipo_alv == 2 ? Math.max(0, comp_paredes * alt_paredes - area_vaos) : 0', parametros: ['tipo_alv', 'comp_paredes', 'alt_paredes', 'area_vaos'] },
   { id: 'alv_vedacao',    ativo: true, nome: 'Alvenaria de vedação (bloco furo vertical)',    grupo_id: 'alvenaria', grupo_nome: 'Paredes e Painéis', etapa_codigo: '04', sub_etapa: 'Alvenaria', composicao_id: 'cmp-4000', descricao: 'Alvenaria de Vedação em Blocos Cerâmicos com Furos Verticais', unidade: 'm²', formula: 'tipo_alv == 1 ? Math.max(0, comp_paredes * alt_paredes - area_vaos) : 0', parametros: ['tipo_alv', 'comp_paredes', 'alt_paredes', 'area_vaos'] },
   { id: 'alv_verga',      ativo: true, nome: 'Vergas e contravergas',                          grupo_id: 'alvenaria', grupo_nome: 'Paredes e Painéis', etapa_codigo: '04', sub_etapa: 'Vergas e Contravergas', composicao_id: 'cmp-4001', descricao: 'Verga e Contraverga em Canaleta Cerâmica', unidade: 'm', formula: 'comp_vergas + comp_contravergas', parametros: ['comp_vergas', 'comp_contravergas'] },
-  { id: 'alv_cinta',      ativo: true, nome: 'Cinta de coroamento superior',                   grupo_id: 'alvenaria', grupo_nome: 'Paredes e Painéis', etapa_codigo: '04', sub_etapa: 'Cinta de Coroamento', composicao_id: 'cmp-4003', descricao: 'Cinta de Coroamento em Canaleta Cerâmica', unidade: 'm', formula: 'cinta_coroamento == 1 ? comp_paredes : 0', parametros: ['cinta_coroamento', 'comp_paredes'] },
+  { id: 'alv_cinta',      ativo: true, nome: 'Cinta de coroamento superior',                   grupo_id: 'alvenaria', grupo_nome: 'Paredes e Painéis', etapa_codigo: '04', sub_etapa: 'Cinta de Coroamento', composicao_id: 'cmp-4003', descricao: 'Cinta de Coroamento em Canaleta Cerâmica', unidade: 'm', formula: 'comp_cinta_paredes', parametros: ['comp_cinta_paredes'] },
 
   // ══ 05 · Esquadrias (geradas dos vãos — campo removido, cálculo mantido) ══════
   { id: 'esq_porta',  ativo: true, nome: 'Portas de madeira (kit completo)',      grupo_id: 'alvenaria', grupo_nome: 'Paredes e Painéis', etapa_codigo: '05', sub_etapa: 'Portas',  composicao_id: 'cmp-5006', descricao: 'Porta de Madeira Popular - Kit Completo (0.80x2.10m)', unidade: 'un', formula: 'n_portas', parametros: ['n_portas'] },
@@ -112,6 +112,8 @@ export const CALC_TEMPLATES: CalcTemplate[] = [
   // ══ 10 · Forro ═══════════════════════════════════════════════════════════════
   { id: 'forro_pvc',     ativo: true, nome: 'Forro de PVC + trama de madeira', grupo_id: 'forro', grupo_nome: 'Forro', etapa_codigo: '10', sub_etapa: 'Forro', composicao_id: 'cmp-10002', descricao: 'Forro de PVC e Trama de Madeira', unidade: 'm²', formula: 'forro_tipo == 1 ? area_forro : 0', parametros: ['forro_tipo', 'area_forro'] },
   { id: 'forro_drywall', ativo: true, nome: 'Forro de drywall',              grupo_id: 'forro', grupo_nome: 'Forro', etapa_codigo: '10', sub_etapa: 'Forro', composicao_id: 'cmp-10000', descricao: 'Forro Drywall', unidade: 'm²', formula: 'forro_tipo == 2 ? area_forro : 0', parametros: ['forro_tipo', 'area_forro'] },
+  { id: 'forro_chapisco_teto', ativo: true, nome: 'Chapisco no teto (reboco)', grupo_id: 'forro', grupo_nome: 'Forro', etapa_codigo: '09', sub_etapa: 'Reboco Teto', composicao_id: 'cmp-9000', descricao: 'Chapisco — teto', unidade: 'm²', formula: 'reboco_teto == 1 ? area_forro : 0', parametros: ['reboco_teto', 'area_forro'] },
+  { id: 'forro_reboco_teto',   ativo: true, nome: 'Emboço/reboco no teto',    grupo_id: 'forro', grupo_nome: 'Forro', etapa_codigo: '09', sub_etapa: 'Reboco Teto', composicao_id: 'cmp-9001', descricao: 'Emboço/Reboco — teto', unidade: 'm²', formula: 'reboco_teto == 1 ? area_forro : 0', parametros: ['reboco_teto', 'area_forro'] },
 
   // ══ 12 · Pintura ═════════════════════════════════════════════════════════════
   { id: 'pint_massa_int', ativo: true, nome: 'Massa fina interna',             grupo_id: 'pintura', grupo_nome: 'Pintura', etapa_codigo: '12', sub_etapa: 'Pintura Interna', composicao_id: 'cmp-12002', descricao: 'Massa Fina de Acabamento Interna', unidade: 'm²', formula: 'massa_int == 1 ? area_pintura_interna : 0', parametros: ['massa_int', 'area_pintura_interna'] },
@@ -139,8 +141,8 @@ export const CALC_TEMPLATES: CalcTemplate[] = [
   { id: 'muro_gabarito',    ativo: true, nome: 'Muro — locação/gabarito',           grupo_id: 'outros', grupo_nome: 'Outros', etapa_codigo: '02', sub_etapa: 'Muro', composicao_id: 'cmp-2000',   descricao: 'Locação — gabarito do muro', unidade: 'm', formula: 'comp_vigas_muro', parametros: ['comp_vigas_muro'] },
   { id: 'muro_armadura',    ativo: true, nome: 'Muro — armadura da viga',           grupo_id: 'outros', grupo_nome: 'Outros', etapa_codigo: '02', sub_etapa: 'Muro', composicao_id: 'cmp-2003.1', descricao: 'Armadura Viga Baldrame — muro', unidade: 'm', formula: 'comp_vigas_muro', parametros: ['comp_vigas_muro'] },
   { id: 'muro_forma',       ativo: true, nome: 'Muro — fôrma da viga',              grupo_id: 'outros', grupo_nome: 'Outros', etapa_codigo: '02', sub_etapa: 'Muro', composicao_id: 'cmp-2003.2', descricao: 'Fôrma Viga Baldrame — muro', unidade: 'm', formula: 'comp_vigas_muro', parametros: ['comp_vigas_muro'] },
-  { id: 'muro_concreto',    ativo: true, nome: 'Muro — concreto da viga',           grupo_id: 'outros', grupo_nome: 'Outros', etapa_codigo: '02', sub_etapa: 'Muro', composicao_id: 'cmp-2002.3', descricao: 'Concreto Manual — viga muro', unidade: 'm³', formula: 'comp_vigas_muro * secao_b_muro * secao_h_muro', parametros: ['comp_vigas_muro', 'secao_b_muro', 'secao_h_muro'] },
-  { id: 'muro_cinta',       ativo: true, nome: 'Muro — cinta de coroamento',        grupo_id: 'outros', grupo_nome: 'Outros', etapa_codigo: '04', sub_etapa: 'Muro', composicao_id: 'cmp-4003', descricao: 'Cinta de Coroamento em Canaleta Cerâmica — muro', unidade: 'm', formula: 'cinta_muro == 1 ? comp_alv_muro : 0', parametros: ['cinta_muro', 'comp_alv_muro'] },
+  { id: 'muro_concreto',    ativo: true, nome: 'Muro — concreto da viga',           grupo_id: 'outros', grupo_nome: 'Outros', etapa_codigo: '02', sub_etapa: 'Muro', composicao_id: 'cmp-2002.3', descricao: 'Concreto Manual — viga muro', unidade: 'm³', formula: 'vol_concreto_muro', parametros: ['vol_concreto_muro'] },
+  { id: 'muro_cinta',       ativo: true, nome: 'Muro — cinta de coroamento',        grupo_id: 'outros', grupo_nome: 'Outros', etapa_codigo: '04', sub_etapa: 'Muro', composicao_id: 'cmp-4003', descricao: 'Cinta de Coroamento em Canaleta Cerâmica — muro', unidade: 'm', formula: 'comp_cinta_muro', parametros: ['comp_cinta_muro'] },
   { id: 'muro_alv_est',     ativo: true, nome: 'Muro — alvenaria estrutural',       grupo_id: 'outros', grupo_nome: 'Outros', etapa_codigo: '04', sub_etapa: 'Muro', composicao_id: 'cmp-4002', descricao: 'Alvenaria Estrutural — muro', unidade: 'm²', formula: 'tipo_alv_muro == 2 ? comp_alv_muro * alt_alv_muro : 0', parametros: ['tipo_alv_muro', 'comp_alv_muro', 'alt_alv_muro'] },
   { id: 'muro_alv_ved',     ativo: true, nome: 'Muro — alvenaria de vedação',       grupo_id: 'outros', grupo_nome: 'Outros', etapa_codigo: '04', sub_etapa: 'Muro', composicao_id: 'cmp-4000', descricao: 'Alvenaria de Vedação — muro', unidade: 'm²', formula: 'tipo_alv_muro == 1 ? comp_alv_muro * alt_alv_muro : 0', parametros: ['tipo_alv_muro', 'comp_alv_muro', 'alt_alv_muro'] },
   { id: 'muro_chapisco',    ativo: true, nome: 'Muro — chapisco (2 faces)',          grupo_id: 'outros', grupo_nome: 'Outros', etapa_codigo: '09', sub_etapa: 'Muro', composicao_id: 'cmp-9000', descricao: 'Chapisco — muro (2 faces)', unidade: 'm²', formula: 'area_revest_muro', parametros: ['area_revest_muro'] },
@@ -206,22 +208,61 @@ export function derivarParams(
   estacas: CalcEstacaItem[] = [],
   ambientes: CalcAmbiente[] = [],
   estacasMuro: CalcEstacaItem[] = [],
+  vigasBaldrame: CalcVigaBaldrame[] = [],
+  paredes: CalcParedeItem[] = [],
+  muros: CalcMuroItem[] = [],
 ): Partial<CalcParamsRaw> {
-  // comp_paredes: se não preenchido manualmente, usa perimetro_paredes como fallback
-  const comp_paredes_efetivo = raw.comp_paredes ?? raw.perimetro_paredes ?? 0;
+  // ── Vigas Baldrame (lista múltipla) ────────────────────────────────────────
+  // Se o usuário adicionou entradas na lista, elas substituem os params únicos
+  const usaBaldrameLista = vigasBaldrame.length > 0;
+  const comp_vigas_lista = vigasBaldrame.reduce((s, v) => s + (v.comp || 0), 0);
+  const vol_concreto_baldrame_lista = vigasBaldrame.reduce((s, v) => s + (v.comp || 0) * (v.secao_b || 0) * (v.secao_h || 0), 0);
+  const secao_b_first = vigasBaldrame[0]?.secao_b ?? raw.secao_b ?? 0;
+  const secao_h_first = vigasBaldrame[0]?.secao_h ?? raw.secao_h ?? 0;
 
-  // Vãos (qtd é multiplicador de cada vão)
-  const area_vaos = vaos.reduce((s, v) => s + (v.qtd || 1) * (v.largura || 0) * (v.altura || 0), 0);
-  const area_vaos_janelas = vaos.filter(v => v.tipo === 'janela')
+  // ── Paredes (lista múltipla) ───────────────────────────────────────────────
+  const usaParedesLista = paredes.length > 0;
+  // Todos os vãos de todas as paredes + os vaos globais (se não usa lista)
+  const todosVaos = usaParedesLista
+    ? paredes.flatMap(p => p.vaos || [])
+    : vaos;
+  const comp_paredes_lista = paredes.reduce((s, p) => s + (p.comp || 0), 0);
+  const alt_paredes_first = paredes[0]?.alt ?? raw.alt_paredes ?? 0;
+  const comp_cinta_paredes_calc = usaParedesLista
+    ? paredes.filter(p => p.tem_cinta).reduce((s, p) => s + (p.comp || 0), 0)
+    : (raw.cinta_coroamento === 1 ? (raw.comp_paredes ?? 0) : 0);
+
+  // ── Muros (lista múltipla) ─────────────────────────────────────────────────
+  const usaMurosLista = muros.length > 0;
+  const comp_vigas_muro_lista = muros.reduce((s, m) => s + (m.comp_viga || 0), 0);
+  const vol_concreto_muro_lista = muros.reduce((s, m) => s + (m.comp_viga || 0) * (m.secao_b || 0) * (m.secao_h || 0), 0);
+  const comp_alv_muro_lista = muros.reduce((s, m) => s + (m.comp_alv || 0), 0);
+  const alt_alv_muro_lista = muros[0]?.alt_alv ?? raw.alt_alv_muro ?? 0;
+  const tipo_alv_muro_lista = muros[0]?.tipo_alv ?? raw.tipo_alv_muro ?? 2;
+  const comp_cinta_muro_calc = usaMurosLista
+    ? muros.filter(m => m.tem_cinta).reduce((s, m) => s + (m.comp_alv || 0), 0)
+    : (raw.cinta_muro === 1 ? (raw.comp_alv_muro ?? 0) : 0);
+  const area_alv_muro_calc = usaMurosLista
+    ? muros.reduce((s, m) => s + (m.comp_alv || 0) * (m.alt_alv || 0), 0)
+    : (raw.comp_alv_muro ?? 0) * (raw.alt_alv_muro ?? 0);
+
+  // comp_paredes: lista ou fallback para perimetro_paredes
+  const comp_paredes_efetivo = usaParedesLista
+    ? comp_paredes_lista
+    : (raw.comp_paredes ?? raw.perimetro_paredes ?? 0);
+
+  // Vãos — usa todos os vãos (lista de paredes ou globais)
+  const vaosFinal = todosVaos;
+  const area_vaos = vaosFinal.reduce((s, v) => s + (v.qtd || 1) * (v.largura || 0) * (v.altura || 0), 0);
+  const area_vaos_janelas = vaosFinal.filter(v => v.tipo === 'janela')
     .reduce((s, v) => s + (v.qtd || 1) * (v.largura || 0) * (v.altura || 0), 0);
-  const comp_vergas = vaos.reduce((s, v) => s + (v.qtd || 1) * ((v.largura || 0) + 0.60), 0);
-  const comp_contravergas = vaos.filter(v => v.tipo === 'janela')
+  const comp_vergas = vaosFinal.reduce((s, v) => s + (v.qtd || 1) * ((v.largura || 0) + 0.60), 0);
+  const comp_contravergas = vaosFinal.filter(v => v.tipo === 'janela')
     .reduce((s, v) => s + (v.qtd || 1) * ((v.largura || 0) + 0.60), 0);
-  const n_portas = vaos.filter(v => v.tipo === 'porta').reduce((s, v) => s + (v.qtd || 1), 0);
-  const larg_portas = vaos.filter(v => v.tipo === 'porta').reduce((s, v) => s + (v.qtd || 1) * (v.largura || 0), 0);
-  // Pingadeiras = Σ largura janelas + 5cm cada ; Soleiras = Σ largura portas + 5cm cada
-  const comp_pingadeiras = vaos.filter(v => v.tipo === 'janela').reduce((s, v) => s + (v.qtd || 1) * ((v.largura || 0) + 0.05), 0);
-  const comp_soleiras = vaos.filter(v => v.tipo === 'porta').reduce((s, v) => s + (v.qtd || 1) * ((v.largura || 0) + 0.05), 0);
+  const n_portas = vaosFinal.filter(v => v.tipo === 'porta').reduce((s, v) => s + (v.qtd || 1), 0);
+  const larg_portas = vaosFinal.filter(v => v.tipo === 'porta').reduce((s, v) => s + (v.qtd || 1) * (v.largura || 0), 0);
+  const comp_pingadeiras = vaosFinal.filter(v => v.tipo === 'janela').reduce((s, v) => s + (v.qtd || 1) * ((v.largura || 0) + 0.05), 0);
+  const comp_soleiras = vaosFinal.filter(v => v.tipo === 'porta').reduce((s, v) => s + (v.qtd || 1) * ((v.largura || 0) + 0.05), 0);
 
   // Pilares / vigas / lajes
   const volume_concreto_pilares = pilares.reduce((s, p) => s + p.qtd * p.l1 * p.l2 * p.h, 0);
@@ -293,8 +334,18 @@ export function derivarParams(
 
   return {
     ...raw,
-    // comp_paredes efetivo: se usuário não digitou, usa perimetro_paredes
+    // comp_paredes efetivo
     comp_paredes: comp_paredes_efetivo > 0 ? r2(comp_paredes_efetivo) : raw.comp_paredes,
+    alt_paredes: usaParedesLista && alt_paredes_first > 0 ? alt_paredes_first : raw.alt_paredes,
+    // Cinta de paredes (lista ou campo manual)
+    comp_cinta_paredes: r2(comp_cinta_paredes_calc),
+    // Vigas baldrame (lista ou params únicos)
+    comp_vigas: usaBaldrameLista ? r2(comp_vigas_lista) : raw.comp_vigas,
+    secao_b: usaBaldrameLista ? secao_b_first : raw.secao_b,
+    secao_h: usaBaldrameLista ? secao_h_first : raw.secao_h,
+    vol_concreto_baldrame: usaBaldrameLista
+      ? r3(vol_concreto_baldrame_lista)
+      : r3((raw.comp_vigas || 0) * (raw.secao_b || 0) * (raw.secao_h || 0)),
     area_vaos: r2(area_vaos),
     area_vaos_janelas: r2(area_vaos_janelas),
     comp_vergas: r2(comp_vergas),
@@ -314,14 +365,18 @@ export function derivarParams(
     estacas_equiv: r2(estacas_equiv),
     volume_concreto_estacas: r3(volume_concreto_estacas),
     n_blocos_estaca,
-    // Muro
+    // Muro (lista ou params únicos)
     estacas_muro_equiv: r2(estacas_muro_equiv),
     volume_concreto_estacas_muro: r3(volume_concreto_estacas_muro),
     n_blocos_estaca_muro,
-    comp_vigas_muro: orDefault(raw.comp_vigas_muro, pm),
-    comp_alv_muro: orDefault(raw.comp_alv_muro, pm),
-    area_revest_muro: orDefault(raw.area_revest_muro, areaRevMuro),
-    area_pintura_muro: orDefault(raw.area_pintura_muro, areaRevMuro),
+    comp_vigas_muro: usaMurosLista ? r2(comp_vigas_muro_lista) : orDefault(raw.comp_vigas_muro, pm),
+    comp_alv_muro: usaMurosLista ? r2(comp_alv_muro_lista) : orDefault(raw.comp_alv_muro, pm),
+    alt_alv_muro: usaMurosLista ? alt_alv_muro_lista : raw.alt_alv_muro,
+    tipo_alv_muro: usaMurosLista ? tipo_alv_muro_lista : raw.tipo_alv_muro,
+    vol_concreto_muro: usaMurosLista ? r3(vol_concreto_muro_lista) : r3((raw.comp_vigas_muro || 0) * (raw.secao_b_muro || 0) * (raw.secao_h_muro || 0)),
+    comp_cinta_muro: r2(comp_cinta_muro_calc),
+    area_revest_muro: usaMurosLista ? r2(area_alv_muro_calc * 2) : orDefault(raw.area_revest_muro, areaRevMuro),
+    area_pintura_muro: usaMurosLista ? r2(area_alv_muro_calc * 2) : orDefault(raw.area_pintura_muro, areaRevMuro),
     // Elétrica
     ele_tomada_simples,
     ele_tomada_dupla,
@@ -382,8 +437,11 @@ export function calcularQuantitativos(
   ambientes: CalcAmbiente[] = [],
   estacasMuro: CalcEstacaItem[] = [],
   composicoesLivres: CalcComposicaoLivre[] = [],
+  vigasBaldrame: CalcVigaBaldrame[] = [],
+  paredes: CalcParedeItem[] = [],
+  muros: CalcMuroItem[] = [],
 ): CalcItem[] {
-  const params = derivarParams(rawParams, vaos, pilares, vigasInd, lajes, estacas, ambientes, estacasMuro);
+  const params = derivarParams(rawParams, vaos, pilares, vigasInd, lajes, estacas, ambientes, estacasMuro, vigasBaldrame, paredes, muros);
 
   return CALC_TEMPLATES.filter(t => t.ativo).map(template => {
     const ctx: Record<string, number> = {};
