@@ -20,7 +20,7 @@
     "descricao": "Brita 01",
     "unidade": "m³",
     "qtd_necessaria": "1.1",
-    "status_item": "aguardando",
+    "status_item": "entregue",
     "composicao_id": "cmp-2002",
     "item_orcamento_id": "itc-orc-010-2002",
     "fornecedor_id": ""

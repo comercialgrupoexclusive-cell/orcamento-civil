@@ -822,7 +822,7 @@ function CurvaABC({ orc }: { orc: OrcamentoDetalhe }) {
       {/* ── Cards Classe A/B/C ──────────────────────────────────────────────── */}
       <div className="grid grid-cols-3 gap-3">
         {(['A', 'B', 'C'] as const).map(cls => {
-          const cores = { A: 'bg-red-50 border-red-200 text-red-700', B: 'bg-amber-50 border-amber-200 text-amber-700', C: 'bg-green-50 border-green-200 text-green-700' };
+          const cores = { A: 'bg-red-500/[0.10] border-red-500/20 text-red-500', B: 'bg-amber-500/[0.10] border-amber-500/20 text-amber-500', C: 'bg-green-500/[0.10] border-green-500/20 text-green-500' };
           const pcts = { A: '0–50%', B: '50–80%', C: '80–100%' };
           const totalCls = listaComABC.filter(i => i.classe === cls).reduce((a, i) => a + i.custo_total, 0);
           return (
@@ -1563,9 +1563,9 @@ export default function OrcamentoDetalhePage({ params }: { params: Promise<{ id:
   const bdiValor = totalDireto * (orc.bdi_percentual / 100);
   const bd = orc.total_breakdown || { M: 0, MO: 0, E: 0, S: 0 };
   const BREAKDOWN_TIPOS = [
-    { key: 'M', label: 'Material', bg: 'bg-blue-50 border-blue-200 dark:bg-blue-950/30 dark:border-blue-800', text: 'text-blue-700 dark:text-blue-300' },
-    { key: 'MO', label: 'Mão de Obra', bg: 'bg-orange-50 border-orange-200 dark:bg-orange-950/30 dark:border-orange-800', text: 'text-orange-700 dark:text-orange-300' },
-    { key: 'E', label: 'Equipamento', bg: 'bg-purple-50 border-purple-200 dark:bg-purple-950/30 dark:border-purple-800', text: 'text-purple-700 dark:text-purple-300' },
+    { key: 'M',  label: 'Material',    bg: 'bg-blue-500/[0.10] border-blue-500/20',   text: 'text-blue-500' },
+    { key: 'MO', label: 'Mão de Obra', bg: 'bg-orange-500/[0.10] border-orange-500/20', text: 'text-orange-500' },
+    { key: 'E',  label: 'Equipamento', bg: 'bg-purple-500/[0.10] border-purple-500/20', text: 'text-purple-500' },
   ] as const;
 
   return (
@@ -1873,7 +1873,7 @@ export default function OrcamentoDetalhePage({ params }: { params: Promise<{ id:
                           <Fragment key={`grupo-${etapa.codigo}-${gi}`}>
                             {/* Sub-etapa header */}
                             {grupo.nome && (
-                              <tr className="bg-blue-50/60 dark:bg-blue-950/20 border-b border-t border-blue-100 dark:border-blue-900/40">
+                              <tr className="bg-blue-500/[0.06] border-b border-t border-blue-500/10">
                                 <td colSpan={8} className="px-3 py-1.5">
                                   <ServicoHeader
                                     nome={grupo.nome}
@@ -1997,7 +1997,7 @@ export default function OrcamentoDetalhePage({ params }: { params: Promise<{ id:
 
                                   {/* Expansão de insumos */}
                                   {isExpanded && temInsumos && (
-                                    <tr className="border-b bg-slate-50/60 dark:bg-slate-900/20">
+                                    <tr className="border-b bg-white/[0.02]">
                                       <td colSpan={8} className="px-4 py-2">
                                         <div className="ml-4 border rounded-lg overflow-hidden">
                                           <table className="w-full text-xs">

@@ -150,9 +150,9 @@ export default function DashboardPage() {
       {/* KPIs */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         {[
-          { label: 'Total Obras', value: String(resumo.total_obras), icon: Building2, bg: 'bg-indigo-50 border-indigo-200', cor: 'text-indigo-700' },
-          { label: 'Obras Ativas', value: String(resumo.obras_ativas), icon: TrendingUp, bg: 'bg-amber-50 border-amber-200', cor: 'text-amber-700' },
-          { label: 'Serviços Comprados', value: `${totalComp}/${totalSvcs}`, icon: CheckCircle2, bg: 'bg-green-50 border-green-200', cor: 'text-green-700' },
+          { label: 'Total Obras', value: String(resumo.total_obras), icon: Building2, bg: 'bg-indigo-500/[0.10] border-indigo-500/20', cor: 'text-indigo-500' },
+          { label: 'Obras Ativas', value: String(resumo.obras_ativas), icon: TrendingUp, bg: 'bg-amber-500/[0.10] border-amber-500/20', cor: 'text-amber-500' },
+          { label: 'Serviços Comprados', value: `${totalComp}/${totalSvcs}`, icon: CheckCircle2, bg: 'bg-green-500/[0.10] border-green-500/20', cor: 'text-green-500' },
           { label: 'Investimento', value: fmtBRL(resumo.total_investimento), icon: ShoppingCart, bg: 'bg-violet-50 border-violet-200', cor: 'text-violet-700' },
         ].map(k => (
           <Card key={k.label} className={`border ${k.bg}`}>
@@ -230,7 +230,7 @@ export default function DashboardPage() {
                   const urgente = diasAte !== null && diasAte <= 7;
                   return (
                     <Link key={et.id} href={`/gerenciamento?obra_id=${et.obra_id}`}>
-                      <div className={`rounded-xl border p-3 hover:shadow-sm transition-shadow cursor-pointer ${urgente ? 'border-red-200 bg-red-50/50' : 'bg-card'}`}>
+                      <div className={`rounded-xl border p-3 hover:shadow-sm transition-shadow cursor-pointer ${urgente ? 'border-red-500/20 bg-red-500/[0.07]' : 'bg-card'}`}>
                         <div className="flex items-start justify-between gap-2 mb-1.5">
                           <div className="min-w-0">
                             <p className="text-xs font-semibold leading-tight truncate">{et.etapa_nome}</p>

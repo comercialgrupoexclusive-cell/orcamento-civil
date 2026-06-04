@@ -29,10 +29,10 @@ const EXEC_LABEL: Record<string, string> = {
 };
 const TIPO_LABEL: Record<string, string> = { M: 'Material', MO: 'Mão de Obra', E: 'Equipamento', S: 'Serviço' };
 const TIPO_COR: Record<string, string> = {
-  M: 'bg-blue-50 text-blue-600 border-blue-200',
-  MO: 'bg-orange-50 text-orange-600 border-orange-200',
-  E: 'bg-purple-50 text-purple-600 border-purple-200',
-  S: 'bg-gray-50 text-gray-600 border-gray-200',
+  M:  'bg-blue-500/[0.10] text-blue-500 border-blue-500/20',
+  MO: 'bg-orange-500/[0.10] text-orange-500 border-orange-500/20',
+  E:  'bg-purple-500/[0.10] text-purple-500 border-purple-500/20',
+  S:  'bg-white/[0.06] text-slate-400 border-white/[0.06]',
 };
 
 // ── Tipos ─────────────────────────────────────────────────────────────────────
@@ -393,7 +393,7 @@ function GerenciamentoContent() {
                       return (
                         <div key={sub} className="border-b last:border-0">
                           {/* Linha sub-etapa/grupo */}
-                          <div className={`flex items-center gap-2 px-5 py-2 ${isAvulso ? 'bg-transparent' : 'bg-blue-50/40'}`}>
+                          <div className={`flex items-center gap-2 px-5 py-2 ${isAvulso ? 'bg-transparent' : 'bg-blue-500/[0.05]'}`}>
                             <button onClick={() => setExpSubs(prev => { const n = new Set(prev); if (n.has(subKey)) n.delete(subKey); else n.add(subKey); return n; })}
                               className="flex items-center gap-2 flex-1 min-w-0 text-left hover:opacity-80">
                               {expSub ? <ChevronDown className="h-3.5 w-3.5 text-muted-foreground shrink-0" /> : <ChevronRight className="h-3.5 w-3.5 text-muted-foreground shrink-0" />}

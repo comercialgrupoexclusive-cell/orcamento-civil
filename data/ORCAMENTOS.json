@@ -1,22 +1,13 @@
 [
   {
-    "id": "e6e42868-d5d8-4836-a5af-fea83528b61f",
-    "titulo": "[Template] Casa Geminada 42 m2 | Alv. Estrutural 14x19x29 | Telha Barro | Cinta 15x30 | Sem Laje | Forro PVC",
-    "descricao": "Template gerado automaticamente",
-    "data_criacao": "2026-05-29T02:13:26.439Z",
-    "data_atualizacao": "2026-05-29T02:27:13.818Z",
-    "status": "template",
-    "bdi_percentual": "0"
-  },
-  {
     "id": "orc-geminada-42m2-2026",
     "titulo": "Casa Geminada 42m² - Alv. Estrutural | TESTE - Telha Barro | Piso Cerâmico",
     "descricao": "5.0×8.4m=42m² (una unidade geminada) | Micro Estaca C25 | Viga Baldrame 15×30 | Alvenaria Estrutural | Bloco Calha | Telha Barro Natural | Piso Cerâmico | Forro PVC | Esquadrias Alumínio Popular | Portas Madeira Popular | Bacia Acoplada",
     "data_criacao": "2026-05-29",
-    "data_atualizacao": "2026-06-02T20:01:20.900Z",
+    "data_atualizacao": "2026-06-04T16:53:03.595Z",
     "status": "em_andamento",
     "bdi_percentual": "0.25",
-    "area_construida": "0"
+    "area_construida": "43"
   },
   {
     "id": "779114f9-87e7-4b9e-b6f1-77b32105bd1b",

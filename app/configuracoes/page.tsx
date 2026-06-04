@@ -1,13 +1,44 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Plus, X, Settings, CheckCircle2, Download, Upload, Database, AlertTriangle } from 'lucide-react';
+import { Plus, X, Settings, CheckCircle2, Download, Upload, Database, AlertTriangle, Palette, Check } from 'lucide-react';
 import { UNIDADES_PADRAO, CATEGORIAS_PADRAO } from '@/lib/types';
 import { toast } from 'sonner';
+import { THEMES, buildCustomTheme, CUSTOM_THEME_STORAGE_KEY, CUSTOM_BG_STORAGE_KEY } from '@/lib/themes';
+import { getStoredThemeId, applyTheme } from '@/components/theme-provider';
 
 export default function ConfiguracoesPage() {
+  const [temaAtivo, setTemaAtivo] = useState('dark-navy');
+  const [corPersonalizada, setCorPersonalizada] = useState('#2563EB');
+  const [fundoEscuro, setFundoEscuro] = useState(true);
+
+  useEffect(() => {
+    setTemaAtivo(getStoredThemeId());
+    try {
+      const s = localStorage.getItem(CUSTOM_THEME_STORAGE_KEY); if (s) setCorPersonalizada(s);
+      const b = localStorage.getItem(CUSTOM_BG_STORAGE_KEY); if (b) setFundoEscuro(b !== 'light');
+    } catch { /**/ }
+  }, []);
+
+  function selecionarTema(id: string) {
+    applyTheme(id, id === 'personalizado' ? corPersonalizada : undefined, fundoEscuro);
+    setTemaAtivo(id);
+    toast.success(`Tema "${id === 'personalizado' ? 'Personalizado' : THEMES.find(t => t.id === id)?.name}" aplicado!`);
+  }
+
+  function atualizarCorPersonalizada(cor: string) {
+    setCorPersonalizada(cor);
+    if (temaAtivo === 'personalizado') applyTheme('personalizado', cor, fundoEscuro);
+  }
+
+  function alternarFundo(escuro: boolean) {
+    setFundoEscuro(escuro);
+    if (temaAtivo === 'personalizado') applyTheme('personalizado', corPersonalizada, escuro);
+    try { localStorage.setItem(CUSTOM_BG_STORAGE_KEY, escuro ? 'dark' : 'light'); } catch { /**/ }
+  }
+
   const [unidades, setUnidades] = useState<string[]>([...UNIDADES_PADRAO]);
   const [categorias, setCategorias] = useState<string[]>([...CATEGORIAS_PADRAO]);
   const [novaUnidade, setNovaUnidade] = useState('');
@@ -75,6 +106,110 @@ export default function ConfiguracoesPage() {
         <Settings className="h-5 w-5 text-muted-foreground" />
         <h1 className="text-xl font-bold">Configurações</h1>
       </div>
+
+      {/* ── Aparência ─────────────────────────────────────────────────── */}
+      <section className="mb-8">
+        <div className="flex items-center gap-2 mb-4">
+          <Palette className="h-4 w-4 text-primary" />
+          <h2 className="text-base font-semibold">Aparência</h2>
+        </div>
+        <p className="text-xs text-muted-foreground mb-4">Preferência salva automaticamente no navegador.</p>
+
+        {/* Temas pré-definidos */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-5">
+          {THEMES.map(theme => {
+            const ativo = temaAtivo === theme.id;
+            const p = theme.preview;
+            return (
+              <button key={theme.id} onClick={() => selecionarTema(theme.id)}
+                className={`relative rounded-xl border-2 p-0.5 transition-all hover:scale-[1.03] text-left ${ativo ? 'border-primary' : 'border-white/[0.08] hover:border-white/20'}`}
+                style={ativo ? { boxShadow: `0 0 18px ${p.primary}40` } : {}}>
+                <div className="rounded-lg overflow-hidden" style={{ background: p.bg }}>
+                  <div className="flex h-16">
+                    <div className="w-7 flex flex-col gap-0.5 p-1" style={{ background: p.card, borderRight: `1px solid ${p.border}` }}>
+                      {[3,5,4,3].map((w, i) => <div key={i} className="rounded-sm h-1" style={{ background: i === 0 ? p.primary : p.border, width: `${w * 4}px` }} />)}
+                    </div>
+                    <div className="flex-1 p-1 space-y-0.5">
+                      <div className="grid grid-cols-2 gap-0.5"><div className="rounded h-4" style={{ background: p.card }} /><div className="rounded h-4" style={{ background: p.card }} /></div>
+                      <div className="rounded h-4" style={{ background: p.card }} />
+                      <div className="h-1 rounded-full mt-0.5" style={{ background: p.border }}><div className="h-full rounded-full w-2/3" style={{ background: p.primary }} /></div>
+                    </div>
+                  </div>
+                  <div className="px-1.5 py-0.5 flex items-center gap-1" style={{ background: p.card, borderTop: `1px solid ${p.border}` }}>
+                    <div className="h-1.5 w-1.5 rounded-full shrink-0" style={{ background: p.primary }} />
+                    <div className="h-0.5 flex-1 rounded" style={{ background: p.border }} />
+                  </div>
+                </div>
+                <p className="text-xs font-semibold mt-1.5 px-0.5 truncate">{theme.name}</p>
+                {ativo && <div className="absolute top-1.5 right-1.5 h-4 w-4 rounded-full flex items-center justify-center" style={{ background: p.primary }}><Check className="h-2.5 w-2.5 text-white" /></div>}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Personalizado */}
+        <div className={`rounded-xl border-2 p-4 transition-all ${temaAtivo === 'personalizado' ? 'border-primary' : 'border-white/[0.08]'}`}>
+          <div className="flex items-start gap-4 flex-wrap">
+            <div className="shrink-0">
+              {(() => { const p = buildCustomTheme(corPersonalizada).preview; return (
+                <div className="rounded-lg overflow-hidden w-28" style={{ background: p.bg }}>
+                  <div className="flex h-16">
+                    <div className="w-7 flex flex-col gap-0.5 p-1" style={{ background: p.card, borderRight: `1px solid ${p.border}` }}>
+                      {[3,5,4,3].map((w, i) => <div key={i} className="rounded-sm h-1" style={{ background: i === 0 ? p.primary : p.border, width: `${w * 4}px` }} />)}
+                    </div>
+                    <div className="flex-1 p-1 space-y-0.5">
+                      <div className="grid grid-cols-2 gap-0.5"><div className="rounded h-4" style={{ background: p.card }} /><div className="rounded h-4" style={{ background: p.card }} /></div>
+                      <div className="rounded h-4" style={{ background: p.card }} />
+                      <div className="h-1 rounded-full mt-0.5" style={{ background: p.border }}><div className="h-full rounded-full w-2/3" style={{ background: p.primary }} /></div>
+                    </div>
+                  </div>
+                  <div className="px-1.5 py-0.5 flex items-center gap-1" style={{ background: p.card, borderTop: `1px solid ${p.border}` }}>
+                    <div className="h-1.5 w-1.5 rounded-full shrink-0" style={{ background: p.primary }} />
+                    <div className="h-0.5 flex-1 rounded" style={{ background: p.border }} />
+                  </div>
+                </div>
+              ); })()}
+            </div>
+            <div className="flex-1 min-w-[200px] space-y-3">
+              <div>
+                <p className="text-sm font-semibold">Personalizado</p>
+                <p className="text-xs text-muted-foreground">Escolha a cor primária e o estilo de fundo</p>
+              </div>
+              {/* Toggle escuro / claro */}
+              <div className="flex items-center gap-1 rounded-lg border border-white/[0.10] p-0.5 bg-muted/30 w-fit">
+                <button onClick={() => alternarFundo(true)}
+                  className={`text-xs px-3 py-1 rounded-md transition-colors font-medium ${fundoEscuro ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'}`}>
+                  🌙 Escuro
+                </button>
+                <button onClick={() => alternarFundo(false)}
+                  className={`text-xs px-3 py-1 rounded-md transition-colors font-medium ${!fundoEscuro ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'}`}>
+                  ☀️ Claro
+                </button>
+              </div>
+              <div className="flex items-center gap-3">
+                <span className="text-xs font-medium text-muted-foreground">Cor primária</span>
+                <div className="flex items-center gap-2 rounded-lg border border-white/[0.12] px-3 py-1.5 bg-muted/30">
+                  <input type="color" value={corPersonalizada} onChange={e => atualizarCorPersonalizada(e.target.value)} className="w-7 h-7 rounded cursor-pointer border-0 bg-transparent p-0" />
+                  <span className="text-xs font-mono uppercase">{corPersonalizada}</span>
+                </div>
+              </div>
+              <div>
+                <p className="text-[10px] text-muted-foreground mb-1.5">Sugestões:</p>
+                <div className="flex gap-2 flex-wrap">
+                  {[{hex:'#7B1535',name:'Vinho'},{hex:'#2563EB',name:'Azul'},{hex:'#0EA5E9',name:'Ciano'},{hex:'#7C3AED',name:'Roxo'},{hex:'#10B981',name:'Verde'},{hex:'#F59E0B',name:'Âmbar'},{hex:'#EF4444',name:'Vermelho'},{hex:'#EC4899',name:'Rosa'}].map(s => (
+                    <button key={s.hex} onClick={() => atualizarCorPersonalizada(s.hex)} title={s.name}
+                      className={`h-6 w-6 rounded-full border-2 transition-transform hover:scale-110 ${corPersonalizada === s.hex ? 'border-white scale-110' : 'border-transparent'}`}
+                      style={{ background: s.hex }} />
+                  ))}
+                </div>
+              </div>
+              <Button size="sm" onClick={() => selecionarTema('personalizado')}>
+                {temaAtivo === 'personalizado' ? <><Check className="h-3.5 w-3.5 mr-1.5" />Ativo</> : 'Aplicar personalizado'}
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <div className="grid gap-8">
 

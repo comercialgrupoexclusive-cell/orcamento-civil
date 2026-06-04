@@ -37,7 +37,7 @@
     "quantidade": "27",
     "quantidade_tipo": "MANUAL",
     "ordem": "3",
-    "status_execucao": "nao_iniciado"
+    "status_execucao": "em_andamento"
   },
   {
     "id": "itc-orc-004-1005",
@@ -50,7 +50,8 @@
     "custo_unitario_override": "",
     "quantidade": "1",
     "quantidade_tipo": "MANUAL",
-    "ordem": "4"
+    "ordem": "4",
+    "status_execucao": "concluido"
   },
   {
     "id": "itc-orc-005-1006",
@@ -63,7 +64,8 @@
     "custo_unitario_override": "",
     "quantidade": "1",
     "quantidade_tipo": "MANUAL",
-    "ordem": "5"
+    "ordem": "5",
+    "status_execucao": "concluido"
   },
   {
     "id": "itc-orc-006-1010",
