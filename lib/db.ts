@@ -104,7 +104,7 @@ async function blobRead(sheetName: string): Promise<Record<string, string>[]> {
   if (fs.existsSync(tmp)) {
     try {
       const stat = fs.statSync(tmp);
-      if (Date.now() - stat.mtimeMs < 5_000) {
+      if (Date.now() - stat.mtimeMs < 30_000) {
         return JSON.parse(fs.readFileSync(tmp, 'utf-8'));
       }
     } catch { /**/ }

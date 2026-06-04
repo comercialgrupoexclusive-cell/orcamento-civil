@@ -5,10 +5,12 @@ export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {
-    const obras = await readSheet('OBRAS');
-    const etapas = await readSheet('ETAPAS_OBRA');
-    const servicos = await readSheet('SERVICOS_ETAPA');
-    const orcamentos = await readSheet('ORCAMENTOS');
+    const [obras, etapas, servicos, orcamentos] = await Promise.all([
+      readSheet('OBRAS'),
+      readSheet('ETAPAS_OBRA'),
+      readSheet('SERVICOS_ETAPA'),
+      readSheet('ORCAMENTOS'),
+    ]);
 
     const result = obras.map(o => {
       const obraEtapas = etapas.filter(e => e.obra_id === o.id);

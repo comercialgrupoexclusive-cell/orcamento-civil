@@ -135,7 +135,9 @@ function ComprasContent() {
       const n = new Set(prev);
       if (n.has(listaId)) { n.delete(listaId); return n; }
       n.add(listaId);
-      carregarItensLista(listaId);
+      // Só busca itens se ainda não vieram inline no carregarListas()
+      const lista = listas.find(l => l.id === listaId);
+      if (!lista?.itens || lista.itens.length === 0) carregarItensLista(listaId);
       return n;
     });
   }
@@ -171,7 +173,7 @@ function ComprasContent() {
   }
 
   async function marcarTudoEntregue(lista: Lista) {
-    if (!lista.itens) await carregarItensLista(lista.id);
+    if (!lista.itens || lista.itens.length === 0) await carregarItensLista(lista.id);
     const itens = lista.itens || [];
     const naoEntregues = itens.filter(i => i.status_item !== 'entregue');
     if (naoEntregues.length === 0) { toast.info('Todos já entregues'); return; }
